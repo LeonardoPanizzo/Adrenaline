@@ -22,4 +22,3 @@ public class Position {
             //pesca il potenziamento
     }
 }
-//asadfaef
