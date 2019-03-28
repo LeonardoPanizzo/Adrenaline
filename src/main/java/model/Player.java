@@ -20,9 +20,9 @@ public class Player {
             this.life[v]= 0;
 
         this.round = false;
-        this.markGiven = 0;
+        // da inizializzare markGiven a seconda del regolamento
 
-        this.markReceived = new int [15];
+        this.markReceived = new int [12];
         //inizializzo il vettore machiRicevuti a 0 (valore che indica nessun marchio)
         for(int mr : markReceived)
             this.markReceived[mr]=0;
