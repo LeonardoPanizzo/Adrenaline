@@ -1,6 +1,7 @@
 package model;
 
 public class Player {
+    private int number;
     private Position position;
     private int[] life;
     private boolean round;
@@ -12,6 +13,8 @@ public class Player {
     private WeaponCard[] weapons;
 
     public Player(){
+
+        // todo inizializzare numero del giocatore
         this.position = new Position();
 
         this.life = new int[12];
@@ -38,6 +41,24 @@ public class Player {
         this.weapons = new WeaponCard[4];
     }
 
+    public Position getPosition(){
+        return this.position;
+    }
+
+    public int[] getLife(){
+        return this.life;
+    }
+
+    public void setDamage(int number){
+        int i=0;
+
+        while(this.life[i]!=0){
+            i++;
+        }
+        this.life[i]= number;
+    }
+
+
     public void action(){
         //scelta delle azioni del turno
     }
@@ -52,16 +73,16 @@ public class Player {
 
     public int[] givePoints(){
         int[] points = {0, 0, 0, 0, 0};
-        for(int p : life){
-            if(life[p] == 1)
+        for(int p=0; p<12; p++){
+            if(this.life[p] == 1)
                 points[0] ++;
-            else if (life[p] == 2)
+            else if (this.life[p] == 2)
                 points[1]++;
-            else if (life[p] == 3)
+            else if (this.life[p] == 3)
                 points[2]++;
-            else if (life[p] == 4)
+            else if (this.life[p] == 4)
                 points[3]++;
-            else if (life[p] == 5)
+            else if (this.life[p] == 5)
                 points[4]++;
         }
         return points;
