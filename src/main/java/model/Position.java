@@ -3,19 +3,14 @@ package model;
 public class Position {
     int room;               //stanza di cui fa parte la posizione
     int[] matr;             //coordinate della stanza
-    boolean door;           //se vero la stanza ha una porta con un'altra stanza
+    boolean door;           //se è vero la stanza ha una poarta con un'altra stanza
     int positionDoor;       //up,down,right,left
     boolean resetPoint;
-<<<<<<< HEAD:src/main/java/Position.java
-    Position linked;        //posizione a cui si arriva attraverso la porta, non so se conviene avere questa variabile o calcolare la posizione collegata tramite positionDoor
-    PotenziametoCard potenziamento;
-    ArmaCard[] arms;
-=======
-    PowerupCard potenziamento;
+    Position linked;       //posizione a cui si arriva attraverso la porta, non so se conviene avere questa variabile o calcolare la posizione collegata tramite positionDoor
+    PowerupCard powerup;
     WeaponCard[] arms;
->>>>>>> 36954020f690bb5fe1adc8c271601739487bed39:src/main/java/model/Position.java
 
-    public void position(int i, int j, int room, boolean door, int positionDoor, boolean resetPoint){
+    public Position(int i, int j, int room, boolean door, int positionDoor, boolean resetPoint){
         matr=new int[2];
         arms=new WeaponCard[3];
         matr[0]=i;
@@ -36,13 +31,13 @@ public class Position {
         return room;
     }
 
-    public PotenziametoCard getPotenziamento() {
-        PotenziamentoCard a= potenziamento;
-        potenziamento=pesca();
+    public PowerupCard getPowerup(){
+        PowerupCard a=powerup;
+        powerup=pesca();//metodo da implementare
         return a;
     }
 
-    //la posizione passata come parametro è visibile?
+    //la posizione passata come paramentro è visibile?
     public boolean visible(Position x){
         if((this.room==x.room)||(this.door && this.linked.getRoom()==x.room))
             return true;
