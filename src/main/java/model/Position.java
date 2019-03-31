@@ -10,6 +10,8 @@ public class Position {
     PowerupCard powerup;
     WeaponCard[] arms;
 
+
+    //da modificare se door==false position door non serve
     public Position(int i, int j, int room, boolean door, int positionDoor, boolean resetPoint){
         matr=new int[2];
         arms=new WeaponCard[3];
