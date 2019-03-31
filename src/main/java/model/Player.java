@@ -15,7 +15,7 @@ public class Player {
     public Player(){
 
         // todo inizializzare numero del giocatore
-        this.position = new Position();
+        this.position = new Position();//leonardo: non va creata la nuova posizione, gliene si passa una già esistente
 
         this.life = new int[12];
         //inizializzo il vettore di vite a 0 (valore che indica che nessn danno è presente)
