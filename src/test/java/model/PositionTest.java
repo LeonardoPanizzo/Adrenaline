@@ -11,7 +11,7 @@ public class PositionTest {
         Position p2 = new Position(1, 1, 5, false, false);
         Position p3 = new Position(3, 4, 2, false, false);
         Position p4 = new Position(3, 2, 2, false, false);
-        //commento di test
+
         assertEquals(p1.visible(p2), true);
         assertEquals(p2.visible(p1), true);
         assertEquals(p1.visible(p3), false);
