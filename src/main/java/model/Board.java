@@ -40,7 +40,7 @@ public class Board {
 
             try {
 
-                FileReader reader = new FileReader(Integer.toString(num) + ".txt");
+                FileReader reader = new FileReader("src/main/resources/" + Integer.toString(num) + ".txt");
 
                 System.out.println(reader);
 

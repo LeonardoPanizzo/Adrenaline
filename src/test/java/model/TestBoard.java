@@ -22,7 +22,7 @@ public class TestBoard{
 
         Board b1 = new Board(1);
 
-        String expectedOutput1  = "File missing\n"; // Notice the \n for new line.
+        String expectedOutput1  = "11\n"; // Notice the \n for new line.
 
         assertEquals(expectedOutput1, outContent.toString());
 
