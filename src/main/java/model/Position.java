@@ -62,7 +62,7 @@ public class Position {
         return a;
     }
 
-    //la posizione passata come paramentro è visibile?
+    //la posizione passata come paramentro è visibile da this?
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
