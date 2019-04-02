@@ -5,7 +5,7 @@ public class Player {
     private Position position;
     private int[] life;
     private boolean round;
-    private int markGiven;
+    private int[] markGiven;
     private int[] markReceived;
     private int numberOfDeaths;
     private int[] ammo;
@@ -14,8 +14,8 @@ public class Player {
 
     public Player(){
 
-        // todo inizializzare numero del giocatore
-        this.position = new Position();//leonardo: non va creata la nuova posizione, gliene si passa una già esistente
+        //todo inizializzare numero del giocatore
+        //todo non va creata la nuova posizione, gliene si passa una già esistente
 
         this.life = new int[12];
         //inizializzo il vettore di vite a 0 (valore che indica che nessn danno è presente)
@@ -71,8 +71,26 @@ public class Player {
         //invio al server del segnale di fine turno
     }
 
+    public int[] giveOrderDamage(){
+        int[] orderDamage = {0, 0, 0, 0, 0};
+        char[] damageByPlayer = {'n', 'n', 'n', 'n', 'n'};
+
+        orderDamage[0] = this.life[0];
+        damageByPlayer[0] = 'y';
+
+        for(int p=1; p<12; p++){
+            if(this.life[p] != orderDamage[p-1] && damageByPlayer[this.life[p]] == 'n') {
+                orderDamage[p] = this.life[p];
+                damageByPlayer[this.life[p]] = 'y';
+            }
+        }
+        return orderDamage;
+    }
+
     public int[] givePoints(){
         int[] points = {0, 0, 0, 0, 0};
+        int[] orderedPlayer = {0, 0, 0, 0, 0}; //giocatori ordinati secondo punteggio decrescente
+
         for(int p=0; p<12; p++){
             if(this.life[p] == 1)
                 points[0] ++;
@@ -85,6 +103,13 @@ public class Player {
             else if (this.life[p] == 5)
                 points[4]++;
         }
+
+
+
         return points;
+        //todo aggiungere l'assegnamento ai giocatori del punteggio
     }
+
+
 }
+
