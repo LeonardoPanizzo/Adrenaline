@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PositionTest {
     @Test
-    public void visibleTest() {/*
+    public void visibleTest() {
         Position p1 = new Position(1, 2, 5, false, 0, false);
         Position p2 = new Position(1, 1, 5, false, 0, false);
         Position p3 = new Position(3, 4, 2, false, 0, false);
@@ -17,6 +17,6 @@ public class PositionTest {
         assertEquals(p1.visible(p3), false);
         assertEquals(p3.visible(p1), false);
         assertEquals(p3.visible(p4), true);
-        assertEquals(p4.visible(p3), true);*/
+        assertEquals(p4.visible(p3), true);
     }
 }
