@@ -104,7 +104,12 @@ public class Player {
                 points[4]++;
         }
 
-
+        int[] pointsCopy = points;
+        int max = pointsCopy[1];
+        pointsCopy[0] = -1;
+        for(int k = 0; k<5; k++){
+            
+        }
 
         return points;
         //todo aggiungere l'assegnamento ai giocatori del punteggio
