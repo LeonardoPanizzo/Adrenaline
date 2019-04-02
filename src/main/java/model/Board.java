@@ -1,6 +1,12 @@
 package model;
 
 
+import org.w3c.dom.ranges.RangeException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Board {
 
     private	static int[] skulls;
@@ -10,19 +16,48 @@ public class Board {
     private int variation;
 
 
-    public Board(int num){
+    public Board(int num) throws java.io.IOException {
 
-        //player 1 starts the game
+        boolean range = (num <= 4) && (num > 0);
 
-        this.skulls = new int[8];
-        //0 means that a skull is present, it will be replaced by a player's id
-        for(int x : skulls)
-            this.skulls[x]= 0;
+        if(range){
 
 
-        this.board = new Position[4][3];
-        this.round = 1;
-        this.variation = num;
+            //player 1 starts the game
+
+            this.skulls = new int[8];
+            //0 means that a skull is present, it will be replaced by a player's id
+            for (int x : skulls)
+                this.skulls[x] = 0;
+
+
+            this.board = new Position[4][3];
+            this.round = 1;
+            this.variation = num;
+
+
+            //get the map variation
+
+            try {
+
+                FileReader reader = new FileReader(Integer.toString(num) + ".txt");
+
+                System.out.println(reader);
+
+                reader.close();
+
+            } catch ( IOException e) {
+
+                System.out.println("File missing");
+            }
+
+        }
+
+        else {
+
+            System.out.println("Out of range board");
+
+        }
 
     }
 
@@ -107,6 +142,14 @@ public class Board {
 
 
     public void endGame(){
+
+        skulls = getSkulls();
+
+        if (skulls[0] == 0){
+
+
+        }
+
 
     };
 
