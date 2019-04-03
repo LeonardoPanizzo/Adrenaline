@@ -22,6 +22,18 @@ public class TestBoard{
 
         Board b1 = new Board(1);
 
+        assertEquals(false, b1.isFinalRound());
+
+        int[] x = {1,1,2,3,0,2,3,2};
+
+        b1.setSkulls(x);
+
+        assertEquals(x, b1.getSkulls());
+
+        b1.setFinalRound(b1);
+
+        assertEquals(true, b1.isFinalRound());
+
         String expectedOutput1  = "11\n"; // Notice the \n for new line.
 
         assertEquals(expectedOutput1, outContent.toString());

@@ -14,6 +14,8 @@ public class Board {
     private	static Position[][] board;
     private	int round;
     private int variation;
+    private boolean finalRound;
+
 
 
     public Board(int num) throws java.io.IOException {
@@ -34,6 +36,7 @@ public class Board {
             this.board = new Position[4][3];
             this.round = 1;
             this.variation = num;
+            this.finalRound = false;
 
 
             //get the map variation
@@ -96,6 +99,7 @@ public class Board {
     }
 */
 
+
     //useful for endGame() and scoring
 
     public static int[] getSkulls() {
@@ -107,6 +111,22 @@ public class Board {
     }
 
 
+    public boolean isFinalRound() {
+        return finalRound;
+    }
+
+    public Board setFinalRound(Board b1) {
+
+        int j = 0;
+        for (int i=0; i<getSkulls().length; i++)//getSkulls())
+            if (getSkulls()[i] == 0){
+                j = j + 1;
+            }
+        if (j == 1) {
+            b1.finalRound = true;
+        }
+        return b1;
+    }
 
 
     public static Position[][] getBoard() {
