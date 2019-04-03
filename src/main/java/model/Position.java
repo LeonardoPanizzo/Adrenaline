@@ -62,6 +62,8 @@ public class Position {
         return arms;
     }
 
+
+    //todo i due metodi qui sotto dovranno essere sincronizzati?
     public WeaponCard chooseArm(int i){
         weaponSpot=i;
         return arms[i+1];
