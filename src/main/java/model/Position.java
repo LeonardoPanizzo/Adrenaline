@@ -13,6 +13,7 @@ public class Position {
     private Vector<Position> linked;       //posizioni a cui si arriva attraverso la porta, uso Vector perchè è sincronizzato
     private PowerupCard powerup;
     private WeaponCard[] arms;
+    private int weaponSpot;         //quando pesco un'arma ricordo il posto da cui è stata presa per poi inserirci quella nuova
 
 
     //da modificare se door==false position door non serve
@@ -36,15 +37,6 @@ public class Position {
         }
     }
 
-    public void setLinks(Position x){
-        linked.add(x);
-    }
-
-    public void setLinks(Position[] x){
-        for(int i=0; i<x.length; i++)
-            linked.add(x[i]);
-    }
-
     public int getRoom(){
         return room;
     }
@@ -55,6 +47,29 @@ public class Position {
 
     public int[] getCoordinate() {
         return matr;
+    }
+
+    public void setLinks(Position x){
+        linked.add(x);
+    }
+
+    public void setLinks(Position[] x){
+        for(int i=0; i<x.length; i++)
+            linked.add(x[i]);
+    }
+
+    public WeaponCard[] showWeapon(){
+        return arms;
+    }
+
+    public WeaponCard chooseArm(int i){
+        weaponSpot=i;
+        return arms[i+1];
+    }
+
+    public void giveWeapon(WeaponCard x){
+        arms[weaponSpot]=x;
+        return;
     }
 
     //todo il metodo pesca
