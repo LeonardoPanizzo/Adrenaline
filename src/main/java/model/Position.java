@@ -4,6 +4,8 @@ import java.util.Vector;
 import java.lang.*;
 
 public class Position {
+    //un contatore che dice la posizione dell'arma presa e dove sarà inserita quella nuova
+
     private int room;               //stanza di cui fa parte la posizione
     private int[] matr;             //coordinate della stanza
     private boolean door;           //se è vero la stanza ha una porta con un'altra stanza
