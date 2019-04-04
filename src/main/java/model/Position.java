@@ -6,7 +6,7 @@ import java.lang.*;
 public class Position {
     //un contatore che dice la posizione dell'arma presa e dove sarà inserita quella nuova
 
-    private int room;               //stanza di cui fa parte la posizione
+    private char room;               //stanza di cui fa parte la posizione
     private int[] matr;             //coordinate della stanza
     private boolean door;           //se è vero la stanza ha una porta con un'altra stanza
     private boolean resetPoint;     //indica se la stanza è reset point e quindi se ci saranno munizioni o armi
@@ -19,7 +19,7 @@ public class Position {
 
     //da modificare se door==false position door non serve
     //probabilmete visto che le posizioni sono fisse penso che sia meglio se le leggiamo da file prima della partita ogni volta
-    public Position(int i, int j, int room, boolean door, boolean resetPoint){
+    public Position(int i, int j, char room, boolean door, boolean resetPoint){
         matr=new int[2];
         arms=new WeaponCard[3];
         matr[0]=i;
@@ -42,7 +42,7 @@ public class Position {
     */
     }
 
-    public int getRoom(){
+    public char getRoom(){
         return room;
     }
 
