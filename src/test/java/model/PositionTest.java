@@ -7,16 +7,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PositionTest {
     @Test
     public void visibleTest() {
-        Position p1 = new Position(1, 2, 5, false, false);
-        Position p2 = new Position(1, 1, 5, false, false);
-        Position p3 = new Position(3, 4, 2, false, false);
-        Position p4 = new Position(3, 2, 2, false, false);
+        //1 blu 2 rossa 3 gialla 4 bianca
+        Position p11 = new Position(1, 1, 1, true, true);
+        Position p12 = new Position(1, 2, 1, false, false);
+        Position p13 = new Position(1, 3, 1, true, true);
+        Position p21 = new Position(2, 1, 2, true, true);
+        Position p22 = new Position(2, 2, 2, true, false);
+        Position p23 = new Position(2, 3, 2, true, false);
+        Position p24 = new Position(2, 4, 3, true, false);
+        Position p34 = new Position(3, 4, 3, true, true);
+        Position p32 = new Position(3, 2, 4, true, false);
+        Position p33 = new Position(3, 3, 4, true, true);
+        p11.setLinks(p21);
+        p13.setLinks(p23);
+        p21.setLinks(p11);
+        p22.setLinks(p32);
+        p23.setLinks(p24);
+        p23.setLinks(p13);
+        p24.setLinks(p23);
+        p34.setLinks(p33);
+        p32.setLinks(p22);
+        p33.setLinks(p34);
 
-        assertEquals(p1.visible(p2), true);
-        assertEquals(p2.visible(p1), true);
-        assertEquals(p1.visible(p3), false);
-        assertEquals(p3.visible(p1), false);
-        assertEquals(p3.visible(p4), true);
-        assertEquals(p4.visible(p3), true);
+
+        assertEquals(p11.visible(p12), true);
+        assertEquals(p11.visible(p21), true);
+        assertEquals(p11.visible(p33), false);
+        assertEquals(p23.visible(p24), true);
+        assertEquals(p23.visible(p13), true);
+        assertEquals(p13.visible(p23), true);
+        assertEquals(p24.visible(p23), true);
+        assertEquals(p32.visible(p12), false);
+        assertEquals(p24.visible(p34), true);
     }
 }
