@@ -95,4 +95,24 @@ public class PositionTest {
         assertEquals(p12.getCoordinate()[0],c12[0]);
         assertEquals(p12.getCoordinate()[1],c12[1]);
     }
+
+    @Test
+    public void isDoorTest(){
+        Position p11 = new Position(1, 1, 1, true, true);
+        Position p12 = new Position(1, 2, 1, false, false);
+
+        assertEquals(p11.isDoor(), true);
+        assertEquals(p12.isDoor(), false);
+    }
+
+    @Test void getRoomTest(){
+        //1 blu 2 rossa 3 gialla 4 bianca
+        Position p11 = new Position(1, 1, 1, true, true);
+        Position p21 = new Position(2, 1, 2, true, true);
+        Position p34 = new Position(3, 4, 3, true, true);
+
+        assertEquals(p11.getRoom(),1);
+        assertEquals(p21.getRoom(),2);
+        assertEquals(p34.getRoom(),3);
+    }
 }
