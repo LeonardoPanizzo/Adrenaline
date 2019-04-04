@@ -95,11 +95,9 @@ public class Position {
         boolean vis=false;
         if(this.room==x.room)
             vis=true;       //se la posizione è nella stessa stanza imposto visibile a true
-        while(!vis && door){
-            for(int i=0; (!vis)&&(i<ndoor);i++)         //controlla le posizione collegate tramite la porta
-                if(linked.elementAt(i).getRoom()==x.room)       //controlla che il parametro passato abbia il colore di una delle stanze collegate tramite la porta
-                    vis=true;
-        }
+        for(int i=0; (!vis)&&(i<ndoor);i++)         //controlla le posizione collegate tramite la porta
+            if(linked.elementAt(i).getRoom()==x.room)       //controlla che il parametro passato abbia il colore di una delle stanze collegate tramite la porta
+                vis=true;
         return vis;
     }
 
