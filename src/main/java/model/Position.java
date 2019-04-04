@@ -9,12 +9,12 @@ public class Position {
     private int room;               //stanza di cui fa parte la posizione
     private int[] matr;             //coordinate della stanza
     private boolean door;           //se è vero la stanza ha una porta con un'altra stanza
-    private boolean resetPoint;
+    private boolean resetPoint;     //indica se la stanza è reset point e quindi se ci saranno munizioni o armi
     private Vector<Position> linked;       //posizioni a cui si arriva attraverso la porta, uso Vector perchè è sincronizzato
-    private PowerupCard powerup;
+    private AmmoTile ammo;          //munizioni che si trovano più eventuali armi
     private WeaponCard[] arms;
     private int weaponSpot;         //quando pesco un'arma ricordo il posto da cui è stata presa per poi inserirci quella nuova
-
+    private TileDeck ammoDeck;      //todo gli si dovrà passare come argomento del costruttore il deck in modo  che poi possa pescare
 
     //da modificare se door==false position door non serve
     //probabilmete visto che le posizioni sono fisse penso che sia meglio se le leggiamo da file prima della partita ogni volta
@@ -33,7 +33,7 @@ public class Position {
             //pesca le 3 armi
         }
         else {
-            //pesca il potenziamento
+            ammo=ammoDeck.pickUpAmmo();
         }
     }
 
@@ -75,9 +75,9 @@ public class Position {
     }
 
     //todo il metodo pesca
-    public PowerupCard getPowerup(){
-        PowerupCard a=powerup;
-       // powerup=pesca();//metodo da implementare
+    public AmmoTile pickUpAmmo(){
+        AmmoTile a=ammo;
+        ammo=ammoDeck.pickUpAmmo();
         return a;
     }
 
