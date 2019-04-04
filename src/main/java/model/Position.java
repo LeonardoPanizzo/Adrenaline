@@ -14,7 +14,7 @@ public class Position {
     private AmmoTile ammo;          //munizioni che si trovano più eventuali armi
     private WeaponCard[] arms;
     private int weaponSpot;         //quando pesco un'arma ricordo il posto da cui è stata presa per poi inserirci quella nuova
-    private TileDeck ammoDeck;      //todo gli si dovrà passare come argomento del costruttore il deck in modo  che poi possa pescare
+    private AmmoDeck ammoDeck;      //todo gli si dovrà passare come argomento del costruttore il deck in modo  che poi possa pescare
 
     //da modificare se door==false position door non serve
     //probabilmete visto che le posizioni sono fisse penso che sia meglio se le leggiamo da file prima della partita ogni volta
@@ -33,7 +33,8 @@ public class Position {
             //pesca le 3 armi
         }
         else {
-            ammo=ammoDeck.pickUpAmmo();
+        //todo questo metodo potrà essere chiamato quando abrà l'attributo ammoDeck
+        //    ammo=ammoDeck.pickUpAmmo();
         }
     }
 
@@ -74,7 +75,8 @@ public class Position {
         return;
     }
 
-    //todo il metodo pesca
+    //restituisce al giocatore un carta munizioni e ne mette un'altra al suo post
+    //todo l'analisi della carta, ovvero quali munizioni dà o se dà una carta potenziamento viene fatto nella classe Action
     public AmmoTile pickUpAmmo(){
         AmmoTile a=ammo;
         ammo=ammoDeck.pickUpAmmo();
