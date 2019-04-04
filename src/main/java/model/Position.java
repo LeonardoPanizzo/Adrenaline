@@ -11,6 +11,7 @@ public class Position {
     private boolean door;           //se è vero la stanza ha una porta con un'altra stanza
     private boolean resetPoint;     //indica se la stanza è reset point e quindi se ci saranno munizioni o armi
     private Vector<Position> linked;       //posizioni a cui si arriva attraverso la porta, uso Vector perchè è sincronizzato
+    private int ndoor;              //numero di stanze a cui la posizione è collegata
     private AmmoTile ammo;          //munizioni che si trovano più eventuali armi
     private WeaponCard[] arms;
     private int weaponSpot;         //quando pesco un'arma ricordo il posto da cui è stata presa per poi inserirci quella nuova
@@ -25,17 +26,20 @@ public class Position {
         matr[1]=j;
         this.room=room;
         this.door=door;
+        this.ndoor=0;
         this.resetPoint=resetPoint;
         if(door){
             linked=new Vector<Position>();
         }
+        /*
         if(resetPoint) {
             //pesca le 3 armi
         }
         else {
-        //todo questo metodo potrà essere chiamato quando abrà l'attributo ammoDeck
+        //todo questo metodo potrà essere chiamato quando avrà l'attributo ammoDeck
         //    ammo=ammoDeck.pickUpAmmo();
         }
+    */
     }
 
     public int getRoom(){
@@ -52,11 +56,13 @@ public class Position {
 
     public void setLinks(Position x){
         linked.add(x);
+        ndoor++;
     }
 
     public void setLinks(Position[] x){
         for(int i=0; i<x.length; i++)
             linked.add(x[i]);
+        ndoor=ndoor+x.length;
     }
 
     public WeaponCard[] showWeapon(){
@@ -77,19 +83,20 @@ public class Position {
 
     //restituisce al giocatore un carta munizioni e ne mette un'altra al suo post
     //todo l'analisi della carta, ovvero quali munizioni dà o se dà una carta potenziamento viene fatto nella classe Action
+    /*
     public AmmoTile pickUpAmmo(){
         AmmoTile a=ammo;
         ammo=ammoDeck.pickUpAmmo();
         return a;
     }
-
+    */
     //la posizione passata come paramentro è visibile da this?
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
             vis=true;       //se la posizione è nella stessa stanza imposto visibile a true
         while(!vis && door){
-            for(int i=0; (!vis)&&(i<linked.size());i++)         //controlla le posizione collegate tramite la porta
+            for(int i=0; (!vis)&&(i<ndoor);i++)         //controlla le posizione collegate tramite la porta
                 if(linked.elementAt(i).getRoom()==x.room)       //controlla che il parametro passato abbia il colore di una delle stanze collegate tramite la porta
                     vis=true;
         }
