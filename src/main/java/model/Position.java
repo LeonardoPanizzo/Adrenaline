@@ -4,7 +4,6 @@ import java.util.Vector;
 import java.lang.*;
 
 public class Position {
-    //un contatore che dice la posizione dell'arma presa e dove sarà inserita quella nuova
 
     private char room;               //stanza di cui fa parte la posizione
     private int[] matr;             //coordinate della stanza
@@ -57,16 +56,23 @@ public class Position {
     //prende in ingresso la posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
     //posizione è porta
     public void setLinks(Position x){
-        linked.add(x);
-        ndoor++;
+        if(this.door==true && x.isDoor()){      //una posizione per avere dei collegamenti deve essere porta
+            linked.add(x);
+            ndoor++;
+        }
     }
 
     //prende in ingresso le posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
     //posizione è porta
     public void setLinks(Position[] x){
-        for(int i=0; i<x.length; i++)
-            linked.add(x[i]);
-        ndoor=ndoor+x.length;
+        if (this.door == true){                 //una posizione per avere dei collegamenti deve essere porta
+            for (int i = 0; i < x.length; i++) {
+                if(x[i].isDoor()) {               //una posizione per ricevere dei collegamenti deve essere porta
+                    linked.add(x[i]);
+                    ndoor++;
+                }
+            }
+        }
     }
 
     //mostra le armi per permettere al giocatore di fare la scelta
