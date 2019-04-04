@@ -77,4 +77,20 @@ public class PositionTest {
         assertEquals(p34.reachable(p32), false);
         assertEquals(p11.reachable(p33), false);
     }
+
+    @Test
+    public void getCoordinateTest(){
+        Position p11 = new Position(1, 1, 1, true, true);
+        Position p12 = new Position(1, 2, 1, false, false);
+        int[] c11= new int[2];
+        int[] c12= new int[2];
+        c11[0]=1;
+        c11[1]=1;
+        c12[0]=1;
+        c12[1]=2;
+
+        assertEquals(p11.getCoordinate(),c11);
+        assertEquals(p12.getCoordinate(),c12);
+
+    }
 }
