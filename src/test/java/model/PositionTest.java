@@ -44,7 +44,7 @@ public class PositionTest {
 
     @Test
     public void reachableTest(){
-        //1 blu 2 rossa 3 gialla 4 bianca
+        //b blue r red y yellow w white
         Position p11 = new Position(1, 1, 'b', true, true);
         Position p12 = new Position(1, 2, 'b', false, false);
         Position p13 = new Position(1, 3, 'b', true, true);
