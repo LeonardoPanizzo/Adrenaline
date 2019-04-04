@@ -89,8 +89,10 @@ public class PositionTest {
         c12[0]=1;
         c12[1]=2;
 
-        assertEquals(p11.getCoordinate(),c11);
-        assertEquals(p12.getCoordinate(),c12);
-
+        //ho fatto assertEquals fra interi perchè non so come farlo fra array
+        assertEquals(p11.getCoordinate()[0],c11[0]);
+        assertEquals(p11.getCoordinate()[1],c11[1]);
+        assertEquals(p12.getCoordinate()[0],c12[0]);
+        assertEquals(p12.getCoordinate()[1],c12[1]);
     }
 }
