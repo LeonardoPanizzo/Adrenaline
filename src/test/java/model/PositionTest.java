@@ -7,17 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PositionTest {
     @Test
     public void visibleTest() {
-        //1 blu 2 rossa 3 gialla 4 bianca
-        Position p11 = new Position(1, 1, 1, true, true);
-        Position p12 = new Position(1, 2, 1, false, false);
-        Position p13 = new Position(1, 3, 1, true, true);
-        Position p21 = new Position(2, 1, 2, true, true);
-        Position p22 = new Position(2, 2, 2, true, false);
-        Position p23 = new Position(2, 3, 2, true, false);
-        Position p24 = new Position(2, 4, 3, true, false);
-        Position p34 = new Position(3, 4, 3, true, true);
-        Position p32 = new Position(3, 2, 4, true, false);
-        Position p33 = new Position(3, 3, 4, true, true);
+        //b blue r red y yellow w white
+        Position p11 = new Position(1, 1, 'b', true, true);
+        Position p12 = new Position(1, 2, 'b', false, false);
+        Position p13 = new Position(1, 3, 'b', true, true);
+        Position p21 = new Position(2, 1, 'r', true, true);
+        Position p22 = new Position(2, 2, 'r', true, false);
+        Position p23 = new Position(2, 3, 'r', true, false);
+        Position p24 = new Position(2, 4, 'y', true, false);
+        Position p34 = new Position(3, 4, 'y', true, true);
+        Position p32 = new Position(3, 2, 'w', true, false);
+        Position p33 = new Position(3, 3, 'w', true, true);
         p11.setLinks(p21);
         p13.setLinks(p23);
         p21.setLinks(p11);
@@ -45,16 +45,16 @@ public class PositionTest {
     @Test
     public void reachableTest(){
         //1 blu 2 rossa 3 gialla 4 bianca
-        Position p11 = new Position(1, 1, 1, true, true);
-        Position p12 = new Position(1, 2, 1, false, false);
-        Position p13 = new Position(1, 3, 1, true, true);
-        Position p21 = new Position(2, 1, 2, true, true);
-        Position p22 = new Position(2, 2, 2, true, false);
-        Position p23 = new Position(2, 3, 2, true, false);
-        Position p24 = new Position(2, 4, 3, true, false);
-        Position p34 = new Position(3, 4, 3, true, true);
-        Position p32 = new Position(3, 2, 4, true, false);
-        Position p33 = new Position(3, 3, 4, true, true);
+        Position p11 = new Position(1, 1, 'b', true, true);
+        Position p12 = new Position(1, 2, 'b', false, false);
+        Position p13 = new Position(1, 3, 'b', true, true);
+        Position p21 = new Position(2, 1, 'r', true, true);
+        Position p22 = new Position(2, 2, 'r', true, false);
+        Position p23 = new Position(2, 3, 'r', true, false);
+        Position p24 = new Position(2, 4, 'y', true, false);
+        Position p34 = new Position(3, 4, 'y', true, true);
+        Position p32 = new Position(3, 2, 'w', true, false);
+        Position p33 = new Position(3, 3, 'w', true, true);
         p11.setLinks(p21);
         p13.setLinks(p23);
         p21.setLinks(p11);
@@ -80,8 +80,8 @@ public class PositionTest {
 
     @Test
     public void getCoordinateTest(){
-        Position p11 = new Position(1, 1, 1, true, true);
-        Position p12 = new Position(1, 2, 1, false, false);
+        Position p11 = new Position(1, 1, 'b', true, true);
+        Position p12 = new Position(1, 2, 'b', false, false);
         int[] c11= new int[2];
         int[] c12= new int[2];
         c11[0]=1;
@@ -98,21 +98,21 @@ public class PositionTest {
 
     @Test
     public void isDoorTest(){
-        Position p11 = new Position(1, 1, 1, true, true);
-        Position p12 = new Position(1, 2, 1, false, false);
+        Position p11 = new Position(1, 1, 'b', true, true);
+        Position p12 = new Position(1, 2, 'b', false, false);
 
         assertEquals(p11.isDoor(), true);
         assertEquals(p12.isDoor(), false);
     }
 
     @Test void getRoomTest(){
-        //1 blu 2 rossa 3 gialla 4 bianca
-        Position p11 = new Position(1, 1, 1, true, true);
-        Position p21 = new Position(2, 1, 2, true, true);
-        Position p34 = new Position(3, 4, 3, true, true);
+        //b blue r red y yellow w white
+        Position p11 = new Position(1, 1, 'b', true, true);
+        Position p21 = new Position(2, 1, 'r', true, true);
+        Position p34 = new Position(3, 4, 'y', true, true);
 
-        assertEquals(p11.getRoom(),1);
-        assertEquals(p21.getRoom(),2);
-        assertEquals(p34.getRoom(),3);
+        assertEquals(p11.getRoom(),'b');
+        assertEquals(p21.getRoom(),'r');
+        assertEquals(p34.getRoom(),'y');
     }
 }
