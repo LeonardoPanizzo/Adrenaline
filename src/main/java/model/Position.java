@@ -54,28 +54,37 @@ public class Position {
         return matr;
     }
 
+    //prende in ingresso la posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
+    //posizione è porta
     public void setLinks(Position x){
         linked.add(x);
         ndoor++;
     }
 
+    //prende in ingresso le posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
+    //posizione è porta
     public void setLinks(Position[] x){
         for(int i=0; i<x.length; i++)
             linked.add(x[i]);
         ndoor=ndoor+x.length;
     }
 
+    //mostra le armi per permettere al giocatore di fare la scelta
     public WeaponCard[] showWeapon(){
         return arms;
     }
 
 
     //todo i due metodi qui sotto dovranno essere sincronizzati?
+    //collegato a showWeapon(), dopo ave visto le armi disponibili il giocatore indica l'arma che vuole prendere
+    //indicandone la posizione
     public WeaponCard chooseArm(int i){
-        weaponSpot=i;
-        return arms[i+1];
+        weaponSpot=i;   //tiene in memoria la posizione da cui è stata presa l'arma per sapere dove inserire l'arma che riceve dopo
+        return arms[i];
     }
 
+    //dopo aver preso un'arma con chooseArm() il giocatore dovrà restituire un'arma che verrà messa nella posizione
+    //dell'arma presa precedentemente
     public void giveWeapon(WeaponCard x){
         arms[weaponSpot]=x;
         return;
@@ -91,6 +100,7 @@ public class Position {
     }
     */
     //la posizione passata come paramentro è visibile da this?
+    //ipotizzo che la posizione passata come argomento esiste
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
