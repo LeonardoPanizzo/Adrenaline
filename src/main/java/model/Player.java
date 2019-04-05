@@ -1,44 +1,47 @@
 package model;
 
+
 public class Player {
     private int number;
     private Position position;
-    private int[] life;
+    private int life;
+    private int [] damageOrder;         //order as a player has made damage
+    private int [] playersDamage;       //damage by all player (position 0 is for player one e so on)
+    private int [] damageArray;         //sorted array from higher damage's amount (in position 0) to the lower
     private boolean round;
-    private int[] markGiven;
-    private int[] markReceived;
+    private int[] marksGiven;
+    private int[] marksReceived;
     private int numberOfDeaths;
     private int[] ammo;
     private int score;
     private WeaponCard[] weapons;
+    private PowerupCard[] powerup;
+    private boolean finalRound;
 
-    public Player(){
+    public Player(int number){
 
-        //todo inizializzare numero del giocatore
-        //todo non va creata la nuova posizione, gliene si passa una già esistente
+        this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
+        this.position = null;                           //the initial position is chosen by the player
 
-        this.life = new int[12];
-        //inizializzo il vettore di vite a 0 (valore che indica che nessn danno è presente)
-        for(int v : life)
-            this.life[v]= 0;
+        this.life = 10;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
+        this.damageOrder = new int[]{-1, -1, -1, -1};   //at the beginning, no player has made damages
+        this.playersDamage = new int[]{0, 0, 0, 0};
+        this.damageArray = new int[]{0, 0, 0, 0};
 
         this.round = false;
-        // da inizializzare markGiven a seconda del regolamento
 
-        this.markReceived = new int [12];
-        //inizializzo il vettore machiRicevuti a 0 (valore che indica nessun marchio)
-        for(int mr : markReceived)
-            this.markReceived[mr]=0;
+        this.marksGiven = new int[]{0, 0, 0, 0};            //marksGiven[i] is the marks' number on player i+1
+        this.marksReceived = new int []{0, 0, 0, 0, 0};     //marksReceived[i] is the marks' number by player i+1
 
         this.numberOfDeaths = 0;
-
-        this.ammo = new int[3];
-        //inizializzo il vettore munizioni a {1, 1, 1} (valore che indica una municione per tipo)
-        for(int m : ammo)
-            this.ammo[m] = 1;
+        this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
 
         this.score = 0;
-        this.weapons = new WeaponCard[4];
+
+        this.weapons = new WeaponCard[]{null, null, null};
+        this.powerup = new PowerupCard[]{null, null, null};
+
+        this.finalRound = false;
     }
 
     public Position getPosition(){
