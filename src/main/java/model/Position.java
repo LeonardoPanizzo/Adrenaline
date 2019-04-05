@@ -5,19 +5,19 @@ import java.lang.*;
 
 public class Position {
 
-    private char room;               //stanza di cui fa parte la posizione
-    private int[] matr;             //coordinate della stanza
-    private boolean door;           //se è vero la stanza ha una porta con un'altra stanza
-    private boolean resetPoint;     //indica se la stanza è reset point e quindi se ci saranno munizioni o armi
-    private Vector<Position> linked;       //posizioni a cui si arriva attraverso la porta, uso Vector perchè è sincronizzato
-    private int ndoor;              //numero di stanze a cui la posizione è collegata
-    private AmmoTile ammo;          //munizioni che si trovano più eventuali armi
-    private WeaponCard[] arms;
-    private int weaponSpot;         //quando pesco un'arma ricordo il posto da cui è stata presa per poi inserirci quella nuova
-    private AmmoDeck ammoDeck;      //todo gli si dovrà passare come argomento del costruttore il deck in modo  che poi possa pescare
+    private char room;               //room in which the position is part
+    private int[] matr;             //coordinates of the position
+    private boolean door;           //if true the position has a door into another room
+    private boolean resetPoint;     //tells if the position is reset point and if there will be power up or weapons
+    private Vector<Position> linked;       //positions that are reachable through the door
+    private int ndoor;              //number of rooms that are reachable through the door
+    private AmmoTile ammo;          //munitions found in the position
+    private WeaponCard[] arms;      //weapons found in the position
+    private int weaponSpot;         //index in WeaponCard[] oh where the weapon was taken and where the new one will be placed in the array
+    private AmmoDeck ammoDeck;      //todo it must be given in the constructor so it will be possible to draw
+    //todo is needed WeaponDeck for the same reason
 
-    //da modificare se door==false position door non serve
-    //probabilmete visto che le posizioni sono fisse penso che sia meglio se le leggiamo da file prima della partita ogni volta
+    //beacause positions are fixed they wiil be red from a file each time, the file will call the constructor
     public Position(int i, int j, char room, boolean door, boolean resetPoint){
         matr=new int[2];
         arms=new WeaponCard[3];
@@ -35,7 +35,7 @@ public class Position {
             //pesca le 3 armi
         }
         else {
-        //todo questo metodo potrà essere chiamato quando avrà l'attributo ammoDeck
+        //todo this method can be called when there will be ammoDeck
         //    ammo=ammoDeck.pickUpAmmo();
         }
     */
@@ -53,21 +53,20 @@ public class Position {
         return matr;
     }
 
-    //prende in ingresso la posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
-    //posizione è porta
+    //receives the position that will be linked to this.position, the link is possible only if this and x are doors
     public void setLinks(Position x){
-        if(this.door==true && x.isDoor()){      //una posizione per avere dei collegamenti deve essere porta
+        if(this.door==true && x.isDoor()){      //a positions to have link to another position must be door
             linked.add(x);
             ndoor++;
         }
     }
 
-    //prende in ingresso le posizione da aggiungere al vettore che contiene le stanze a cui si può accedere se la
-    //posizione è porta
+    //receives the positions that will be linked to this.position, the link is possible only if this and all the positions
+    //in x are doors
     public void setLinks(Position[] x){
-        if (this.door == true){                 //una posizione per avere dei collegamenti deve essere porta
+        if (this.door == true){
             for (int i = 0; i < x.length; i++) {
-                if(x[i].isDoor()) {               //una posizione per ricevere dei collegamenti deve essere porta
+                if(x[i].isDoor()) {
                     linked.add(x[i]);
                     ndoor++;
                 }
@@ -75,29 +74,28 @@ public class Position {
         }
     }
 
-    //mostra le armi per permettere al giocatore di fare la scelta
-    public WeaponCard[] showWeapon(){
+    //shows the weapons to allow the player the choice between them
+    public WeaponCard[] showWeapons(){
         return arms;
     }
 
 
-    //todo i due metodi qui sotto dovranno essere sincronizzati?
-    //collegato a showWeapon(), dopo ave visto le armi disponibili il giocatore indica l'arma che vuole prendere
-    //indicandone la posizione
+    //todo should the two methods down here be synchronized?
+    //called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
+    //weapon in the array
     public WeaponCard chooseArm(int i){
-        weaponSpot=i;   //tiene in memoria la posizione da cui è stata presa l'arma per sapere dove inserire l'arma che riceve dopo
+        weaponSpot=i;   //save the index of the choosen weapon, this index will be used when the discard weapon will be placed in tha spot
         return arms[i];
     }
 
-    //dopo aver preso un'arma con chooseArm() il giocatore dovrà restituire un'arma che verrà messa nella posizione
-    //dell'arma presa precedentemente
+    //After having received a weapon the discard one (WeaponCard x) is placed in the spot of the one choosen by the player
     public void giveWeapon(WeaponCard x){
         arms[weaponSpot]=x;
         return;
     }
 
-    //restituisce al giocatore un carta munizioni e ne mette un'altra al suo post
-    //todo l'analisi della carta, ovvero quali munizioni dà o se dà una carta potenziamento viene fatto nella classe Action
+    //return AmmoTile to the player and replace the returned one with a new one
+    // todo AmmoTile must be analized to see if the player get a power up or just munitions, will this be done in the action class?
     /*
     public AmmoTile pickUpAmmo(){
         AmmoTile a=ammo;
@@ -105,25 +103,25 @@ public class Position {
         return a;
     }
     */
-    //la posizione passata come paramentro è visibile da this?
-    //ipotizzo che la posizione passata come argomento esiste
+    //is the position x visible from position this?
+    //x!=null
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
-            vis=true;       //se la posizione è nella stessa stanza imposto visibile a true
-        for(int i=0; (!vis)&&(i<ndoor);i++)         //controlla le posizione collegate tramite la porta
-            if(linked.elementAt(i).getRoom()==x.room)       //controlla che il parametro passato abbia il colore di una delle stanze collegate tramite la porta
+            vis=true;       //if x is in the same room ot his then is visible from this
+        for(int i=0; (!vis)&&(i<ndoor);i++)         //checks the positions linked to this through the door
+            if(linked.elementAt(i).getRoom()==x.room)       //che if the linked.position is in the same room of x
                 vis=true;
         return vis;
     }
 
-    //la posizione passata come parametro è raggiungibile in un passo?
-    //ipotizzo che la posizione passata come argomento esiste
+    //is x reachable from this in one step?
+    //x!=null
     public boolean reachable(Position x){
         boolean reac=false;
         if((this.matr[0]==x.matr[0]&&((this.matr[1]==x.matr[1]+1)||(this.matr[1]==x.matr[1]-1)))||
-                (this.matr[1]==x.matr[1]&&((this.matr[0]==x.matr[0]+1)||(this.matr[0]==x.matr[0]-1)))){     //controlla che la distanza fra this e x sia 1
-            if(visible(x))      //so che x dista 1 da this, quindi se è visibile è anche raggiungibile
+                (this.matr[1]==x.matr[1]&&((this.matr[0]==x.matr[0]+1)||(this.matr[0]==x.matr[0]-1)))){     //checks if the distance between x and this is 1
+            if(visible(x))      //the distance between x and this is 1, in this case if x si visible then is reachable
                 reac=true;
         }
         return reac;
