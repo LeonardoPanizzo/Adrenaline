@@ -48,74 +48,41 @@ public class Player {
         return this.position;
     }
 
-    public int[] getLife(){
+    public void action(String name){
+        Action action = new Action(name);
+    }
+
+    public void recharge (WeaponCard weapon){
+        //todo: recharge the weapon received
+    }
+
+    public int getLife(){
         return this.life;
     }
 
-    public void setDamage(int number){
-        int i=0;
+    public void madeDamage(int playerNumber){        //playerNumber is the number of the player who makes the damage
+        this.life = this.life -1;
 
-        while(this.life[i]!=0){
+        int i=0;
+        while(damageOrder[i] != -1){
+            if (damageOrder[i]==playerNumber)
+                break;
             i++;
         }
-        this.life[i]= number;
-    }
+        if (damageOrder[i]==-1){
+            damageOrder[i]= playerNumber;
+        }
 
-
-    public void action(){
-        //scelta delle azioni del turno
-    }
-
-    public void recharge(WeaponCard army){
-        //scelgo l'arma e scarto le munizioni o potenziamenti per la ricarica
+        //todo: I have to finish this method
     }
 
     public void endOfRound(){
         //invio al server del segnale di fine turno
     }
 
-    public int[] giveOrderDamage(){
-        int[] orderDamage = {0, 0, 0, 0, 0};
-        char[] damageByPlayer = {'n', 'n', 'n', 'n', 'n'};
 
-        orderDamage[0] = this.life[0];
-        damageByPlayer[0] = 'y';
-
-        for(int p=1; p<12; p++){
-            if(this.life[p] != orderDamage[p-1] && damageByPlayer[this.life[p]] == 'n') {
-                orderDamage[p] = this.life[p];
-                damageByPlayer[this.life[p]] = 'y';
-            }
-        }
-        return orderDamage;
-    }
-
-    public int[] givePoints(){
-        int[] points = {0, 0, 0, 0, 0};
-        int[] orderedPlayer = {0, 0, 0, 0, 0}; //giocatori ordinati secondo punteggio decrescente
-
-        for(int p=0; p<12; p++){
-            if(this.life[p] == 1)
-                points[0] ++;
-            else if (this.life[p] == 2)
-                points[1]++;
-            else if (this.life[p] == 3)
-                points[2]++;
-            else if (this.life[p] == 4)
-                points[3]++;
-            else if (this.life[p] == 5)
-                points[4]++;
-        }
-
-        int[] pointsCopy = points;
-        int max = pointsCopy[1];
-        pointsCopy[0] = -1;
-        for(int k = 0; k<5; k++){
-            
-        }
-
-        return points;
-        //todo aggiungere l'assegnamento ai giocatori del punteggio
+    public void givePoints(){
+        //todo: I have to finish this method
     }
 
 
