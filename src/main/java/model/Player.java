@@ -53,7 +53,7 @@ public class Player {
     }
 
     public void recharge (WeaponCard weapon){
-        //todo: recharge the weapon received
+        //todo: recharge the weapon received in argument
     }
 
     public int getLife(){
@@ -69,19 +69,57 @@ public class Player {
                 break;
             i++;
         }
-        if (damageOrder[i]==-1){
+        if (damageOrder[i]==-1)
             damageOrder[i]= playerNumber;
-        }
 
-        //todo: I have to finish this method
+        playersDamage[playerNumber]++;
     }
 
     public void endOfRound(){
         //invio al server del segnale di fine turno
     }
 
+    private int[] madeDamageArray(){
+        int [] arrayD = new int[]{-1, -1, -1, -1};
+
+        arrayD[0]= playersDamage[0];
+        for (int i=1; i<4; i++){
+            int tempScan = playersDamage[i];
+            for(int j=0; j<=i; j++){
+                if(tempScan > arrayD[j]){
+                    int tempMem = arrayD[j];
+                    arrayD[j] = tempScan;
+                    tempScan = tempMem;
+                }
+            }
+        }
+        return arrayD;
+    }
 
     public void givePoints(){
+         int[] sortedPlayer = new int [4];
+         int[] points = new int[4];
+
+        this.damageArray = this.madeDamageArray();
+        for(int i=0; i<4; i++){
+            int damage = damageArray[i];
+            int k=0;
+            while(playersDamage[k] != damage)
+                k++;
+            if(damageArray[i] != damageArray[i+1]){
+                sortedPlayer[i] = k;
+            }
+            else{
+                int counter= 1;
+                while(damageArray[counter+i] == damageArray[i] && counter+i<4)
+                    counter++;
+                //todo: to finish it
+            }
+
+        }
+
+
+
         //todo: I have to finish this method
     }
 
