@@ -5,9 +5,7 @@ public class Player {
     private int number;
     private Position position;
     private int life;
-    private int [] damageOrder;         //order as a player has made damage
-    private int [] playersDamage;       //damage by all player (position 0 is for player one e so on)
-    private int [] damageArray;         //sorted array from higher damage's amount (in position 0) to the lower
+    private int[][] playersDamage;      //For each player are memorized order of damage in [x][0] and total damage in [x][1]
     private boolean round;
     private int[] marksGiven;
     private int[] marksReceived;
@@ -22,9 +20,7 @@ public class Player {
         this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
         this.position = null;                           //the initial position is chosen by the player
         this.life = 11;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
-        this.damageOrder = new int[]{-1, -1, -1, -1};   //at the beginning, no player has made damages
-        this.playersDamage = new int[]{0, 0, 0, 0};
-        this.damageArray = new int[]{0, 0, 0, 0};
+        this.playersDamage = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
         this.round = false;
         this.marksGiven = new int[]{0, 0, 0, 0};            //marksGiven[i] is the marks' number on player i+1
         this.marksReceived = new int []{0, 0, 0, 0, 0};     //marksReceived[i] is the marks' number by player i+1
@@ -44,14 +40,6 @@ public class Player {
         return this.life;
     }
 
-    public int[] getDamageOrder() {
-        return damageOrder;
-    }
-
-    public int[] getPlayersDamage() {
-        return playersDamage;
-    }
-
     public void action(String name){
         Action action = new Action(name);
     }
@@ -60,86 +48,78 @@ public class Player {
         //todo: recharge the weapon received in argument
     }
 
-
-
-    public void receivedDamages(int playerNumber){        //playerNumber is the number of the player who makes the damage
-        if (this.life >= 0) {
-            this.life = this.life - 1;
-            int i = 0;
-            while (damageOrder[i] != -1) {
-                if (damageOrder[i] == playerNumber)       //the player has just done damage before now
-                    break;
-                i++;
-            }
-            if (damageOrder[i] == -1)                     //if we correctly ended the while loop, we add the new player
-                damageOrder[i] = playerNumber;
-            playersDamage[playerNumber]++;              //the damage that has been made from the player was increased
-        }
-    }
-
     public boolean endOfRound(){
         this.round = false;
         return this.round;
     }
 
-    private int[] madeDamageArray(){
-        int [] arrayD = new int[]{-1, -1, -1, -1};
-        arrayD[0]= playersDamage[0];
-        for (int i=1; i<4; i++){
-            int tempScan = playersDamage[i];
-            for(int j=0; j<=i; j++){
-                if(tempScan > arrayD[j]){
-                    int tempMem = arrayD[j];
-                    arrayD[j] = tempScan;
-                    tempScan = tempMem;
+    public void receivedDamages(int playerNumber) {        //playerNumber is the number of the player who makes the damage
+        if (this.life >= 0) {
+            this.life = this.life - 1;
+            int damageCounter = 1;
+            if (playersDamage[playerNumber][0] == -1) {
+                for (int i = 0; i < 5; i++) {
+                    if (playersDamage[i][0] != -1)
+                        damageCounter++;
                 }
+                playersDamage[playerNumber][0] = damageCounter;
             }
+            playersDamage[playerNumber][1]++;
         }
-        return arrayD;
     }
 
-    public int[] sortingPlayer(){                       //Player are sorted from the ones who makes mora damage to the one who make less. When points are the same, the first to make damage receive more points.
-        int[] sortedPlayer = new int[]{-1, -1, -1, -1};
-        this.damageArray = this.madeDamageArray();
-        int k = 0;
-        for (int i = 0; i < 4; i++) {
-            int damage = damageArray[i];
-            if (damage != damageArray[i + 1] && damage != damageArray[i-1] && damage != 0){
-                while (playersDamage[k] != damage)
-                    k++;
-                sortedPlayer[i] = k;
-            }
-            else if (damage == damageArray[i + 1] && damage != damageArray[i-1] && damage != 0){
-                int y = 0;
-                for (int z = k; z < 4; z++) {
-                    if (playersDamage[z] == damage) {
-                        while (sortedPlayer[y] != -1) {
-                            y++;
+    public int[] sortingPlayers(){
+        int[] sortedPlayers = new int[] {-1, -1, -1, -1, -1};
+        int[][] playersDamage = this.getPlayersDamage();
+        sortedPlayers[0] = 0;
+        int memScan;
+        for(int i=1; i<5; i++){
+            int tempScan = i;
+            for(int j=0; j<i; j++) {
+                if (sortedPlayers[j] != -1){
+                    if (playersDamage[tempScan][1] > playersDamage[sortedPlayers[j]][1]){
+                        memScan = sortedPlayers[j];
+                        sortedPlayers[j] = tempScan;
+                        tempScan = memScan;
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
+                    }
+                    else if (playersDamage[tempScan][1] == playersDamage[sortedPlayers[j]][1]){
+                        if (playersDamage[sortedPlayers[j]][0] > playersDamage[i][0]){
+                            memScan = sortedPlayers[j];
+                            sortedPlayers[j] = tempScan;
+                            tempScan = memScan;
+
                         }
-                        sortedPlayer[y] = z;
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
                     }
                 }
             }
         }
-        return sortedPlayer;
+        return sortedPlayers;
     }
 
     public int[] givePoints(){
-         int[] points = new int[]{0, 0, 0, 0};
-         final int MAX = 8;             //MAX shows max points assigned to the first player in sortedPlayer[]
+        int[] points = new int[]{0, 0, 0, 0, 0};
+        final int MAX = 8;             //MAX shows max points assigned to the first player in sortedPlayer[]
 
-         int point = MAX - 2*this.numberOfDeaths;     //Each player's death decrease max points about 2 points
+        int point = MAX - 2*this.numberOfDeaths;     //Each player's death decrease max points about 2 points
 
-         int[] sortedPlayer = sortingPlayer();
+        int[] sortedPlayer = this.sortingPlayers();
 
-         for (int i=0; i<4; i++){
-             if (point <= 0)
-                 point = 1;
-             if(points[sortedPlayer[i]] != -1)
+        for (int i=0; i<5; i++){
+            if (point <= 0)
+                point = 1;
+            if(playersDamage[sortedPlayer[i]][1] != 0)
                 points[sortedPlayer[i]] = point;
-             point-=2;
-         }
-         return points;
+            point-=2;
+        }
+        return points;
+    }
+
+    public int[][] getPlayersDamage() {
+        return playersDamage;
     }
 
     public void regeneration(){
