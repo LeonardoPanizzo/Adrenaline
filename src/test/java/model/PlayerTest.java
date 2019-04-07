@@ -6,26 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerTest {
     @Test
-    public void setDamageTest(){
-        Player p = new Player();
-        int[] life = new int[12];
-        life = p.getLife();
-        for(int i =0; i<12; i++){
-            assertEquals(life[i], 0);
-        }
+    public void reicevedDamageTest(){
+        Player p = new Player(1);
+        p.receivedDamages(3);
+        int life = p.getLife();
+        int[] damageOrder = p.getDamageOrder();
+        int[] playersDamage = p.getPlayersDamage();
 
-        p.setDamage(3);
-        life = p.getLife();
-        assertEquals(life[0], 3);
+        assertEquals(10, life);
+        assertEquals(3, damageOrder[0]);
+        assertEquals(1, playersDamage[3]);
 
-        p.setDamage(2);
-        p.setDamage(4);
+     /*   p.receivedDamages(2);
+        p.receivedDamages(1);
         life = p.getLife();
-        assertEquals(life[1], 2);
-        assertEquals(life[2], 4);
+
+        assertEquals(8, life);*/
     }
 
-    @Test
+/*    @Test
     public void givePointsTest(){
         Player p = new Player();
         int[] lifeOfP = new int[12];
@@ -56,5 +55,5 @@ public class PlayerTest {
         assertEquals(1, points[1]);
         assertEquals(1, points[2]);
         assertEquals(1, points[4]);
-    }
+    }*/
 }
