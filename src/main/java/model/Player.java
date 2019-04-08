@@ -16,13 +16,22 @@ public class Player {
     private PowerupCard[] powerup;
     private boolean finalRound;
 
+    /**
+     * Is Player Class' constructor.
+     * <p>When it is generated, a Player object has a null position, 11 life points,
+     * no damage received and the same for marks given and received. It is died no times and it's not his round.
+     * It also has one ammo for each type and no powerup and weapon cards.</p>
+     *
+     * @param number    player's identifier
+     * @see Player
+     */
     public Player(int number){
         this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
         this.position = null;                           //the initial position is chosen by the player
         this.life = 11;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
         this.playersDamage = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
         this.round = false;
-        this.marksGiven = new int[]{0, 0, 0, 0};            //marksGiven[i] is the marks' number on player i+1
+        this.marksGiven = new int[]{0, 0, 0, 0, 0};            //marksGiven[i] is the marks' number on player i+1
         this.marksReceived = new int []{0, 0, 0, 0, 0};     //marksReceived[i] is the marks' number by player i+1
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
@@ -40,19 +49,53 @@ public class Player {
         return this.life;
     }
 
-    public void action(String name){
-        Action action = new Action(name);
+    public int[] getMarksGiven() {
+        return marksGiven;
+    }
+
+    public int[] getMarksReceived() {
+        return marksReceived;
+    }
+
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public int[] getAmmo() {
+        return ammo;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public boolean isRound() {
+        return round;
+    }
+
+    public void action(){
+        Action action = new Action();
     }
 
     public void recharge (WeaponCard weapon){
         //todo: recharge the weapon received in argument
     }
 
-    public boolean endOfRound(){
+    public void endOfRound(){
         this.round = false;
-        return this.round;
     }
 
+    /**
+     * Assign to the player the damage received.
+     * If player's life gives the possibility to receive more damage (life >=0), then it is
+     * decreased and for the player who makes damage are saved:
+     * <p>-When he makes damage, compared to the other players;</p>
+     * <p>-How much damage he has done to this player.</p>
+     * All damages coming from the other player are saved in this way in an array 5x2.
+     *
+     * @param  playerNumber  the player who makes damage identifier
+     * @see         Player
+     */
     public void receivedDamages(int playerNumber) {        //playerNumber is the number of the player who makes the damage
         if (this.life >= 0) {
             this.life = this.life - 1;
@@ -68,6 +111,14 @@ public class Player {
         }
     }
 
+    /**
+     * The players who made damage are sorted from the one with higher damage to the one with the less one.
+     * When two or more player has the same damage, the first one who made damage is the one that will received
+     * more points.
+     *
+     * @return  an array with all player sorted
+     * @see Player
+     */
     public int[] sortingPlayers(){
         int[] sortedPlayers = new int[] {-1, -1, -1, -1, -1};
         int[][] playersDamage = this.getPlayersDamage();
@@ -100,6 +151,17 @@ public class Player {
         return sortedPlayers;
     }
 
+    /**
+     * Calculates all points have to been sum to the score of each player has made damage.
+     * All player who make damage will receive at least one point.
+     * Maximum amount of points is initially 8 and it will decrease any time the player who receive damage will
+     * die.
+     * <p>The starting amount of points is, from the first to the last player in sortedPlayer,
+     * is 8 -> 6 -> 4 -> 2 -> 1.</p>
+     *
+     * @return  array where the element points[x] is the amount of points to give to player x.
+     * @see Player
+     */
     public int[] givePoints(){
         int[] points = new int[]{0, 0, 0, 0, 0};
         final int MAX = 8;             //MAX shows max points assigned to the first player in sortedPlayer[]
@@ -125,6 +187,14 @@ public class Player {
     public void regeneration(){
         this.numberOfDeaths ++;
         //todo: I have to implement this method
+    }
+
+    public void usePowerup(PowerupCard powerup, WeaponCard weapon){
+        //todo: implement the powerup effect
+    }
+
+    public void drawPowerup(){
+        //one PowerupCard is randomly taken
     }
 }
 
