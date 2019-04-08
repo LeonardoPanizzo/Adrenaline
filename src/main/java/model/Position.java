@@ -4,7 +4,7 @@ import java.util.Vector;
 import java.lang.*;
 
 public class Position {
-
+    //testaaaa
     private char room;               //room in which the position is part
     private int[] matr;             //coordinates of the position
     private boolean door;           //if true the position has a door into another room
