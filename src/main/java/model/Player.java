@@ -5,6 +5,7 @@ public class Player {
     private int number;
     private Position position;
     private int life;
+    private int action;                 //actions' counter. Restored to 2 in reloaded
     private int[][] playersDamage;      //For each player are memorized order of damage in [x][0] and total damage in [x][1]
     private boolean round;
     private int[] marksGiven;
@@ -31,7 +32,7 @@ public class Player {
         this.life = 11;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
         this.playersDamage = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
         this.round = false;
-        this.marksGiven = new int[]{0, 0, 0, 0, 0};            //marksGiven[i] is the marks' number on player i+1
+        this.marksGiven = new int[]{0, 0, 0, 0, 0};         //marksGiven[i] is the marks' number on player i+1
         this.marksReceived = new int []{0, 0, 0, 0, 0};     //marksReceived[i] is the marks' number by player i+1
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
@@ -65,6 +66,10 @@ public class Player {
         return ammo;
     }
 
+    public WeaponCard[] getWeapons() {
+        return weapons;
+    }
+
     public int getScore() {
         return score;
     }
@@ -73,11 +78,22 @@ public class Player {
         return round;
     }
 
-    public void action(){
-        Action action = new Action();
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
-    public void recharge (WeaponCard weapon){
+    //todo: implement all actions there
+    public void action(Position position){
+        if(this.position.reachable(position))
+            this.position = position;
+        this.action--;
+    }
+
+    public void action(){
+     //   this.position.pickUpAmmo(); //todo wait for implementation in Position
+    }
+
+    public void reload (WeaponCard weapon){
         //todo: recharge the weapon received in argument
     }
 
@@ -109,6 +125,8 @@ public class Player {
             }
             playersDamage[playerNumber][1]++;
         }
+        //todo: add marks
+        //todo: control powerup Venom and use it
     }
 
     /**
@@ -199,5 +217,7 @@ public class Player {
     public void drawPowerup(){
         //one PowerupCard is randomly taken
     }
+
+    //todo: method marksReceived()
 }
 
