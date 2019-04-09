@@ -2,10 +2,10 @@ package model;
 
 //todo non sarebbe più coerente chiamare questa classe ammoCard?
 
-public class AmmoTile {
+public class AmmoCard {
     private char[] value;
 
-    public AmmoTile(){
+    public AmmoCard(){
 
     }
 
