@@ -18,8 +18,7 @@ public class Action {
         //todo: select a weaponCard from player.weapons to use
     }
 
-    public WeaponCard[] chooseWeapon(){
+    public void chooseWeapon(){//WeaponCard[] chooseWeapon(){
         //todo: return player.position.arms
-        return
     }
 }
