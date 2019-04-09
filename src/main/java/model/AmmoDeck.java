@@ -1,19 +1,24 @@
 package model;
 
+import java.util.Collections;
 import java.util.Vector;
 
 public class AmmoDeck {
     private int size;
-    private Vector<AmmoTile> AmmoDeck;
+    private Vector<AmmoTile> ammoDeck;
 
     public AmmoDeck(){
         size=0;
     }
 
+    public void shuffle(){
+        Collections.shuffle(ammoDeck);
+    }
+
     public AmmoTile pickUpAmmo(){
-        AmmoTile x=AmmoDeck.elementAt(size);
+        AmmoTile x=ammoDeck.elementAt(size);
         size++;
-        if(size>=AmmoDeck.capacity())       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
+        if(size>=ammoDeck.capacity())       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
             size=0;
         return x;
     }
