@@ -53,7 +53,10 @@ public class Position {
         return matr;
     }
 
-    //receives the position that will be linked to this.position, the link is possible only if this and x are doors
+    /*@requires x!=null;
+     @receives the position that will be linked to this.position,
+     @the link is possible only if this and x are doors
+     @*/
     public void setLinks(Position x){
         if(this.door==true && x.isDoor()){      //a positions to have link to another position must be door
             linked.add(x);
@@ -61,8 +64,10 @@ public class Position {
         }
     }
 
-    //receives the positions that will be linked to this.position, the link is possible only if this and all the positions
-    //in x are doors
+    /*@requires x!=null;
+     @receives the positions that will be linked to this.position, the link is possible only if this and all the
+     @positions in x are doors
+     @*/
     public void setLinks(Position[] x){
         if (this.door == true){
             for (int i = 0; i < x.length; i++) {
@@ -74,15 +79,19 @@ public class Position {
         }
     }
 
-    //shows the weapons to allow the player the choice between them
+    /*@
+    @shows the weapons to allow the player the choice between them
+    @*/
     public WeaponCard[] showWeapons(){
         return arms;
     }
 
 
     //todo should the two methods down here be synchronized?
-    //called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
-    //weapon in the array
+    /*@
+    @called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
+    @weapon in the array
+    @*/
     public WeaponCard chooseArm(int i){
         weaponSpot=i;   //save the index of the choosen weapon, this index will be used when the discard weapon will be placed in tha spot
         return arms[i];
@@ -103,8 +112,10 @@ public class Position {
         return a;
     }
     */
-    //is the position x visible from position this?
-    //x!=null
+
+    /*@requires x!=null;
+     @is the position x visible from position this?
+     @*/
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
@@ -115,8 +126,9 @@ public class Position {
         return vis;
     }
 
-    //is x reachable from this in one step?
-    //x!=null
+    /*@requires x!=null;
+    @is x reachable from this in one step?
+    @*/
     public boolean reachable(Position x){
         boolean reac=false;
         if((this.matr[0]==x.matr[0]&&((this.matr[1]==x.matr[1]+1)||(this.matr[1]==x.matr[1]-1)))||
