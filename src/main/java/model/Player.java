@@ -157,7 +157,7 @@ public class Player {
      * Maximum amount of points is initially 8 and it will decrease any time the player who receive damage will
      * die.
      * <p>The starting amount of points is, from the first to the last player in sortedPlayer,
-     * is 8 -> 6 -> 4 -> 2 -> 1.</p>
+     * is 8 -> 6 -> 4 -> 2 -> 1. To the player who has made the first blood, one more point is given.</p>
      *
      * @return  array where the element points[x] is the amount of points to give to player x.
      * @see Player
