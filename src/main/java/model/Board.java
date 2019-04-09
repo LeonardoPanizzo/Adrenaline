@@ -3,9 +3,18 @@ package model;
 
 import org.w3c.dom.ranges.RangeException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
+import java.io.FileWriter;
 import java.io.IOException;
+
+
 
 public class Board {
 
@@ -30,7 +39,7 @@ public class Board {
             this.skulls = new int[8];
             //0 means that a skull is present, it will be replaced by a player's id
             for (int x : skulls)
-                this.skulls[x] = 0;
+                this.skulls[x] = -1;
 
 
             this.board = new Position[4][3];
@@ -41,17 +50,42 @@ public class Board {
 
             //get the map variation
 
-            try {
 
-                FileReader reader = new FileReader("src/main/resources/" + Integer.toString(num) + ".txt");
+            JSONParser parser = new JSONParser();
 
-                System.out.println(reader);
+
+            try{
+
+//"src/main/resources/" + Integer.toString(num) + ".json"
+                Object obj = parser.parse(new FileReader("src/main/resources/1.json"));
+
+                JSONObject jsonObject = (JSONObject) obj;
+                System.out.println(jsonObject);
+
+
+                /*FileReader reader = new FileReader("src/main/resources/" + Integer.toString(num) + ".txt");
+
+                System.out.println(reader); //pointer
 
                 reader.close();
 
-            } catch ( IOException e) {
 
+                String name = (String) jsonObject.get("name");
+            System.out.println(name);*/
+
+
+
+                }
+
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
                 System.out.println("File missing");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
         }
@@ -102,12 +136,12 @@ public class Board {
 
     //useful for endGame() and scoring
 
-    public static int[] getSkulls() {
+    public int[] getSkulls() {
         return skulls;
     }
 
-    public static void setSkulls(int[] skulls) {
-        Board.skulls = skulls;
+    public void setSkulls(int[] skulls) {
+        this.skulls = skulls;
     }
 
 
@@ -115,26 +149,24 @@ public class Board {
         return finalRound;
     }
 
-    public Board setFinalRound(Board b1) {
 
-        int j = 0;
+   // skulls are a vector of -1
+
+    public void setFinalRound() {
+
+        int skullsNum = 0;
         for (int i=0; i<getSkulls().length; i++)//getSkulls())
-            if (getSkulls()[i] == 0){
-                j = j + 1;
+            if (getSkulls()[i] == -1){
+                skullsNum = skullsNum + 1;
             }
-        if (j == 1) {
-            b1.finalRound = true;
+        if (skullsNum == 0) {
+            this.finalRound = true;
         }
-        return b1;
     }
 
 
     public static Position[][] getBoard() {
         return board;
-    }
-
-    public static void setBoard(Position[][] board) {
-        Board.board = board;
     }
 
 
@@ -165,7 +197,7 @@ public class Board {
 
         skulls = getSkulls();
 
-        if (skulls[0] == 0){
+        if (isFinalRound()){
 
 
         }
