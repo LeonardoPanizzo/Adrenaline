@@ -99,7 +99,7 @@ public class PlayerTest {
         assertEquals(0, points[0],"Player 1 points aren't correct");
         assertEquals(6, points[1],"Player 2 points aren't correct");
         assertEquals(4, points[2],"Player 3 points aren't correct");
-        assertEquals(8, points[3],"Player 4 points aren't correct");
+        assertEquals(9, points[3],"Player 4 points aren't correct");
         assertEquals(0, points[4],"Player 5 points aren't correct");
     }
 
@@ -118,7 +118,7 @@ public class PlayerTest {
         assertEquals(0, points[1],"Player 2 points aren't correct");
         assertEquals(0, points[2],"Player 3 points aren't correct");
         assertEquals(0, points[3],"Player 4 points aren't correct");
-        assertEquals(8, points[4],"Player 5 points aren't correct");
+        assertEquals(9, points[4],"Player 5 points aren't correct");
 
         assertEquals(-1, life, "Life isn't correct");
         assertEquals(-1, playersDamage[0][0], "Order of player 1 isn't correct");

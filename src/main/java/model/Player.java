@@ -173,8 +173,11 @@ public class Player {
         for (int i=0; i<5; i++){
             if (point <= 0)
                 point = 1;
-            if(playersDamage[sortedPlayer[i]][1] != 0)
+            if(playersDamage[sortedPlayer[i]][1] != 0) {
                 points[sortedPlayer[i]] = point;
+                if(playersDamage[sortedPlayer[i]][0] == 1)
+                    points[sortedPlayer[i]]++;
+            }
             point-=2;
         }
         return points;
