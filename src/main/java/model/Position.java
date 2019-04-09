@@ -11,7 +11,7 @@ public class Position {
     private boolean resetPoint;     //tells if the position is reset point and if there will be power up or weapons
     private Vector<Position> linked;       //positions that are reachable through the door
     private int ndoor;              //number of rooms that are reachable through the door
-    private AmmoTile ammo;          //munitions found in the position
+    private AmmoCard ammo;          //munitions found in the position
     private WeaponCard[] arms;      //weapons found in the position
     private int weaponSpot;         //index in WeaponCard[] oh where the weapon was taken and where the new one will be placed in the array
     private AmmoDeck ammoDeck;      //todo it must be given in the constructor so it will be possible to draw
