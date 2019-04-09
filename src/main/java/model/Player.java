@@ -90,7 +90,9 @@ public class Player {
     }
 
     public void action(){
-     //   this.position.pickUpAmmo(); //todo wait for implementation in Position
+        AmmoCard ammo = new AmmoCard();
+        //ammo = this.position.pickUpAmmo(); //todo wait for implementation in Position
+
     }
 
     public void reload (WeaponCard weapon){
