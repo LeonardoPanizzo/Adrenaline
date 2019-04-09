@@ -6,6 +6,7 @@ import java.util.Vector;
 public class WeaponDeck {
     private int size;
     private Vector<WeaponCard> weaponDeck;
+    //todo inserirò le carte qui dentro, nel costruttore
 
     public WeaponDeck(){
         size=0;
