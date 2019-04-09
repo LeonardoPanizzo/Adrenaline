@@ -4,7 +4,7 @@ public class AmmoCard {
     private char[] value;
 
     public AmmoCard(){
-
+        //todo inserirò le carte qui dentro, nel costruttore
     }
 
     public char[] getValue(){
