@@ -40,7 +40,7 @@ public class Position {
         }
     */
     }
-    
+
     public char getRoom(){
         return room;
     }
