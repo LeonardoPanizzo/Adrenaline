@@ -1,8 +1,6 @@
 package model;
 
 
-import org.w3c.dom.ranges.RangeException;
-
 import java.io.*;
 
 import org.json.simple.JSONArray;
@@ -11,8 +9,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 
 
@@ -27,7 +25,7 @@ public class Board {
 
 
 
-    public Board(int num) throws java.io.IOException {
+    public Board(int num) throws org.json.simple.parser.ParseException, java.io.FileNotFoundException, java.io.IOException {
 
         boolean range = (num <= 4) && (num > 0);
 
@@ -54,30 +52,34 @@ public class Board {
             JSONParser parser = new JSONParser();
 
 
-            try{
+            try {
 
-//"src/main/resources/" + Integer.toString(num) + ".json"
-                Object obj = parser.parse(new FileReader("src/main/resources/1.json"));
+                //"src/main/resources/1.json"
+                //"src/main/resources/" + Integer.toString(num) + ".json"
+
+                Object obj = parser.parse(new FileReader("src/main/resources/" + Integer.toString(num) + ".json"));
 
                 JSONObject jsonObject = (JSONObject) obj;
                 System.out.println(jsonObject);
 
 
-                /*FileReader reader = new FileReader("src/main/resources/" + Integer.toString(num) + ".txt");
+                JSONArray i = (JSONArray) jsonObject.get("i");
+                JSONArray j = (JSONArray) jsonObject.get("j");
 
-                System.out.println(reader); //pointer
+                Iterator<Integer> iteratorI = i.iterator();
+                Iterator<Integer> iteratorJ = j.iterator();
 
-                reader.close();
-
-
-                String name = (String) jsonObject.get("name");
-            System.out.println(name);*/
-
-
-
+                /*
+                while (iteratorI.hasNext() && iteratorJ.hasNext()) {
+                    //System.out.println(iteratorI.next());
+                    //System.out.println(iteratorJ.next());
+                    //this.board[iteratorI][iteratorJ] = new Position(1, 1, 'b', true, true);
                 }
+*/
 
-            catch (FileNotFoundException e) {
+
+
+            }catch (FileNotFoundException e) {
                 e.printStackTrace();
                 System.out.println("File missing");
 
@@ -92,11 +94,19 @@ public class Board {
 
         else {
 
-            System.out.println("Out of range board");
+            try {
+            } catch (IndexOutOfBoundsException e){
 
+                e.printStackTrace();
+
+                System.out.println("Out of range board");
+
+            }
         }
 
     }
+
+
 
 
     //variation of maps
@@ -140,6 +150,14 @@ public class Board {
         return skulls;
     }
 
+
+    /**
+     *
+     *
+     * @param skulls
+     */
+
+    
     public void setSkulls(int[] skulls) {
         this.skulls = skulls;
     }
