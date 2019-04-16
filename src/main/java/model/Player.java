@@ -66,10 +66,6 @@ public class Player {
         return ammo;
     }
 
-    public WeaponCard[] getWeapons() {
-        return weapons;
-    }
-
     public int getScore() {
         return score;
     }
@@ -78,11 +74,30 @@ public class Player {
         return round;
     }
 
+    public int getAction() {
+        return action;
+    }
+
+    public void setMarksGiven(int[] marksGiven) {
+        this.marksGiven = marksGiven;
+    }
+
+    public void setMarksReceived(int[] marksReceived) {
+        this.marksReceived = marksReceived;
+        for(int i =0; i<5; i++){
+            if(this.marksReceived[i]>3)              //one player can receive only 3 damages from one other player
+                this.marksReceived[i] = 3;
+        }
+    }
+
     public void setPosition(Position position) {
         this.position = position;
     }
 
-    //todo: implement all actions there
+    public void roundBegin(){
+        this.action = 2;
+    }
+
     public void action(Position position){      //move
         if(this.action > 0){
             if(this.position.reachable(position))
@@ -120,7 +135,7 @@ public class Player {
                         if (this.ammo[2] < 3)
                             this.ammo[2]++;
                     } else if (ammo.getValue()[i] == 'p')
-                        this.powerup[3] = new PowerupDeck().pickUpPowerup(); //todo ha senso fare una cosa del genere?
+                        this.powerup[3] = this.drawPowerup();
                 }
                 this.action--;
             }
@@ -154,7 +169,6 @@ public class Player {
      */
     public void receivedDamages(int playerNumber) {        //playerNumber is the number of the player who makes the damage
         if (this.life >= 0) {
-            this.life = this.life - 1;
             int damageCounter = 1;
             if (playersDamage[playerNumber][0] == -1) {
                 for (int i = 0; i < 5; i++) {
@@ -164,8 +178,16 @@ public class Player {
                 playersDamage[playerNumber][0] = damageCounter;
             }
             playersDamage[playerNumber][1]++;
+            playersDamage[playerNumber][1] += this.marksReceived[playerNumber];
+            int attackDamage = 1 + this.marksReceived[playerNumber];            //damage makes by this attack
+            this.marksReceived[playerNumber] = 0;
+            this.life = this.life - attackDamage;
+            if(this.life < -1){
+                playersDamage[playerNumber][1] = playersDamage[playerNumber][1] + this.life + 1;       //only the damages that cause life = -1 are considered; this.life is, in this line, negative
+                this.life = -1;
+            }
         }
-        //todo: add marks
+
         //todo: control powerup Venom and use it
     }
 
@@ -254,10 +276,10 @@ public class Player {
         //todo: implement the powerup effect
     }
 
-    public void drawPowerup(){
+    public PowerupCard drawPowerup(){
         //one PowerupCard is randomly taken
+        return new PowerupDeck().pickUpPowerup();
     }
 
-    //todo: method marksReceived()
 }
 
