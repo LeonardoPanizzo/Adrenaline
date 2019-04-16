@@ -69,6 +69,45 @@ public class PlayerTest {
         assertEquals(-1, playersDamage[4][0], "Order of player 5 isn't correct");
         assertEquals(0, playersDamage[4][1], "Total player 5 damage isn't correct");
 
+        Player player = new Player(2);
+        int [] marksReceived = new int[]{0, 0, 0, 2, 0};
+        player.setMarksReceived(marksReceived);
+        player.receivedDamages(3);
+        life = player.getLife();
+        playersDamage = player.getPlayersDamage();
+
+        assertEquals(8, life, "Player's Life isn't correct");
+        assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
+        assertEquals(3, playersDamage[3][1], "Total player 4 damage isn't correct");
+        assertEquals(0, marksReceived[3], "Marks are not updated");
+
+        player.receivedDamages(1);
+        player.receivedDamages(3);
+        marksReceived = new int[] {0, 3, 0, 0, 0};
+        player.setMarksReceived(marksReceived);
+        player.receivedDamages(1);
+        life = player.getLife();
+        playersDamage = player.getPlayersDamage();
+
+        assertEquals(2, life, "Player's Life isn't correct");
+        assertEquals(2, playersDamage[1][0], "Order of player 2 isn't correct");
+        assertEquals(5, playersDamage[1][1], "Total player 2 damage isn't correct");
+        assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
+        assertEquals(4, playersDamage[3][1], "Total player 4 damage isn't correct");
+        assertEquals(0, marksReceived[3], "Marks are not updated");
+
+        marksReceived = new int[] {0, 5, 0, 0, 0};
+        player.setMarksReceived(marksReceived);
+        player.receivedDamages(1);
+        player.receivedDamages(3);
+        life = player.getLife();
+        playersDamage = player.getPlayersDamage();
+
+        assertEquals(-1, life, "Player's Life isn't correct");
+        assertEquals(2, playersDamage[1][0], "Order of player 2 isn't correct");
+        assertEquals(8, playersDamage[1][1], "Total player 2 damage isn't correct");
+        assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
+        assertEquals(4, playersDamage[3][1], "Total player 4 damage isn't correct");
     }
 
     @Test
@@ -149,5 +188,21 @@ public class PlayerTest {
         assertEquals(0, playersDamage[3][1], "Total player 4 damage isn't correct");
         assertEquals(-1, playersDamage[4][0], "Order of player 5 isn't correct");
         assertEquals(0, playersDamage[4][1], "Total player 5 damage isn't correct");
+    }
+
+    @Test
+    public void actionMoveTest(){
+        Player p = new Player(0);
+        Position pos = new Position(1, 0, 'r', true, true);
+        Position play = new Position(0, 0, 'r', true, false);
+        p.roundBegin();
+        p.setPosition(play);
+        p.action(pos);
+
+        assertEquals(1, p.getAction(), "Number of action isn't correct");
+        assertEquals(1, p.getPosition().getCoordinate()[0], "Action Move doesn't work");
+
+        p.action(play);
+        p.action(pos);
     }
 }
