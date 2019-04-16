@@ -11,7 +11,7 @@ public class Player {
     private int[] marksGiven;
     private int[] marksReceived;
     private int numberOfDeaths;
-    private int[] ammo;
+    private int[] ammo;                 //number of each ammo type: blue -> position 0; yellow -> position 1; red -> position 2
     private int score;
     private WeaponCard[] weapons;
     private PowerupCard[] powerup;
@@ -37,8 +37,8 @@ public class Player {
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
         this.score = 0;
-        this.weapons = new WeaponCard[]{null, null, null};
-        this.powerup = new PowerupCard[]{null, null, null};
+        this.weapons = new WeaponCard[]{null, null, null, null};
+        this.powerup = new PowerupCard[]{null, null, null, null};
         this.finalRound = false;
     }
 
@@ -83,16 +83,54 @@ public class Player {
     }
 
     //todo: implement all actions there
-    public void action(Position position){
-        if(this.position.reachable(position))
-            this.position = position;
-        this.action--;
+    public void action(Position position){      //move
+        if(this.action > 0){
+            if(this.position.reachable(position))
+                this.position = position;
+            this.action--;
+        }
+        else
+            System.out.println("Actions completed");
+
     }
 
-    public void action(){
-        AmmoCard ammo = new AmmoCard();
-        //ammo = this.position.pickUpAmmo(); //todo wait for implementation in Position
+    public void action(){                       //grab
+        if(this.action >0) {
+            if (this.position.isRespawnPoint()) {
+                WeaponCard[] weapons = this.position.showWeapons();
+                int wepChoosen = 0;
+                //todo accept index wepChoosen
+                WeaponCard choosen = this.position.chooseArm(wepChoosen);
+                int wepGiven = 0;
+                //todo accept index wepGiven
+                this.position.giveWeapon(this.weapons[wepGiven]);
+                this.action--;
+            }
+            else {
+                AmmoCard ammo = new AmmoCard();
+                ammo = this.position.pickUpAmmo();
+                for (int i = 0; i < 4; i++) {
+                    if (ammo.getValue()[i] == 'b') {
+                        if (this.ammo[0] < 3)
+                            this.ammo[0]++;
+                    } else if (ammo.getValue()[i] == 'y') {
+                        if (this.ammo[1] < 3)
+                            this.ammo[1]++;
+                    } else if (ammo.getValue()[i] == 'r') {
+                        if (this.ammo[2] < 3)
+                            this.ammo[2]++;
+                    } else if (ammo.getValue()[i] == 'p')
+                        this.powerup[3] = new PowerupDeck().pickUpPowerup(); //todo ha senso fare una cosa del genere?
+                }
+                this.action--;
+            }
+        }
+        else
+            System.out.println("Actions completed");
+    }
 
+    public void action(WeaponCard wepChoosen){      //shot
+        //todo implement how to use the weaponCard
     }
 
     public void reload (WeaponCard weapon){
@@ -184,9 +222,9 @@ public class Player {
      */
     public int[] givePoints(){
         int[] points = new int[]{0, 0, 0, 0, 0};
-        final int MAX = 8;             //MAX shows max points assigned to the first player in sortedPlayer[]
+        final int MAX = 8;                              //MAX shows max points assigned to the first player in sortedPlayer[]
 
-        int point = MAX - 2*this.numberOfDeaths;     //Each player's death decrease max points about 2 points
+        int point = MAX - 2*this.numberOfDeaths;        //Each player's death decrease max points about 2 points
 
         int[] sortedPlayer = this.sortingPlayers();
 
