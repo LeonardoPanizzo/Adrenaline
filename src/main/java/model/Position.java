@@ -53,10 +53,14 @@ public class Position {
         return matr;
     }
 
+    public boolean isRespawnPoint() {
+        return respawnPoint;
+    }
+
     /*@requires x!=null;
-     @receives the position that will be linked to this.position,
-     @the link is possible only if this and x are doors
-     @*/
+         @receives the position that will be linked to this.position,
+         @the link is possible only if this and x are doors
+         @*/
     public void setLinks(Position x){
         if(this.door==true && x.isDoor()){      //a positions to have link to another position must be door
             linked.add(x);
