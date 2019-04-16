@@ -8,7 +8,7 @@ public class Position {
     private char room;               //room in which the position is part
     private int[] matr;             //coordinates of the position
     private boolean door;           //if true the position has a door into another room
-    private boolean resetPoint;     //tells if the position is reset point and if there will be power up or weapons
+    private boolean respawnPoint;     //tells if the position is respawn point and if there will be power up or weapons [cambiato da reset a respawn per leggibilità. Andrea]
     private Vector<Position> linked;       //positions that are reachable through the door
     private int ndoor;              //number of rooms that are reachable through the door
     private AmmoCard ammo;          //munitions found in the position
@@ -18,7 +18,7 @@ public class Position {
     //todo is needed WeaponDeck for the same reason
 
     //beacause positions are fixed they wiil be red from a file each time, the file will call the constructor
-    public Position(int i, int j, char room, boolean door, boolean resetPoint){
+    public Position(int i, int j, char room, boolean door, boolean respawnPoint){
         matr=new int[2];
         arms=new WeaponCard[3];
         matr[0]=i;
@@ -26,7 +26,7 @@ public class Position {
         this.room=room;
         this.door=door;
         this.ndoor=0;
-        this.resetPoint=resetPoint;
+        this.respawnPoint=respawnPoint;
         if(door){
             linked=new Vector<Position>();
         }
@@ -105,13 +105,14 @@ public class Position {
 
     //return AmmoTile to the player and replace the returned one with a new one
     // todo AmmoTile must be analized to see if the player get a power up or just munitions, will this be done in the action class?
-    /*
-    public AmmoTile pickUpAmmo(){
-        AmmoTile a=ammo;
+    //yes, ammo and powerup are seen in the Player's methot Action() [Andrea]
+
+    public AmmoCard pickUpAmmo(){
+        AmmoCard a=ammo;
         ammo=ammoDeck.pickUpAmmo();
         return a;
     }
-    */
+
 
     /*@requires x!=null;
      @is the position x visible from position this?
