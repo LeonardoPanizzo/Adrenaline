@@ -40,6 +40,14 @@ public class Position {
         }
     */
     }
+    //todo this metod should be removed (only test use)
+    public void setAmmo(AmmoCard ammo) {
+        this.ammo = ammo;
+    }
+
+    public AmmoCard getAmmo() {
+        return ammo;
+    }
 
     public char getRoom(){
         return room;
