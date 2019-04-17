@@ -28,6 +28,7 @@ public class Player {
      */
     public Player(int number){
         this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
+        this.action = 0;
         this.position = null;                           //the initial position is chosen by the player
         this.life = 11;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
         this.playersDamage = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
@@ -123,7 +124,7 @@ public class Player {
             }
             else {
                 AmmoCard ammo = new AmmoCard();
-                ammo = this.position.pickUpAmmo();
+                ammo = this.position.getAmmo();
                 for (int i = 0; i < 4; i++) {
                     if (ammo.getValue()[i] == 'b') {
                         if (this.ammo[0] < 3)
