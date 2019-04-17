@@ -205,4 +205,31 @@ public class PlayerTest {
         p.action(play);
         p.action(pos);
     }
+
+    @Test
+    public void actionGrabTest (){
+        Player p = new Player(0);
+        Position pos = new Position(1, 0, 'r', true, true);
+        p.setPosition(pos);
+        p.roundBegin();
+        p.action();
+
+        assertEquals(1, p.getAction(), "First action doesn't work");
+
+        pos = new Position(1, 0, 'r', true, false);
+        char[] value = new char[] {'b', 'y', 'r', '_'};
+        AmmoCard ammoCard = new AmmoCard();
+        ammoCard.setValue(value);
+        p.setPosition(pos);
+        p.getPosition().setAmmo(ammoCard);
+        p.setPosition(pos);
+        p.action();
+        p.action();
+
+        assertEquals(0, p.getAction(), "First action doesn't work");
+        assertEquals(2, p.getAmmo()[0], "Blue ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+
+    }
 }
