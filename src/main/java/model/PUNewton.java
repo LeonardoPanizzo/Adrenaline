@@ -12,7 +12,22 @@ public class PUNewton extends PowerupCard{
 
     @Override
     public void activate(Player p){
-        //todo il giocatore deve scegliere il giocatore p1 da muovere
+        int x,y;
+        do {
+            Player p1;
+
+            //todo il giocatore deve scegliere il giocatore p1 da muovere
+        }while(p.getNumber()==p1.getNumber()); //il power up newton non può spostare il giocatore che ha invocato la carta
+        Position [][] pos=board.getBoard();
+        do {
+            //todo far scegliere al giocatore dove far fare il movimento al giocatore, ipotizziamo sia stata scelta la posizione x,y
+        }while(!p1.getPosition().reachable(pos[x][y])); //la posizione scelta deve essere raggiungibile dalla posizione attuale
+        int x1,y1;
+        int c[]=new int[2];
+        c=p1.getPosition().getCoordinate();
+        x1=c[0]-x;
+        y1=c[1]-y;      //uso queste coordinate per capire in che direzione si sta muovendo p1
+
 
 
     }
