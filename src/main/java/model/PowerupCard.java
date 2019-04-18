@@ -9,4 +9,8 @@ public class PowerupCard {
         this.colour=colour;
         this.name=name;
     }
+
+    public char getColour() {
+        return colour;
+    }
 }
