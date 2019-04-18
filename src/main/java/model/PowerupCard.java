@@ -3,14 +3,19 @@ package model;
 public class PowerupCard {
     private char colour;
     private String name;
+    private Board board;
 
-    public PowerupCard(String Name, char colour){
-        //todo inserirò le carte qui dentro, nel costruttore
-        this.colour=colour;
+    public PowerupCard(String name, char colour, Board b){
         this.name=name;
+        this.colour=colour;
+        this.board=b;
     }
 
     public char getColour() {
         return colour;
+    }
+
+    public void activate(Player p){
+
     }
 }
