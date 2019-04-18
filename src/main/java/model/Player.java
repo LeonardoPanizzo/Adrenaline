@@ -51,6 +51,10 @@ public class Player {
         return this.life;
     }
 
+    public int getNumber(){
+        return this.number;
+    }
+
     public int[] getMarksGiven() {
         return marksGiven;
     }
