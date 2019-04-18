@@ -99,6 +99,13 @@ public class Player {
         this.action = 2;
     }
 
+    /**
+     * Change the player's position in one other that is reachable for the initial player's position.
+     *
+     * @param position position where the player want to go
+     * @see Player
+     * @see Position
+     */
     public void action(Position position){      //move
         if(this.action > 0){
             if(this.position.reachable(position))
@@ -110,6 +117,16 @@ public class Player {
 
     }
 
+    /**
+     * Grab a weapon from the position where the player is.
+     * <p>If the position is a respawn point, the palyer can choose a new weapon</p>
+     * <p>If the position isn't a respawn point, the player grab a AmmoCard. This will converted into ammo and, maybe, a powerup card</p>
+     *
+     * @see AmmoCard
+     * @see Position
+     * @see PowerupCard
+     * @see PowerupDeck
+     */
     public void action(){                       //grab
         if(this.action >0) {
             if (this.position.isRespawnPoint()) {
@@ -268,9 +285,17 @@ public class Player {
         return playersDamage;
     }
 
-    public void regeneration(){
+    public void regeneration(PowerupCard powerup){
         this.numberOfDeaths ++;
-        //todo: I have to implement this method
+        this.life = 11;
+        this.ammo = new int[]{1, 1, 1};
+        //todo: capire come settare la posizione del respawn point senza creare una nuova posizione
+        if(powerup.getColour() == 'b')
+            this.position = new Position(2, 0, 'b', true, true);
+        else if(powerup.getColour() == 'y')
+            this.position = new Position(3, 2, 'y', true, true);
+        else if(powerup.getColour() == 'r')
+            this.position = new Position(0, 1, 'r', true, true);
     }
 
     public void usePowerup(PowerupCard powerup, WeaponCard weapon){
