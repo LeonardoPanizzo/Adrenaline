@@ -1,9 +1,9 @@
 package model;
 
 public class PowerupCard {
-    private char colour;
-    private String name;
-    private Board board;
+    protected char colour;
+    protected String name;
+    protected Board board;
 
     public PowerupCard(String name, char colour, Board b){
         this.name=name;
