@@ -25,7 +25,7 @@ public class Board {
 
 
 
-    public Board(int num) throws org.json.simple.parser.ParseException, java.io.FileNotFoundException, java.io.IOException {
+    public Board(int num) /*throws org.json.simple.parser.ParseException, java.io.FileNotFoundException, java.io.IOException*/ {    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
 
         boolean range = (num <= 4) && (num > 0);
 
