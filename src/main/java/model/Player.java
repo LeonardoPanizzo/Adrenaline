@@ -16,6 +16,8 @@ public class Player {
     private WeaponCard[] weapons;
     private PowerupCard[] powerup;
     private boolean finalRound;
+    private int madeDamage;
+    private int[] damagedPlayers;
 
     /**
      * Is Player Class' constructor.
@@ -41,10 +43,24 @@ public class Player {
         this.weapons = new WeaponCard[]{null, null, null, null};
         this.powerup = new PowerupCard[]{null, null, null, null};
         this.finalRound = false;
+        this.madeDamage = 0;
+        this.damagedPlayers = new int[] {0, 0, 0, 0};
     }
 
     public Position getPosition(){
         return this.position;
+    }
+
+    public void setRound(boolean round) {
+        this.round = round;
+    }
+
+    public int isMadeDamage() {
+        return madeDamage;
+    }
+
+    public int[] getDamagedPlayers() {
+        return damagedPlayers;
     }
 
     public int getLife(){
@@ -168,6 +184,8 @@ public class Player {
 
     public void action(WeaponCard wepChoosen){      //shot
         //todo implement how to use the weaponCard
+        this.madeDamage = 3;                    //todo settare i danni fatti dall'arma
+        this.marksGiven[0] = 2;                 //todo settare i marchi assegnati dall'arma
     }
 
     public void reload (WeaponCard weapon){
