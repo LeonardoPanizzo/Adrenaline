@@ -13,9 +13,8 @@ public class PUNewton extends PowerupCard{
     @Override
     public void activate(Player p){
         int x,y;
+        Player p1= new Player(6);
         do {
-            Player p1=new Player(7);//
-
             //todo il giocatore deve scegliere il giocatore p1 da muovere
         }while(p.getNumber()==p1.getNumber()); //il power up newton non può spostare il giocatore che ha invocato la carta
         Position [][] pos=board.getBoard();
