@@ -35,13 +35,13 @@ public class Board {
             //player 1 starts the game
 
             this.skulls = new int[8];
-            //0 means that a skull is present, it will be replaced by a player's id
+            //-1 means that a skull is present, it will be replaced by a player's id
             for (int x : skulls)
                 this.skulls[x] = -1;
 
 
             this.board = new Position[4][3];
-            this.round = 1;
+            this.round = 0;
             this.variation = num;
             this.finalRound = false;
 
@@ -158,8 +158,11 @@ public class Board {
      */
 
     
-    public void setSkulls(int[] skulls) {
-        this.skulls = skulls;
+    public void setSkulls(int skulls) {
+        int i = 0;
+        while(this.skulls[i] != -1)
+            i++;
+        this.skulls[i] = skulls;
     }
 
 
