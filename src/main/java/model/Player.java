@@ -44,7 +44,7 @@ public class Player {
         this.powerup = new PowerupCard[]{null, null, null, null};
         this.finalRound = false;
         this.madeDamage = 0;
-        this.damagedPlayers = new int[] {0, 0, 0, 0};
+        this.damagedPlayers = new int[] {-1, -1, -1, -1};
     }
 
     public Position getPosition(){
@@ -55,7 +55,7 @@ public class Player {
         this.round = round;
     }
 
-    public int isMadeDamage() {
+    public int getMadeDamage() {
         return madeDamage;
     }
 
@@ -185,6 +185,11 @@ public class Player {
     public void action(WeaponCard wepChoosen){      //shot
         //todo implement how to use the weaponCard
         this.madeDamage = 3;                    //todo settare i danni fatti dall'arma
+        //todo mettere nell'arma un valore che indichi quali giocatori sono stati danneggiati
+        int i = 0;
+        while(this.damagedPlayers[i] != -1)
+            i++;
+        this.damagedPlayers[i] = 2;
         this.marksGiven[0] = 2;                 //todo settare i marchi assegnati dall'arma
     }
 
