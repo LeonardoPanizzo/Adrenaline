@@ -22,32 +22,39 @@ public class Model {
                 if(playerNumber == 4)
                     timer = false;
             }                                                           //Array di giocatori creato
-
-            int courentPlayer = 0;
+            int round = board.getRound();
+            int currentPlayer = 0;
             while(!board.isFinalRound()){
-                courentPlayer = board.getRound() % 5;
-                while(players[courentPlayer] == null)                   //Needed when the players are not five
-                    courentPlayer = (courentPlayer + 1) % 5;
+                currentPlayer = round % 5;
+                while(players[currentPlayer] == null)                   //Needed when the players are not five
+                    currentPlayer = (currentPlayer + 1) % 5;
 
-                players[courentPlayer].setRound(true);                              //todo dare il controllo al controller per le azioni del giocatore
-                players[courentPlayer].setRound(false);                             //todo ridare il controllo al model
+                players[currentPlayer].setRound(true);                              //todo dare il controllo al controller per le azioni del giocatore
+                players[currentPlayer].setRound(false);                             //todo ridare il controllo al model
 
-                if(players[courentPlayer].getMadeDamage() != 0){                    //if the player makes damages, the method gives them to the other players.
-                    int [] damagedPlayers = players[courentPlayer].getDamagedPlayers();
+                if(players[currentPlayer].getMadeDamage() != 0){                    //if the player makes damages, the method gives them to the other players.
+                    int [] damagedPlayers = players[currentPlayer].getDamagedPlayers();
                     for(int k : damagedPlayers){
-                        for(int damage = 0; damage < players[courentPlayer].getMadeDamage(); damage++)
-                            players[damagedPlayers[k]].receivedDamages(courentPlayer);
-                        if(players[damagedPlayers[k]].getLife() == 0){
+                        for(int damage = 0; damage < players[currentPlayer].getMadeDamage(); damage++)
+                            players[damagedPlayers[k]].receivedDamages(currentPlayer);
+                        if(players[damagedPlayers[k]].getLife() == 0)               //the damaged player die
                             board.setSkulls(damagedPlayers[k]);
+                        if(players[damagedPlayers[k]].getLife() == -1){             //the current player has made overkill
+                            board.setSkulls(damagedPlayers[k]);
+                            int[] marks = players[currentPlayer].getMarksReceived();
+                            marks[damagedPlayers[k]]++;
+                            players[currentPlayer].setMarksReceived(marks);
+                            marks = players[damagedPlayers[k]].getMarksGiven();     //current player received 1 mark from the damaged player with life = -1
+                            marks[currentPlayer]++;
+                            players[damagedPlayers[k]].setMarksGiven(marks);        //player damaged's marks given are updated
                         }
                     }
                 }
-
-                for (int player = 0; player<5; player++){
-                    if (players[player].getLife() < 1){                 //when a player die, we update skulls in board
-
-                    }
-                }
+                board.setRound(round++);        //we go to the next round
+                board.setFinalRound();
+            }
+            if (board.isFinalRound()){
+                //todo implementare le funzioni del round finale
             }
         }
         catch (IOException exception){exception.printStackTrace();}
