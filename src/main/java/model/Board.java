@@ -183,6 +183,8 @@ public class Board {
         if (skullsNum == 0) {
             this.finalRound = true;
         }
+        else
+            this.finalRound = false;
     }
 
 
