@@ -101,6 +101,10 @@ public class Player {
 
     public void setMarksGiven(int[] marksGiven) {
         this.marksGiven = marksGiven;
+        for(int i =0; i<5; i++){
+            if(this.marksGiven[i]>3)              //one player can give only 3 damages to one other player
+                this.marksGiven[i] = 3;
+        }
     }
 
     public void setMarksReceived(int[] marksReceived) {
