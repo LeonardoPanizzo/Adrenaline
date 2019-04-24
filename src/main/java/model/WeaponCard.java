@@ -18,7 +18,7 @@ public class WeaponCard {
     public WeaponCard(){
         try{
             JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("src/main/resources/" + this.name + ".json"));
+            Object obj = parser.parse(new FileReader("src/main/resources/WeaponCard.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
 
