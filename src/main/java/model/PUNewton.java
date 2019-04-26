@@ -5,11 +5,14 @@ package model;
  */
 
 public class PUNewton extends PowerupCard{
-
+    //mi serve Board per poter accedere alle posizioni e ai giocatori, potremmo mettere questi attributi della classe Board
+    //protected in modo che ci si possa accedere facilmente dalle altre claasi
     public PUNewton (char colour, Board b){
         super("Newton", colour, b);
     }
 
+
+    //qui forse è più semplice usare l'id del giocatore e non il giocatore in sè
     @Override
     public void activate(Player p){
         int x,y;
