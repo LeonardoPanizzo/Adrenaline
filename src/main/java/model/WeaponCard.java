@@ -15,8 +15,13 @@ public class WeaponCard {
     protected String name;
     protected char[] costs;
     protected Board board;
+    protected boolean loaded;
 
-    public WeaponCard(){
+    public WeaponCard(String name, char[] costs, Board b){
+        this.name=name;
+        this.costs=costs;
+        this.board=b;
+        loaded=true;
         /*try{
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader("src/main/resources/WeaponCard.json"));
@@ -35,5 +40,20 @@ public class WeaponCard {
         }
         leonardo: il file che viene letto per creare le carte ha più senso metterlo in weaponDeck che tiene il riferimento
         di tutte le carte, non qui dove si lavora con una singola carta*/
+    }
+
+    public void reload(){
+        loaded=true;
+    }
+
+    public char[] getCostTaking(){
+        char[] temp=new char[5];
+        for(int i=1; i<=4; i++)
+            temp[i]=costs[i];
+        return temp;
+    }
+
+    public char[] getCostReloading(){
+        return costs;
     }
 }
