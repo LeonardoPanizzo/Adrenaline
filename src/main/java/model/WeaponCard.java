@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class WeaponCard {
-
-    private String name;
+    protected String name;
+    protected char[] costs;
+    protected Board board;
 
     public WeaponCard(){
-        try{
+        /*try{
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader("src/main/resources/WeaponCard.json"));
 
@@ -32,5 +33,7 @@ public class WeaponCard {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        leonardo: il file che viene letto per creare le carte ha più senso metterlo in weaponDeck che tiene il riferimento
+        di tutte le carte, non qui dove si lavora con una singola carta*/
     }
 }
