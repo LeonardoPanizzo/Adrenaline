@@ -40,7 +40,7 @@ public class Board {
                 this.skulls[x] = -1;
 
 
-            this.board = new Position[4][3];
+            this.board = new Position[3][4];
             this.round = 0;
             this.variation = num;
             this.finalRound = false;
@@ -62,20 +62,51 @@ public class Board {
                 JSONObject jsonObject = (JSONObject) obj;
                 System.out.println(jsonObject);
 
+                //JSONArray array = new JSONArray();
+                //array.add(obj);
+
+
 
                 JSONArray i = (JSONArray) jsonObject.get("i");
                 JSONArray j = (JSONArray) jsonObject.get("j");
+                JSONArray room = (JSONArray) jsonObject.get("room");
+                JSONArray door = (JSONArray) jsonObject.get("door");
+                JSONArray reset = (JSONArray) jsonObject.get("resetPoint");
+
 
                 Iterator<Integer> iteratorI = i.iterator();
                 Iterator<Integer> iteratorJ = j.iterator();
+                Iterator<String> iteratorRoom = room.iterator();
+                Iterator<Boolean> iteratorDoor = door.iterator();
+                Iterator<Boolean> iteratorReset = reset.iterator();
+/*
+                for (int x=0; x< room.size(); ++x ){
 
-                /*
-                while (iteratorI.hasNext() && iteratorJ.hasNext()) {
-                    //System.out.println(iteratorI.next());
-                    //System.out.println(iteratorJ.next());
-                    //this.board[iteratorI][iteratorJ] = new Position(1, 1, 'b', true, true);
+                    int[] uno = i;
+                    int[] due = j;
+
+                    this.board[uno[x]][due[x]] = new Position(1, 1, 'b', true, true);
+
                 }
 */
+
+                while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
+                    //System.out.println(iteratorI.next());
+                    //System.out.println(iteratorJ.next());
+                    int x = 0;
+                    this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next());
+
+                    x++;
+
+                    //System.out.println(( (Number) iteratorI.next() ).intValue());
+                    //System.out.println(( (Number) iteratorJ.next() ).intValue());
+
+                    //this.board[iteratorI.next()][iteratorJ.next()] = new Position(1, 1, 'b', true, true);
+
+
+                }
+
+
 
 
 
@@ -159,10 +190,24 @@ public class Board {
 
     
     public void setSkulls(int skulls) {
+
+        /*
         int i = 0;
         while(this.skulls[i] != -1)
             i++;
         this.skulls[i] = skulls;
+
+        */
+
+        //int[] x = {1,-1,2,3,0,2,3,2};
+
+        for (int i = 0; i < 8; i++) {
+            if (this.skulls[i] != -1)
+                i +=1;
+            else
+                this.skulls[i] = skulls;
+                break;
+        }
     }
 
 
@@ -183,6 +228,8 @@ public class Board {
         if (skullsNum == 0) {
             this.finalRound = true;
         }
+        else
+            this.finalRound = false;
     }
 
 

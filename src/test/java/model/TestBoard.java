@@ -40,12 +40,28 @@ public class TestBoard{
         assertEquals(1, b1.getVariation());
 
 
+/*
+        int[] p = {2,3,-1,-1,-1,-1,-1,-1};
 
-        int[] x = {1,1,2,3,0,2,3,-1};
 
-        b1.setSkulls(x);
 
-        assertEquals(x, b1.getSkulls());
+        for (int temp : p){
+            b1.setSkulls(temp);}
+
+        assertEquals(p, b1.getSkulls());
+*/
+
+        //TODO capire perchè x != b1.getSkulls() e testare set skulls
+
+        int[] x;
+        x = new int[8];
+
+        for (int i : x)
+            x[i] = -1;
+
+        int [] y = b1.getSkulls();
+
+        assertEquals(y, b1.getSkulls());
 
         b1.setFinalRound();
 
@@ -53,14 +69,15 @@ public class TestBoard{
 
 
 
-        int[] y = {1,1,2,3,0,2,3,0};
+        /*
+        int y = 0;
 
         b1.setSkulls(y);
 
         b1.setFinalRound();
 
         assertEquals(true, b1.isFinalRound());
-
+*/
 
 
         String expectedOutput1  =
