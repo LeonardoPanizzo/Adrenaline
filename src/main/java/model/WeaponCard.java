@@ -14,7 +14,7 @@ public class WeaponCard {
     }
 
     public void reload(){
-        loaded=true;
+        this.loaded=true;
     }
 
     public char[] getCostTaking(){
@@ -26,5 +26,13 @@ public class WeaponCard {
 
     public char[] getCostReloading(){
         return costs;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
 }
