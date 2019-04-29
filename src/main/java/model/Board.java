@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+/**
+ * Board class is the virtual representation of the physical map
+ *
+ */
 public class Board {
 
     //private	static int[] skulls;
@@ -26,7 +30,13 @@ public class Board {
     private boolean finalRound;
 
 
-
+    /**
+     * is Board's constructor
+     * num represents the number of the map
+     * Board's attributes are filled by reading a JSON file
+     * @param num
+     * @see 1.json
+     */
     public Board(int num) /*throws org.json.simple.parser.ParseException, java.io.FileNotFoundException, java.io.IOException*/ {    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
 
         boolean range = (num <= 4) && (num > 0);
@@ -126,6 +136,10 @@ public class Board {
 
     //useful for endGame() and scoring
 
+    /**
+     * returns the vector representing the order of kills
+     * @return this.skulls
+     */
     //public int[] getSkulls() {
     public Vector<Integer> getSkulls(){
         return this.skulls;
@@ -133,7 +147,7 @@ public class Board {
 
 
     /**
-     *
+     * substitutes -1 with the player's id who did the last kill
      *
      * @param skulls
      */
@@ -145,6 +159,10 @@ public class Board {
     }
 
 
+    /**
+     * checks if it's the final round
+     * @return finalRound
+     */
     public boolean isFinalRound() {
         return finalRound;
     }
@@ -152,6 +170,10 @@ public class Board {
 
    // skulls are a vector of -1
 
+    /**
+     * if the conditions occurs (last element of skulls != -1)
+     * sets finalRound = true
+     */
     public void setFinalRound() {
 /*
         int skullsNum = 0;
@@ -179,17 +201,30 @@ public class Board {
             this.finalRound = false;
     }
 
+    /**
+     * return the board as matrix of positions
+     * @return board
+     */
     public static Position[][] getBoard() {
         return board;
     }
 
 
-
+    /**
+     * gives the round number
+     * @return round
+     */
 // to give round
     public int getRound() {
         return round;
     }
 
+
+
+    /**
+     * set round equals to the input number
+     * @param round
+     */
     public void setRound(int round) {
         this.round = round;
     }
@@ -197,6 +232,11 @@ public class Board {
 
 // variation of the map
 
+    /**
+     * is the map variation (1 to 4)
+     * @return variation
+     * @see 1.json
+     */
     public int getVariation() {
         return variation;
     }
@@ -208,6 +248,9 @@ public class Board {
     */
 
 
+    /**
+     * end the game
+     */
     public void endGame(){
 
         skulls = getSkulls();
@@ -221,6 +264,9 @@ public class Board {
 
     }
 
+    /**
+     *
+     */
     public void giveRestoreRound(){}
 
 }
