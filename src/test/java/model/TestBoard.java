@@ -42,9 +42,8 @@ public class TestBoard{
         assertEquals(1, b1.getVariation());
 
 
-        //TODO capire perchè x != b1.getSkulls() e testare set skulls
-
-
+        // setSkulls()
+        
         int[] ww = {-1,-1,-1,-1,-1,-1,-1,-1};
 /*
         for (int temp : ww){
@@ -68,8 +67,6 @@ public class TestBoard{
 */
         b1.setSkulls(2);
 
-        //boolean k = Arrays.equals(b1.getSkulls(), b1.getSkulls());
-
         int [] gg = {2,-1,-1,-1,-1,-1,-1,-1};
 
         int i = 0;
@@ -80,8 +77,8 @@ public class TestBoard{
         }
 
 
-        b1.setSkulls(4);
-        int [] gg1 = {2,4,-1,-1,-1,-1,-1,-1};
+        b1.setSkulls(0);
+        int [] gg1 = {2,0,-1,-1,-1,-1,-1,-1};
 
         int j = 0;
         for (int temp : gg1){
@@ -91,7 +88,7 @@ public class TestBoard{
         }
 
         b1.setSkulls(3);
-        int [] gg2 = {2,4,3,-1,-1,-1,-1,-1};
+        int [] gg2 = {2,0,3,-1,-1,-1,-1,-1};
 
         int c = 0;
         for (int temp : gg2){
@@ -100,33 +97,23 @@ public class TestBoard{
             c++;
         }
 
-
-        //boolean k1 = Arrays.equals(gg1, b1.getSkulls());
-
-        //assertEquals(true, k); //<------- it must be true
-
-        b1.getSkulls();
-        //assertEquals("ww", outContent.toString());
-
-        //assertEquals(8, b1.getSkulls().length);
-        //assertEquals(8, ww);
-
+        assertEquals(8, b1.getSkulls().size());
 
         b1.setFinalRound();
 
-        //assertEquals(false, b1.isFinalRound());
+        assertEquals(false, b1.isFinalRound());
 
 
-
-        /*
-        int y = 0;
-
-        b1.setSkulls(y);
+        b1.setSkulls(3);
+        b1.setSkulls(3);
+        b1.setSkulls(3);
+        b1.setSkulls(3);
+        b1.setSkulls(3);
 
         b1.setFinalRound();
 
         assertEquals(true, b1.isFinalRound());
-*/
+
 
 
         String expectedOutput1  =
