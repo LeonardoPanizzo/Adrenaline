@@ -233,6 +233,22 @@ public class PlayerTest {
     }
 
     @Test
+    public void reloadTest(){
+        Player p = new Player(1);
+        Board b = new Board(1);
+        char[] cost = new char[] {'r','r', 'b', 'b'};
+        WeaponCard wp = new WeaponCard("name", cost, b);
+        wp.setLoaded(false);
+
+        assertEquals(1, p.getAmmo()[2]);
+
+        p.reload(wp);
+
+        assertEquals(1, p.getAmmo()[2], "Red Ammo aren't correct");
+        assertFalse(wp.isLoaded(), "Weapon is not load");
+    }
+
+    @Test
     public void setterGetterTest (){
         Player p = new Player(0);
         Board b = new Board(1);
@@ -244,6 +260,7 @@ public class PlayerTest {
         p.setFirstPlayer(true);
         p.setRound(true);
         p.action(wp);
+        p.action(wp);
 
         assertEquals(2, p.getScore(), "SetScore never works");
         assertTrue(p.isFinalRound(), "Final Round is false");
@@ -251,7 +268,8 @@ public class PlayerTest {
         assertTrue(p.isRound(), "Round is false");
         assertEquals(3, p.getMadeDamage());
         assertEquals(2, p.getDamagedPlayers()[0]);
-        assertEquals(-1, p.getDamagedPlayers()[1]);
+        assertEquals(2, p.getDamagedPlayers()[1]);
+        assertEquals(-1, p.getDamagedPlayers()[2]);
         assertEquals(0, p.getNumber());
 
         p.setMarksGiven(marks);
