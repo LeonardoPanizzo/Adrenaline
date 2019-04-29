@@ -15,7 +15,6 @@ public class Player {
     private int score;
     private WeaponCard[] weapons;
     private PowerupCard[] powerup;
-    private boolean finalRound;
     private int madeDamage;
     private int[] damagedPlayers;
 
@@ -42,7 +41,6 @@ public class Player {
         this.score = 0;
         this.weapons = new WeaponCard[]{null, null, null, null};
         this.powerup = new PowerupCard[]{null, null, null, null};
-        this.finalRound = false;
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
     }
