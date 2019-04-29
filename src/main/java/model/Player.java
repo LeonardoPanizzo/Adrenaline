@@ -15,6 +15,8 @@ public class Player {
     private int score;
     private WeaponCard[] weapons;
     private PowerupCard[] powerup;
+    private boolean finalRound;
+    private boolean firstPlayer;
     private int madeDamage;
     private int[] damagedPlayers;
 
@@ -41,6 +43,8 @@ public class Player {
         this.score = 0;
         this.weapons = new WeaponCard[]{null, null, null, null};
         this.powerup = new PowerupCard[]{null, null, null, null};
+        this.finalRound = false;
+        this.firstPlayer = false;
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
     }
@@ -115,6 +119,22 @@ public class Player {
 
     public void setScore(int points) {              //setScore increment initial score as new point are received
         this.score += points;
+    }
+
+    public void setFinalRound(boolean finalRound) {
+        this.finalRound = finalRound;
+    }
+
+    public boolean isFinalRound() {
+        return finalRound;
+    }
+
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public boolean isFirstPlayer() {
+        return firstPlayer;
     }
 
     public void setPosition(Position position) {
@@ -337,7 +357,7 @@ public class Player {
 
     public PowerupCard drawPowerup(){
         //one PowerupCard is randomly taken
-        return new PowerupDeck().pickUpPowerup();
+        return new PowerupDeck().pickUpPowerup();   //todo da sistemare
     }
 
 }

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     @Test
-    public void costructorTest(){
+    public void constructorTest(){
         Player p = new Player(3);
         int[][] playersDamage = p.getPlayersDamage();
         int[] markGiven = new int[] {0, 0, 0, 0, 0};
@@ -230,6 +230,36 @@ public class PlayerTest {
         assertEquals(2, p.getAmmo()[0], "Blue ammo aren't correct");
         assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+    }
 
+    @Test
+    public void setterGetterTest (){
+        Player p = new Player(0);
+        Board b = new Board(1);
+        int[] marks = new int[] {0, 1, 3, 2, 1};
+        char[] cost = new char[] {'r','r'};
+        WeaponCard wp = new WeaponCard("name", cost, b);
+        p.setScore(2);
+        p.setFinalRound(true);
+        p.setFirstPlayer(true);
+        p.setRound(true);
+        p.action(wp);
+
+        assertEquals(2, p.getScore(), "SetScore never works");
+        assertTrue(p.isFinalRound(), "Final Round is false");
+        assertTrue(p.isFirstPlayer(), "First player is false");
+        assertTrue(p.isRound(), "Round is false");
+        assertEquals(3, p.getMadeDamage());
+        assertEquals(2, p.getDamagedPlayers()[0]);
+        assertEquals(-1, p.getDamagedPlayers()[1]);
+        assertEquals(0, p.getNumber());
+
+        p.setMarksGiven(marks);
+        p.setScore(3);
+        p.setScore(1);
+
+        assertEquals(6, p.getScore(), "SetScore isn't updated");
+        assertEquals(0, p.getMarksGiven()[0]);
+        assertEquals(3, p.getMarksGiven()[2]);
     }
 }
