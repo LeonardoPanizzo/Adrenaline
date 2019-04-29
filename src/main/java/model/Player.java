@@ -115,6 +115,10 @@ public class Player {
         }
     }
 
+    public void setScore(int points) {              //setScore increment initial score as new point are received
+        this.score += points;
+    }
+
     public void setPosition(Position position) {
         this.position = position;
     }
