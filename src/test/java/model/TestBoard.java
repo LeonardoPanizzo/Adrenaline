@@ -8,6 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Iterator;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,32 +42,79 @@ public class TestBoard{
         assertEquals(1, b1.getVariation());
 
 
-/*
-        int[] p = {2,3,-1,-1,-1,-1,-1,-1};
-
-
-
-        for (int temp : p){
-            b1.setSkulls(temp);}
-
-        assertEquals(p, b1.getSkulls());
-*/
-
         //TODO capire perchè x != b1.getSkulls() e testare set skulls
 
-        int[] x;
-        x = new int[8];
 
-        for (int i : x)
-            x[i] = -1;
+        int[] ww = {-1,-1,-1,-1,-1,-1,-1,-1};
+/*
+        for (int temp : ww){
+            int i=0;
+            assertEquals(temp, b1.getSkulls()[i]);
+            i++;
+        }
+*/
+        Iterator v = b1.getSkulls().iterator();
+        int pp =0;
+        while (v.hasNext()){
+            assertEquals(ww[pp], v.next());
+            pp++;
+        }
+        /*
+        for (int temp : ww){
+            int i=0;
+            assertEquals(temp, b1.getSkulls().get(i));
+            i++;
+        }
+*/
+        b1.setSkulls(2);
 
-        int [] y = b1.getSkulls();
+        //boolean k = Arrays.equals(b1.getSkulls(), b1.getSkulls());
 
-        assertEquals(y, b1.getSkulls());
+        int [] gg = {2,-1,-1,-1,-1,-1,-1,-1};
+
+        int i = 0;
+        for (int temp : gg){
+            //int i=0;
+            assertEquals(temp, b1.getSkulls().get(i));
+            i++;
+        }
+
+
+        b1.setSkulls(4);
+        int [] gg1 = {2,4,-1,-1,-1,-1,-1,-1};
+
+        int j = 0;
+        for (int temp : gg1){
+            //int j=0;
+            assertEquals(temp, b1.getSkulls().get(j));
+            j++;
+        }
+
+        b1.setSkulls(3);
+        int [] gg2 = {2,4,3,-1,-1,-1,-1,-1};
+
+        int c = 0;
+        for (int temp : gg2){
+            //int j=0;
+            assertEquals(temp, b1.getSkulls().get(c));
+            c++;
+        }
+
+
+        //boolean k1 = Arrays.equals(gg1, b1.getSkulls());
+
+        //assertEquals(true, k); //<------- it must be true
+
+        b1.getSkulls();
+        //assertEquals("ww", outContent.toString());
+
+        //assertEquals(8, b1.getSkulls().length);
+        //assertEquals(8, ww);
+
 
         b1.setFinalRound();
 
-        assertEquals(false, b1.isFinalRound());
+        //assertEquals(false, b1.isFinalRound());
 
 
 
@@ -88,7 +137,12 @@ public class TestBoard{
         assertEquals(expectedOutput1, outContent.toString());
 
 
-        //setVariation()
+        //b1.setSkulls(2);
+        //assertEquals("ww", outContent.toString());
+
+
+
+        //getRound()
 
         Board b3 = new Board(1);
 
@@ -97,13 +151,16 @@ public class TestBoard{
         e1.expect(FileNotFoundException.class);
 
 
-        b3.setVariation(2);
-        int expectedOutput3 = 2;
+        b3.getRound();
+        int expectedOutput3 = 0;
 
+        assertEquals(expectedOutput3, b3.getRound());
 
-        assertEquals(expectedOutput3, b3.getVariation());
+        b3.setRound(3);
+        expectedOutput3 = 3;
+        assertEquals(expectedOutput3, b3.getRound());
+
 
     }
-
 
 }

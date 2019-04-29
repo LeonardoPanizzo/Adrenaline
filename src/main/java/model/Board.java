@@ -9,15 +9,17 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
+import javax.lang.model.type.NullType;
 import java.io.IOException;
-import java.util.Iterator;
-
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Board {
 
-    private	static int[] skulls;
-    //private	static Vector<Integer> skulls;
+    //private	static int[] skulls;
+    private	static Vector<Integer> skulls;
     private	static Position[][] board;
     private	int round;
     private int variation;
@@ -34,10 +36,15 @@ public class Board {
 
             //player 1 starts the game
 
-            this.skulls = new int[8];
+
+            //this.skulls = new int[8];
+            this.skulls = new Vector<Integer>(0);
             //-1 means that a skull is present, it will be replaced by a player's id
-            for (int x : skulls)
-                this.skulls[x] = -1;
+            //for (int x : skulls)
+                //this.skulls[x] = -1;
+                //this.skulls.add(x,-1);
+            for (int i =0; i < 8; i++)
+            this.skulls.add(i, -1);
 
 
             this.board = new Position[3][4];
@@ -62,11 +69,6 @@ public class Board {
                 JSONObject jsonObject = (JSONObject) obj;
                 System.out.println(jsonObject);
 
-                //JSONArray array = new JSONArray();
-                //array.add(obj);
-
-
-
                 JSONArray i = (JSONArray) jsonObject.get("i");
                 JSONArray j = (JSONArray) jsonObject.get("j");
                 JSONArray room = (JSONArray) jsonObject.get("room");
@@ -79,35 +81,18 @@ public class Board {
                 Iterator<String> iteratorRoom = room.iterator();
                 Iterator<Boolean> iteratorDoor = door.iterator();
                 Iterator<Boolean> iteratorReset = reset.iterator();
-/*
-                for (int x=0; x< room.size(); ++x ){
 
-                    int[] uno = i;
-                    int[] due = j;
-
-                    this.board[uno[x]][due[x]] = new Position(1, 1, 'b', true, true);
-
-                }
-*/
 
                 while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
-                    //System.out.println(iteratorI.next());
-                    //System.out.println(iteratorJ.next());
+
                     int x = 0;
                     this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next());
-
                     x++;
-
-                    //System.out.println(( (Number) iteratorI.next() ).intValue());
-                    //System.out.println(( (Number) iteratorJ.next() ).intValue());
 
                     //this.board[iteratorI.next()][iteratorJ.next()] = new Position(1, 1, 'b', true, true);
 
 
                 }
-
-
-
 
 
             }catch (FileNotFoundException e) {
@@ -139,46 +124,11 @@ public class Board {
 
 
 
-
-    //variation of maps
-
-    //if this.variation == 1 {define board}
-
-
-
-
-/*
-    public Board selectBoard(int num) {
-
-//todo fix input range
-
-        Board var1 = new Board(num);
-        Board var2 = new Board(num);
-        Board var3 = new Board(num);
-        Board var4 = new Board(num);
-
-        if (num == 1) {
-            return var1;
-        }
-
-        else if (num == 2) {
-            return var2;
-        }
-        else if (num == 3) {
-            return var3;
-        }
-        else {
-            return var4;
-        }
-
-    }
-*/
-
-
     //useful for endGame() and scoring
 
-    public int[] getSkulls() {
-        return skulls;
+    //public int[] getSkulls() {
+    public Vector<Integer> getSkulls(){
+        return this.skulls;
     }
 
 
@@ -190,24 +140,8 @@ public class Board {
 
     
     public void setSkulls(int skulls) {
-
-        /*
-        int i = 0;
-        while(this.skulls[i] != -1)
-            i++;
-        this.skulls[i] = skulls;
-
-        */
-
-        //int[] x = {1,-1,2,3,0,2,3,2};
-
-        for (int i = 0; i < 8; i++) {
-            if (this.skulls[i] != -1)
-                i +=1;
-            else
-                this.skulls[i] = skulls;
-                break;
-        }
+        int index = this.skulls.indexOf(-1);
+        this.skulls.set(index, skulls);
     }
 
 
@@ -219,7 +153,7 @@ public class Board {
    // skulls are a vector of -1
 
     public void setFinalRound() {
-
+/*
         int skullsNum = 0;
         for (int i=0; i<getSkulls().length; i++)//getSkulls())
             if (getSkulls()[i] == -1){
@@ -231,7 +165,19 @@ public class Board {
         else
             this.finalRound = false;
     }
+*/
 
+        int skullsNum = 0;
+        for (int i=0; i<getSkulls().size(); i++)//getSkulls())
+            if (getSkulls().get(i) == -1){
+                skullsNum = skullsNum + 1;
+            }
+        if (skullsNum == 0) {
+            this.finalRound = true;
+        }
+        else
+            this.finalRound = false;
+    }
 
     public static Position[][] getBoard() {
         return board;
@@ -255,10 +201,11 @@ public class Board {
         return variation;
     }
 
+    /* inutile perché già definita nel costruttore
     public void setVariation(int variation) {
         this.variation = variation;
     }
-
+    */
 
 
     public void endGame(){
@@ -267,11 +214,13 @@ public class Board {
 
         if (isFinalRound()){
 
+            System.out.println("THE END");
 
         }
 
 
-    };
+    }
 
+    public void giveRestoreRound(){}
 
 }
