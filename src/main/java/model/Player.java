@@ -221,6 +221,46 @@ public class Player {
 
     public void reload (WeaponCard weapon){
         //todo: recharge the weapon received in argument
+        int[] tempAmmo = this.ammo;
+        char[] cost = weapon.getCostReloading();
+        int counter = cost.length;
+        for(int i=0; i<cost.length; i++){
+            if (cost[i] == 'b') {
+                if(this.ammo[0] == 0) {
+                    System.out.println("Not enough Blue Ammo to reload");
+                    this.ammo = tempAmmo;
+                    break;
+                }
+                else {
+                    this.ammo[0] -= 1;
+                    counter--;
+                }
+            }
+            else if(cost[i] == 'y') {
+                if(this.ammo[1] == 0) {
+                    System.out.println("Not enough Yellow Ammo to reload");
+                    this.ammo = tempAmmo;
+                    break;
+                }
+                else {
+                    this.ammo[1] -= 1;
+                    counter--;
+                }
+            }
+            else if(cost[i] == 'r') {
+                if (this.ammo[2] == 0) {
+                    System.out.println("Not enough Red Ammo to reload");
+                    this.ammo = tempAmmo;
+                    break;
+                }
+                else {
+                    this.ammo[2] -= 1;
+                    counter--;
+                }
+            }
+        }
+        if(counter == 0)
+            weapon.reload();
     }
 
     public void endOfRound(){
@@ -351,7 +391,7 @@ public class Player {
             this.position = new Position(0, 1, 'r', true, true);
     }
 
-    public void usePowerup(PowerupCard powerup, WeaponCard weapon){
+    public void usePowerup(PowerupCard powerup){
         //todo: implement the powerup effect
     }
 
