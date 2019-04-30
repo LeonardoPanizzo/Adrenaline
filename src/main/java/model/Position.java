@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Vector;
-import java.lang.*;
 
 public class Position {
 
