@@ -1,0 +1,7 @@
+{
+  "i" : [0,1,0,0,1,1,2,2,2,1,2],
+  "j" : [0,0,1,2,1,2,0,1,2,3,3],
+  "room" : ["r","r","b","b","v","v","w","w","w","y","y"],
+  "door" : [true,true,true,true,true,true,true,true,true,true,true],
+  "resetPoint" : [false,true,false,true,false,false,false,false,false,false,true],
+}
