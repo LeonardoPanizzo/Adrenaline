@@ -37,7 +37,7 @@ public class Server {
         System.out.println("Received client connection");
 
         int numBoard;
-        System.out.println("Scegli il tabellone");
+        System.out.println("Choose map variation: ");
 
         Scanner in = new Scanner(socket.getInputStream());
         while (true) {
@@ -49,14 +49,19 @@ public class Server {
         }
 
         Board board = new Board(numBoard);
-        //PowerupDeck PUDeck = new PowerupDeck();
-        //WeaponDeck WDeck = new WeaponDeck();
+        PowerupDeck PUDeck = new PowerupDeck();
+        WeaponDeck WDeck = new WeaponDeck();
 
-        System.out.println(board.getSkulls());
+        System.out.println("You chose the map number " + board.getVariation());
+
+
+
+
+
+
         System.out.println("Closing sockets");
         in.close();
         socket.close();
-
         serverSocket.close();
 
 
