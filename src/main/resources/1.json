@@ -3,5 +3,5 @@
   "j" : [0,1,2,0,1,2,3,3,1,2],
   "room" : ["b","b","b","r","r","r","y","y","w","w"],
   "door" : [true,false,true,true,true,true,true,true,true,true],
-  "resetPoint" : [true,false,true,true,false,false,false,true,false,true]
+  "resetPoint" : [false,false,true,true,false,false,false,true,false,false]
 }
