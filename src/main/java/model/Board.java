@@ -100,10 +100,12 @@ public class Board {
                     x++;
 
                     //this.board[iteratorI.next()][iteratorJ.next()] = new Position(1, 1, 'b', true, true);
-
-
                 }
 
+                //TODO setlinks look at PositionTest
+                if (num == 1){
+                    //this.board[1][1].setLinks(this.board[1][3]);
+                }
 
             }catch (FileNotFoundException e) {
                 e.printStackTrace();

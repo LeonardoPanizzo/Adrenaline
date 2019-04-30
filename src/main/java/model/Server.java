@@ -1,6 +1,6 @@
 package model;
 
-//import model.*;
+//import model.Board;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -159,5 +159,5 @@ public class Server {
 
         serverSocket.close();
         */
-    //}
+//}
 //}
