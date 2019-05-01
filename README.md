@@ -20,4 +20,63 @@
     giocatoriColpiti è una Collections di tutti i giocatori colpiti dal'effetto di una carta, se la carta colpisce i giocatori con un ordine (es. torpedine) i giocatori dovranno essere in quell'ordine, se l'arma colpisce per zona (es. vulcanizzatore) questo attributo può essere null
     movimento è una Collections dei movimenti fatti da un personaggio, ogni arma che concede dei movimenti permette di muovere solo un personaggio (attaccante o attaccato) quindi un'unica Collections è sufficiente, le armi che permettono di muovere più personaggi seguono movimenti standard quindi non è necessario passarli
     
- ;
+    
+    board 1 collegamenti
+    board[0][0].setLinks(board[1][0]);
+    board[0][2].setLinks(board[1][2]);
+    board[1][0].setLinks(board[0][0]);
+    board[1][1].setLinks(board[2][1]);
+    board[1][2].setLinks(board[1][3]);
+    board[1][2].setLinks(board[0][2]);
+    board[1][3].setLinks(board[1][2]);
+    board[2][3].setLinks(board[2][2]);
+    board[2][1].setLinks(board[1][1]);
+    board[2][2].setLinks(board[2][3]);
+    
+    board 2 collegamenti
+    board[0][0].setLinks(board[1][0]);
+    board[0][2].setLinks(board[0][3]);
+    board[0][2].setLinks(board[1][2]);
+    board[0][3].setLinks(board[0][2]);
+    board[0][3].setLinks(board[1][3]);
+    board[1][0].setLinks(board[0][0]);
+    board[1][1].setLinks(board[2][1]);
+    board[2][1].setLinks(board[1][1]);
+    board[2][1].setLinks(board[2][2]);
+    board[1][2].setLinks(board[0][2]);
+    board[1][3].setLinks(board[0][3]);
+    board[2][2].setLinks(board[2][1]);
+    
+    board 3 collegamenti
+    board[0][0].setLinks(board[0][1]);
+    board[1][0].setLinks(board[2][0]);
+    board[0][1].setLinks(board[0][0]);
+    board[0][1].setLinks(board[1][1]);
+    board[0][2].setLinks(board[1][2]);
+    board[1][1].setLinks(board[0][1]);
+    board[1][1].setLinks(board[2][1]);
+    board[1][2].setLinks(board[0][2]);
+    board[1][2].setLinks(board[1][3]);
+    board[2][0].setLinks(board[1][0]);
+    board[2][1].setLinks(board[1][1]);
+    board[2][2].setLinks(board[2][3]);
+    board[1][3].setLinks(board[1][2]);
+    board[2][3].setLinks(board[2][2]);
+    
+    board 4 collegamenti
+    board[0][0].setLinks(board[0][1]);
+    board[1][0].setLinks(board[2][0]);
+    board[0][1].setLinks(board[0][0]);
+    board[0][1].setLinks(board[1][1]);
+    board[0][2].setLinks(board[0][3]);
+    board[0][2].setLinks(board[1][2]);
+    board[0][3].setLinks(board[0][2]);
+    board[0][3].setLinks(board[1][3]);  
+    board[1][1].setLinks(board[0][1]);
+    board[1][1].setLinks(board[2][1]);
+    board[2][0].setLinks(board[1][0]);
+    board[2][1].setLinks(board[1][1]);
+    board[2][1].setLinks(board[2][2]);
+    board[1][2].setLinks(board[0][2]);
+    board[1][3].setLinks(board[0][3]);
+    board[2][2].setLinks(board[2][1]);
