@@ -41,7 +41,6 @@ public class TestBoard{
 
         assertEquals(1, b1.getVariation());
 
-
         // setSkulls()
 
         int[] ww = {-1,-1,-1,-1,-1,-1,-1,-1};
@@ -117,7 +116,7 @@ public class TestBoard{
 
 
         String expectedOutput1  =
-                "{\"door\":[true,false,true,true,true,true,true,true,true,true],\"i\":[0,0,0,1,1,1,1,2,2,2],\"j\":[0,1,2,0,1,2,3,3,1,2],\"room\":[\"b\",\"b\",\"b\",\"r\",\"r\",\"r\",\"y\",\"y\",\"w\",\"w\"],\"resetPoint\":[true,false,true,true,false,false,false,true,false,true]}\n"; // Notice the \n for new line.
+                "{\"door\":[true,false,true,true,true,true,true,true,true,true],\"i\":[0,0,0,1,1,1,1,2,2,2],\"j\":[0,1,2,0,1,2,3,3,1,2],\"room\":[\"b\",\"b\",\"b\",\"r\",\"r\",\"r\",\"y\",\"y\",\"w\",\"w\"],\"resetPoint\":[false,false,true,true,false,false,false,true,false,false]}\n"; // Notice the \n for new line.
 
 
 
@@ -146,6 +145,24 @@ public class TestBoard{
         b3.setRound(3);
         expectedOutput3 = 3;
         assertEquals(expectedOutput3, b3.getRound());
+
+
+        // JSON
+
+        Board b4 = new Board(4);
+
+        assertEquals(4, b4.getVariation());
+
+        //TODO check json number 2 and 3
+
+        //Board b5 = new Board(2); //  <-------- NoSuchElementException
+
+        //assertEquals(2, b5.getVariation());
+
+        //Board b6 = new Board(3);
+
+        //assertEquals(3, b6.getVariation());
+
 
 
     }
