@@ -19,3 +19,5 @@
         ad esempio fucile al plasma puo ricevere [0,2,1] come [1,0,2]
     giocatoriColpiti è una Collections di tutti i giocatori colpiti dal'effetto di una carta, se la carta colpisce i giocatori con un ordine (es. torpedine) i giocatori dovranno essere in quell'ordine, se l'arma colpisce per zona (es. vulcanizzatore) questo attributo può essere null
     movimento è una Collections dei movimenti fatti da un personaggio, ogni arma che concede dei movimenti permette di muovere solo un personaggio (attaccante o attaccato) quindi un'unica Collections è sufficiente, le armi che permettono di muovere più personaggi seguono movimenti standard quindi non è necessario passarli
+    
+ ;
