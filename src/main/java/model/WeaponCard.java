@@ -5,6 +5,8 @@ public class WeaponCard {
     protected char[] costs;
     protected Board board;
     protected boolean loaded;
+    protected int damages;      //number of damages given
+    protected int marks;        //number of marks given
 
     public WeaponCard(String name, char[] costs, Board b) {
         this.name = name;
@@ -22,6 +24,11 @@ public class WeaponCard {
         for(int i=1; i<=4; i++)
             temp[i]=costs[i];
         return temp;
+    }
+
+    public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
+        //viene chiamato il metodo delle sottoclassi
+        return false;
     }
 
     public char[] getCostReloading(){

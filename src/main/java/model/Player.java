@@ -152,7 +152,7 @@ public class Player {
      * @see Player
      * @see Position
      */
-    public void action(Position position){      //move
+    public void move(Position position){
         if(this.action > 0){
             if(this.position.reachable(position))
                 this.position = position;
@@ -173,7 +173,7 @@ public class Player {
      * @see PowerupCard
      * @see PowerupDeck
      */
-    public void action(){                       //grab
+    public void grab(){
         if(this.action >0) {
             if (this.position.isRespawnPoint()) {
                 WeaponCard[] weapons = this.position.showWeapons();
@@ -208,38 +208,57 @@ public class Player {
             System.out.println("Actions completed");
     }
 
-    public void action(WeaponCard wepChoosen){      //shot
-        //todo implement how to use the weaponCard
-        this.madeDamage = 3;                    //todo settare i danni fatti dall'arma
-        //todo mettere nell'arma un valore che indichi quali giocatori sono stati danneggiati
-        int i = 0;
-        while(this.damagedPlayers[i] != -1)
-            i++;
-        this.damagedPlayers[i] = 2;
-        this.marksGiven[0] = 2;                 //todo settare i marchi assegnati dall'arma
+    /**
+     * Select weapon cards, mode, palyers and attackedPlayer and shot at them
+     *
+     * @param weapChoosen the weapon card used to shotù
+     * @see WeaponCard
+     * @see Player
+     * @see Position
+     */
+    public void shot(WeaponCard weapChoosen){
+        System.out.print("Select fire mode");
+        int mode1 = -1;
+        int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
+        Player[] attackedPlayer = new Player[3];    //todo definire dimensioni array di giocatori attaccati
+        Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
+        //todo prendere il valore scelto di mode1 o mode2
+        //todo prendere un array di giocatori scelti
+        //todo prendere un array di movimenti
+        weapChoosen.attack(this, mode1, mode2, attackedPlayer, movements);
     }
 
+    /**
+     * Reload the selected weapon only if are present the necessary ammo. If they aren't, the ammo amount will not change.
+     *
+     * @param weapon the WeaponCard the player wants to reload
+     * @see WeaponCard
+     * @see Player
+     */
     public void reload (WeaponCard weapon){
-        //todo: recharge the weapon received in argument
-        int[] tempAmmo = this.ammo;
+        int[] tempAmmo = new int [3];
+        for(int p=0; p<3; p++)
+            tempAmmo[p] = this.ammo[p];
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
-        for(int i=0; i<cost.length; i++){
+        for(int i=0; i<cost.length; i++){                                   //all cost array is analyzed to see if the necessary ammo is present
             if (cost[i] == 'b') {
                 if(this.ammo[0] == 0) {
                     System.out.println("Not enough Blue Ammo to reload");
-                    this.ammo = tempAmmo;
+                    for(int p=0; p<3; p++)
+                        this.ammo[p] = tempAmmo[p];                         //in each case ammo are not enough, initial this.ammo value is restored and the weapon can't to be loaded
                     break;
                 }
                 else {
                     this.ammo[0] -= 1;
-                    counter--;
+                    counter--;                                              //if the current ammo is present, its value is decreased by one
                 }
             }
             else if(cost[i] == 'y') {
                 if(this.ammo[1] == 0) {
                     System.out.println("Not enough Yellow Ammo to reload");
-                    this.ammo = tempAmmo;
+                    for(int p=0; p<3; p++)
+                        this.ammo[p] = tempAmmo[p];
                     break;
                 }
                 else {
@@ -250,7 +269,8 @@ public class Player {
             else if(cost[i] == 'r') {
                 if (this.ammo[2] == 0) {
                     System.out.println("Not enough Red Ammo to reload");
-                    this.ammo = tempAmmo;
+                    for(int p=0; p<3; p++)
+                        this.ammo[p] = tempAmmo[p];
                     break;
                 }
                 else {
@@ -259,7 +279,7 @@ public class Player {
                 }
             }
         }
-        if(counter == 0)
+        if(counter == 0)            //counter shows how many elements in cost have to be analyzed. Only when all elements are successfully analyzed, then the weapon is reloaded
             weapon.reload();
     }
 
