@@ -26,7 +26,7 @@ public class WeaponCard {
         return temp;
     }
 
-    public attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
+    public void attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
         //todo implementare il metodo
         //todo visto che vengono passati i giocatori, si assegnano direttamente qui danni e marchi?
     }
