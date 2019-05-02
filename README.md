@@ -6,13 +6,13 @@
 - Valori di Player.number vanno da 0 (giocatore 1) a 4 (giocatore 5).
 - I valori di Player.ammo rappresentano: ammo[0] -> valori delle munzioni blu; ammo[1] -> valori delle munizioni gialle; ammo[2] -> valori delle munizioni rosse.
 - I valori in Position.room sono b blu, r rossa, y gialla, w bianca, v viola, g verde
-- Nel momento dell'attacco la funzione chiamata avrà la struttura armaSpecifica.attack(attaccante, effetto1, effetto2, giocatoriColpiti, movimento)
+- Nel momento dell'attacco la funzione chiamata avrà la struttura armaSpecifica.attack(attaccante, modalità1, modalità2, giocatoriColpiti, movimento)
     dove
     attaccante è tipo Player ed è il giocatore che ha eseguito l'attacco
-    effetto1 è l'effetto scelto fra le carte con due effetti distinti (es. falce protonica) di tipo int e può valere 1 o 0 dove
+    modalità1 è l'effetto scelto fra le carte con due effetti distinti (es. falce protonica) di tipo int e può valere 1 o 0 dove
         0 è l'effetto base, che non ha costi
         1 è la modalità di fuoco alternativa
-    effetto2 riguarda gli effetti opzionali (es. distruttore) e di tipo int[] perchè gli effetti opzionali possono essere usati in ordine arbitrario
+    modalità2 riguarda gli effetti opzionali (es. distruttore) e di tipo int[] perchè gli effetti opzionali possono essere usati in ordine arbitrario
         0 è l'effetto principale della carta
         1 è il primo effetto (quello a sinistra)
         2 il secondo
