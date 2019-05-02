@@ -1,10 +1,23 @@
 package control;
 
+import view.RemoteView;
+
 import  java.rmi.*;
 
-// contiene elenco metodi per remote invocation
+
+// SERVER INT... client vuole fare azione di scrittura
 
 public interface RemoteController extends Remote {
-    //double getPrice(String description) throws RemoteException;
+
     void createBoard(int num) throws RemoteException;
+
+    void sendMessage(String message)throws RemoteException;
+
+    void getMessage(RemoteView view) throws RemoteException;
+
+
+
+
+
+
 }

@@ -3,7 +3,11 @@ package view;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+
+// CLIENT INT... client vuole fare azione di lettura
+
 public interface RemoteView extends Remote {
-    void error(String message) throws RemoteException;
+
     void ack(String message) throws RemoteException;
+
 }

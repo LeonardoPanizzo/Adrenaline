@@ -1,7 +1,9 @@
 package model;
 
 import control.Controller;
+import control.RemoteController;
 
+import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.*;
 
@@ -18,16 +20,35 @@ import java.rmi.registry.*;
 
 
 public class RmiServer {
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        System.out.println("Constructing server implementation...");
-        Controller myBoard = new Controller();
+    public static void main(String[] args) throws RemoteException, AlreadyBoundException, MalformedURLException {
 
-        //LocateRegistry.createRegistry(1099);
+        /*
+        Controller controller = new Controller();
 
-        System.out.println("Binding server implementation to registry...");
-        Registry registry = LocateRegistry.createRegistry(1099);//LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.createRegistry(1099);
+        registry.rebind("controller", controller);
 
-        registry.bind("myBoard", myBoard);
-        System.out.println("Waiting for invocations from clients...");
+        System.out.println("[System] Server is ready.\n");
+        */
+
+
+        try { //special exception handler for registry creation
+            LocateRegistry.createRegistry(1099);
+            System.out.println("java RMI registry created.");
+        } catch (RemoteException e) {
+            //do nothing, error means registry already exists
+            System.out.println("java RMI registry already exists.");
+        }
+
+        //Instantiate RmiServer
+
+        Controller obj = new Controller();
+
+        // Bind this object instance to the name "RmiServer"
+        Naming.rebind("//localhost/controller", obj);
+        System.out.println("PeerServer bound in registry");
+
+
+
     }
 }
