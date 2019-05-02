@@ -26,9 +26,9 @@ public class WeaponCard {
         return temp;
     }
 
-    public void attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
-        //todo implementare il metodo
-        //todo visto che vengono passati i giocatori, si assegnano direttamente qui danni e marchi?
+    public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
+        //viene chiamato il metodo delle sottoclassi
+        return false;
     }
 
     public char[] getCostReloading(){
