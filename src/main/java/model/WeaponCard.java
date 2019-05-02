@@ -26,12 +26,9 @@ public class WeaponCard {
         return temp;
     }
 
-    public int[] attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
+    public attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
         //todo implementare il metodo
-        //todo tenere traccia dei danni assegnati ai giocatori (serve per sapere quante volte chiamare receivedDamage) e dei marchi assegnati
-        //todo: l'ideale sarebbe restituire un arraya di due valori: danni fatti e maechi assegnati.
-        int[] damagesAndMarks = {this.damages, this.marks};
-        return damagesAndMarks;
+        //todo visto che vengono passati i giocatori, si assegnano direttamente qui danni e marchi?
     }
 
     public char[] getCostReloading(){
