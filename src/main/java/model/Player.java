@@ -114,20 +114,22 @@ public class Player {
         this.action = action;
     }
 
-    public void setMarksGiven(int[] marksGiven) {
-        this.marksGiven = marksGiven;
-        for(int i =0; i<5; i++){
-            if(this.marksGiven[i]>3)              //one player can give only 3 damages to one other player
-                this.marksGiven[i] = 3;
-        }
+    public void setMarksGiven(Player player, int marks) {
+        int number = player.getNumber();
+        this.marksGiven[number] += marks;
+        if(this.marksGiven[number] > 3)
+            this.marksGiven[number] = 3;
+        if(marks == 0)
+            this.marksGiven[number] = 0;
     }
 
-    public void setMarksReceived(int[] marksReceived) {
-        this.marksReceived = marksReceived;
-        for(int i =0; i<5; i++){
-            if(this.marksReceived[i]>3)              //one player can receive only 3 damages from one other player
-                this.marksReceived[i] = 3;
-        }
+    public void setMarksReceived(Player player, int marks) {
+        int number = player.getNumber();
+        this.marksReceived[number] += marks;
+        if(this.marksReceived[number] > 3)
+            this.marksReceived[number] = 3;
+        if(marks == 0)
+            this.marksReceived[number] = 0;
     }
 
     public void setScore(int points) {              //setScore increment initial score as new point are received
@@ -259,7 +261,7 @@ public class Player {
      * @see WeaponCard
      * @see Player
      */
-    public void reload (WeaponCard weapon){
+    public void reload (WeaponCard weapon){     //todo: aggiungere la possibilità di pagare con powerup
         int[] tempAmmo = new int [3];
         for(int p=0; p<3; p++)
             tempAmmo[p] = this.ammo[p];
@@ -319,26 +321,27 @@ public class Player {
      * <p>-How much damage he has done to this player.</p>
      * All damages coming from the other player are saved in this way in an array 5x2.
      *
-     * @param  playerNumber  the player who makes damage identifier
-     * @see         Player
+     * @param  player  the player who makes damage identifier
+     * @see Player
      */
-    public void receivedDamages(int playerNumber) {        //playerNumber is the number of the player who makes the damage
+    public void receivedDamages(Player player) {        //player is the one who makes the damage
         if (this.life >= 0) {
             int damageCounter = 1;
-            if (playersDamage[playerNumber][0] == -1) {
+            if (playersDamage[player.getNumber()][0] == -1) {
                 for (int i = 0; i < 5; i++) {
                     if (playersDamage[i][0] != -1)
                         damageCounter++;
                 }
-                playersDamage[playerNumber][0] = damageCounter;
+                playersDamage[player.getNumber()][0] = damageCounter;
             }
-            playersDamage[playerNumber][1]++;
-            playersDamage[playerNumber][1] += this.marksReceived[playerNumber];
-            int attackDamage = 1 + this.marksReceived[playerNumber];            //damage makes by this attack
-            this.marksReceived[playerNumber] = 0;
+            playersDamage[player.getNumber()][1]++;
+            playersDamage[player.getNumber()][1] += this.marksReceived[player.getNumber()];
+            int attackDamage = 1 + this.marksReceived[player.getNumber()];            //damage makes by this attack
+            this.setMarksReceived(player, 0);
+            player.setMarksGiven(this, 0);
             this.life = this.life - attackDamage;
             if(this.life < -1){
-                playersDamage[playerNumber][1] = playersDamage[playerNumber][1] + this.life + 1;       //only the damages that cause life = -1 are considered; this.life is, in this line, negative
+                playersDamage[player.getNumber()][1] = playersDamage[player.getNumber()][1] + this.life + 1;       //only the damages that cause life = -1 are considered; this.life is, in this line, negative
                 this.life = -1;
             }
         }

@@ -43,7 +43,10 @@ public class PlayerTest {
     @Test
     public void receivedDamagesTest(){
         Player p = new Player(1);
-        p.receivedDamages(3);
+        Player player3 = new Player(3);
+        Player player2 = new Player(2);
+        Player player1 = new Player(1);
+        p.receivedDamages(player3);
         int life = p.getLife();
         int[][] playersDamage = p.getPlayersDamage();
 
@@ -51,9 +54,9 @@ public class PlayerTest {
         assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
         assertEquals(1, playersDamage[3][1], "Total player 4 damage isn't correct");
 
-        p.receivedDamages(1);
-        p.receivedDamages(2);
-        p.receivedDamages(3);
+        p.receivedDamages(player1);
+        p.receivedDamages(player2);
+        p.receivedDamages(player3);
         life = p.getLife();
         playersDamage = p.getPlayersDamage();
 
@@ -71,21 +74,21 @@ public class PlayerTest {
 
         Player player = new Player(2);
         int [] marksReceived = new int[]{0, 0, 0, 2, 0};
-        player.setMarksReceived(marksReceived);
-        player.receivedDamages(3);
+        player.setMarksReceived(player3, 2);
+        player.receivedDamages(player3);
         life = player.getLife();
         playersDamage = player.getPlayersDamage();
 
         assertEquals(8, life, "Player's Life isn't correct");
         assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
         assertEquals(3, playersDamage[3][1], "Total player 4 damage isn't correct");
-        assertEquals(0, marksReceived[3], "Marks are not updated");
+        assertEquals(0, player.getMarksReceived()[3], "Marks are not updated");
 
-        player.receivedDamages(1);
-        player.receivedDamages(3);
+        player.receivedDamages(player1);
+        player.receivedDamages(player3);
         marksReceived = new int[] {0, 3, 0, 0, 0};
-        player.setMarksReceived(marksReceived);
-        player.receivedDamages(1);
+        player.setMarksReceived(player1, 3); //controllare il player 3
+        player.receivedDamages(player1);
         life = player.getLife();
         playersDamage = player.getPlayersDamage();
 
@@ -97,9 +100,9 @@ public class PlayerTest {
         assertEquals(0, marksReceived[3], "Marks are not updated");
 
         marksReceived = new int[] {0, 5, 0, 0, 0};
-        player.setMarksReceived(marksReceived);
-        player.receivedDamages(1);
-        player.receivedDamages(3);
+        player.setMarksReceived(player1, 5);
+        player.receivedDamages(player1);
+        player.receivedDamages(player3);
         life = player.getLife();
         playersDamage = player.getPlayersDamage();
 
@@ -112,12 +115,14 @@ public class PlayerTest {
 
     @Test
     public void sortedPlayersTest(){
-        Player p = new Player(1);
-        p.receivedDamages(3);
-        p.receivedDamages(1);
-        p.receivedDamages(2);
-        p.receivedDamages(3);
-        int [] sorted = p.sortingPlayers();
+        Player p1 = new Player(1);
+        Player p3 = new Player(3);
+        Player p2 = new Player(3);
+        p1.receivedDamages(p3);
+        p1.receivedDamages(p1);
+        p1.receivedDamages(p2);
+        p1.receivedDamages(p3);
+        int [] sorted = p1.sortingPlayers();
 
         assertEquals(3, sorted[0], "First element incorrect");
         assertEquals(1, sorted[1], "Second element incorrect");
@@ -129,10 +134,12 @@ public class PlayerTest {
     @Test
     public void givePointsTest(){
         Player p = new Player(1);
-        p.receivedDamages(3);
-        p.receivedDamages(1);
-        p.receivedDamages(2);
-        p.receivedDamages(3);
+        Player p2 = new Player(2);
+        Player p3 = new Player(3);
+        p.receivedDamages(p3);
+        p.receivedDamages(p);
+        p.receivedDamages(p2);
+        p.receivedDamages(p3);
         int [] points = p.givePoints();
 
         assertEquals(0, points[0],"Player 1 points aren't correct");
@@ -146,9 +153,11 @@ public class PlayerTest {
     public void limitCasesTest(){               //Test on possible critical cases
         //All damages by only one player. After that, one other player attack (all the exceeding damages are thrown away.
         Player player = new Player(0);
+        Player p4 = new Player(4);
+        Player p1 = new Player(1);
         for(int i=0; i<12; i++)
-            player.receivedDamages(4);
-        player.receivedDamages(1);
+            player.receivedDamages(p4);
+        player.receivedDamages(p1);
         int [] points = player.givePoints();
         int life = player.getLife();
         int[][] playersDamage = player.getPlayersDamage();
@@ -237,7 +246,7 @@ public class PlayerTest {
         Player p = new Player(1);
         Board b = new Board(1);
         char[] cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
-        WeaponCard wp = new WeaponCard("name", cost, b);
+        WeaponCard wp = new WeaponCard("name", cost);
         wp.setLoaded(false);
 
         assertEquals(1, p.getAmmo()[2]);
@@ -271,10 +280,10 @@ public class PlayerTest {
         Player p = new Player(1);
         Board b = new Board(1);
         char[] cost = new char[] {'r','r'};
-        WeaponCard wp = new WeaponCard("name", cost, b);
+        WeaponCard wp = new WeaponCard("name", cost);
 
         p.setAction(2);
-        //p.shot(wp); //TODO gives error
+        p.shot(wp); //TODO gives error -> andre: a me non da nessun errore
 
         assertEquals(2, p.getAction(), "Shot doesn't work");
 
@@ -328,13 +337,5 @@ public class PlayerTest {
         assertTrue(p.isFirstPlayer(), "First player is false");
         assertTrue(p.isRound(), "Round is false");
         assertEquals(0, p.getNumber());
-
-        p.setMarksGiven(marks);
-        p.setScore(3);
-        p.setScore(1);
-
-        assertEquals(6, p.getScore(), "SetScore isn't updated");
-        assertEquals(0, p.getMarksGiven()[0]);
-        assertEquals(3, p.getMarksGiven()[2]);
     }
 }
