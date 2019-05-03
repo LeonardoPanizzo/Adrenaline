@@ -6,7 +6,7 @@ import view.TextView;
 import java.io.IOException;
 import java.rmi.*;
 import java.rmi.registry.*;
-
+import java.util.Scanner;
 
 
 public class RmiClient {
@@ -15,17 +15,27 @@ public class RmiClient {
 
         //Registry registry = LocateRegistry.getRegistry();
 
-        RemoteController controller = (RemoteController) Naming.lookup("//localhost/controller");
+        RemoteController controller = (RemoteController) Naming.lookup("controller"); //   //localhost/controller
 
         //RemoteController controller = (RemoteController) registry.lookup("controller");
 
 
         System.out.println("[System] Client is ready.\n");
 
-        new TextView(controller).run();
+        System.out.print("[System] Enter your name: ");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner. nextLine();
+
+        new TextView(name, controller).run();
 
 
+        /*
 
+        String ServerURL = "rmi://127.0.0.1/RMIChat";
+        RemoteController chatServer = (RemoteController) Naming.lookup(ServerURL);
+        new Thread(new ChatClient(args[0], chatServer)).start();
+
+         */
 
     }
 }

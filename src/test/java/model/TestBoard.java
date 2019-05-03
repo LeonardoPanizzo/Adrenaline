@@ -150,18 +150,13 @@ public class TestBoard{
         // JSON
 
         Board b4 = new Board(4);
-
         assertEquals(4, b4.getVariation());
 
-        //TODO check json number 2 and 3
+        Board b5 = new Board(2);
+        assertEquals(2, b5.getVariation());
 
-        //Board b5 = new Board(2); //  <-------- NoSuchElementException
-
-        //assertEquals(2, b5.getVariation());
-
-        //Board b6 = new Board(3);
-
-        //assertEquals(3, b6.getVariation());
+        Board b6 = new Board(3);
+        assertEquals(3, b6.getVariation());
 
 
 

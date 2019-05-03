@@ -68,11 +68,12 @@ public class Board {
 
             JSONParser parser = new JSONParser();
 
-
             try {
 
                 //"src/main/resources/1.json"
                 //"src/main/resources/" + Integer.toString(num) + ".json"
+
+
 
                 Object obj = parser.parse(new FileReader("src/main/resources/" + Integer.toString(num) + ".json"));
 
@@ -85,7 +86,6 @@ public class Board {
                 JSONArray door = (JSONArray) jsonObject.get("door");
                 JSONArray reset = (JSONArray) jsonObject.get("resetPoint");
 
-
                 Iterator<Integer> iteratorI = i.iterator();
                 Iterator<Integer> iteratorJ = j.iterator();
                 Iterator<String> iteratorRoom = room.iterator();
@@ -93,19 +93,104 @@ public class Board {
                 Iterator<Boolean> iteratorReset = reset.iterator();
 
 
+                Integer iteratorINext = null;
+                Integer iteratorJNext = null;
+                String iteratorRoomNext = null;
+                Boolean iteratorDoorNext = null;
+                Boolean iteratorResetNext = null;
+
+
                 while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
 
                     int x = 0;
-                    this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next());
+                    //this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next());
+
+
+                    iteratorINext = ((Number) iteratorI.next() ).intValue();
+                    iteratorJNext = ( (Number) iteratorJ.next() ).intValue();
+                    iteratorRoomNext = iteratorRoom.next();
+                    iteratorDoorNext = iteratorDoor.next();
+                    iteratorResetNext = iteratorReset.next();
+
+                    this.board[( iteratorINext )][( iteratorJNext )] = new Position((  iteratorINext ), (  iteratorJNext ), iteratorRoomNext.charAt(x), iteratorDoorNext, iteratorResetNext);
+
+
                     x++;
 
                     //this.board[iteratorI.next()][iteratorJ.next()] = new Position(1, 1, 'b', true, true);
                 }
 
-                //TODO setlinks look at PositionTest
+                /* TODO setlinks look at PositionTest java.lang.NullPointerException at model.Position.setLinks(Position.java:72)
+
+
+                 * TODO indexes not found in file.json <-----
+                */
+
+
                 if (num == 1){
                     //this.board[1][1].setLinks(this.board[1][3]);
+
+                    board[0][0].setLinks(board[1][0]);
+                    board[0][2].setLinks(board[1][2]);
+                    board[1][0].setLinks(board[0][0]);
+                    board[1][1].setLinks(board[2][1]);
+                    board[1][2].setLinks(board[1][3]);
+                    board[1][2].setLinks(board[0][2]);
+                    board[1][3].setLinks(board[1][2]);
+                    board[2][3].setLinks(board[2][2]);
+                    board[2][1].setLinks(board[1][1]);
+                    board[2][2].setLinks(board[2][3]);
                 }
+
+                if (num == 2){
+                    board[0][0].setLinks(board[1][0]);
+                    board[0][2].setLinks(board[0][3]);
+                    board[0][2].setLinks(board[1][2]);
+                    //board[0][3].setLinks(board[0][2]);
+                    //board[0][3].setLinks(board[1][3]);
+                    board[1][0].setLinks(board[0][0]);
+                    board[1][1].setLinks(board[2][1]);
+                    board[2][1].setLinks(board[1][1]);
+                    board[2][1].setLinks(board[2][2]);
+                    board[1][2].setLinks(board[0][2]);
+                    //board[1][3].setLinks(board[0][3]);
+                    board[2][2].setLinks(board[2][1]);
+                }
+
+                if (num == 3){
+                    board[0][0].setLinks(board[0][1]);
+                    board[1][0].setLinks(board[2][0]);
+                    board[0][1].setLinks(board[0][0]);
+                    board[0][1].setLinks(board[1][1]);
+                    board[0][2].setLinks(board[1][2]);
+                    board[1][1].setLinks(board[0][1]);
+                    board[1][1].setLinks(board[2][1]);
+                    board[1][2].setLinks(board[0][2]);
+                    board[1][2].setLinks(board[1][3]);
+                    board[2][0].setLinks(board[1][0]);
+                    board[2][1].setLinks(board[1][1]);
+                    board[2][2].setLinks(board[2][3]);
+                    board[1][3].setLinks(board[1][2]);
+                    board[2][3].setLinks(board[2][2]);
+                }
+
+                else
+                    board[0][0].setLinks(board[0][1]);
+                    //board[1][0].setLinks(board[2][0]);
+                    board[0][1].setLinks(board[0][0]);
+                    board[0][1].setLinks(board[1][1]);
+                    //board[0][2].setLinks(board[0][3]);
+                    board[0][2].setLinks(board[1][2]);
+                    //board[0][3].setLinks(board[0][2]);
+                    //board[0][3].setLinks(board[1][3]);
+                    board[1][1].setLinks(board[0][1]);
+                    board[1][1].setLinks(board[2][1]);
+                    //board[2][0].setLinks(board[1][0]);
+                    board[2][1].setLinks(board[1][1]);
+                    board[2][1].setLinks(board[2][2]);
+                    board[1][2].setLinks(board[0][2]);
+                    //board[1][3].setLinks(board[0][3]);
+                    board[2][2].setLinks(board[2][1]);
 
             }catch (FileNotFoundException e) {
                 e.printStackTrace();

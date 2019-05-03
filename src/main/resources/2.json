@@ -1,7 +1,7 @@
 {
-  "i" : [0,0,0,0,1,1,1,1,2,2,2],
-  "j" : [0,1,2,3,0,1,2,3,1,2,3],
-  "room" : ["b","b","b","g","r","r","y","y","w","y","y"],
-  "door" : [true,false,true,true,true,true,true,true,true,true,false],
-  "resetPoint" : [false,false,true,false,true,false,false,false,false,false,true]
+  "i": [0, 0, 0, 1, 1, 1, 1, 2, 2, 2],
+  "j": [0, 1, 2, 0, 1, 2, 3, 3, 1, 2],
+  "room": ["b", "b", "b", "r", "r", "r", "y", "y", "w", "w"],
+  "door": [true, false, true, true, true, true, true, true, true, true],
+  "resetPoint": [false, false, true, true, false, false, false, true, false, false]
 }
