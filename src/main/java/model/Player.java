@@ -57,14 +57,14 @@ public class Player {
         this.round = round;
     }
 
-    public int getMadeDamage() {
+    /*public int getMadeDamage() {
         return madeDamage;
     }
 
     public int[] getDamagedPlayers() {
         return damagedPlayers;
     }
-
+*/
     public int getLife(){
         return this.life;
     }
@@ -235,7 +235,7 @@ public class Player {
             System.out.print("Select fire mode");
             int mode1 = -1;
             int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
-            Player[] attackedPlayer = new Player[1];    //todo definire dimensioni array di giocatori attaccati
+            Player[] attackedPlayer = new Player[]{new Player(1)};    //todo definire dimensioni array di giocatori attaccati
             for(int l=0; l<attackedPlayer.length; l++)
                 this.damagedPlayers[l] = attackedPlayer[l].getNumber();
             Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
@@ -422,17 +422,12 @@ public class Player {
         return playersDamage;
     }
 
-    public void regeneration(PowerupCard powerup){
+    public void regeneration(PowerupCard powerup, Board board){
         this.numberOfDeaths ++;
         this.life = 11;
         this.ammo = new int[]{1, 1, 1};
-        //todo: capire come settare la posizione del respawn point senza creare una nuova posizione
-        if(powerup.getColour() == 'b')
-            this.position = new Position(2, 0, 'b', true, true);
-        else if(powerup.getColour() == 'y')
-            this.position = new Position(3, 2, 'y', true, true);
-        else if(powerup.getColour() == 'r')
-            this.position = new Position(0, 1, 'r', true, true);
+        char colour = powerup.getColour();
+
     }
 
     public void usePowerup(PowerupCard powerup){
