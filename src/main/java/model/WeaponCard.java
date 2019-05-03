@@ -3,15 +3,12 @@ package model;
 public class WeaponCard {
     protected String name;
     protected char[] costs;
-    protected Board board;
     protected boolean loaded;
-    protected int damages;      //number of damages given
-    protected int marks;        //number of marks given
 
-    public WeaponCard(String name, char[] costs, Board b) {
+
+    public WeaponCard(String name, char[] costs) {
         this.name = name;
         this.costs = costs;
-        this.board = b;
         loaded = true;
     }
 
