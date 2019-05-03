@@ -89,6 +89,15 @@ public class Player {
         return ammo;
     }
 
+    public void setAmmo(char color, int ammo) {
+        if(color == 'b')
+            this.ammo[0] += ammo;
+        if(color == 'y')
+            this.ammo[1] += ammo;
+        if(color == 'r')
+            this.ammo[2] += ammo;
+    }
+
     public int getScore() {
         return score;
     }
@@ -99,6 +108,10 @@ public class Player {
 
     public int getAction() {
         return action;
+    }
+
+    public void setAction(int action) {
+        this.action = action;
     }
 
     public void setMarksGiven(int[] marksGiven) {
@@ -173,7 +186,7 @@ public class Player {
      * @see PowerupCard
      * @see PowerupDeck
      */
-    public void grab(){
+    public void grab(){ //todo implementare quando si raccoglie un'arma
         if(this.action >0) {
             if (this.position.isRespawnPoint()) {
                 WeaponCard[] weapons = this.position.showWeapons();
@@ -209,23 +222,34 @@ public class Player {
     }
 
     /**
-     * Select weapon cards, mode, palyers and attackedPlayer and shot at them
+     * Select weapon cards, mode, palyers and attackedPlayer and shot at them. If the attack isn't possible, an error
+     * message is given to the player and the actions counter is not updated.
      *
-     * @param weapChoosen the weapon card used to shotù
+     * @param weapChoosen the weapon card used to shot
      * @see WeaponCard
      * @see Player
      * @see Position
      */
     public void shot(WeaponCard weapChoosen){
-        System.out.print("Select fire mode");
-        int mode1 = -1;
-        int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
-        Player[] attackedPlayer = new Player[3];    //todo definire dimensioni array di giocatori attaccati
-        Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
-        //todo prendere il valore scelto di mode1 o mode2
-        //todo prendere un array di giocatori scelti
-        //todo prendere un array di movimenti
-        weapChoosen.attack(this, mode1, mode2, attackedPlayer, movements);
+        if (this.action != 0) {
+            System.out.print("Select fire mode");
+            int mode1 = -1;
+            int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
+            Player[] attackedPlayer = new Player[1];    //todo definire dimensioni array di giocatori attaccati
+            for(int l=0; l<attackedPlayer.length; l++)
+                this.damagedPlayers[l] = attackedPlayer[l].getNumber();
+            Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
+            //todo prendere il valore scelto di mode1 o mode2
+            //todo prendere un array di giocatori scelti
+            //todo prendere un array di movimenti
+            boolean validAttack = weapChoosen.attack(this, mode1, mode2, attackedPlayer, movements);
+            if (!validAttack)
+                System.out.println("Invalid Attack!");
+            else
+                this.action--;
+        }
+        else
+            System.out.println("Actions completed");
     }
 
     /**
