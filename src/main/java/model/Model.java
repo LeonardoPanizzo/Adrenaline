@@ -4,7 +4,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-public class Model {
+public class Model {/*
     public static void main (String args[]){
         int numBoard;
         System.out.println("Scegli il tabellone");
@@ -75,7 +75,7 @@ public class Model {
         }
         catch (IOException exception){exception.printStackTrace();}
     }
-
+    */
 
 
 
