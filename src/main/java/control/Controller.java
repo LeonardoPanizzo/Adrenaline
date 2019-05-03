@@ -30,7 +30,6 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
     public void getMessage(RemoteView view) throws RemoteException {
         //String message = "ciao dal controller";
 
-
         Scanner scanner = new Scanner(System.in);
         String message;
         while (true) {

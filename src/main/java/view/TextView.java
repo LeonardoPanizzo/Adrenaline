@@ -20,18 +20,19 @@ public class TextView extends UnicastRemoteObject implements RemoteView {
 
     public void run() throws RemoteException{
         //remoteController.sendMessage("ciao dal client");
+        remoteController.sendMessage("[" + name + "] has connected to the server."); //TODO method has connected
         Scanner scanner = new Scanner(System.in);
         String message;
         while (true) {
             message = scanner.nextLine();
             try {
-                remoteController.sendMessage(name + ": " + message);
-                break;
+                remoteController.sendMessage("[" + name + "]: " + message);
+                remoteController.getMessage(this);
+                //break;
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
-        remoteController.getMessage(this);
 
     }
 
