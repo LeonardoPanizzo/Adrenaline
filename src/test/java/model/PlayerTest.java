@@ -284,6 +284,35 @@ public class PlayerTest {
     }
 
     @Test
+    public void respawnTest(){
+        Player p = new Player(1);
+        Board b = new Board(1);
+        Position testPosition = new Position(0, 2, 'b', true, true);
+        PowerupCard pu = new PowerupCard("Name", 'b', b);
+        p.respawn(pu, testPosition);
+
+        assertEquals(testPosition, p.getPosition(), "Position is not correct");
+
+        PowerupCard pu2 = new PowerupCard("Name", 'b', b);
+        Position position = new Position(0, 0, 'b', true, false);
+        p.setPosition(position);
+        testPosition = new Position(0, 2, 'b', true, false);
+        p.respawn(pu2, testPosition);
+
+        assertNotEquals(testPosition.getCoordinate()[1], p.getPosition().getCoordinate()[1], "Position is a respawn point");
+    }
+
+    @Test
+    public void usePowerUpTest(){
+        Player p = new Player(1);
+        Board b = new Board(1);
+        PowerupCard pu = new PowerupCard("Name", 'b', b);
+
+        p.usePowerup(pu);
+        //todo finire implementazione
+    }
+
+    @Test
     public void setterGetterTest (){
         Player p = new Player(0);
         Board b = new Board(1);
