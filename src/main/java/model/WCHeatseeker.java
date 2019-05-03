@@ -17,7 +17,7 @@ public class WCHeatseeker extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements){
         if(this.isLoaded() && attackedPlayers.length==1 && !(attacker.getPosition().visible(attackedPlayers[0].getPosition()))){
             for(int i=0;i<3;i++){
-                attackedPlayers[0].receivedDamages(attacker.getNumber());
+                attackedPlayers[0].receivedDamages(attacker);
             }
             loaded=false;
             return true;
