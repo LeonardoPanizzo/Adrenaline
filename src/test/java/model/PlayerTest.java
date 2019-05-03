@@ -236,7 +236,7 @@ public class PlayerTest {
     public void reloadTest(){
         Player p = new Player(1);
         Board b = new Board(1);
-        char[] cost = new char[] {'r','r', 'b', 'b'};
+        char[] cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
         WeaponCard wp = new WeaponCard("name", cost, b);
         wp.setLoaded(false);
 
@@ -246,30 +246,57 @@ public class PlayerTest {
 
         assertEquals(1, p.getAmmo()[2], "Red Ammo aren't correct");
         assertFalse(wp.isLoaded(), "Weapon is load");
+
+        p.setAmmo('r', 1);
+        p.reload(wp);
+
+        assertEquals(2, p.getAmmo()[2], "Red Ammo aren't correct");
+        assertFalse(wp.isLoaded(), "Weapon is load");
+
+        p.setAmmo('b', 1);
+        p.reload(wp);
+
+        assertEquals(2, p.getAmmo()[0], "Blue Ammo aren't correct");
+        assertFalse(wp.isLoaded(), "Weapon is load");
+
+        p.setAmmo('y', 1);
+        p.reload(wp);
+
+        assertEquals(0, p.getAmmo()[1], "Yellow Ammo aren't correct");
+        assertTrue(wp.isLoaded(), "Weapon isn't load");
     }
 
- /*   @Test
+    @Test
+    public void shotTest(){
+        Player p = new Player(1);
+        Board b = new Board(1);
+        char[] cost = new char[] {'r','r'};
+        WeaponCard wp = new WeaponCard("name", cost, b);
+
+        p.setAction(2);
+        p.shot(wp);
+
+        assertEquals(2, p.getAction(), "Shot doesn't work");
+
+        p.setAction(0);
+        assertEquals(0, p.getAction(), "Shot doesn't work");
+    }
+
+    @Test
     public void setterGetterTest (){
         Player p = new Player(0);
         Board b = new Board(1);
         int[] marks = new int[] {0, 1, 3, 2, 1};
         char[] cost = new char[] {'r','r'};
-        WeaponCard wp = new WeaponCard("name", cost, b);
         p.setScore(2);
         p.setFinalRound(true);
         p.setFirstPlayer(true);
         p.setRound(true);
-        p.shot(wp);
-        p.shot(wp);
 
         assertEquals(2, p.getScore(), "SetScore never works");
         assertTrue(p.isFinalRound(), "Final Round is false");
         assertTrue(p.isFirstPlayer(), "First player is false");
         assertTrue(p.isRound(), "Round is false");
-        assertEquals(3, p.getMadeDamage());
-        assertEquals(2, p.getDamagedPlayers()[0]);
-        assertEquals(2, p.getDamagedPlayers()[1]);
-        assertEquals(-1, p.getDamagedPlayers()[2]);
         assertEquals(0, p.getNumber());
 
         p.setMarksGiven(marks);
@@ -279,5 +306,5 @@ public class PlayerTest {
         assertEquals(6, p.getScore(), "SetScore isn't updated");
         assertEquals(0, p.getMarksGiven()[0]);
         assertEquals(3, p.getMarksGiven()[2]);
-    }   */
+    }
 }
