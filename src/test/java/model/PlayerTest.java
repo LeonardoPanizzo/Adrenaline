@@ -279,6 +279,7 @@ public class PlayerTest {
         assertEquals(2, p.getAction(), "Shot doesn't work");
 
         p.setAction(0);
+        p.shot(wp);
         assertEquals(0, p.getAction(), "Shot doesn't work");
     }
 
@@ -286,7 +287,7 @@ public class PlayerTest {
     public void setterGetterTest (){
         Player p = new Player(0);
         Board b = new Board(1);
-        int[] marks = new int[] {0, 1, 3, 2, 1};
+        int[] marks = new int[] {0, 1, 4, 2, 1};
         char[] cost = new char[] {'r','r'};
         p.setScore(2);
         p.setFinalRound(true);
