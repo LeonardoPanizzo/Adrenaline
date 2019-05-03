@@ -174,23 +174,24 @@ public class Board {
                     board[2][3].setLinks(board[2][2]);
                 }
 
-                else
+                if (num == 4) {
                     board[0][0].setLinks(board[0][1]);
-                    //board[1][0].setLinks(board[2][0]);
+                    board[1][0].setLinks(board[2][0]);
                     board[0][1].setLinks(board[0][0]);
                     board[0][1].setLinks(board[1][1]);
-                    //board[0][2].setLinks(board[0][3]);
+                    board[0][2].setLinks(board[0][3]);
                     board[0][2].setLinks(board[1][2]);
-                    //board[0][3].setLinks(board[0][2]);
-                    //board[0][3].setLinks(board[1][3]);
+                    board[0][3].setLinks(board[0][2]);
+                    board[0][3].setLinks(board[1][3]);
                     board[1][1].setLinks(board[0][1]);
                     board[1][1].setLinks(board[2][1]);
-                    //board[2][0].setLinks(board[1][0]);
+                    board[2][0].setLinks(board[1][0]);
                     board[2][1].setLinks(board[1][1]);
                     board[2][1].setLinks(board[2][2]);
                     board[1][2].setLinks(board[0][2]);
-                    //board[1][3].setLinks(board[0][3]);
+                    board[1][3].setLinks(board[0][3]);
                     board[2][2].setLinks(board[2][1]);
+                }
 
             }catch (FileNotFoundException e) {
                 e.printStackTrace();
