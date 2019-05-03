@@ -422,16 +422,20 @@ public class Player {
         return playersDamage;
     }
 
-    public void regeneration(PowerupCard powerup, Board board){
+    public void respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;
         this.life = 11;
         this.ammo = new int[]{1, 1, 1};
         char colour = powerup.getColour();
-
+        if(position.getRoom() == colour && position.isRespawnPoint())
+            this.position = position;
+        else
+            System.out.println("Incorrect Position");
     }
 
     public void usePowerup(PowerupCard powerup){
-        //todo: implement the powerup effect
+        powerup.activate(this);
+        //todo rimuovere il powerup dalla lista di this
     }
 
     public PowerupCard drawPowerup(){
