@@ -18,6 +18,10 @@ public class PowerupCard {
         return colour;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void activate(Player p){ //p is the player that just used the powerup
 
     }
