@@ -248,31 +248,47 @@ public class PlayerTest {
         char[] cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
         WeaponCard wp = new WeaponCard("name", cost);
         wp.setLoaded(false);
+        PowerupCard[] pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        char[] ammo = new char[] {'b', 'y', 'r'};
+        p.reload(wp, ammo, pow);
 
-        assertEquals(1, p.getAmmo()[2]);
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
 
-        p.reload(wp);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
+        p.reload(wp, ammo);
 
-        assertEquals(1, p.getAmmo()[2], "Red Ammo aren't correct");
-        assertFalse(wp.isLoaded(), "Weapon is load");
+        assertTrue(wp.isLoaded(), "Weapon isn't loaded");
+        assertEquals(0, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(0, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(0, p.getAmmo()[2], "Red ammo aren't correct");
 
-        p.setAmmo('r', 1);
-        p.reload(wp);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        cost = new char[] {'r','r', 'b', 'b', 'b', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r', 'b'};
+        p.reload(wp, ammo);
 
-        assertEquals(2, p.getAmmo()[2], "Red Ammo aren't correct");
-        assertFalse(wp.isLoaded(), "Weapon is load");
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
 
-        p.setAmmo('b', 1);
-        p.reload(wp);
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        cost = new char[] {'r', 'b'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow.clone());
+        p.reload(wp, pow);
 
-        assertEquals(2, p.getAmmo()[0], "Blue Ammo aren't correct");
-        assertFalse(wp.isLoaded(), "Weapon is load");
-
-        p.setAmmo('y', 1);
-        p.reload(wp);
-
-        assertEquals(0, p.getAmmo()[1], "Yellow Ammo aren't correct");
-        assertTrue(wp.isLoaded(), "Weapon isn't load");
+        assertTrue(wp.isLoaded(), "Weapon isn't loaded");
+        assertNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNull(p.getPowerup()[1], "Second power up isn't correct");
     }
 
     @Test
