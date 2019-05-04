@@ -65,6 +65,15 @@ public class Player {
         return damagedPlayers;
     }
 */
+
+    public void setPowerup(PowerupCard[] powerup) {
+        this.powerup = powerup;
+    }
+
+    public PowerupCard[] getPowerup() {
+        return powerup;
+    }
+
     public int getLife(){
         return this.life;
     }
@@ -89,13 +98,48 @@ public class Player {
         return ammo;
     }
 
-    public void setAmmo(char color, int ammo) {
+    /**
+     * Return the ammo amount which have the selected color.
+     *
+     * @param color the char to show which ammo amount are wanted
+     * @return the ammo amount for the chosen color. If the
+     */
+    public int getAmmo(char color) {
         if(color == 'b')
-            this.ammo[0] += ammo;
+            return this.ammo[0];
         if(color == 'y')
-            this.ammo[1] += ammo;
+            return this.ammo[1];
         if(color == 'r')
-            this.ammo[2] += ammo;
+            return this.ammo[2];
+        else {
+            System.out.println("Error: incorrect color!");
+            return -1;
+        }
+    }
+
+    /**
+     * Set the ammo amount available to the player. The player can have at most 3 ammo for each color.
+     *
+     * @param color the char that show which ammo are you setting: b -> blue; y -> yellow; r -> red
+     * @param ammo the ammo amount to assigned to the selected color
+     * @see Player
+     */
+    public void setAmmo(char color, int ammo) {
+        if(color == 'b') {
+            this.ammo[0] = ammo;
+            if(this.ammo[0] >3)
+                this.ammo[0] = 3;
+        }
+        if(color == 'y') {
+            this.ammo[1] = ammo;
+            if (this.ammo[1] > 3)
+                this.ammo[1] = 3;
+        }
+        if(color == 'r') {
+            this.ammo[2] = ammo;
+            if (this.ammo[2] > 3)
+                this.ammo[2] = 3;
+        }
     }
 
     public int getScore() {
@@ -114,6 +158,14 @@ public class Player {
         this.action = action;
     }
 
+    /**
+     * When the player give marks, the value is incremented by the given value. If the given value is 0, the total
+     * ammount of marks is set to 0 (NOT increment by 0).
+     *
+     * @param player the player who receives marks
+     * @param marks number of marks are received by the player
+     * @see Player
+     */
     public void setMarksGiven(Player player, int marks) {
         int number = player.getNumber();
         this.marksGiven[number] += marks;
@@ -123,6 +175,14 @@ public class Player {
             this.marksGiven[number] = 0;
     }
 
+    /**
+     * When the player receive marks, the value is incremented by the given value. If the given value is 0, the total
+     * ammount of marks is set to 0 (NOT increment by 0).
+     *
+     * @param player the player who gives marks
+     * @param marks number of marks are given by the player
+     * @see Player
+     */
     public void setMarksReceived(Player player, int marks) {
         int number = player.getNumber();
         this.marksReceived[number] += marks;
@@ -132,7 +192,12 @@ public class Player {
             this.marksReceived[number] = 0;
     }
 
-    public void setScore(int points) {              //setScore increment initial score as new point are received
+    /**
+     * Increment the player's score.
+     *
+     * @param points number of points will increment the total score
+     */
+    public void setScore(int points) {
         this.score += points;
     }
 
@@ -156,6 +221,9 @@ public class Player {
         this.position = position;
     }
 
+    /**
+     * The round begin, so the player can do 2 actions.
+     */
     public void roundBegin(){
         this.action = 2;
     }
@@ -227,12 +295,12 @@ public class Player {
      * Select weapon cards, mode, palyers and attackedPlayer and shot at them. If the attack isn't possible, an error
      * message is given to the player and the actions counter is not updated.
      *
-     * @param weapChoosen the weapon card used to shot
+     * @param weapChosen the weapon card used to shot
      * @see WeaponCard
      * @see Player
      * @see Position
      */
-    public void shot(WeaponCard weapChoosen){
+    public void shot(WeaponCard weapChosen){ //todo: aggiungere il controllo delle munizioni
         if (this.action != 0) {
             System.out.print("Select fire mode");
             int mode1 = -1;
@@ -244,7 +312,7 @@ public class Player {
             //todo prendere il valore scelto di mode1 o mode2
             //todo prendere un array di giocatori scelti
             //todo prendere un array di movimenti
-            boolean validAttack = weapChoosen.attack(this, mode1, mode2, attackedPlayer, movements);
+            boolean validAttack = weapChosen.attack(this, mode1, mode2, attackedPlayer, movements);
             if (!validAttack)
                 System.out.println("Invalid Attack!");
             else
@@ -253,14 +321,14 @@ public class Player {
         else
             System.out.println("Actions completed");
     }
-
+/*
     /**
      * Reload the selected weapon only if are present the necessary ammo. If they aren't, the ammo amount will not change.
      *
      * @param weapon the WeaponCard the player wants to reload
      * @see WeaponCard
      * @see Player
-     */
+     *
     public void reload (WeaponCard weapon){     //todo: aggiungere la possibilità di pagare con powerup
         int[] tempAmmo = new int [3];
         for(int p=0; p<3; p++)
@@ -307,6 +375,145 @@ public class Player {
         }
         if(counter == 0)            //counter shows how many elements in cost have to be analyzed. Only when all elements are successfully analyzed, then the weapon is reloaded
             weapon.reload();
+    }
+*/
+    public void reload (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp){
+        char[] cost = weapon.getCostReloading();
+        int counter = cost.length;
+        char[] tempAmmo = ammo.clone();
+        PowerupCard[] tempPowerUp = powerUp.clone();
+        for(int i=0; i<cost.length; i++){
+            for(int a=0; a<ammo.length; a++){           //control if the ammo is in ammoArray
+                if(ammo[a] == cost[i]) {
+                    ammo[a]--;
+                    counter--;
+                }
+            }
+            for(int pu=0; pu<powerUp.length; pu++){     //control if the ammo is in powerUpArray
+                if(powerUp[pu] != null) {
+                    if(powerUp[pu].getColour() == cost[i]) {
+                        powerUp[pu] = null;
+                        counter--;
+                    }
+                }
+            }
+        }
+        if(counter == 0){                       //if true, weaponCard is reloaded
+            boolean controller1 = this.updateAmmo(tempAmmo);
+            boolean controller2 = this.updatePowerup(tempPowerUp);
+            if(controller1 && controller2)
+                weapon.reload();
+        }
+        else
+            System.out.println("Selected ammo and power up are incorrect");
+    }
+
+    public void reload (WeaponCard weapon, char[] ammo){
+        char[] cost = weapon.getCostReloading();
+        int counter = cost.length;
+        char[] tempAmmo = ammo.clone();
+        for(int i=0; i<cost.length; i++){
+            for(int a=0; a<ammo.length; a++){           //control if the ammo is in ammoArray
+                if(ammo[a] == cost[i]) {
+                    ammo[a]--;
+                    counter--;
+                }
+            }
+        }
+        if(counter == 0){                       //if true, weaponCard is reloaded
+            boolean controller = this.updateAmmo(tempAmmo);
+            if(controller)
+                weapon.reload();
+        }
+        else
+            System.out.println("Selected ammo and incorrect");
+    }
+
+    public void reload (WeaponCard weapon, PowerupCard[] powerUp){
+        char[] cost = weapon.getCostReloading();
+        int counter = cost.length;
+        PowerupCard[] tempPowerUp = powerUp.clone();
+        for(int i=0; i<cost.length; i++){
+            for(int pu=0; pu<powerUp.length; pu++){     //control if the ammo is in powerUpArray
+                if(powerUp[pu] != null) {
+                    if(powerUp[pu].getColour() == cost[i]) {
+                        powerUp[pu] = null;
+                        counter--;
+                    }
+                }
+            }
+        }
+        if(counter == 0){                       //if true, weaponCard is reloaded
+            boolean controller = this.updatePowerup(tempPowerUp);
+            if(controller)
+                weapon.reload();
+        }
+        else
+            System.out.println("Selected power up card are incorrect");
+    }
+
+    private  boolean updateAmmo(char[] ammo){
+        int[] tempPlayerAmmo = this.ammo.clone();
+        boolean control = true;
+        for(int a=0; a<ammo.length; a++){
+            if(ammo[a] == 'b'){
+                if(this.ammo[0] == 0) {
+                    System.out.println("Selected blue ammo aren't correct");
+                    this.ammo = tempPlayerAmmo.clone();
+                    control = false;
+                    break;
+                }
+                else
+                    this.ammo[0]--;
+            }
+            if(ammo[a] == 'y'){
+                if(this.ammo[1] == 0) {
+                    System.out.println("Selected yellow ammo aren't correct");
+                    this.ammo = tempPlayerAmmo.clone();
+                    control = false;
+                    break;
+                }
+                else
+                    this.ammo[1]--;
+            }
+            if(ammo[a] == 'r'){
+                if(this.ammo[2] == 0) {
+                    System.out.println("Selected red ammo aren't correct");
+                    this.ammo = tempPlayerAmmo.clone();
+                    control = false;
+                    break;
+                }
+                else
+                    this.ammo[2]--;
+            }
+        }
+        return control;
+    }
+
+    private boolean updatePowerup(PowerupCard[] powerUp){
+        PowerupCard[] tempPowerUpPlayer = this.powerup.clone();
+        boolean controller = true;
+        for(int pu=0; pu<powerUp.length; pu++){
+            for(int scan=0; scan<this.powerup.length; scan++){
+                if(this.powerup[scan] != null) {
+                    if (powerUp[pu].getName().equals(this.powerup[scan].getName())) {
+                        this.powerup[scan] = null;
+                        break;
+                    }
+                    else{
+                        if(scan == this.powerup.length -1) {
+                            controller = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if(!controller){                                //if controller is false, the weapon can't be reloaded
+            this.powerup = tempPowerUpPlayer.clone();
+            System.out.println("Selected power up cards aren't correct");
+        }
+        return controller;
     }
 
     public void endOfRound(){
