@@ -322,6 +322,17 @@ public class Player {
             System.out.println("Actions completed");
     }
 
+    /**
+     * Reload a weapon using power up cards and Ammo. The value in this.ammo and this.powerup are updated
+     * if the selected ammo and the selected power up cards are the correct ones.
+     *
+     * @param weapon weapon to reload
+     * @param ammo array of ammo to reload the weapon
+     * @param powerUp array of power up cards to reload the weapon
+     * @see Player
+     * @see PowerupCard
+     * @see WeaponCard
+     */
     public void reload (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp){
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
@@ -356,6 +367,15 @@ public class Player {
             System.out.println("Selected ammo and power up are incorrect");
     }
 
+    /**
+     * Reload a weapon using only Ammo. The value in this.ammo is updated if the selected ammo are the correct ones.
+     *
+     * @param weapon weapon to reload
+     * @param ammo array of ammo to reload the weapon
+     * @see Player
+     * @see PowerupCard
+     * @see WeaponCard
+     */
     public void reload (WeaponCard weapon, char[] ammo){
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
@@ -378,6 +398,16 @@ public class Player {
             System.out.println("Selected ammo are incorrect");
     }
 
+    /**
+     * Reload a weapon using only power up cards. The value in this.powerup is updated if the selected power up cards
+     * are the correct ones.
+     *
+     * @param weapon weapon to reload
+     * @param powerUp array of power up cards to reload the weapon
+     * @see Player
+     * @see PowerupCard
+     * @see WeaponCard
+     */
     public void reload (WeaponCard weapon, PowerupCard[] powerUp){
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
@@ -402,6 +432,14 @@ public class Player {
             System.out.println("Selected power up cards are incorrect");
     }
 
+    /**
+     * The given array of ammo is compared with the value of this.ammo. This value is updated only if all the values
+     * contained in the ammo array are present in this.ammo. Otherwise this value does not change and an error message
+     * is given.
+     *
+     * @param ammo selected ammo to reload the weapon
+     * @return a boolean that indicates if the process ends successfully
+     */
     private  boolean updateAmmo(char[] ammo){
         int[] tempPlayerAmmo = this.ammo.clone();
         boolean control = true;
@@ -440,6 +478,14 @@ public class Player {
         return control;
     }
 
+    /**
+     * The given array of power up cards is compared with the value of this.powerup. This value is updated only if all
+     * the value contained in the power up cards array are present in this.powerup. Otherwise this value does not change
+     * and an error message is given.
+     *
+     * @param powerUp selected power up cards selected to reload the weapon
+     * @return a boolean that indicates if the process ends successfully
+     */
     private boolean updatePowerup(PowerupCard[] powerUp){
         PowerupCard[] tempPowerUpPlayer = this.powerup.clone();
         boolean controller = true;
