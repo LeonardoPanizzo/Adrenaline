@@ -321,62 +321,7 @@ public class Player {
         else
             System.out.println("Actions completed");
     }
-/*
-    /**
-     * Reload the selected weapon only if are present the necessary ammo. If they aren't, the ammo amount will not change.
-     *
-     * @param weapon the WeaponCard the player wants to reload
-     * @see WeaponCard
-     * @see Player
-     *
-    public void reload (WeaponCard weapon){     //todo: aggiungere la possibilità di pagare con powerup
-        int[] tempAmmo = new int [3];
-        for(int p=0; p<3; p++)
-            tempAmmo[p] = this.ammo[p];
-        char[] cost = weapon.getCostReloading();
-        int counter = cost.length;
-        for(int i=0; i<cost.length; i++){                                   //all cost array is analyzed to see if the necessary ammo is present
-            if (cost[i] == 'b') {
-                if(this.ammo[0] == 0) {
-                    System.out.println("Not enough Blue Ammo to reload");
-                    for(int p=0; p<3; p++)
-                        this.ammo[p] = tempAmmo[p];                         //in each case ammo are not enough, initial this.ammo value is restored and the weapon can't to be loaded
-                    break;
-                }
-                else {
-                    this.ammo[0] -= 1;
-                    counter--;                                              //if the current ammo is present, its value is decreased by one
-                }
-            }
-            else if(cost[i] == 'y') {
-                if(this.ammo[1] == 0) {
-                    System.out.println("Not enough Yellow Ammo to reload");
-                    for(int p=0; p<3; p++)
-                        this.ammo[p] = tempAmmo[p];
-                    break;
-                }
-                else {
-                    this.ammo[1] -= 1;
-                    counter--;
-                }
-            }
-            else if(cost[i] == 'r') {
-                if (this.ammo[2] == 0) {
-                    System.out.println("Not enough Red Ammo to reload");
-                    for(int p=0; p<3; p++)
-                        this.ammo[p] = tempAmmo[p];
-                    break;
-                }
-                else {
-                    this.ammo[2] -= 1;
-                    counter--;
-                }
-            }
-        }
-        if(counter == 0)            //counter shows how many elements in cost have to be analyzed. Only when all elements are successfully analyzed, then the weapon is reloaded
-            weapon.reload();
-    }
-*/
+
     public void reload (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp){
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
@@ -385,8 +330,10 @@ public class Player {
         for(int i=0; i<cost.length; i++){
             for(int a=0; a<ammo.length; a++){           //control if the ammo is in ammoArray
                 if(ammo[a] == cost[i]) {
+                    cost[i] = 'n';
                     ammo[a]--;
                     counter--;
+                    break;
                 }
             }
             for(int pu=0; pu<powerUp.length; pu++){     //control if the ammo is in powerUpArray
@@ -394,11 +341,12 @@ public class Player {
                     if(powerUp[pu].getColour() == cost[i]) {
                         powerUp[pu] = null;
                         counter--;
+                        break;
                     }
                 }
             }
         }
-        if(counter == 0){                       //if true, weaponCard is reloaded
+        if(counter == 0 && cost.length == ammo.length + powerUp.length){        //if true, weaponCard is reloaded
             boolean controller1 = this.updateAmmo(tempAmmo);
             boolean controller2 = this.updatePowerup(tempPowerUp);
             if(controller1 && controller2)
@@ -417,16 +365,17 @@ public class Player {
                 if(ammo[a] == cost[i]) {
                     ammo[a]--;
                     counter--;
+                    break;
                 }
             }
         }
-        if(counter == 0){                       //if true, weaponCard is reloaded
+        if(counter == 0 && cost.length == ammo.length){                       //if true, weaponCard is reloaded
             boolean controller = this.updateAmmo(tempAmmo);
             if(controller)
                 weapon.reload();
         }
         else
-            System.out.println("Selected ammo and incorrect");
+            System.out.println("Selected ammo are incorrect");
     }
 
     public void reload (WeaponCard weapon, PowerupCard[] powerUp){
@@ -434,22 +383,23 @@ public class Player {
         int counter = cost.length;
         PowerupCard[] tempPowerUp = powerUp.clone();
         for(int i=0; i<cost.length; i++){
-            for(int pu=0; pu<powerUp.length; pu++){     //control if the ammo is in powerUpArray
-                if(powerUp[pu] != null) {
-                    if(powerUp[pu].getColour() == cost[i]) {
-                        powerUp[pu] = null;
+            for(int p=0; p<powerUp.length; p++){     //control if the ammo is in powerUpArray
+                if(powerUp[p] != null) {
+                    if(powerUp[p].getColour() == cost[i]) {
+                        powerUp[p] = null;
                         counter--;
+                        break;
                     }
                 }
             }
         }
-        if(counter == 0){                       //if true, weaponCard is reloaded
+        if(counter == 0 && cost.length == powerUp.length){                       //if true, weaponCard is reloaded
             boolean controller = this.updatePowerup(tempPowerUp);
             if(controller)
                 weapon.reload();
         }
         else
-            System.out.println("Selected power up card are incorrect");
+            System.out.println("Selected power up cards are incorrect");
     }
 
     private  boolean updateAmmo(char[] ammo){
@@ -496,7 +446,7 @@ public class Player {
         for(int pu=0; pu<powerUp.length; pu++){
             for(int scan=0; scan<this.powerup.length; scan++){
                 if(this.powerup[scan] != null) {
-                    if (powerUp[pu].getName().equals(this.powerup[scan].getName())) {
+                    if (powerUp[pu].getName().equals(this.powerup[scan].getName()) && powerUp[pu].colour == this.powerup[scan].getColour()) {
                         this.powerup[scan] = null;
                         break;
                     }
@@ -635,7 +585,6 @@ public class Player {
     public void respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;
         this.life = 11;
-        this.ammo = new int[]{1, 1, 1};
         char colour = powerup.getColour();
         if(position.getRoom() == colour && position.isRespawnPoint())
             this.position = position;
