@@ -29,7 +29,7 @@ public class WeaponCard {
     }
 
     public char[] getCostReloading(){
-        return costs;
+        return costs.clone();           //andrea: altrimenti si ritorna l'attributo e può essere modificato!
     }
 
     public boolean isLoaded() {
