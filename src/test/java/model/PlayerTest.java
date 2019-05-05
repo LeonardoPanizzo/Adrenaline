@@ -250,10 +250,10 @@ public class PlayerTest {
         wp.setLoaded(false);
         PowerupCard[] pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         char[] ammo = new char[] {'b', 'y', 'r'};
-        p.reload(wp, ammo, pow);
 
-        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        //Reload with only ammo
 
+        //Weapon correctly reloaded
         p.setAmmo('b', 2);
         p.setAmmo('y', 2);
         p.setAmmo('r', 2);
@@ -265,6 +265,7 @@ public class PlayerTest {
         assertEquals(0, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(0, p.getAmmo()[2], "Red ammo aren't correct");
 
+        //Error in each one ammo colour
         p.setAmmo('b', 2);
         p.setAmmo('y', 2);
         p.setAmmo('r', 2);
@@ -279,6 +280,67 @@ public class PlayerTest {
         assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
 
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 1);
+        p.setAmmo('r', 2);
+        cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
+        p.reload(wp, ammo);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(1, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 1);
+        cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
+        p.reload(wp, ammo);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(1, p.getAmmo()[2], "Red ammo aren't correct");
+
+        //Less ammo selected
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        ammo = new char[] {'y', 'r', 'b', 'y', 'r'};
+        p.reload(wp, ammo);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+
+        //More than necessary ammo are selected
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        cost = new char[] {'r', 'b', 'b', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
+        p.reload(wp, ammo);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+
+        //Reload with only power up
+
+        //Weapon correctly reloaded
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'r', 'b'};
         wp = new WeaponCard("name", cost);
@@ -289,6 +351,157 @@ public class PlayerTest {
         assertTrue(wp.isLoaded(), "Weapon isn't loaded");
         assertNull(p.getPowerup()[0], "First power up isn't correct");
         assertNull(p.getPowerup()[1], "Second power up isn't correct");
+
+        //Not correct power up selected
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        cost = new char[] {'r', 'b'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        PowerupCard[] power = new PowerupCard[]{new PowerupCard("name", 'r', b), new PowerupCard("name2", 'r', b)};
+        p.reload(wp, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+
+        //Correct ammo selected, but not present in this.ammo
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        cost = new char[] {'r', 'r'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        power = new PowerupCard[]{new PowerupCard("name", 'r', b), new PowerupCard("name2", 'r', b)};
+        p.reload(wp, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+
+        //More than necessary power up are selected
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        cost = new char[] {'b', 'r'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'b', b)};
+        PowerupCard testPU = p.getPowerup()[0];
+        p.reload(wp, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+        assertEquals(testPU, p.getPowerup()[0], "First power up isn't correct");
+
+        //Reload with ammo and power up
+
+        //Weapon correctly reloaded
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        ammo = new char[] {'b', 'r', 'y', 'y'};
+        p.reload(wp, ammo, power);
+
+        assertTrue(wp.isLoaded(), "Weapon isn't loaded");
+        assertEquals(1, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(0, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(1, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNull(p.getPowerup()[1], "Second power up isn't correct");
+
+        //More than needed power up are selected
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
+        cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
+        testPU = p.getPowerup()[0];
+        ammo = new char[] {'b', 'r', 'y', 'y'};
+        p.reload(wp, ammo, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+        assertEquals(testPU, p.getPowerup()[0], "First power up isn't correct");
+
+        //More than needed ammo are selected
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
+        cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
+        testPU = p.getPowerup()[0];
+        ammo = new char[] {'b', 'b', 'r', 'y', 'y'};
+        p.reload(wp, ammo, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+        assertEquals(testPU, p.getPowerup()[0], "First power up isn't correct");
+
+        //Less than needed power up are selected
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
+        cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        p.setAmmo('b', 2);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 2);
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b)};
+        testPU = p.getPowerup()[0];
+        ammo = new char[] {'b', 'b', 'r', 'y', 'y'};
+        p.reload(wp, ammo, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(2, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+        assertEquals(testPU, p.getPowerup()[0], "First power up isn't correct");
+
+        //Selected pw and ammo are correct, but not present in this.ammo and in this.powerup
+        power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'y', b)};
+        cost = new char[] {'b', 'b', 'b', 'r', 'r', 'r', 'y', 'y', 'y'};
+        wp = new WeaponCard("name", cost);
+        wp.setLoaded(false);
+        p.setPowerup(pow);
+        p.setAmmo('b', 1);
+        p.setAmmo('y', 1);
+        p.setAmmo('r', 1);
+        pow = new PowerupCard[]{new PowerupCard("name", 'b', b)};
+        testPU = p.getPowerup()[0];
+        ammo = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
+        p.reload(wp, ammo, power);
+
+        assertFalse(wp.isLoaded(), "Weapon is loaded");
+        assertEquals(1, p.getAmmo()[0], "Ble ammo aren't correct");
+        assertEquals(1, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(1, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNotNull(p.getPowerup()[0], "First power up isn't correct");
+        assertNotNull(p.getPowerup()[1], "Second power up isn't correct");
+        assertEquals(testPU, p.getPowerup()[0], "First power up isn't correct");
     }
 
     @Test
@@ -347,11 +560,20 @@ public class PlayerTest {
         p.setFinalRound(true);
         p.setFirstPlayer(true);
         p.setRound(true);
+        p.setAmmo('b', 1);
+        p.setAmmo('y', 2);
+        p.setAmmo('r', 3);
+        int ammoTest1 = p.getAmmo('b');
+        int ammoTest2 = p.getAmmo('y');
+        int ammoTest3 = p.getAmmo('r');
 
         assertEquals(2, p.getScore(), "SetScore never works");
         assertTrue(p.isFinalRound(), "Final Round is false");
         assertTrue(p.isFirstPlayer(), "First player is false");
         assertTrue(p.isRound(), "Round is false");
         assertEquals(0, p.getNumber());
+        assertEquals(1, ammoTest1, "Blue ammo incorrect");
+        assertEquals(2, ammoTest2, "Yellow ammo incorrect");
+        assertEquals(3, ammoTest3, "Red ammo incorrect");
     }
 }
