@@ -12,6 +12,10 @@ public class WeaponCard {
         loaded = true;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void reload(){
         this.loaded=true;
     }
