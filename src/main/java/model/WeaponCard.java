@@ -21,9 +21,9 @@ public class WeaponCard {
     }
 
     public char[] getCostTaking(){
-        char[] temp=new char[5];
+        char[] temp=new char[costs.length-1];
         for(int i=1; i<costs.length; i++)
-            temp[i]=costs[i];
+            temp[i-1]=costs[i];
         return temp;
     }
 
