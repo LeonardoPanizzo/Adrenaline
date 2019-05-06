@@ -221,9 +221,9 @@ public class PlayerTest {
         Position pos = new Position(1, 0, 'r', true, true);
         p.setPosition(pos);
         p.roundBegin();
-        p.grab();
+        p.grabAmmoCard();
 
-        assertEquals(1, p.getAction(), "First action doesn't work");
+        assertEquals(2, p.getAction(), "First action doesn't work");
 
         pos = new Position(1, 0, 'r', true, false);
         char[] value = new char[] {'b', 'y', 'r', '_'};
@@ -232,13 +232,75 @@ public class PlayerTest {
         p.setPosition(pos);
         p.getPosition().setAmmo(ammoCard);
         p.setPosition(pos);
-        p.grab();
-        p.grab();
+        p.grabAmmoCard();
+        p.grabAmmoCard();
 
-        assertEquals(0, p.getAction(), "First action doesn't work");
+        assertEquals(1, p.getAction(), "First action doesn't work");
         assertEquals(2, p.getAmmo()[0], "Blue ammo aren't correct");
         assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+
+        p = new Player(0);
+        p.setAction(0);
+        pos = new Position(1, 0, 'r', true, false);
+        value = new char[] {'b', 'y', 'r', '_'};
+        ammoCard = new AmmoCard();
+        ammoCard.setValue(value);
+        p.setPosition(pos);
+        p.getPosition().setAmmo(ammoCard);
+        p.setPosition(pos);
+        p.grabAmmoCard();
+
+        assertEquals(1, p.getAmmo()[0], "Blue ammo aren't correct");
+        assertEquals(1, p.getAmmo()[1], "Yellow ammo aren't correct");
+        assertEquals(1, p.getAmmo()[2], "Red ammo aren't correct");
+    }
+
+    @Test
+    public void grabWeaponTest(){
+
+        //Pay with ammo and powerupCards
+        Board b = new Board(1);
+        Player play = new Player(0);
+        play.setAction(2);
+        char[] cost = new char[]{'b', 'r', 'y'};
+        WeaponCard weapon1 = new WeaponCard("weapon1", cost);
+        cost = new char[]{'b', 'y'};
+        WeaponCard weapon2 = new WeaponCard("weapon2", cost);
+        Position pos = new Position(1, 0, 'r', true, true);
+        pos.chooseArm(0);
+        pos.giveWeapon(weapon1);
+        pos.chooseArm(1);
+        pos.giveWeapon(weapon2);
+        play.setPosition(pos);
+        char[]selectedAmmo = new char[]{'y'};
+        PowerupCard[] power = new PowerupCard[]{new PowerupCard("pw1", 'r', b)};
+        play.grabWeaponCard(pos.chooseArm(0), selectedAmmo, power);
+        play.grabWeaponCard(pos.chooseArm(1), selectedAmmo, power);
+
+        assertEquals(play.getWeapons()[0], weapon1);
+        assertNull(play.getWeapons()[1]);
+
+        //Pay with only ammo
+        play.setAction(2);
+        cost = new char[]{'r', 'b'};
+        WeaponCard weapon = new WeaponCard("weapon", cost);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        selectedAmmo = new char[]{'b'};
+        play.grabWeaponCard(pos.chooseArm(2), selectedAmmo);
+
+        assertEquals(play.getWeapons()[0], weapon1);
+        assertEquals(play.getWeapons()[1], weapon);
+
+        //pay with only powerup cards
+        play.setAction(2);
+        power = new PowerupCard[]{new PowerupCard("pw1", 'y', b)};
+        play.grabWeaponCard(pos.chooseArm(1), power);
+
+        assertEquals(play.getWeapons()[0], weapon1);
+        assertEquals(play.getWeapons()[1], weapon);
+        assertEquals(play.getWeapons()[2], weapon2);
     }
 
     @Test
@@ -563,6 +625,7 @@ public class PlayerTest {
         p.setAmmo('b', 1);
         p.setAmmo('y', 2);
         p.setAmmo('r', 3);
+        p.getAmmo('t');
         int ammoTest1 = p.getAmmo('b');
         int ammoTest2 = p.getAmmo('y');
         int ammoTest3 = p.getAmmo('r');
@@ -575,5 +638,19 @@ public class PlayerTest {
         assertEquals(1, ammoTest1, "Blue ammo incorrect");
         assertEquals(2, ammoTest2, "Yellow ammo incorrect");
         assertEquals(3, ammoTest3, "Red ammo incorrect");
+
+        p.setAmmo('b', 5);
+        p.setAmmo('y', 5);
+        p.setAmmo('r', 5);
+        ammoTest1 = p.getAmmo('b');
+        ammoTest2 = p.getAmmo('y');
+        ammoTest3 = p.getAmmo('r');
+        assertEquals(3, ammoTest1, "Blue ammo incorrect");
+        assertEquals(3, ammoTest2, "Yellow ammo incorrect");
+        assertEquals(3, ammoTest3, "Red ammo incorrect");
+
+        p.setMarksGiven(new Player(2), 4);
+
+        assertEquals(3, p.getMarksGiven()[2]);
     }
 }
