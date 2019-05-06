@@ -106,7 +106,6 @@ public class Position {
     public WeaponCard chooseArm(int i){
         weaponSpot=i;   //save the index of the choosen weapon, this index will be used when the discard weapon will be placed in tha spot
         WeaponCard[] wep = weapons.clone(); //to pass a weapons' copy
-        weapons[i] = null;                  //the slot now it's empty
         return wep[i];
     }
 
