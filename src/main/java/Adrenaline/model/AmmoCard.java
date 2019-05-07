@@ -5,6 +5,7 @@ public class AmmoCard {
 
     public AmmoCard(){
         //todo inserirò le carte qui dentro, nel costruttore
+        //il power up ha il carattere 'p'
     }
 
     public char[] getValue(){

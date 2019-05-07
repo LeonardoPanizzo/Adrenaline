@@ -13,9 +13,9 @@ public class PUTeleporter extends PowerupCard {
 
     @Override
     public void activate(Player p) {
-        Position [][] pos=board.getBoard();
+        //todo dovrò creare lo standard per chiamare i powerup
         //todo: ricevere in input la scelta della posizione in cui andare fra quelle nella board
-        p.setPosition(pos[0][1]); //0,1 ipotetica posizione scelta dal giocatore
+        //p.setPosition(pos[0][1]); //0,1 ipotetica posizione scelta dal giocatore
 
     }
 }
