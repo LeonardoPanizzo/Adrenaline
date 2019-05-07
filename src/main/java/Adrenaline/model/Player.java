@@ -766,8 +766,8 @@ public class Player {
     /**
      * The player respown in a selected respawn point. A power up card with the same color is discard.
      *
-     * @param powerup
-     * @param position
+     * @param powerup the power up to discard to respawn in the respawn point with the same color
+     * @param position the position where the player want to respawn
      */
     public void respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;

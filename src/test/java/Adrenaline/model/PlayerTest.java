@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     @Test
     public void constructorTest(){
-        Player p = new Player(3);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(3, pwd);
         int[][] playersDamage = p.getPlayersDamage();
         int[] markGiven = new int[] {0, 0, 0, 0, 0};
         int[] markReceived = new int[] {0, 0, 0, 0, 0};
@@ -34,7 +35,8 @@ public class PlayerTest {
 
     @Test
     public void endOfRoundTest(){
-        Player p = new Player(0);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(0, pwd);
         p.endOfRound();
 
         assertEquals(false, p.isRound());
@@ -42,10 +44,11 @@ public class PlayerTest {
 
     @Test
     public void receivedDamagesTest(){
-        Player p = new Player(1);
-        Player player3 = new Player(3);
-        Player player2 = new Player(2);
-        Player player1 = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
+        Player player3 = new Player(3, pwd);
+        Player player2 = new Player(2, pwd);
+        Player player1 = new Player(1, pwd);
         p.receivedDamages(player3);
         int life = p.getLife();
         int[][] playersDamage = p.getPlayersDamage();
@@ -72,7 +75,7 @@ public class PlayerTest {
         assertEquals(-1, playersDamage[4][0], "Order of player 5 isn't correct");
         assertEquals(0, playersDamage[4][1], "Total player 5 damage isn't correct");
 
-        Player player = new Player(2);
+        Player player = new Player(2, pwd);
         int [] marksReceived = new int[]{0, 0, 0, 2, 0};
         player.setMarksReceived(player3, 2);
         player.receivedDamages(player3);
@@ -115,9 +118,10 @@ public class PlayerTest {
 
     @Test
     public void sortedPlayersTest(){
-        Player p1 = new Player(1);
-        Player p3 = new Player(3);
-        Player p2 = new Player(3);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p1 = new Player(1, pwd);
+        Player p3 = new Player(3, pwd);
+        Player p2 = new Player(3, pwd);
         p1.receivedDamages(p3);
         p1.receivedDamages(p1);
         p1.receivedDamages(p2);
@@ -133,9 +137,10 @@ public class PlayerTest {
 
     @Test
     public void givePointsTest(){
-        Player p = new Player(1);
-        Player p2 = new Player(2);
-        Player p3 = new Player(3);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
+        Player p2 = new Player(2, pwd);
+        Player p3 = new Player(3, pwd);
         p.receivedDamages(p3);
         p.receivedDamages(p);
         p.receivedDamages(p2);
@@ -152,9 +157,10 @@ public class PlayerTest {
     @Test
     public void limitCasesTest(){               //Test on possible critical cases
         //All damages by only one player. After that, one other player attack (all the exceeding damages are thrown away.
-        Player player = new Player(0);
-        Player p4 = new Player(4);
-        Player p1 = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player player = new Player(0, pwd);
+        Player p4 = new Player(4, pwd);
+        Player p1 = new Player(1, pwd);
         for(int i=0; i<12; i++)
             player.receivedDamages(p4);
         player.receivedDamages(p1);
@@ -181,7 +187,7 @@ public class PlayerTest {
         assertEquals(12, playersDamage[4][1], "Total player 5 damage isn't correct");
 
         //no damage were made
-        Player play = new Player(1);
+        Player play = new Player(1, pwd);
         points = play.givePoints();
         life = play.getLife();
         playersDamage = play.getPlayersDamage();
@@ -201,7 +207,8 @@ public class PlayerTest {
 
     @Test
     public void actionMoveTest(){
-        Player p = new Player(0);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(0, pwd);
         Position pos = new Position(1, 0, 'r', true, true);
         Position play = new Position(0, 0, 'r', true, false);
         p.roundBegin();
@@ -217,7 +224,8 @@ public class PlayerTest {
 
     @Test
     public void actionGrabTest (){
-        Player p = new Player(0);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(0, pwd);
         Position pos = new Position(1, 0, 'r', true, true);
         p.setPosition(pos);
         p.roundBegin();
@@ -240,7 +248,7 @@ public class PlayerTest {
         assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
 
-        p = new Player(0);
+        p = new Player(0, pwd);
         p.setAction(0);
         pos = new Position(1, 0, 'r', true, false);
         value = new char[] {'b', 'y', 'r', '_'};
@@ -258,10 +266,11 @@ public class PlayerTest {
 
     @Test
     public void grabWeaponTest(){
+        PowerupDeck pwd = new PowerupDeck();
 
         //Pay with ammo and powerupCards
         Board b = new Board(1);
-        Player play = new Player(0);
+        Player play = new Player(0, pwd);
         play.setAction(2);
         char[] cost = new char[]{'b', 'r', 'y'};
         WeaponCard weapon1 = new WeaponCard("weapon1", cost);
@@ -305,7 +314,8 @@ public class PlayerTest {
 
     @Test
     public void reloadTest(){
-        Player p = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
         Board b = new Board(1);
         char[] cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
         WeaponCard wp = new WeaponCard("name", cost);
@@ -568,7 +578,8 @@ public class PlayerTest {
 
     @Test
     public void shotTest(){
-        Player p = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
         Board b = new Board(1);
         char[] cost = new char[] {'r','r'};
         WeaponCard wp = new WeaponCard("name", cost);
@@ -585,26 +596,41 @@ public class PlayerTest {
 
     @Test
     public void respawnTest(){
-        Player p = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
         Board b = new Board(1);
-        Position testPosition = new Position(0, 2, 'b', true, true);
-        PowerupCard pu = new PowerupCard("Name", 'b', b);
-        p.respawn(pu, testPosition);
+        Position testPosition = new Position(0, 2, 'b', true, false);
+        PowerupCard pu1 = new PowerupCard("Name1", 'b', b);
+        PowerupCard pu2 = new PowerupCard("Name2", 'r', b);
+        PowerupCard pu3 = new PowerupCard("Name2", 'r', b);
+        PowerupCard[] pu = new PowerupCard[3];
+        pu[0] = pu1;
+        pu[1] = pu2;
+        pu[2] = pu3;
 
-        assertEquals(testPosition, p.getPosition(), "Position is not correct");
+        p.setPowerup(pu);
+        p.respawn(pu1, testPosition);
 
-        PowerupCard pu2 = new PowerupCard("Name", 'b', b);
+        assertNotEquals(testPosition, p.getPosition(), "Position is not correct");
+
         Position position = new Position(0, 0, 'b', true, false);
         p.setPosition(position);
-        testPosition = new Position(0, 2, 'b', true, false);
-        p.respawn(pu2, testPosition);
+        testPosition = new Position(1, 2, 'b', true, true);
+        p.respawn(pu1, testPosition);
 
-        assertNotEquals(testPosition.getCoordinate()[1], p.getPosition().getCoordinate()[1], "Position is a respawn point");
+        assertNull(p.getPowerup()[0], "First powerup not used");
+        assertEquals(testPosition, p.getPosition(), "Player isn't respawned");
+
+        p.setPosition(position);
+        p.respawn(pu1, testPosition);
+
+        assertNotEquals(testPosition, p.getPosition(), "Player is respawned");
     }
 
     @Test
     public void usePowerUpTest(){
-        Player p = new Player(1);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(1, pwd);
         Board b = new Board(1);
         PowerupCard pu = new PowerupCard("Name", 'b', b);
 
@@ -614,7 +640,8 @@ public class PlayerTest {
 
     @Test
     public void setterGetterTest (){
-        Player p = new Player(0);
+        PowerupDeck pwd = new PowerupDeck();
+        Player p = new Player(0, pwd);
         Board b = new Board(1);
         int[] marks = new int[] {0, 1, 4, 2, 1};
         char[] cost = new char[] {'r','r'};
@@ -649,7 +676,7 @@ public class PlayerTest {
         assertEquals(3, ammoTest2, "Yellow ammo incorrect");
         assertEquals(3, ammoTest3, "Red ammo incorrect");
 
-        p.setMarksGiven(new Player(2), 4);
+        p.setMarksGiven(new Player(2, pwd), 4);
 
         assertEquals(3, p.getMarksGiven()[2]);
     }
