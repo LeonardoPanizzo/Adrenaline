@@ -8,6 +8,6 @@ import java.rmi.RemoteException;
 
 public interface RemoteView extends Remote {
 
-    void ack(String message) throws RemoteException;
+    void ack(String message) throws RemoteException; //called by Controller to send TextView messages
 
 }

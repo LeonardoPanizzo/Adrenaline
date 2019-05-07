@@ -19,7 +19,7 @@ public class FinalClient {
 
         //Registry registry = LocateRegistry.getRegistry();
 
-        RemoteController controller = (RemoteController) Naming.lookup("172.20.10.3/controller"); //   //localhost/controller
+        RemoteController controller = (RemoteController) Naming.lookup("//localhost/controller"); //   //localhost/controller
 
         //RemoteController controller = (RemoteController) registry.lookup("controller");
 

@@ -9,17 +9,25 @@ import  java.rmi.*;
 
 public interface RemoteController extends Remote {
 
-    void createBoard(int num) throws RemoteException;
+    void createBoard(Integer boardNumber) throws RemoteException;
 
-    void sendMessage(String message)throws RemoteException;
+    void sendMessage(String message)throws RemoteException; //from TextView to Controller
 
-    void getMessage(RemoteView view) throws RemoteException;
+    String getMessage(RemoteView view) throws RemoteException; //from Controller to TextView
 
-    //String login(String username, RemoteView view) throws RemoteException;
+    void registerClient(RemoteView client) throws RemoteException;
+
+    void createDecks() throws RemoteException;
+
+
+
+        //String login(String username, RemoteView view) throws RemoteException;
 
     //void getMessage() throws RemoteException;
 
     //void registerClient(RemoteView client) throws RemoteException;
+
+
     /*
 
 

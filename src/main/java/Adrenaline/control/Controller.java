@@ -1,30 +1,56 @@
 package Adrenaline.control;
 
 import Adrenaline.model.Board;
+import Adrenaline.model.Player;
+import Adrenaline.model.PowerupDeck;
+import Adrenaline.model.WeaponDeck;
 import Adrenaline.view.RemoteView;
 import Adrenaline.view.TextView;
 
+import java.io.IOException;
 import java.rmi.*;
 import java.rmi.server.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Controller extends UnicastRemoteObject implements RemoteController {
 
     //private final Map<String, RemoteView> views = new HashMap<>();
+    private ArrayList<RemoteView> clients;
 
 
     public Controller() throws RemoteException {
         super();
+        clients = new ArrayList<>();
     }
 
-    public void createBoard(int num) throws RemoteException{
+    public ArrayList<RemoteView> getClients() {
+        return clients;
+    }
 
-        Board board = new Board(num);
+    public synchronized void registerClient(RemoteView client) throws RemoteException{
+
+        this.clients.add(client);
+
+        int id = this.clients.indexOf(client);
+
+        new Player(id);
+
+        System.out.println("Player " + id + " created\n");
+        ack("Your Player id is: " + id + "\n");
+    }
+
+    public void createBoard(Integer boardNumber) throws RemoteException{
+
+        //if (board ancora non creata per questo game)
+        Board board = new Board(boardNumber);
         System.out.println("Board created");
 
+    }
+
+    public void createDecks() throws RemoteException{
+        PowerupDeck PUDeck= new PowerupDeck();
+        WeaponDeck WDeck = new WeaponDeck();
     }
 
     public void sendMessage(String message) {
@@ -44,7 +70,7 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
 */
 
 
-    public void getMessage(RemoteView view) throws RemoteException {
+    public String getMessage(RemoteView view) throws RemoteException {
         //String message = "ciao dal controller";
 
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +79,8 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
             message = scanner.nextLine();
             try {
                 view.ack("[Server] " + message);
-                break;
+                return message;
+                //break;
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

@@ -22,6 +22,19 @@ public class TextView extends UnicastRemoteObject implements RemoteView, Seriali
         //remoteController.registerChatClient(this);
     }
 
+
+    public void Board() throws RemoteException{
+        System.out.println("Enter board number: ");
+        Scanner scanner = new Scanner(System.in);
+        Integer boardNumber;
+        boardNumber = scanner.nextInt();
+        remoteController.createBoard(boardNumber);
+    }
+
+    public void Decks() throws RemoteException{
+        remoteController.createDecks();
+    }
+
     public void run() throws RemoteException{
         //remoteController.sendMessage("ciao dal client");
         //remoteController.registerClient(this);
@@ -40,7 +53,14 @@ public class TextView extends UnicastRemoteObject implements RemoteView, Seriali
 */
 
 
+        remoteController.registerClient(this);
+
         remoteController.sendMessage("[" + name + "] has connected to the server."); //TODO method has connected
+
+        this.Board();
+        this.Decks();
+
+        /* CONNECTIVITY TEST MESSAGES
         Scanner scanner = new Scanner(System.in);
         String message;
         while (true) {
@@ -53,6 +73,7 @@ public class TextView extends UnicastRemoteObject implements RemoteView, Seriali
                 e.printStackTrace();
             }
         }
+        */
 
     }
 
