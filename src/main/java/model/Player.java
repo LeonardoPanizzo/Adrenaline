@@ -253,7 +253,7 @@ public class Player {
     /**
      * Grab a weapon from the position where the player is.
      * <p>If the position is a respawn point, the palyer can't grab an AmmoCard</p>
-     * <p>If the position isn't a respawn point, the player grab an AmmoCard. This will converted into ammo and, maybe, a powerup card</p>
+     * <p>If the position isn't a respawn point, the player grab an AmmoCard. This will be converted into ammo and, maybe, a powerup card</p>
      *
      * @see AmmoCard
      * @see Position
@@ -293,7 +293,16 @@ public class Player {
             System.out.println("Actions completed");
     }
 
-
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
+     *
+     * @param weapon the weapon player wants to take
+     * @param ammo selected ammo to pay the cost
+     * @param powerUp selected power up cards to pay the cost
+     * @see PowerupCard
+     * @see PowerupDeck
+     * @see Player
+     */
     public void grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
         if (this.action > 0) {
             char[] cost = weapon.getCostTaking();
@@ -337,6 +346,13 @@ public class Player {
             System.out.println("Action completed");
     }
 
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo only.
+     *
+     * @param weapon the weapon player wants to take
+     * @param ammo selected ammo to pay the cost
+     * @see Player
+     */
     public void grabWeaponCard (WeaponCard weapon, char[] ammo){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking();
@@ -368,6 +384,15 @@ public class Player {
             System.out.println("Action completed");
     }
 
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by power up cards only.
+     *
+     * @param weapon the weapon player wants to take
+     * @param powerUp selected power up cards to pay the cost
+     * @see PowerupCard
+     * @see PowerupDeck
+     * @see Player
+     */
     public void grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking();
