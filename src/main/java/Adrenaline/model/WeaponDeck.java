@@ -23,23 +23,4 @@ public class WeaponDeck {
             size=0;
         return x;
     }
-
-    /*try{
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("src/main/resources/WeaponCard.json"));
-
-            JSONObject jsonObject = (JSONObject) obj;
-
-
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("File missing");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-       */
-
 }
