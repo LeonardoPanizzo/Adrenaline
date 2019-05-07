@@ -18,6 +18,7 @@ public class Player {
     private boolean firstPlayer;
     private int madeDamage;
     private int[] damagedPlayers;
+    private PowerupDeck powerUpDeck;
 
     /**
      * Is Player Class' constructor.
@@ -28,7 +29,7 @@ public class Player {
      * @param number    player's identifier
      * @see Player
      */
-    public Player(int number){
+    public Player(int number, PowerupDeck powerUpDeck){
         this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
         this.action = 0;
         this.position = null;                           //the initial position is chosen by the player
@@ -46,6 +47,7 @@ public class Player {
         this.firstPlayer = false;
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
+        this.powerUpDeck = powerUpDeck;
     }
 
     public Position getPosition(){
@@ -237,6 +239,7 @@ public class Player {
      * @see Player
      * @see Position
      */
+    //todo implementare con array
     public void move(Position position){
         if(this.action > 0){
             if(this.position.reachable(position))
@@ -280,7 +283,7 @@ public class Player {
                             if (this.ammo[2] < 3)
                                 this.ammo[2]++;
                         } else if (ammo.getValue()[i] == 'p')
-                            this.powerup[3] = this.drawPowerup();
+                            System.out.println("pesca");//todo pesca powerup
                     }
                     this.action--;
                     this.position.setAmmo(null);
@@ -437,7 +440,7 @@ public class Player {
             System.out.print("Select fire mode");
             int mode1 = -1;
             int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
-            Player[] attackedPlayer = new Player[]{new Player(1)};    //todo definire dimensioni array di giocatori attaccati
+            Player[] attackedPlayer = new Player[]{new Player(1, this.powerUpDeck)};    //todo definire dimensioni array di giocatori attaccati
             for(int l=0; l<attackedPlayer.length; l++)
                 this.damagedPlayers[l] = attackedPlayer[l].getNumber();
             Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
@@ -760,12 +763,25 @@ public class Player {
         return playersDamage;
     }
 
+    /**
+     * The player respown in a selected respawn point. A power up card with the same color is discard.
+     *
+     * @param powerup
+     * @param position
+     */
     public void respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;
         this.life = 11;
+        PowerupCard[] pow = new PowerupCard[1];
+        pow[0] = powerup;
         char colour = powerup.getColour();
-        if(position.getRoom() == colour && position.isRespawnPoint())
-            this.position = position;
+        if(position.getRoom() == colour && position.isRespawnPoint()) {
+            boolean control = this.updatePowerup(pow);
+            if(control)
+                this.position = position;
+            else
+                System.out.println("You don't have this PowerUp Card");
+        }
         else
             System.out.println("Incorrect Position");
     }
@@ -775,9 +791,11 @@ public class Player {
         //todo rimuovere il powerup dalla lista di this
     }
 
-    public PowerupCard drawPowerup(){
-        //one PowerupCard is randomly taken
-        return new PowerupDeck().pickUpPowerup();   //todo da sistemare
+    public void drawPowerup(){
+        int counter = 0;
+        while (powerup[counter] != null)
+            counter++;
+        this.powerup[counter] = this.powerUpDeck.pickUpPowerup();
     }
 
 }
