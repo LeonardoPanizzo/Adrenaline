@@ -13,7 +13,7 @@ public class SocketServer extends Thread {
     private static int port;
     private ServerSocket serverSocket;
 
-    public SocketServer(int port){ this.port = port; }
+    public SocketServer(int port){this.port = port; }
 
     public void run(){
         SocketServer server = new SocketServer(1337);

@@ -21,7 +21,7 @@ public class Board {
 
     //private	static int[] skulls;
     private	static Vector<Integer> skulls;
-    private	static Position[][] board;
+    private static Position[][] board;
     private	int round;
     private int variation;
     private boolean finalRound;
@@ -51,7 +51,7 @@ public class Board {
                 //this.skulls[x] = -1;
                 //this.skulls.add(x,-1);
             for (int i =0; i < 8; i++)
-            this.skulls.add(i, -1);
+                this.skulls.add(i, -1);
 
 
             this.board = new Position[3][4];

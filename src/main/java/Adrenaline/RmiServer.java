@@ -20,7 +20,7 @@ public class RmiServer extends Thread {
 
         Controller obj = new Controller();
 
-        Naming.rebind("//localhost/controller", obj);
+        Naming.rebind("10.169.146.242/controller", obj);
         System.out.println("PeerServer bound in registry");
     }
 

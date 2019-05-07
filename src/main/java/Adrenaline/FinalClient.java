@@ -19,18 +19,21 @@ public class FinalClient {
 
         //Registry registry = LocateRegistry.getRegistry();
 
-        RemoteController controller = (RemoteController) Naming.lookup("controller"); //   //localhost/controller
+        RemoteController controller = (RemoteController) Naming.lookup("10.169.146.242/controller"); //   //localhost/controller
 
         //RemoteController controller = (RemoteController) registry.lookup("controller");
 
 
         System.out.println("[System] Client is ready.\n");
 
+
         System.out.print("[System] Enter your name: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
 
+
         new TextView(name, controller).run();
+
     }
 
 

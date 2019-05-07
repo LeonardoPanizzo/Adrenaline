@@ -6,10 +6,14 @@ import Adrenaline.view.TextView;
 
 import java.rmi.*;
 import java.rmi.server.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
 public class Controller extends UnicastRemoteObject implements RemoteController {
+
+    //private final Map<String, RemoteView> views = new HashMap<>();
 
 
     public Controller() throws RemoteException {
@@ -26,6 +30,18 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
     public void sendMessage(String message) {
         System.out.println(message);
     }
+
+
+/*
+    String login(String username, RemoteView view) throws RemoteException{
+
+        String token = database.login(username);
+        views.put(token, view);
+        view.ack("Logging in as @" + username);
+
+        return token;
+    }
+*/
 
 
     public void getMessage(RemoteView view) throws RemoteException {

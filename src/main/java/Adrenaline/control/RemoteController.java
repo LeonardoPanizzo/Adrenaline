@@ -15,6 +15,8 @@ public interface RemoteController extends Remote {
 
     void getMessage(RemoteView view) throws RemoteException;
 
+    //String login(String username, RemoteView view) throws RemoteException;
+
     //void getMessage() throws RemoteException;
 
     //void registerClient(RemoteView client) throws RemoteException;
