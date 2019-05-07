@@ -40,8 +40,8 @@ public class Player {
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
         this.score = 0;
-        this.weapons = new WeaponCard[]{null, null, null, null};
-        this.powerup = new PowerupCard[]{null, null, null, null};
+        this.weapons = new WeaponCard[]{null, null, null};
+        this.powerup = new PowerupCard[]{null, null, null};
         this.finalRound = false;
         this.firstPlayer = false;
         this.madeDamage = 0;
@@ -81,15 +81,19 @@ public class Player {
     }
 
     public int[] getMarksGiven() {
-        return marksGiven;
+        return marksGiven.clone();
     }
 
     public int[] getMarksReceived() {
-        return marksReceived;
+        return marksReceived.clone();
     }
 
     public int getNumberOfDeaths() {
         return numberOfDeaths;
+    }
+
+    public WeaponCard[] getWeapons() {
+        return weapons.clone();
     }
 
     public int[] getAmmo() {
@@ -165,12 +169,12 @@ public class Player {
      * @see Player
      */
     public void setMarksGiven(Player player, int marks) {
-        int number = player.getNumber();
-        this.marksGiven[number] += marks;
-        if(this.marksGiven[number] > 3)
-            this.marksGiven[number] = 3;
+        int numb = player.getNumber();
+        this.marksGiven[numb] += marks;
+        if(this.marksGiven[numb] > 3)
+            this.marksGiven[numb] = 3;
         if(marks == 0)
-            this.marksGiven[number] = 0;
+            this.marksGiven[numb] = 0;
     }
 
     /**
@@ -182,12 +186,12 @@ public class Player {
      * @see Player
      */
     public void setMarksReceived(Player player, int marks) {
-        int number = player.getNumber();
-        this.marksReceived[number] += marks;
-        if(this.marksReceived[number] > 3)
-            this.marksReceived[number] = 3;
+        int numb = player.getNumber();
+        this.marksReceived[numb] += marks;
+        if(this.marksReceived[numb] > 3)
+            this.marksReceived[numb] = 3;
         if(marks == 0)
-            this.marksReceived[number] = 0;
+            this.marksReceived[numb] = 0;
     }
 
     /**
@@ -246,47 +250,177 @@ public class Player {
 
     /**
      * Grab a weapon from the position where the player is.
-     * <p>If the position is a respawn point, the palyer can choose a new weapon</p>
-     * <p>If the position isn't a respawn point, the player grab a AmmoCard. This will converted into ammo and, maybe, a powerup card</p>
+     * <p>If the position is a respawn point, the palyer can't grab an AmmoCard</p>
+     * <p>If the position isn't a respawn point, the player grab an AmmoCard. This will be converted into ammo and, maybe, a powerup card</p>
      *
      * @see AmmoCard
      * @see Position
      * @see PowerupCard
      * @see PowerupDeck
      */
-    public void grab(){ //todo implementare quando si raccoglie un'arma
+    public void grabAmmoCard(){
         if(this.action >0) {
             if (this.position.isRespawnPoint()) {
-                WeaponCard[] weapons = this.position.showWeapons();
-                int wepChoosen = 0;
-                //todo accept index wepChoosen
-                WeaponCard choosen = this.position.chooseArm(wepChoosen);
-                int wepGiven = 0;
-                //todo accept index wepGiven
-                this.position.giveWeapon(this.weapons[wepGiven]);
-                this.action--;
+                System.out.println("You can't grab an AmmoCard");
             }
             else {
-                AmmoCard ammo = new AmmoCard();
-                ammo = this.position.getAmmo();
-                for (int i = 0; i < 4; i++) {
-                    if (ammo.getValue()[i] == 'b') {
-                        if (this.ammo[0] < 3)
-                            this.ammo[0]++;
-                    } else if (ammo.getValue()[i] == 'y') {
-                        if (this.ammo[1] < 3)
-                            this.ammo[1]++;
-                    } else if (ammo.getValue()[i] == 'r') {
-                        if (this.ammo[2] < 3)
-                            this.ammo[2]++;
-                    } else if (ammo.getValue()[i] == 'p')
-                        this.powerup[3] = this.drawPowerup();
+                AmmoCard ammo = this.position.getAmmo();
+                if (ammo == null) {
+                    System.out.println("No AmmoCard is present");
                 }
-                this.action--;
+                else {
+                    for (int i = 0; i < 4; i++) {
+                        if (ammo.getValue()[i] == 'b') {
+                            if (this.ammo[0] < 3)
+                                this.ammo[0]++;
+                        } else if (ammo.getValue()[i] == 'y') {
+                            if (this.ammo[1] < 3)
+                                this.ammo[1]++;
+                        } else if (ammo.getValue()[i] == 'r') {
+                            if (this.ammo[2] < 3)
+                                this.ammo[2]++;
+                        } else if (ammo.getValue()[i] == 'p')
+                            this.powerup[3] = this.drawPowerup();
+                    }
+                    this.action--;
+                    this.position.setAmmo(null);
+                }
             }
         }
         else
             System.out.println("Actions completed");
+    }
+
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
+     *
+     * @param weapon the weapon player wants to take
+     * @param ammo selected ammo to pay the cost
+     * @param powerUp selected power up cards to pay the cost
+     * @see PowerupCard
+     * @see PowerupDeck
+     * @see Player
+     */
+    public void grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
+        if (this.action > 0) {
+            char[] cost = weapon.getCostTaking();
+            int counter = cost.length;
+            char[] tempAmmo = ammo.clone();
+            PowerupCard[] tempPowerUp = powerUp.clone();
+            for (int i = 0; i < cost.length; i++) {
+                for (int a = 0; a < ammo.length; a++) {           //control if the ammo is in ammoArray
+                    if (ammo[a] == cost[i]) {
+                        cost[i] = 'n';
+                        ammo[a]--;
+                        counter--;
+                        break;
+                    }
+                }
+                for (int pu = 0; pu < powerUp.length; pu++) {     //control if the ammo is in powerUpArray
+                    if (powerUp[pu] != null) {
+                        if (powerUp[pu].getColour() == cost[i]) {
+                            powerUp[pu] = null;
+                            counter--;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (counter == 0 && cost.length == ammo.length + powerUp.length) {        //if true, weaponCard is taken
+                boolean controller1 = this.updateAmmo(tempAmmo);
+                boolean controller2 = this.updatePowerup(tempPowerUp);
+                if (controller1 && controller2) {
+                    int cont = 0;
+                    while (this.weapons[cont] != null) {
+                        cont++;
+                    }
+                    this.weapons[cont] = weapon;
+                }
+            }
+            else
+                System.out.println("Selected ammo and power up are incorrect");
+        }
+        else
+            System.out.println("Action completed");
+    }
+
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo only.
+     *
+     * @param weapon the weapon player wants to take
+     * @param ammo selected ammo to pay the cost
+     * @see Player
+     */
+    public void grabWeaponCard (WeaponCard weapon, char[] ammo){
+        if(this.action > 0) {
+            char[] cost = weapon.getCostTaking();
+            int counter = cost.length;
+            char[] tempAmmo = ammo.clone();
+            for (int i = 0; i < cost.length; i++) {
+                for (int a = 0; a < ammo.length; a++) {           //control if the ammo is in ammoArray
+                    if (ammo[a] == cost[i]) {
+                        cost[i] = 'n';
+                        ammo[a]--;
+                        counter--;
+                        break;
+                    }
+                }
+            }
+            if (counter == 0 && cost.length == ammo.length) {        //if true, weaponCard is taken
+                boolean controller = this.updateAmmo(tempAmmo);
+                if (controller) {
+                    int cont = 0;
+                    while (this.weapons[cont] != null) {
+                        cont++;
+                    }
+                    this.weapons[cont] = weapon;
+                }
+            } else
+                System.out.println("Selected ammo are incorrect");
+        }
+        else
+            System.out.println("Action completed");
+    }
+
+    /**
+     * Take a weapon card when player is in a respawn point. The taking cost is payed by power up cards only.
+     *
+     * @param weapon the weapon player wants to take
+     * @param powerUp selected power up cards to pay the cost
+     * @see PowerupCard
+     * @see PowerupDeck
+     * @see Player
+     */
+    public void grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
+        if(this.action > 0) {
+            char[] cost = weapon.getCostTaking();
+            int counter = cost.length;
+            PowerupCard[] tempPowerUp = powerUp.clone();
+            for (int i = 0; i < cost.length; i++) {
+                for (int pu = 0; pu < powerUp.length; pu++) {     //control if the ammo is in powerUpArray
+                    if (powerUp[pu] != null) {
+                        if (powerUp[pu].getColour() == cost[i]) {
+                            powerUp[pu] = null;
+                            counter--;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (counter == 0 && cost.length == powerUp.length) {        //if true, weaponCard is taken
+                boolean controller = this.updatePowerup(tempPowerUp);
+                if (controller) {
+                    int cont = 0;
+                    while (this.weapons[cont] != null) {
+                        cont++;
+                    }
+                    this.weapons[cont] = weapon;
+                }
+            } else
+                System.out.println("Selected power up are incorrect");
+        }
+        else
+            System.out.println("Action completed");
     }
 
     /**
@@ -299,7 +433,7 @@ public class Player {
      * @see Position
      */
     public void shot(WeaponCard weapChosen){ //todo: aggiungere il controllo delle munizioni
-        if (this.action != 0) {
+        if (this.action > 0) {
             System.out.print("Select fire mode");
             int mode1 = -1;
             int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2

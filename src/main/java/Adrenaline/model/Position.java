@@ -11,7 +11,7 @@ public class Position {
     private Vector<Position> linked;       //positions that are reachable through the door
     private int ndoor;              //number of rooms that are reachable through the door
     private AmmoCard ammo;          //munitions found in the position
-    private WeaponCard[] arms;      //weapons found in the position
+    private WeaponCard[] weapons;      //weapons found in the position
     private int weaponSpot;         //index in WeaponCard[] oh where the weapon was taken and where the new one will be placed in the array
     private AmmoDeck ammoDeck;      //todo it must be given in the constructor so it will be possible to draw
     //todo is needed WeaponDeck for the same reason
@@ -19,7 +19,7 @@ public class Position {
     //beacause positions are fixed they wiil be red from a file each time, the file will call the constructor
     public Position(int i, int j, char room, boolean door, boolean respawnPoint){
         matr=new int[2];
-        arms=new WeaponCard[3];
+        weapons=new WeaponCard[3];
         matr[0]=i;
         matr[1]=j;
         this.room=room;
@@ -65,9 +65,9 @@ public class Position {
     }
 
     /*@requires x!=null;
-         @receives the position that will be linked to this.position,
-         @the link is possible only if this and x are doors
-         @*/
+             @receives the position that will be linked to this.position,
+             @the link is possible only if this and x are doors
+             @*/
     public void setLinks(Position x){
         if(this.door==true && x.isDoor()){      //a positions to have link to another position must be door
             linked.add(x);
@@ -94,7 +94,7 @@ public class Position {
     @shows the weapons to allow the player the choice between them
     @*/
     public WeaponCard[] showWeapons(){
-        return arms;
+        return weapons;
     }
 
 
@@ -105,12 +105,13 @@ public class Position {
     @*/
     public WeaponCard chooseArm(int i){
         weaponSpot=i;   //save the index of the choosen weapon, this index will be used when the discard weapon will be placed in tha spot
-        return arms[i];
+        WeaponCard[] wep = weapons.clone(); //to pass a weapons' copy
+        return wep[i];
     }
 
     //After having received a weapon the discard one (WeaponCard x) is placed in the spot of the one choosen by the player
     public void giveWeapon(WeaponCard x){
-        arms[weaponSpot]=x;
+        weapons[weaponSpot]=x;
         return;
     }
 

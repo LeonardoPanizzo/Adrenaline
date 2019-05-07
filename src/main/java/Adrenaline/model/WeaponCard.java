@@ -12,14 +12,18 @@ public class WeaponCard {
         loaded = true;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void reload(){
         this.loaded=true;
     }
 
     public char[] getCostTaking(){
-        char[] temp=new char[5];
-        for(int i=1; i<=4; i++)
-            temp[i]=costs[i];
+        char[] temp=new char[costs.length-1];
+        for(int i=1; i<costs.length; i++)
+            temp[i-1]=costs[i];
         return temp;
     }
 
