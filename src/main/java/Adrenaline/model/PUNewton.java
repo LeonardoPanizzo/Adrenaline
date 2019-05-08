@@ -11,7 +11,7 @@ public class PUNewton extends PowerupCard{
     }
 
     @Override
-    public boolean use(Player p1, Player p2, Position[] squares){
+    public boolean use(Player p1, Player p2, Position[] squares, char payment){
         boolean done=false;
         if(squares.length==1){ //in case p2 is moved of only one square
             if(p2.getPosition().reachable(squares[0])) {
