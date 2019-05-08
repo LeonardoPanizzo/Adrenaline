@@ -22,8 +22,9 @@
     questa funzione distribuisce i danni e i marchi ai vari giocatori, inoltre scarica l'arma vista che è stata usata
     Questa funzione restituisce un valore boolean che indica se l'attacco è andato a fine o no
 -Nel momento in cui un giocatore vuole usare un powerup (ammesso che possa usarlo,solo due possono essere usati liberamente)
-    chiamerà il metodo powerup.use(giocatore1, giocatore2, posizioni) dove
-    giocatore1 è il giocatore che ha attivato il powerup
-    giocatore2 è il giocatore che ne subisce gli effetti
-    posizioni è un vettore di posizioni che conterrà le posizioni influenzate dal powerup
+    chiamerà il metodo powerup.use(giocatore1, giocatore2, posizioni, munizione) dove
+        giocatore1 è il giocatore che ha attivato il powerup
+        giocatore2 è il giocatore che ne subisce gli effetti
+        posizioni è un vettore di posizioni che conterrà le posizioni influenzate dal powerup
+        munizione è un carattere di tipo char che indica che colore di munizione il giocatore vuole usare
     Questa funzione restituisce un valore boolean che indica se l'uso è andato a fine o no
