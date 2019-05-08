@@ -11,7 +11,7 @@ public class PUTagbackGrenade extends PowerupCard{
         super("targetback grenade", colour, b);
     }
 
-    public boolean use(Player p1, Player p2, Position[] squares) {
+    public boolean use(Player p1, Player p2, Position[] squares, char payment) {
         boolean done=false;
         if(p1.getPosition().visible(p2.getPosition())){
             p2.setMarksReceived(p1,1);
