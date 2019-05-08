@@ -19,7 +19,7 @@ public class PowerupCard {
         return name;
     }
 
-    public void activate(Player p){ //p is the player that just used the powerup
-
+    public boolean use(Player p1, Player p2, Position[] squares){
+        return false;
     }
 }
