@@ -575,7 +575,7 @@ public class Player {
      * @param ammo selected ammo to reload the weapon
      * @return a boolean that indicates if the process ends successfully
      */
-    private  boolean updateAmmo(char[] ammo){
+    public boolean updateAmmo(char[] ammo){
         int[] tempPlayerAmmo = this.ammo.clone();
         boolean control = true;
         for(int a=0; a<ammo.length; a++){
