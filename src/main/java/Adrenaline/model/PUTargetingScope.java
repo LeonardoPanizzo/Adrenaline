@@ -12,9 +12,14 @@ public class PUTargetingScope extends PowerupCard{
         super("targeting scope", colour, b);
     }
 
-    public boolean use(Player p1, Player p2, Position[] squares){
+    public boolean use(Player p1, Player p2, Position[] squares, char payment){
         boolean done=false;
-
+        char[] paym=new char[1];
+        paym[0]=payment;
+        if(p1.updateAmmo(paym)){
+            p2.receivedDamages(p1);
+            done=true;
+        }
         return done;
     }
 }
