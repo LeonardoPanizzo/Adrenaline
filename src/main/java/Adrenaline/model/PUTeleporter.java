@@ -15,7 +15,8 @@ public class PUTeleporter extends PowerupCard {
     public boolean use(Player p1, Player p2, Position[] squares){
         boolean done=false;
         if(squares.length==1){
-
+            p1.setPosition(squares[0]);
+            done=true;
         }
         return done;
     }
