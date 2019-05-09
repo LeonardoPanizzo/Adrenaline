@@ -614,6 +614,25 @@ public class Player {
     }
 
     /**
+     * The given array of ammo is compared with the value of this.ammo. This value is updated only if all the values
+     * contained in the ammo array are present in this.ammo. Otherwise this value does not change and an error message
+     * is given.
+     *
+     * @param am selected ammo to reload the weapon
+     * @return a boolean that indicates if the process ends successfully
+     */
+    public boolean updateAmmo(int[] am){
+        boolean control=false;
+        if(am[0]<=ammo[0] && am[1]<=ammo[1] && am[2]<=ammo[2]){
+            ammo[0]=ammo[0]-am[0];
+            ammo[1]=ammo[1]-am[1];
+            ammo[2]=ammo[2]-am[2];
+            control=true;
+        }
+        return control;
+    }
+
+    /**
      * The given array of power up cards is compared with the value of this.powerup. This value is updated only if all
      * the value contained in the power up cards array are present in this.powerup. Otherwise this value does not change
      * and an error message is given.
@@ -621,7 +640,7 @@ public class Player {
      * @param powerUp selected power up cards selected to reload the weapon
      * @return a boolean that indicates if the process ends successfully
      */
-    private boolean updatePowerup(PowerupCard[] powerUp){
+    public boolean updatePowerup(PowerupCard[] powerUp){
         PowerupCard[] tempPowerUpPlayer = this.powerup.clone();
         boolean controller = true;
         for(int pu=0; pu<powerUp.length; pu++){
