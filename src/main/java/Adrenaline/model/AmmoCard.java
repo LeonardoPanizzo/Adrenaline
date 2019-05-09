@@ -3,9 +3,8 @@ package Adrenaline.model;
 public class AmmoCard {
     private char[] value;
 
-    public AmmoCard(){
-        //todo inserirò le carte qui dentro, nel costruttore
-        //il power up ha il carattere 'p'
+    public AmmoCard(char [] value){
+        this.value=value;
     }
 
     public char[] getValue(){
