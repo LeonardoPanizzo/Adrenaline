@@ -19,8 +19,10 @@ public class WeaponDeck {
     public WeaponCard pickUpWeapon(){
         WeaponCard x=weaponDeck.elementAt(size);
         size++;
-        if(size>=weaponDeck.capacity())       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
-            size=0;
+        if(size>=weaponDeck.capacity()) {       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
+            size = 0;
+            shuffle();
+        }
         return x;
     }
 }
