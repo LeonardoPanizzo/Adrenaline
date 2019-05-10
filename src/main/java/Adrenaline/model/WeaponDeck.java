@@ -12,6 +12,25 @@ public class WeaponDeck {
         weaponDeck=new Vector<WeaponCard>(21);
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCHeatseeker());
+        weaponDeck.add(new WCHellion());
+        weaponDeck.add(new WCWhisper());
+        weaponDeck.add(new WCLockRifle());
+        weaponDeck.add(new WCHeatseeker());
+        weaponDeck.add(new WCHellion());
+        weaponDeck.add(new WCWhisper());
+        weaponDeck.add(new WCLockRifle());
+        weaponDeck.add(new WCHeatseeker());
+        weaponDeck.add(new WCHellion());
+        weaponDeck.add(new WCWhisper());
+        weaponDeck.add(new WCLockRifle());
+        weaponDeck.add(new WCHeatseeker());
+        weaponDeck.add(new WCHellion());
+        weaponDeck.add(new WCWhisper());
+        weaponDeck.add(new WCLockRifle());
+        weaponDeck.add(new WCHeatseeker());
+        weaponDeck.add(new WCHellion());
+        weaponDeck.add(new WCWhisper());
+        weaponDeck.add(new WCLockRifle());
         shuffle();
     }
 
