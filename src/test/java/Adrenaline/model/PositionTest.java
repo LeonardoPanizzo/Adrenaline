@@ -8,16 +8,18 @@ public class PositionTest {
     @Test
     public void visibleTest() {
         //b blue r red y yellow w white
-        Position p11 = new Position(1, 1, 'b', true, true);
-        Position p12 = new Position(1, 2, 'b', false, false);
-        Position p13 = new Position(1, 3, 'b', true, true);
-        Position p21 = new Position(2, 1, 'r', true, true);
-        Position p22 = new Position(2, 2, 'r', true, false);
-        Position p23 = new Position(2, 3, 'r', true, false);
-        Position p24 = new Position(2, 4, 'y', true, false);
-        Position p34 = new Position(3, 4, 'y', true, true);
-        Position p32 = new Position(3, 2, 'w', true, false);
-        Position p33 = new Position(3, 3, 'w', true, true);
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
+        Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
+        Position p21 = new Position(2, 1, 'r', true, true, deck1, deck2);
+        Position p22 = new Position(2, 2, 'r', true, false, deck1, deck2);
+        Position p23 = new Position(2, 3, 'r', true, false, deck1, deck2);
+        Position p24 = new Position(2, 4, 'y', true, false, deck1, deck2);
+        Position p34 = new Position(3, 4, 'y', true, true, deck1, deck2);
+        Position p32 = new Position(3, 2, 'w', true, false, deck1, deck2);
+        Position p33 = new Position(3, 3, 'w', true, true, deck1, deck2);
         p11.setLinks(p21);
         p13.setLinks(p23);
         p21.setLinks(p11);
@@ -45,16 +47,18 @@ public class PositionTest {
     @Test
     public void reachableTest(){
         //b blue r red y yellow w white
-        Position p11 = new Position(1, 1, 'b', true, true);
-        Position p12 = new Position(1, 2, 'b', false, false);
-        Position p13 = new Position(1, 3, 'b', true, true);
-        Position p21 = new Position(2, 1, 'r', true, true);
-        Position p22 = new Position(2, 2, 'r', true, false);
-        Position p23 = new Position(2, 3, 'r', true, false);
-        Position p24 = new Position(2, 4, 'y', true, false);
-        Position p34 = new Position(3, 4, 'y', true, true);
-        Position p32 = new Position(3, 2, 'w', true, false);
-        Position p33 = new Position(3, 3, 'w', true, true);
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
+        Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
+        Position p21 = new Position(2, 1, 'r', true, true, deck1, deck2);
+        Position p22 = new Position(2, 2, 'r', true, false, deck1, deck2);
+        Position p23 = new Position(2, 3, 'r', true, false, deck1, deck2);
+        Position p24 = new Position(2, 4, 'y', true, false, deck1, deck2);
+        Position p34 = new Position(3, 4, 'y', true, true, deck1, deck2);
+        Position p32 = new Position(3, 2, 'w', true, false, deck1, deck2);
+        Position p33 = new Position(3, 3, 'w', true, true, deck1, deck2);
         p11.setLinks(p21);
         p13.setLinks(p23);
         p21.setLinks(p11);
@@ -80,8 +84,10 @@ public class PositionTest {
 
     @Test
     public void getCoordinateTest(){
-        Position p11 = new Position(1, 1, 'b', true, true);
-        Position p12 = new Position(1, 2, 'b', false, false);
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
         int[] c11= new int[2];
         int[] c12= new int[2];
         c11[0]=1;
@@ -98,8 +104,10 @@ public class PositionTest {
 
     @Test
     public void isDoorTest(){
-        Position p11 = new Position(1, 1, 'b', true, true);
-        Position p12 = new Position(1, 2, 'b', false, false);
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
 
         assertEquals(p11.isDoor(), true);
         assertEquals(p12.isDoor(), false);
@@ -107,9 +115,11 @@ public class PositionTest {
 
     @Test void getRoomTest(){
         //b blue r red y yellow w white
-        Position p11 = new Position(1, 1, 'b', true, true);
-        Position p21 = new Position(2, 1, 'r', true, true);
-        Position p34 = new Position(3, 4, 'y', true, true);
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p21 = new Position(2, 1, 'r', true, true, deck1, deck2);
+        Position p34 = new Position(3, 4, 'y', true, true, deck1, deck2);
 
         assertEquals(p11.getRoom(),'b');
         assertEquals(p21.getRoom(),'r');
