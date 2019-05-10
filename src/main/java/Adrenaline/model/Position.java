@@ -94,6 +94,10 @@ public class Position {
         return weapons;
     }
 
+    public boolean equals(Position x){
+        return(this.matr[0]==x.matr[0] &&this.matr[1]==x.matr[1]);
+    }
+
 
     //todo should the two methods down here be synchronized?
     /*@
@@ -140,7 +144,7 @@ public class Position {
         boolean vis=false;
         if(this.room==x.room)
             vis=true;       //if x is in the same room ot his then is visible from this
-        for(int i=0; (!vis)&&(i<ndoor);i++)         //checks the positions linked to this through the door
+        for(int i=0; (!vis)&&(i<ndoor); i++)         //checks the positions linked to this through the door
             if(linked.elementAt(i).getRoom()==x.room)       //che if the linked.position is in the same room of x
                 vis=true;
         return vis;
