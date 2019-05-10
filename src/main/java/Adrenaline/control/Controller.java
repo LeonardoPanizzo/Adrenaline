@@ -34,7 +34,7 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
 
         int id = this.clients.indexOf(client);
 
-        new Player(id);
+     //   new Player(id);   todo: usare nuovo costruttore di player: prende il numero giocatore e il mazzo dei power up
 
         System.out.println("Player " + id + " created\n");
         ack("Your Player id is: " + id + "\n");
@@ -49,7 +49,7 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
     }
 
     public void createDecks() throws RemoteException{
-        PowerupDeck PUDeck= new PowerupDeck();
+     //   PowerupDeck PUDeck= new PowerupDeck(); todo: usare nuovo costruttore: prende una board come parametro
         WeaponDeck WDeck = new WeaponDeck();
     }
 

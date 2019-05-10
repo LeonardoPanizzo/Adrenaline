@@ -15,7 +15,7 @@ public class Position {
     private AmmoDeck ammoDeck;
     private WeaponDeck weaponDeck;
 
-    //beacause positions are fixed they wiil be red from a file each time, the file will call the constructor
+    //beacause positions are fixed they will be red from a file each time, the file will call the constructor
     public Position(int i, int j, char room, boolean door, boolean respawnPoint, AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
         matr[0]=i;

@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     @Test
     public void constructorTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(3, pwd);
         int[][] playersDamage = p.getPlayersDamage();
         int[] markGiven = new int[] {0, 0, 0, 0, 0};
@@ -35,7 +36,8 @@ public class PlayerTest {
 
     @Test
     public void endOfRoundTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(0, pwd);
         p.endOfRound();
 
@@ -44,7 +46,8 @@ public class PlayerTest {
 
     @Test
     public void receivedDamagesTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(1, pwd);
         Player player3 = new Player(3, pwd);
         Player player2 = new Player(2, pwd);
@@ -118,7 +121,8 @@ public class PlayerTest {
 
     @Test
     public void sortedPlayersTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p1 = new Player(1, pwd);
         Player p3 = new Player(3, pwd);
         Player p2 = new Player(3, pwd);
@@ -137,7 +141,8 @@ public class PlayerTest {
 
     @Test
     public void givePointsTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(1, pwd);
         Player p2 = new Player(2, pwd);
         Player p3 = new Player(3, pwd);
@@ -157,7 +162,8 @@ public class PlayerTest {
     @Test
     public void limitCasesTest(){               //Test on possible critical cases
         //All damages by only one player. After that, one other player attack (all the exceeding damages are thrown away.
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player player = new Player(0, pwd);
         Player p4 = new Player(4, pwd);
         Player p1 = new Player(1, pwd);
@@ -207,10 +213,13 @@ public class PlayerTest {
 
     @Test
     public void actionMoveTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(0, pwd);
-        Position pos = new Position(1, 0, 'r', true, true);
-        Position play = new Position(0, 0, 'r', true, false);
+        AmmoDeck ad = new AmmoDeck();
+        WeaponDeck wd = new WeaponDeck();
+        Position pos = new Position(1, 0, 'r', true, true, ad, wd);
+        Position play = new Position(0, 0, 'r', true, false, ad, wd);
         p.roundBegin();
         p.setPosition(play);
         p.move(pos);
@@ -224,19 +233,21 @@ public class PlayerTest {
 
     @Test
     public void actionGrabTest (){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
         Player p = new Player(0, pwd);
-        Position pos = new Position(1, 0, 'r', true, true);
+        AmmoDeck ad = new AmmoDeck();
+        WeaponDeck wd = new WeaponDeck();
+        Position pos = new Position(1, 0, 'r', true, true, ad, wd);
         p.setPosition(pos);
         p.roundBegin();
         p.grabAmmoCard();
 
         assertEquals(2, p.getAction(), "First action doesn't work");
 
-        pos = new Position(1, 0, 'r', true, false);
+        pos = new Position(1, 0, 'r', true, false, ad, wd);
         char[] value = new char[] {'b', 'y', 'r', '_'};
-        AmmoCard ammoCard = new AmmoCard();
-        ammoCard.setValue(value);
+        AmmoCard ammoCard = new AmmoCard(value);
         p.setPosition(pos);
         p.getPosition().setAmmo(ammoCard);
         p.setPosition(pos);
@@ -250,10 +261,9 @@ public class PlayerTest {
 
         p = new Player(0, pwd);
         p.setAction(0);
-        pos = new Position(1, 0, 'r', true, false);
+        pos = new Position(1, 0, 'r', true, false, ad, wd);
         value = new char[] {'b', 'y', 'r', '_'};
-        ammoCard = new AmmoCard();
-        ammoCard.setValue(value);
+        ammoCard = new AmmoCard(value);
         p.setPosition(pos);
         p.getPosition().setAmmo(ammoCard);
         p.setPosition(pos);
@@ -266,17 +276,19 @@ public class PlayerTest {
 
     @Test
     public void grabWeaponTest(){
-        PowerupDeck pwd = new PowerupDeck();
+        Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
+        AmmoDeck ad = new AmmoDeck();
+        WeaponDeck wd = new WeaponDeck();
 
         //Pay with ammo and powerupCards
-        Board b = new Board(1);
         Player play = new Player(0, pwd);
         play.setAction(2);
         char[] cost = new char[]{'b', 'r', 'y'};
-        WeaponCard weapon1 = new WeaponCard("weapon1", cost);
+        WeaponCard weapon1 = new WeaponCard("weapon1", cost, cost);
         cost = new char[]{'b', 'y'};
-        WeaponCard weapon2 = new WeaponCard("weapon2", cost);
-        Position pos = new Position(1, 0, 'r', true, true);
+        WeaponCard weapon2 = new WeaponCard("weapon2", cost, cost);
+        Position pos = new Position(1, 0, 'r', true, true, ad, wd);
         pos.chooseArm(0);
         pos.giveWeapon(weapon1);
         pos.chooseArm(1);
@@ -293,7 +305,7 @@ public class PlayerTest {
         //Pay with only ammo
         play.setAction(2);
         cost = new char[]{'r', 'b'};
-        WeaponCard weapon = new WeaponCard("weapon", cost);
+        WeaponCard weapon = new WeaponCard("weapon", cost, cost);
         pos.chooseArm(2);
         pos.giveWeapon(weapon);
         selectedAmmo = new char[]{'b'};
@@ -314,11 +326,11 @@ public class PlayerTest {
 
     @Test
     public void reloadTest(){
-        PowerupDeck pwd = new PowerupDeck();
-        Player p = new Player(1, pwd);
         Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
+        Player p = new Player(1, pwd);
         char[] cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
-        WeaponCard wp = new WeaponCard("name", cost);
+        WeaponCard wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         PowerupCard[] pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         char[] ammo = new char[] {'b', 'y', 'r'};
@@ -342,7 +354,7 @@ public class PlayerTest {
         p.setAmmo('y', 2);
         p.setAmmo('r', 2);
         cost = new char[] {'r','r', 'b', 'b', 'b', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r', 'b'};
         p.reload(wp, ammo);
@@ -356,7 +368,7 @@ public class PlayerTest {
         p.setAmmo('y', 1);
         p.setAmmo('r', 2);
         cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
         p.reload(wp, ammo);
@@ -370,7 +382,7 @@ public class PlayerTest {
         p.setAmmo('y', 2);
         p.setAmmo('r', 1);
         cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
         p.reload(wp, ammo);
@@ -385,7 +397,7 @@ public class PlayerTest {
         p.setAmmo('y', 2);
         p.setAmmo('r', 2);
         cost = new char[] {'r','r', 'b', 'b', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         ammo = new char[] {'y', 'r', 'b', 'y', 'r'};
         p.reload(wp, ammo);
@@ -400,7 +412,7 @@ public class PlayerTest {
         p.setAmmo('y', 2);
         p.setAmmo('r', 2);
         cost = new char[] {'r', 'b', 'b', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         ammo = new char[] {'b', 'y', 'r', 'b', 'y', 'r'};
         p.reload(wp, ammo);
@@ -415,7 +427,7 @@ public class PlayerTest {
         //Weapon correctly reloaded
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'r', 'b'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow.clone());
         p.reload(wp, pow);
@@ -427,7 +439,7 @@ public class PlayerTest {
         //Not correct power up selected
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'r', 'b'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         PowerupCard[] power = new PowerupCard[]{new PowerupCard("name", 'r', b), new PowerupCard("name2", 'r', b)};
@@ -440,7 +452,7 @@ public class PlayerTest {
         //Correct ammo selected, but not present in this.ammo
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'r', 'r'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         power = new PowerupCard[]{new PowerupCard("name", 'r', b), new PowerupCard("name2", 'r', b)};
@@ -453,7 +465,7 @@ public class PlayerTest {
         //More than necessary power up are selected
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'b', 'r'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'b', b)};
@@ -470,7 +482,7 @@ public class PlayerTest {
         //Weapon correctly reloaded
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b)};
         cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         p.setAmmo('b', 2);
@@ -490,7 +502,7 @@ public class PlayerTest {
         //More than needed power up are selected
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
         cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         p.setAmmo('b', 2);
@@ -512,7 +524,7 @@ public class PlayerTest {
         //More than needed ammo are selected
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
         cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         p.setAmmo('b', 2);
@@ -534,7 +546,7 @@ public class PlayerTest {
         //Less than needed power up are selected
         pow = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'r', b)};
         cost = new char[] {'b', 'b', 'r', 'r', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         p.setAmmo('b', 2);
@@ -556,7 +568,7 @@ public class PlayerTest {
         //Selected pw and ammo are correct, but not present in this.ammo and in this.powerup
         power = new PowerupCard[]{new PowerupCard("name", 'b', b), new PowerupCard("name2", 'r', b), new PowerupCard("name3", 'y', b)};
         cost = new char[] {'b', 'b', 'b', 'r', 'r', 'r', 'y', 'y', 'y'};
-        wp = new WeaponCard("name", cost);
+        wp = new WeaponCard("name", cost, cost);
         wp.setLoaded(false);
         p.setPowerup(pow);
         p.setAmmo('b', 1);
@@ -578,11 +590,11 @@ public class PlayerTest {
 
     @Test
     public void shotTest(){
-        PowerupDeck pwd = new PowerupDeck();
-        Player p = new Player(1, pwd);
         Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
+        Player p = new Player(1, pwd);
         char[] cost = new char[] {'r','r'};
-        WeaponCard wp = new WeaponCard("name", cost);
+        WeaponCard wp = new WeaponCard("name", cost, cost);
 
         p.setAction(2);
         p.shot(wp); //TODO gives error -> andre: a me non da nessun errore
@@ -596,10 +608,12 @@ public class PlayerTest {
 
     @Test
     public void respawnTest(){
-        PowerupDeck pwd = new PowerupDeck();
-        Player p = new Player(1, pwd);
         Board b = new Board(1);
-        Position testPosition = new Position(0, 2, 'b', true, false);
+        PowerupDeck pwd = new PowerupDeck(b);
+        Player p = new Player(1, pwd);
+        AmmoDeck ad = new AmmoDeck();
+        WeaponDeck wd = new WeaponDeck();
+        Position testPosition = new Position(0, 2, 'b', true, false, ad, wd);
         PowerupCard pu1 = new PowerupCard("Name1", 'b', b);
         PowerupCard pu2 = new PowerupCard("Name2", 'r', b);
         PowerupCard pu3 = new PowerupCard("Name2", 'r', b);
@@ -613,9 +627,9 @@ public class PlayerTest {
 
         assertNotEquals(testPosition, p.getPosition(), "Position is not correct");
 
-        Position position = new Position(0, 0, 'b', true, false);
+        Position position = new Position(0, 0, 'b', true, false, ad, wd);
         p.setPosition(position);
-        testPosition = new Position(1, 2, 'b', true, true);
+        testPosition = new Position(1, 2, 'b', true, true, ad, wd);
         p.respawn(pu1, testPosition);
 
         assertNull(p.getPowerup()[0], "First powerup not used");
@@ -629,9 +643,9 @@ public class PlayerTest {
 
     @Test
     public void usePowerUpTest(){
-        PowerupDeck pwd = new PowerupDeck();
-        Player p = new Player(1, pwd);
         Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
+        Player p = new Player(1, pwd);
         PowerupCard pu = new PowerupCard("Name", 'b', b);
 
         p.usePowerup(pu);
@@ -640,9 +654,9 @@ public class PlayerTest {
 
     @Test
     public void setterGetterTest (){
-        PowerupDeck pwd = new PowerupDeck();
-        Player p = new Player(0, pwd);
         Board b = new Board(1);
+        PowerupDeck pwd = new PowerupDeck(b);
+        Player p = new Player(0, pwd);
         int[] marks = new int[] {0, 1, 4, 2, 1};
         char[] cost = new char[] {'r','r'};
         p.setScore(2);

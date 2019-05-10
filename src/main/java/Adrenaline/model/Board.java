@@ -59,7 +59,8 @@ public class Board {
             this.variation = num;
             this.finalRound = false;
 
-
+            AmmoDeck ad = new AmmoDeck();       // ---\ metodi aggiunti per creare le posizioni
+            WeaponDeck wd = new WeaponDeck();   // ---/
             //get the map variation
 
 
@@ -100,7 +101,7 @@ public class Board {
                 while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
 
                     int x = 0;
-                    //this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next());
+                    this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next(), ad, wd);
 
 
                     iteratorINext = ((Number) iteratorI.next() ).intValue();
@@ -109,7 +110,7 @@ public class Board {
                     iteratorDoorNext = iteratorDoor.next();
                     iteratorResetNext = iteratorReset.next();
 
-                    this.board[( iteratorINext )][( iteratorJNext )] = new Position((  iteratorINext ), (  iteratorJNext ), iteratorRoomNext.charAt(x), iteratorDoorNext, iteratorResetNext);
+                    this.board[( iteratorINext )][( iteratorJNext )] = new Position((  iteratorINext ), (  iteratorJNext ), iteratorRoomNext.charAt(x), iteratorDoorNext, iteratorResetNext, ad, wd);
 
 
                     x++;
