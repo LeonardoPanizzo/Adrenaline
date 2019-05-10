@@ -9,6 +9,7 @@ public class AmmoDeck {
 
     public AmmoDeck(){
         size=0;
+        ammoDeck=new Vector<AmmoCard>(36);
         for(int i=0;i<4;i++){
             ammoDeck.add(new AmmoCard(new char[]{'p','y','r'}));//create 4 copies of this ammo
             ammoDeck.add(new AmmoCard(new char[]{'p','r','b'}));//create 4 copies of this ammo
