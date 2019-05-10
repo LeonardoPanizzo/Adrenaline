@@ -12,14 +12,12 @@ public class Position {
     private int ndoor;              //number of rooms that are reachable through the door
     private AmmoCard ammo;          //munitions found in the position
     private WeaponCard[] weapons;      //weapons found in the position
-    private int weaponSpot;         //index in WeaponCard[] oh where the weapon was taken and where the new one will be placed in the array
-    private AmmoDeck ammoDeck;      //todo it must be given in the constructor so it will be possible to draw
-    //todo is needed WeaponDeck for the same reason
+    private AmmoDeck ammoDeck;
+    private WeaponDeck weaponDeck;
 
     //beacause positions are fixed they wiil be red from a file each time, the file will call the constructor
-    public Position(int i, int j, char room, boolean door, boolean respawnPoint){
+    public Position(int i, int j, char room, boolean door, boolean respawnPoint, AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
-        weapons=new WeaponCard[3];
         matr[0]=i;
         matr[1]=j;
         this.room=room;
@@ -29,16 +27,15 @@ public class Position {
         if(door){
             linked=new Vector<Position>();
         }
-        /*
-        if(resetPoint) {
-            //pesca le 3 armi
+        if(respawnPoint) {
+             weapons=new WeaponCard[3];
+            for(int k=0;k<3;k++)        //drawn 3 weaponcard
+                weapons[k]=deckWeapon.pickUpWeapon();
+        }else{
+            ammo=deckAmmo.pickUpAmmo();
         }
-        else {
-        //todo this method can be called when there will be ammoDeck
-        //    ammo=ammoDeck.pickUpAmmo();
-        }
-    */
     }
+
     //todo this metod should be removed (only test use)
     public void setAmmo(AmmoCard ammo) {
         this.ammo = ammo;
@@ -104,15 +101,25 @@ public class Position {
     @weapon in the array
     @*/
     public WeaponCard chooseArm(int i){
-        weaponSpot=i;   //save the index of the choosen weapon, this index will be used when the discard weapon will be placed in tha spot
-        WeaponCard[] wep = weapons.clone(); //to pass a weapons' copy
-        return wep[i];
+        WeaponCard x=weapons[i];
+        weapons[i]=null;
+        return x;
     }
 
-    //After having received a weapon the discard one (WeaponCard x) is placed in the spot of the one choosen by the player
-    public void giveWeapon(WeaponCard x){
-        weapons[weaponSpot]=x;
-        return;
+    /**
+     * return true if there was an empty space for the given weapon
+     * @param x
+     * @return
+     */
+    public boolean giveWeapon(WeaponCard x){
+        boolean done=false;
+        for(int i=0; i<3 && !done; i++) {
+            if(weapons[i]==null){
+                weapons[i]=x;
+                done=true;
+            }
+        }
+        return done;
     }
 
     //return AmmoTile to the player and replace the returned one with a new one
