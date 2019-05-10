@@ -14,6 +14,7 @@ public class WeaponDeck {
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
         weaponDeck.add(new WCWhisper());
+        //TODO le armi sotto sono solo copie di quelle sopra, servono per far arrivare la quantità di armi a 21
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
