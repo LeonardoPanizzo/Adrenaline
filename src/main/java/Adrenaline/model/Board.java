@@ -101,7 +101,7 @@ public class Board {
                 while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
 
                     int x = 0;
-                    this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next(), ad, wd);
+                 //   this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next(), ad, wd);
 
 
                     iteratorINext = ((Number) iteratorI.next() ).intValue();
