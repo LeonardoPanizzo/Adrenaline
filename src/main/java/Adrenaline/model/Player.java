@@ -304,7 +304,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
-    public void grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
+    public boolean grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
         if (this.action > 0) {
             char[] cost = weapon.getCostTaking();
             int counter = cost.length;
@@ -338,13 +338,16 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    return true;
                 }
             }
             else
                 System.out.println("Selected ammo and power up are incorrect");
+            return false;
         }
         else
             System.out.println("Action completed");
+        return false;
     }
 
     /**
@@ -354,9 +357,9 @@ public class Player {
      * @param ammo selected ammo to pay the cost
      * @see Player
      */
-    public void grabWeaponCard (WeaponCard weapon, char[] ammo){
+    public boolean grabWeaponCard (WeaponCard weapon, char[] ammo){
         if(this.action > 0) {
-            char[] cost = weapon.getCostTaking();
+            char[] cost = weapon.getCostTaking().clone();
             int counter = cost.length;
             char[] tempAmmo = ammo.clone();
             for (int i = 0; i < cost.length; i++) {
@@ -377,12 +380,15 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    return true;
                 }
             } else
                 System.out.println("Selected ammo are incorrect");
+            return false;
         }
         else
             System.out.println("Action completed");
+        return false;
     }
 
     /**
@@ -394,7 +400,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
-    public void grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
+    public boolean grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking();
             int counter = cost.length;
@@ -418,16 +424,19 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    return true;
                 }
             } else
                 System.out.println("Selected power up are incorrect");
+            return false;
         }
         else
             System.out.println("Action completed");
+        return false;
     }
 
 
-    public void shot(WeaponCard weapChosen){ //todo: aggiungere il controllo delle munizioni
+    public void shot(WeaponCard weapChosen){ //todo: da impelementare
         if (this.action > 0) {
 
         }

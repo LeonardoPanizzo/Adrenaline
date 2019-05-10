@@ -288,25 +288,33 @@ public class PlayerTest {
         WeaponCard weapon1 = new WeaponCard("weapon1", cost, cost);
         cost = new char[]{'b', 'y'};
         WeaponCard weapon2 = new WeaponCard("weapon2", cost, cost);
+        cost = new char[]{'r', 'b'};
+        WeaponCard weapon = new WeaponCard("weapon", cost, cost);
         Position pos = new Position(1, 0, 'r', true, true, ad, wd);
         pos.chooseArm(0);
-        pos.giveWeapon(weapon1);
         pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon1);
         pos.giveWeapon(weapon2);
+        pos.giveWeapon(weapon);
         play.setPosition(pos);
         char[]selectedAmmo = new char[]{'y'};
         PowerupCard[] power = new PowerupCard[]{new PowerupCard("pw1", 'r', b)};
-        play.grabWeaponCard(pos.chooseArm(0), selectedAmmo, power);
-        play.grabWeaponCard(pos.chooseArm(1), selectedAmmo, power);
+        WeaponCard temp = pos.chooseArm(0);
+        boolean control = play.grabWeaponCard(temp, selectedAmmo, power);
+        if(!control)
+            pos.giveWeapon(temp);
+        temp = pos.chooseArm(1);
+        play.grabWeaponCard(temp, selectedAmmo, power);
+        if(!control)
+            pos.giveWeapon(temp); //<-- todo: problema qui
 
         assertEquals(play.getWeapons()[0], weapon1);
         assertNull(play.getWeapons()[1]);
 
         //Pay with only ammo
         play.setAction(2);
-        cost = new char[]{'r', 'b'};
-        WeaponCard weapon = new WeaponCard("weapon", cost, cost);
-        pos.chooseArm(2);
+
         pos.giveWeapon(weapon);
         selectedAmmo = new char[]{'b'};
         play.grabWeaponCard(pos.chooseArm(2), selectedAmmo);
@@ -590,20 +598,7 @@ public class PlayerTest {
 
     @Test
     public void shotTest(){
-        Board b = new Board(1);
-        PowerupDeck pwd = new PowerupDeck(b);
-        Player p = new Player(1, pwd);
-        char[] cost = new char[] {'r','r'};
-        WeaponCard wp = new WeaponCard("name", cost, cost);
-
-        p.setAction(2);
-        p.shot(wp); //TODO gives error -> andre: a me non da nessun errore
-
-        assertEquals(2, p.getAction(), "Shot doesn't work");
-
-        p.setAction(0);
-        p.shot(wp);
-        assertEquals(0, p.getAction(), "Shot doesn't work");
+        //todo da reimplementare
     }
 
     @Test
