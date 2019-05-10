@@ -426,32 +426,10 @@ public class Player {
             System.out.println("Action completed");
     }
 
-    /**
-     * Select weapon cards, mode, palyers and attackedPlayer and shot at them. If the attack isn't possible, an error
-     * message is given to the player and the actions counter is not updated.
-     *
-     * @param weapChosen the weapon card used to shot
-     * @see WeaponCard
-     * @see Player
-     * @see Position
-     */
+
     public void shot(WeaponCard weapChosen){ //todo: aggiungere il controllo delle munizioni
         if (this.action > 0) {
-            System.out.print("Select fire mode");
-            int mode1 = -1;
-            int[] mode2 = new int[3];                   //todo definire dimensioni array di effetti in mode2
-            Player[] attackedPlayer = new Player[]{new Player(1, this.powerUpDeck)};    //todo definire dimensioni array di giocatori attaccati
-            for(int l=0; l<attackedPlayer.length; l++)
-                this.damagedPlayers[l] = attackedPlayer[l].getNumber();
-            Position[] movements = new Position[3];     //todo definire dimensioni array di movimenti da fare
-            //todo prendere il valore scelto di mode1 o mode2
-            //todo prendere un array di giocatori scelti
-            //todo prendere un array di movimenti
-            boolean validAttack = weapChosen.attack(this, mode1, mode2, attackedPlayer, movements);
-            if (!validAttack)
-                System.out.println("Invalid Attack!");
-            else
-                this.action--;
+
         }
         else
             System.out.println("Actions completed");
@@ -806,7 +784,7 @@ public class Player {
     }
 
     public void usePowerup(PowerupCard powerup){
-        powerup.activate(this);
+
         //todo rimuovere il powerup dalla lista di this
     }
 
