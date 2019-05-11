@@ -305,9 +305,9 @@ public class PlayerTest {
         if(!control)
             pos.giveWeapon(temp);
         temp = pos.chooseArm(1);
-        play.grabWeaponCard(temp, selectedAmmo, power);
+        control = play.grabWeaponCard(temp, selectedAmmo, power);
         if(!control)
-            pos.giveWeapon(temp); //<-- todo: problema qui
+            pos.giveWeapon(temp);
 
         assertEquals(play.getWeapons()[0], weapon1);
         assertNull(play.getWeapons()[1]);
@@ -325,7 +325,7 @@ public class PlayerTest {
         //pay with only powerup cards
         play.setAction(2);
         power = new PowerupCard[]{new PowerupCard("pw1", 'y', b)};
-        play.grabWeaponCard(pos.chooseArm(1), power);
+        play.grabWeaponCard(pos.chooseArm(0), power);
 
         assertEquals(play.getWeapons()[0], weapon1);
         assertEquals(play.getWeapons()[1], weapon);
@@ -598,7 +598,90 @@ public class PlayerTest {
 
     @Test
     public void shotTest(){
-        //todo da reimplementare
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        AmmoDeck ad = new AmmoDeck();
+        WeaponDeck wd = new WeaponDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
+
+        //Test shot with weapon with just one mode
+        WeaponCard wep0 = new WCHeatseeker();
+        Position pos0 = new Position(0, 2, 'b', true, true, ad, wd);
+        Position pos1 = new Position(1, 0, 'r', true, false, ad, wd);
+        pos0.chooseArm(0);
+        pos0.chooseArm(1);
+        pos0.chooseArm(2);
+        pos0.giveWeapon(wep0);
+        p0.setPosition(pos0);
+        p1.setPosition(pos1);
+        char[] selAmmo = new char[]{'r', 'y'};
+        p0.grabWeaponCard(wep0, selAmmo);
+        Player[] playerAttacked = {p1};
+        int[] mode2 = new int[] {-1};
+        p0.shot(wep0, playerAttacked, -1, mode2, null, null);
+
+        assertEquals(8, p1.getLife(), "P1 life isn't correct");
+
+        //Test shot with weapon with more optional mode
+
+        //Base effect only
+        p0.setAction(2);
+        p0.setAmmo('r', 1);
+        WeaponCard wep1 = new WCLockRifle();
+        pos0.chooseArm(0);
+        pos0.chooseArm(1);
+        pos0.chooseArm(2);
+        pos0.giveWeapon(wep1);
+        selAmmo = new char[]{'b'};
+        p0.grabWeaponCard(wep1, selAmmo);
+        playerAttacked = new Player[]{p1};
+        pos1 = new Position(0, 0, 'b', true, false, ad, wd);
+        p1.setPosition(pos1);
+        mode2 = new int[] {0};
+        p0.shot(wep1, playerAttacked, -1, mode2, null, null);
+
+        assertEquals(6, p1.getLife(), "P1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "P1 received marks aren't corrected");
+        assertEquals(1, p0.getMarksGiven()[1], "P0 given marks aren't correct");
+
+        //With optional effect
+        playerAttacked = new Player[]{p1, p2};
+        p2.setPosition(pos1);
+        p0.setAmmo('b', 2);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[] {'b', 'b'};
+        p0.reload(wep1, selAmmo);
+        mode2 = new int[] {0, 1};
+        p0.shot(wep1, playerAttacked, -1, mode2, null, null);
+
+        assertEquals(3, p1.getLife(), "P1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "P1 received marks aren't corrected");
+        assertEquals(1, p0.getMarksGiven()[1], "P0 given marks to p1 aren't correct");
+        assertEquals(1, p2.getMarksReceived()[0], "P2 received marks aren't corrected");
+        assertEquals(1, p0.getMarksGiven()[2], "P0 given marks to p2 aren't correct");
+
+        //Test shot with weapon with two different fire modes
+
+        /*First mode
+        p0.setAction(2);
+        p0.setAmmo('r', 1);
+        WeaponCard wep2 = new WCHellion();
+        pos0.chooseArm(0);
+        pos0.chooseArm(1);
+        pos0.chooseArm(2);
+        pos0.giveWeapon(wep2);
+        selAmmo = new char[]{'y'};
+        p0.grabWeaponCard(wep2, selAmmo);
+        playerAttacked = new Player[]{p1};
+        pos1 = new Position(0, 0, 'b', true, false, ad, wd);
+        p1.setPosition(pos1);
+        mode2 = new int[] {0};
+        p0.shot(wep1, playerAttacked, -1, mode2, null, null);*/
     }
 
     @Test

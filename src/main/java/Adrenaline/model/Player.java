@@ -239,7 +239,7 @@ public class Player {
      * @see Player
      * @see Position
      */
-    //todo implementare con array
+    //todo: creare versione con array
     public void move(Position position){
         if(this.action > 0){
             if(this.position.reachable(position))
@@ -248,7 +248,23 @@ public class Player {
         }
         else
             System.out.println("Actions completed");
+    }
 
+    /**
+     * To use only when the player move before grab something.
+     *
+     * @param posArray positions where the player wants to go
+     * @see Player
+     */
+    public void moveAndGrab(Position[] posArray){
+        if(this.action > 0){
+            for(int i=0; i<posArray.length; i++){
+                if (this.position.reachable(posArray[i]))
+                    this.position = posArray[i];
+            }
+        }
+        else
+            System.out.println("Actions completed");
     }
 
     /**
@@ -338,6 +354,7 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    this.action--;
                     return true;
                 }
             }
@@ -380,6 +397,7 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    this.action--;
                     return true;
                 }
             } else
@@ -424,6 +442,7 @@ public class Player {
                         cont++;
                     }
                     this.weapons[cont] = weapon;
+                    this.action--;
                     return true;
                 }
             } else
@@ -435,10 +454,23 @@ public class Player {
         return false;
     }
 
-
-    public void shot(WeaponCard weapChosen){ //todo: da impelementare
+    public void shot(WeaponCard weapChosen, Player[] playersAttacked, int mode1, int[] mode2, Position[] movements,  PowerupCard[] payment){
         if (this.action > 0) {
-
+            boolean control = false;
+            for(int i=0; i<3; i++){
+                if(this.weapons[i] != null && this.weapons[i].getName().equals(weapChosen.getName())){
+                    control = true;
+                }
+            }
+            if(control){
+                boolean success = weapChosen.attack(this, mode1, mode2, playersAttacked, movements, payment);
+                if(success)
+                    action--;
+                else
+                    System.out.println("impossible to attack");
+            }
+            else
+                System.out.println("You don't have this weapon");
         }
         else
             System.out.println("Actions completed");
