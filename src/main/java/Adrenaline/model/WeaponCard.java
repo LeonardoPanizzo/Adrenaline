@@ -40,7 +40,7 @@ public class WeaponCard {
 
     public boolean isPaid(Player p, PowerupCard[] payment){ //valid only for the weapon with only an addiotional effect or only one option
         boolean paid=false;
-        if(payment.length==0){
+        if(payment == null || payment.length==0){
             paid=p.updateAmmo(costEffects);
         }else{
             int[]costEff=new int[3];
