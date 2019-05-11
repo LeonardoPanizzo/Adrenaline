@@ -24,6 +24,7 @@ public class WCHellion extends WeaponCard{
                     attackedPlayers[0].setMarksReceived(attacker, 1);
                     attacker.setMarksGiven(attackedPlayers[0], 1);
                     //todo: dare i marchi agli altri giocatori che si trovano nella stessa posizione di attackedplayers[0]
+                    // [Andrea] penso convenga considereare passati come parametri i giocatori che ricevono il marchio
                     done = true;
                     loaded = false;
                 }else if(mode1==1){
