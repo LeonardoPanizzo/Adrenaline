@@ -454,6 +454,16 @@ public class Player {
         return false;
     }
 
+    /**
+     *
+     *
+     * @param weapChosen
+     * @param playersAttacked
+     * @param mode1
+     * @param mode2
+     * @param movements
+     * @param payment
+     */
     public void shot(WeaponCard weapChosen, Player[] playersAttacked, int mode1, int[] mode2, Position[] movements,  PowerupCard[] payment){
         if (this.action > 0) {
             boolean control = false;
@@ -810,18 +820,25 @@ public class Player {
     public void respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;
         this.life = 11;
-        PowerupCard[] pow = new PowerupCard[1];
-        pow[0] = powerup;
-        char colour = powerup.getColour();
-        if(position.getRoom() == colour && position.isRespawnPoint()) {
-            boolean control = this.updatePowerup(pow);
-            if(control)
-                this.position = position;
-            else
-                System.out.println("You don't have this PowerUp Card");
+        boolean control1 = false;
+        for(int i=0; i<3; i++) {
+            if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
+                control1 = true;
+            }
         }
-        else
-            System.out.println("Incorrect Position");
+        if(control1) {
+            PowerupCard[] pow = new PowerupCard[1];
+            pow[0] = powerup;
+            char colour = powerup.getColour();
+            if (position.getRoom() == colour && position.isRespawnPoint()) {
+                boolean control = this.updatePowerup(pow);
+                if (control)
+                    this.position = position;
+                else
+                    System.out.println("You don't have this PowerUp Card");
+            } else
+                System.out.println("Incorrect Position");
+        }
     }
 
     public void usePowerup(PowerupCard powerup){
