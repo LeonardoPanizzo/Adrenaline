@@ -25,7 +25,7 @@ public class WCSledgehammer extends WeaponCard{
                     attackedPlayers[0].receivedDamages(attacker);
                 loaded=false;
                 done=true;
-            }else if(mode1==1 && movements.length>=0 && movements.length<=2){
+            }else if(mode1==1 && movements.length>=0 && movements.length<=2 && isPaid(attacker,payment)){
                 if(movements.length==0){
                     for(int i=0; i<3; i++)
                         attackedPlayers[0].receivedDamages(attacker);
