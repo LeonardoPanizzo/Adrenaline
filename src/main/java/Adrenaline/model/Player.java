@@ -233,18 +233,20 @@ public class Player {
     }
 
     /**
-     * Change the player's position in one other that is reachable for the initial player's position.
+     * Change the player's position in one other that is reachable for the initial player's position. If more than 3
+     * position are given, only the first three are thoughtful.
      *
-     * @param position position where the player want to go
+     * @param position positions Array where the player want to go
      * @see Player
      * @see Position
      */
-    //todo: creare versione con array
-    public void move(Position position){
+    public void move(Position[] position){
         if(this.action > 0){
-            if(this.position.reachable(position))
-                this.position = position;
-            this.action--;
+            for(int i=0; i<3 && i<position.length; i++){
+                if (this.position.reachable(position[i]))
+                    this.position = position[i];
+                this.action--;
+            }
         }
         else
             System.out.println("Actions completed");
@@ -455,14 +457,18 @@ public class Player {
     }
 
     /**
+     *Use a weapon card to shot at one or more player. To do that, fire mode, optional fire mode and Power up to pay
+     * that, players to attack and movements to do need to be selected.
      *
-     *
-     * @param weapChosen
-     * @param playersAttacked
-     * @param mode1
-     * @param mode2
-     * @param movements
-     * @param payment
+     * @param weapChosen the weapon we want to use
+     * @param playersAttacked player attacked
+     * @param mode1 0 -> first fire mode; 1 -> second fire mode (more ammo can be needed)
+     * @param mode2 array where is selected the sequence of the optional fire mode
+     * @param movements sometimes it's possible to move as optional fire effect
+     * @param payment power up used to pay fire optional mode extra ammo cost
+     * @see Player
+     * @see WeaponCard
+     * @see PowerupCard
      */
     public void shot(WeaponCard weapChosen, Player[] playersAttacked, int mode1, int[] mode2, Position[] movements,  PowerupCard[] payment){
         if (this.action > 0) {
@@ -731,8 +737,6 @@ public class Player {
                 this.life = -1;
             }
         }
-
-        //todo: control powerup Venom and use it
     }
 
     /**
