@@ -72,6 +72,40 @@ public class WeaponCard {
         return paid;
     }
 
+    public boolean isPaid(Player p, PowerupCard[] payment, int[] mode){
+        boolean paid=false;
+        int[] temporaryCost=new int[3];
+        for(int i=0; i<3; i++)
+            temporaryCost[i]=0;
+        for(int i=0; i<mode.length; i++){ //after this we have a int[] with the cost of the optional effects
+            if(costEffects[mode[i]]=='b')
+                temporaryCost[0]++;
+            if(costEffects[mode[i]]=='y')
+                temporaryCost[1]++;
+            if(costEffects[mode[i]]=='r')
+                temporaryCost[2]++;
+        }
+
+        if(payment==null || payment.length==0){
+            paid=p.updateAmmo(temporaryCost);
+        }else{
+            for(int i=0; i<payment.length; i++){
+                if(payment[i].getColour()=='b')
+                    temporaryCost[0]--;
+                if(payment[i].getColour()=='y')
+                    temporaryCost[1]--;
+                if(payment[i].getColour()=='r')
+                    temporaryCost[2]--;
+            }
+            boolean consistent=(temporaryCost[0]>=0 && temporaryCost[1]>=0 && temporaryCost[2]>=0);
+            if(consistent){
+                if(p.updateAmmo(temporaryCost))
+                    paid=p.updatePowerup(payment);
+            }
+        }
+        return paid;
+    }
+
 
 
     public boolean isLoaded() {
