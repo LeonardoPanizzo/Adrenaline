@@ -18,7 +18,7 @@ public class WCZX2 extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done=false;
         if(isLoaded()){
-            if(mode1==0 && attackedPlayers.length==1 && attacker.getPosition().visible(attackedPlayers[0].getPosition())){
+            if(mode1==0 && attackedPlayers.length==1 && attacker.canSee(attackedPlayers[0])){
                 attackedPlayers[0].receivedDamages(attacker);
                 attackedPlayers[0].setMarksReceived(attacker,2);
                 attacker.setMarksGiven(attackedPlayers[0], 2);
@@ -27,7 +27,7 @@ public class WCZX2 extends WeaponCard{
             }else if(mode1==1 && attackedPlayers.length>=1 && attackedPlayers.length<=3){
                 boolean allvisible=true;
                 for(int i=0; i<attackedPlayers.length && allvisible; i++){
-                    allvisible=attacker.getPosition().visible(attackedPlayers[i].getPosition());
+                    allvisible=attacker.canSee(attackedPlayers[i]);
                 }
                 if(allvisible){
                     for(int i=0; i<attackedPlayers.length; i++){
