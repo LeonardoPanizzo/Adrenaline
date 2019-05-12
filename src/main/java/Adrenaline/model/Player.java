@@ -879,11 +879,15 @@ public class Player {
             System.out.println("");
     }
 
+
     public void drawPowerup(){
         int counter = 0;
-        while (powerup[counter] != null)
+        while (powerup[counter] != null && counter<3)
             counter++;
-        this.powerup[counter] = this.powerUpDeck.pickUpPowerup();
+        if(counter != 3)
+            this.powerup[counter] = this.powerUpDeck.pickUpPowerup();
+        else
+            System.out.println("You can't draw more power up cards");
     }
 
 }
