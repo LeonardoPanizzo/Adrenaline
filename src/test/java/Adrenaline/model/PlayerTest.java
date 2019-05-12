@@ -846,5 +846,40 @@ public class PlayerTest {
         assertArrayEquals(am2, p0.getAmmo(), "Ammo aren't correct");
     }
 
-    //todo: fare test per metodi relativi ai powerup
+    @Test
+    public void drawPoweUpTest(){
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        Player p0 = new Player(0, pd);
+        p0.drawPowerup();
+
+        assertNotNull(p0.getPowerup()[0]);
+        assertNull(p0.getPowerup()[1]);
+        assertNull(p0.getPowerup()[2]);
+
+        p0.drawPowerup();
+        p0.drawPowerup();
+        p0.drawPowerup();       //to control that no errors are given
+
+        assertNotNull(p0.getPowerup()[0]);
+        assertNotNull(p0.getPowerup()[1]);
+        assertNotNull(p0.getPowerup()[2]);
+    }
+
+    @Test
+    public void usePowerupTest(){
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        Player p0 = new Player(0, pd);
+        PowerupCard[] pu = {new PUTeleporter('r', b)};
+        Position[] pos = {b.getBoard()[0][3]};
+        p0.setPosition(b.getBoard()[0][0]);
+        p0.setPowerup(pu);
+        p0.usePowerup(pu[0], null, pos, ' ');
+        pos = new Position[]{b.getBoard()[2][3]};
+        p0.usePowerup(pu[0], null, pos, ' ');
+        p0.usePowerup(pu[0], null, pos, ' ');
+
+        assertEquals(b.getBoard()[2][3], p0.getPosition(), "Position isn't correct");
+    }
 }

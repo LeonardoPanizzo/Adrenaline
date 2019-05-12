@@ -312,6 +312,13 @@ public class Player {
             System.out.println("Actions completed");
     }
 
+    /**
+     * Show if the player can see one other player.
+     *
+     * @param x the player we want to know if is seen
+     * @return true if x is seen. False if it isn't.
+     * @see Player
+     */
     public boolean canSee(Player x){
         return this.getPosition().visible(x.getPosition());
     }
@@ -852,31 +859,43 @@ public class Player {
     /**
      * The power up card is used and then, if this it's possible, it is removed from this.powerup.
      *
-     * @param powerup
-     * @param attacked
-     * @param position
-     * @param ammoColor
+     * @param powerup the card we want to use
+     * @param attacked players that will receive the power up card effects
+     * @param position position where the player want to go
+     * @param ammoColor ammo we want to use to pay the cost
      */
     public void usePowerup(PowerupCard powerup, Player attacked, Position[] position, char ammoColor){
-        boolean control1 = powerup.use(this, attacked, position, ammoColor);
-        boolean control = false;
-        if(control1) {
-            for (int i = 0; i < this.powerup.length && !control; i++) {
-                if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
-                    this.powerup[i] = null;
-                    control = true;
-                }
+        boolean isPresent = false;
+        int counter = 0;
+        for(int i=0; i<this.powerup.length && !isPresent; i++){
+            if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
+                counter = i;
+                isPresent = true;
             }
         }
+        if(isPresent) {
+            boolean control = powerup.use(this, attacked, position, ammoColor);
+            if (control) {
+                this.powerup[counter] = null;
+            }
+            else
+                System.out.println("Impossible to use this power up card");
+        }
         else
-            System.out.println("");
+            System.out.println("You don't have this power up");
     }
+
 
     public void drawPowerup(){
         int counter = 0;
-        while (powerup[counter] != null)
+        while (counter<3 && powerup[counter] != null)
             counter++;
-        this.powerup[counter] = this.powerUpDeck.pickUpPowerup();
+        if(counter != 3) {
+            this.powerup[counter] = this.powerUpDeck.pickUpPowerup();
+            //System.out.println("The power up is: " + this.powerup[0].getName());
+        }
+        else
+            System.out.println("You can't draw more power up cards");
     }
 
 }
