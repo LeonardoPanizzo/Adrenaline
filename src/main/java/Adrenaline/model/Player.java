@@ -312,6 +312,10 @@ public class Player {
             System.out.println("Actions completed");
     }
 
+    public boolean canSee(Player x){
+        return this.getPosition().visible(x.getPosition());
+    }
+
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
      *
