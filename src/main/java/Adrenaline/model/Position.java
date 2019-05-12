@@ -162,4 +162,12 @@ public class Position {
         }
         return reac;
     }
+
+    public boolean reachable(Position[] x){
+        boolean reac=this.reachable(x[0]);
+        for(int i=1; i<x.length && reac; i++){
+            reac=x[i-1].reachable(x[i]);
+        }
+        return reac;
+    }
 }
