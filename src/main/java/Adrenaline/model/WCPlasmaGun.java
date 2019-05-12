@@ -18,18 +18,53 @@ public class WCPlasmaGun extends WeaponCard{
         super("PlasmaGun",new char[]{'b','y'},new char[]{'0','b'});
     }
 
-    private void damage(Player attacker, Player attacked){
-        for(int i=0; i<2; i++)
+    private void damage(Player attacker, Player attacked, int x){
+        for(int i=0; i<x; i++)
             attacked.receivedDamages(attacker);
+    }
+
+    private void move(Player attacker, Position[] movemets){
+        for(int i=0; i<movemets.length; i++){
+            attacker.setPosition(movemets[i]);
+        }
     }
 
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
     boolean done=false;
-    if(isLoaded() && mode2!=null &&attackedPlayers.length==1){
+    if(isLoaded() && mode2!=null && attackedPlayers.length==1){
         if(mode2.length==1 && mode2[0]==0 && attacker.canSee(attackedPlayers[0])){
-
-
+            damage(attacker, attackedPlayers[0],2);
+            this.loaded=false;
+            done=true;
+        }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==2 && attacker.canSee(attackedPlayers[0])){//todo:aggiungere il pagamento
+            damage(attacker, attackedPlayers[0],3);
+            this.loaded=false;
+            done=true;
+        }else if(mode2.length==2 && ((mode2[0]==0 && mode2[1]==1)||(mode2[0]==1 && mode2[1]==0)) && movements.length<=2){
+            if(mode2[0]==0 && attacker.canSee(attackedPlayers[0]) && attacker.getPosition().reachable(movements)){
+                damage(attacker, attackedPlayers[0],2);
+                move(attacker,movements);
+                this.loaded=false;
+                done=true;
+            }else if(mode2[0]==1 && attacker.getPosition().reachable(movements) && movements[movements.length-1].visible(attackedPlayers[0].getPosition())){
+                move(attacker,movements);
+                damage(attacker, attackedPlayers[0],2);
+                this.loaded=false;
+                done=true;
+            }
+        }else if(mode2.length==3 && movements.length<=2){
+            if(((mode2[0]==0 && mode2[1]==2 && mode2[2]==1) || (mode2[0]==0 && mode2[1]==1 && mode2[2]==2)) && attacker.canSee(attackedPlayers[0]) && attacker.getPosition().reachable(movements)){
+                damage(attacker, attackedPlayers[0],3);
+                move(attacker,movements);
+                this.loaded=false;
+                done=true;
+            }else if(mode2[0]==1 && mode2[1]==0 && mode2[2]==2 && attacker.getPosition().reachable(movements) && movements[movements.length-1].visible(attackedPlayers[0].getPosition())){
+                move(attacker,movements);
+                damage(attacker, attackedPlayers[0],3);
+                this.loaded=false;
+                done=true;
+            }
         }
     }
     return done;
