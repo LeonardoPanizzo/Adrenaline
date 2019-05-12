@@ -312,6 +312,13 @@ public class Player {
             System.out.println("Actions completed");
     }
 
+    /**
+     * Show if the player can see one other player.
+     *
+     * @param x the player we want to know if is seen
+     * @return true if x is seen. False if it isn't.
+     * @see Player
+     */
     public boolean canSee(Player x){
         return this.getPosition().visible(x.getPosition());
     }
