@@ -37,7 +37,7 @@ public class WCPlasmaGun extends WeaponCard{
             damage(attacker, attackedPlayers[0],2);
             this.loaded=false;
             done=true;
-        }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==2 && attacker.canSee(attackedPlayers[0])){//todo:aggiungere il pagamento
+        }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==2 && attacker.canSee(attackedPlayers[0])){//todo:aggiungere il pagamento se passo qualcosa che ha un valore 0 come reagisce il metodo?
             damage(attacker, attackedPlayers[0],3);
             this.loaded=false;
             done=true;
