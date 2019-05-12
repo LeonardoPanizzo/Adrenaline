@@ -24,15 +24,17 @@ public class Position {
         this.door=door;
         this.ndoor=0;
         this.respawnPoint=respawnPoint;
+        this.ammoDeck=deckAmmo;
+        this.weaponDeck=deckWeapon;
         if(door){
             linked=new Vector<Position>();
         }
         if(respawnPoint) {
              weapons=new WeaponCard[3];
             for(int k=0;k<3;k++)        //drawn 3 weaponcard
-                weapons[k]=deckWeapon.pickUpWeapon();
+                weapons[k]=weaponDeck.pickUpWeapon();
         }else{
-            ammo=deckAmmo.pickUpAmmo();
+            ammo=ammoDeck.pickUpAmmo();
         }
     }
 
