@@ -37,9 +37,10 @@ public class PowerupDeck {
     public PowerupCard pickUpPowerup(){
         PowerupCard x=PUDeck.elementAt(size);
         size++;
-        if(size>=24)    //the deck contains 24 cards
-            size=0;
-        //todo aggiungere il rimescolare il mazzo
+        if(size>=24) {   //the deck contains 24 cards
+            size = 0;
+            shuffle();
+        }
         return x;
     }
 }
