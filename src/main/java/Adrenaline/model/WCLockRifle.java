@@ -11,7 +11,7 @@ public class WCLockRifle extends WeaponCard {
 
     @Override
     /*
-    if checks that there 1 or 2 hitten players (the second one is hitten by an optional effect) and that the first target is visible
+    if checks that there are 1 or 2 hit players (the second one is hit by an optional effect) and that the first target is visible
      */
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
