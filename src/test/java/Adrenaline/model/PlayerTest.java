@@ -218,10 +218,10 @@ public class PlayerTest {
         Player p = new Player(0, pwd);
         AmmoDeck ad = new AmmoDeck();
         WeaponDeck wd = new WeaponDeck();
-        Position pos = new Position(1, 0, 'r', true, true, ad, wd);
-        Position play = new Position(0, 0, 'r', true, false, ad, wd);
+        Position[] pos = {new Position(1, 0, 'r', true, true, ad, wd)};
+        Position[] play = {new Position(0, 0, 'r', true, false, ad, wd)};
         p.roundBegin();
-        p.setPosition(play);
+        p.setPosition(play[0]);
         p.move(pos);
 
         assertEquals(1, p.getAction(), "Number of action isn't correct");
@@ -298,8 +298,14 @@ public class PlayerTest {
         pos.giveWeapon(weapon2);
         pos.giveWeapon(weapon);
         play.setPosition(pos);
-        char[]selectedAmmo = new char[]{'y'};
-        PowerupCard[] power = new PowerupCard[]{new PowerupCard("pw1", 'r', b)};
+
+        char[]selectedAmmo = new char[]{'b', 'b'};
+        play.grabWeaponCard(weapon1, selectedAmmo);
+        PowerupCard[] power = new PowerupCard[]{new PowerupCard("pw1", 'b', b)};
+        play.grabWeaponCard(weapon1, power);
+
+        selectedAmmo = new char[]{'y'};
+        power = new PowerupCard[]{new PowerupCard("pw1", 'r', b)};
         WeaponCard temp = pos.chooseArm(0);
         boolean control = play.grabWeaponCard(temp, selectedAmmo, power);
         if(!control)
@@ -314,7 +320,6 @@ public class PlayerTest {
 
         //Pay with only ammo
         play.setAction(2);
-
         pos.giveWeapon(weapon);
         selectedAmmo = new char[]{'b'};
         play.grabWeaponCard(pos.chooseArm(2), selectedAmmo);
@@ -610,8 +615,14 @@ public class PlayerTest {
 
         //Test shot with weapon with just one mode
         WeaponCard wep0 = new WCHeatseeker();
-        Position pos0 = new Position(0, 2, 'b', true, true, ad, wd);
-        Position pos1 = new Position(1, 0, 'r', true, false, ad, wd);
+        WeaponCard wep = new WCZX2();
+        Position[][] board = b.getBoard();
+        Position pos0 = board[0][2];
+        Position pos1 = board[1][2];
+        Position pos2 = board[0][1];
+        Position pos3 = board[1][2];
+        p2.setPosition(pos2);
+        p3.setPosition(pos3);
         pos0.chooseArm(0);
         pos0.chooseArm(1);
         pos0.chooseArm(2);
@@ -622,6 +633,18 @@ public class PlayerTest {
         p0.grabWeaponCard(wep0, selAmmo);
         Player[] playerAttacked = {p1};
         int[] mode2 = new int[] {-1};
+        p0.shot(wep0, playerAttacked, -1, mode2, null, null);
+        p0.shot(wep, playerAttacked, -1, mode2, null, null);
+
+        assertEquals(11, p1.getLife(), "P1 life isn't correct");
+
+        pos1 = b.getBoard()[1][3];
+        p1.setPosition(pos1);
+        p0.shot(wep0, playerAttacked, -1, mode2, null, null);
+
+        assertEquals(8, p1.getLife(), "P1 life isn't correct");
+
+        p0.setAction(0);
         p0.shot(wep0, playerAttacked, -1, mode2, null, null);
 
         assertEquals(8, p1.getLife(), "P1 life isn't correct");
@@ -667,21 +690,50 @@ public class PlayerTest {
 
         //Test shot with weapon with two different fire modes
 
-        /*First mode
+        //First mode
         p0.setAction(2);
         p0.setAmmo('r', 1);
-        WeaponCard wep2 = new WCHellion();
+        WeaponCard wep2 = new WCZX2();
         pos0.chooseArm(0);
         pos0.chooseArm(1);
         pos0.chooseArm(2);
         pos0.giveWeapon(wep2);
-        selAmmo = new char[]{'y'};
+        p0.setMarksGiven(p1, 0);
+        p1.setMarksReceived(p0, 0);
+        selAmmo = new char[]{'r'};
         p0.grabWeaponCard(wep2, selAmmo);
         playerAttacked = new Player[]{p1};
-        pos1 = new Position(0, 0, 'b', true, false, ad, wd);
-        p1.setPosition(pos1);
-        mode2 = new int[] {0};
-        p0.shot(wep1, playerAttacked, -1, mode2, null, null);*/
+        int mode1 = 0;
+        p0.shot(wep2, playerAttacked, mode1, null, null, null);
+
+        assertEquals(2, p1.getLife(), "Life p1 isn't correct");
+        assertEquals(2, p0.getMarksGiven()[1], "Marks given to p1 aren't correct");
+        assertEquals(2, p1.getMarksReceived()[0], "p1 marks received from p0 are't correct");
+
+        //Second mode
+        p0.setAction(2);
+        p0.setAmmo('r', 1);
+        p0.setAmmo('y', 1);
+        selAmmo = new char[]{'y', 'r'};
+        p0.reload(wep2, selAmmo);
+        p0.setMarksGiven(p1, 0);
+        p1.setMarksReceived(p0, 0);
+        p0.setMarksGiven(p2, 0);
+        p2.setMarksReceived(p0, 0);
+        p0.setMarksGiven(p3, 0);
+        p3.setMarksReceived(p0, 0);
+        playerAttacked = new Player[]{p1, p2, p3};
+        mode1 = 1;
+        p0.shot(wep2, playerAttacked, mode1, null, null, null);
+
+        assertTrue(pos0.visible(pos3));
+        assertEquals(2, p1.getLife(), "Life p1 isn't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "Marks given to p1 aren't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received from p0 are't correct");
+        assertEquals(1, p0.getMarksGiven()[2], "Marks given to p2 aren't correct");
+        assertEquals(1, p2.getMarksReceived()[0], "p2 marks received from p0 are't correct");
+        assertEquals(1, p0.getMarksGiven()[3], "Marks given to p3 aren't correct");
+        assertEquals(1, p3.getMarksReceived()[0], "p3 marks received from p0 are't correct");
     }
 
     @Test
@@ -717,17 +769,6 @@ public class PlayerTest {
         p.respawn(pu1, testPosition);
 
         assertNotEquals(testPosition, p.getPosition(), "Player is respawned");
-    }
-
-    @Test
-    public void usePowerUpTest(){
-        Board b = new Board(1);
-        PowerupDeck pwd = new PowerupDeck(b);
-        Player p = new Player(1, pwd);
-        PowerupCard pu = new PowerupCard("Name", 'b', b);
-
-        p.usePowerup(pu);
-        //todo finire implementazione
     }
 
     @Test
@@ -772,4 +813,38 @@ public class PlayerTest {
 
         assertEquals(3, p.getMarksGiven()[2]);
     }
+
+    @Test
+    public void moveAndGrabTest(){
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        Player p0 = new Player(0, pd);
+        p0.setPosition(b.getBoard()[0][0]);
+        p0.setAction(2);
+        Position[] move = new Position[] {b.getBoard()[0][1]};
+        p0.moveAndGrab(move);
+
+        assertEquals(2, p0.getAction(), "Life isn't correct");
+
+        p0.setAction(0);
+        move = new Position[] {b.getBoard()[0][2]};
+        p0.moveAndGrab(move);
+
+        assertEquals(b.getBoard()[0][1], p0.getPosition(), "Position isn't correct");
+        assertEquals(0, p0.getAction(), "Life isn't correct");
+    }
+
+    @Test
+    public void updateAmmoTest(){   //public boolean updateAmmo(int[] am)
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        Player p0 = new Player(0, pd);
+        int[] am = new int[] {1, 1, 1};
+        int[] am2 = new int[] {0, 0, 0};
+        p0.updateAmmo(am);
+
+        assertArrayEquals(am2, p0.getAmmo(), "Ammo aren't correct");
+    }
+
+    //todo: fare test per metodi relativi ai powerup
 }
