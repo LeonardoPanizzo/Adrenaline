@@ -18,7 +18,7 @@ public class WCHellion extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
         if(isLoaded()){
-            if(attackedPlayers.length==1 && attacker.getPosition().visible(attackedPlayers[0].getPosition()) && !attacker.getPosition().reachable(attackedPlayers[0].getPosition())){//checks if the target is visible and not in the same position as the attacker
+            if(attackedPlayers.length==1 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().reachable(attackedPlayers[0].getPosition())){//checks if the target is visible and not in the same position as the attacker
                 if(mode1==0) {
                     attackedPlayers[0].receivedDamages(attacker);
                     attackedPlayers[0].setMarksReceived(attacker, 1);
