@@ -845,9 +845,27 @@ public class Player {
         }
     }
 
-    public void usePowerup(PowerupCard powerup){
-
-        //todo rimuovere il powerup dalla lista di this
+    /**
+     * The power up card is used and then, if this it's possible, it is removed from this.powerup.
+     *
+     * @param powerup
+     * @param attacked
+     * @param position
+     * @param ammoColor
+     */
+    public void usePowerup(PowerupCard powerup, Player attacked, Position[] position, char ammoColor){
+        boolean control1 = powerup.use(this, attacked, position, ammoColor);
+        boolean control = false;
+        if(control1) {
+            for (int i = 0; i < this.powerup.length && !control; i++) {
+                if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
+                    this.powerup[i] = null;
+                    control = true;
+                }
+            }
+        }
+        else
+            System.out.println("");
     }
 
     public void drawPowerup(){
