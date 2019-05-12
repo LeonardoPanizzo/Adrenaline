@@ -859,10 +859,10 @@ public class Player {
     /**
      * The power up card is used and then, if this it's possible, it is removed from this.powerup.
      *
-     * @param powerup
-     * @param attacked
-     * @param position
-     * @param ammoColor
+     * @param powerup the card we want to use
+     * @param attacked players that will receive the power up card effects
+     * @param position position where the player want to go
+     * @param ammoColor ammo we want to use to pay the cost
      */
     public void usePowerup(PowerupCard powerup, Player attacked, Position[] position, char ammoColor){
         boolean control1 = powerup.use(this, attacked, position, ammoColor);
