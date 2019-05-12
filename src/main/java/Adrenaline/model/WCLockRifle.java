@@ -15,7 +15,7 @@ public class WCLockRifle extends WeaponCard {
      */
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
-        if (this.isLoaded() && attackedPlayers.length >= 1 && attackedPlayers.length <= 2 && attacker.getPosition().visible(attackedPlayers[0].getPosition())) {
+        if (this.isLoaded() && attackedPlayers.length >= 1 && attackedPlayers.length <= 2 && attacker.canSee(attackedPlayers[0])) {
             if (mode2.length == 1 && attackedPlayers.length == 1 && mode2[0] == 0) {//checks if it is only the basic effect and only one attacked
                 for (int i = 0; i < 2; i++)
                     attackedPlayers[0].receivedDamages(attacker);
@@ -24,7 +24,7 @@ public class WCLockRifle extends WeaponCard {
                 loaded = false;
                 done = true;
             } else if (attackedPlayers.length == 2 && mode2.length == 2 && ((mode2[0] == 0 && mode2[1] == 1) || (mode2[0] == 1 && mode2[1] == 0)) && isPaid(attacker, payment)) { //checks if there is the basic effect and the optional one
-                if (attacker.getPosition().visible(attackedPlayers[1].getPosition())) {//checks if the second player is visible
+                if (attacker.canSee(attackedPlayers[1])) {//checks if the second player is visible
                     for (int i = 0; i < 2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
                     attackedPlayers[0].setMarksReceived(attacker, 1);
