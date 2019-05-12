@@ -846,5 +846,25 @@ public class PlayerTest {
         assertArrayEquals(am2, p0.getAmmo(), "Ammo aren't correct");
     }
 
-    //todo: fare test per metodi relativi ai powerup
+    @Test
+    public void drawPoweUpTest(){
+        Board b = new Board(1);
+        PowerupDeck pd = new PowerupDeck(b);
+        Player p0 = new Player(0, pd);
+        p0.drawPowerup();
+
+        assertNotNull(p0.getPowerup()[0]);
+        assertNull(p0.getPowerup()[1]);
+        assertNull(p0.getPowerup()[2]);
+
+        p0.drawPowerup();
+        p0.drawPowerup();
+        p0.drawPowerup();       //to control that no errors are given
+
+        assertNotNull(p0.getPowerup()[0]);
+        assertNotNull(p0.getPowerup()[1]);
+        assertNotNull(p0.getPowerup()[2]);
+    }
+
+
 }
