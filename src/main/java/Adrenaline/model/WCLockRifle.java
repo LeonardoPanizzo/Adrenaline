@@ -6,7 +6,7 @@ package Adrenaline.model;
  */
 public class WCLockRifle extends WeaponCard {
     public WCLockRifle() {
-        super("LockRifle", new char[]{'b', 'b'}, new char[]{'r'});
+        super("LockRifle", new char[]{'b', 'b'}, new char[]{'0','r'});
     }
 
     @Override
