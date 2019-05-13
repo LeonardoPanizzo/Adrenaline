@@ -6,8 +6,8 @@ package Adrenaline.model;
 
 public class PUNewton extends PowerupCard{
 
-    public PUNewton (char colour, Board b){
-        super("Newton", colour, b);
+    public PUNewton (char colour){
+        super("Newton", colour);
     }
 
     @Override
