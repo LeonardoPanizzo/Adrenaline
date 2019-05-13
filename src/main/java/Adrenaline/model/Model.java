@@ -1,7 +1,28 @@
 package Adrenaline.model;
 
-public class Model {/*
-    public static void main (String args[]){
+import Adrenaline.FinalClient;
+import Adrenaline.FinalServer;
+
+import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+public class Model {
+    public static void main (String args[]) {
+
+        try {
+            FinalServer.main(null);
+            FinalClient.main(null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+        /*
         int numBoard;
         System.out.println("Scegli il tabellone");
         try{
@@ -9,6 +30,8 @@ public class Model {/*
             Board board = new Board(numBoard);                          //Board is created
             PowerupDeck PUDeck= new PowerupDeck();                      //PowerUp deck is created
             WeaponDeck WDeck = new WeaponDeck();                        //Weapon deck is created
+
+
             int playerNumber =0;
             Player players[] = new Player[5];
             //todo: imostare time out per uscire dal loop e iniziare la partita
@@ -20,7 +43,8 @@ public class Model {/*
                     timer = false;
                 playerNumber++;
                 System.out.println("Giocatore" + playerNumber + " connesso");
-            }                                                           //Players are created
+            }
+            //Players are created
             players[0].setFirstPlayer(true);                            //Player in the firs position is the first one
             int round = board.getRound();
             int currentPlayer = 0;
