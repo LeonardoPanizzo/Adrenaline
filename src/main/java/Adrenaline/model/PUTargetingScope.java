@@ -8,8 +8,8 @@ package Adrenaline.model;
 
 public class PUTargetingScope extends PowerupCard{
 
-    public PUTargetingScope(char colour, Board b){
-        super("targeting scope", colour, b);
+    public PUTargetingScope(char colour){
+        super("targeting scope", colour);
     }
 
     public boolean use(Player p1, Player p2, Position[] squares, char payment){
