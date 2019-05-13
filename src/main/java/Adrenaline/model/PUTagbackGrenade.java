@@ -7,8 +7,8 @@ package Adrenaline.model;
 
 public class PUTagbackGrenade extends PowerupCard{
 
-    public PUTagbackGrenade(char colour, Board b){
-        super("targetback grenade", colour, b);
+    public PUTagbackGrenade(char colour){
+        super("targetback grenade", colour);
     }
 
     public boolean use(Player p1, Player p2, Position[] squares, char payment) {
