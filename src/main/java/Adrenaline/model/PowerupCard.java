@@ -3,12 +3,10 @@ package Adrenaline.model;
 public class PowerupCard {
     protected char colour;
     protected String name;
-    protected Board board;
 
-    public PowerupCard(String name, char colour, Board b){
+    public PowerupCard(String name, char colour){
         this.name=name;
         this.colour=colour;
-        this.board=b;
     }
 
     public char getColour() {
