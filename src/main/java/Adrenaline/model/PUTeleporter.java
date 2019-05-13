@@ -7,8 +7,8 @@ package Adrenaline.model;
 
 public class PUTeleporter extends PowerupCard {
 
-    public PUTeleporter(char colour, Board b){
-        super("teleporter", colour, b);
+    public PUTeleporter(char colour){
+        super("teleporter", colour);
     }
 
     @Override
