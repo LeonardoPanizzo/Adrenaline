@@ -232,6 +232,10 @@ public class Player {
         this.action = 2;
     }
 
+    public boolean equals(Player p){
+        return this.number==p.number;
+    }
+
     /**
      * Change the player's position in one other that is reachable for the initial player's position. If more than 3
      * position are given, only the first three are thoughtful.
