@@ -222,7 +222,9 @@ public class Player {
     }
 
     public void setPosition(Position position) {
+        this.position.deletePlayer(this);
         this.position = position;
+        position.setPlayer(this);
     }
 
     /**
