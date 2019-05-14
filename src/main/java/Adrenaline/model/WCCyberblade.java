@@ -28,7 +28,7 @@ public class WCCyberblade extends WeaponCard{
                 loaded=false;
                 done=true;
             }else if(mode2.length==2){
-                if(mode2[0]==0 && mode2[1]==1 && movements.length==1 && attackerpos.equals(attackedpos) && attackerpos.reachable(movements[0])){
+                if(mode2[0]==0 && mode2[1]==1 && movements != null && movements.length==1 && attackerpos.equals(attackedpos) && attackerpos.reachable(movements[0])){
                     for(int i=0; i<2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
                     attacker.setPosition(movements[0]);
