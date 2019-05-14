@@ -882,4 +882,15 @@ public class PlayerTest {
 
         assertEquals(b.getBoard()[2][3], p0.getPosition(), "Position isn't correct");
     }
+
+    @Test
+    public void equalTest(){
+        PowerupDeck pd = new PowerupDeck();
+        Player p = new Player(0, pd);
+        Player p0 = new Player(0, pd);
+        Player p1 = new Player(1, pd);
+
+        assertTrue(p.equals(p0), "Equals doesn't work");
+        assertFalse(p.equals(p1), "Equals doesn't work");
+    }
 }
