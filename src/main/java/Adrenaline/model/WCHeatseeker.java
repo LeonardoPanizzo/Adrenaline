@@ -15,13 +15,14 @@ public class WCHeatseeker extends WeaponCard{
     if checks that there is only one target,that the weapon is loaded and that the target isn't visible from the attacker
      */
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
+        boolean done=false;
         if(this.isLoaded() && attackedPlayers.length==1 && !(attacker.canSee(attackedPlayers[0]))){
             for(int i=0;i<3;i++){
                 attackedPlayers[0].receivedDamages(attacker);
             }
             loaded=false;
-            return true;
+            done=true;
         }
-        return false;
+        return done;
     }
 }
