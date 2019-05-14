@@ -305,7 +305,7 @@ public class Player {
                             if (this.ammo[2] < 3)
                                 this.ammo[2]++;
                         } else if (ammo.getValue()[i] == 'p')
-                            System.out.println("pesca");//todo pesca powerup
+                            this.drawPowerup();
                     }
                     this.action--;
                     this.position.setAmmo(null);

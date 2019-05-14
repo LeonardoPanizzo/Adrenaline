@@ -246,7 +246,7 @@ public class PlayerTest {
         assertEquals(2, p.getAction(), "First action doesn't work");
 
         pos = new Position(1, 0, 'r', true, false, ad, wd);
-        char[] value = new char[] {'b', 'y', 'r', '_'};
+        char[] value = new char[] {'b', 'y', 'r', 'p'};
         AmmoCard ammoCard = new AmmoCard(value);
         p.setPosition(pos);
         p.getPosition().setAmmo(ammoCard);
@@ -258,6 +258,7 @@ public class PlayerTest {
         assertEquals(2, p.getAmmo()[0], "Blue ammo aren't correct");
         assertEquals(2, p.getAmmo()[1], "Yellow ammo aren't correct");
         assertEquals(2, p.getAmmo()[2], "Red ammo aren't correct");
+        assertNotNull(p.getPowerup()[0], "Power up cards aren't correct");
 
         p = new Player(0, pwd);
         p.setAction(0);
@@ -881,5 +882,16 @@ public class PlayerTest {
         p0.usePowerup(pu[0], null, pos, ' ');
 
         assertEquals(b.getBoard()[2][3], p0.getPosition(), "Position isn't correct");
+    }
+
+    @Test
+    public void equalTest(){
+        PowerupDeck pd = new PowerupDeck();
+        Player p = new Player(0, pd);
+        Player p0 = new Player(0, pd);
+        Player p1 = new Player(1, pd);
+
+        assertTrue(p.equals(p0), "Equals doesn't work");
+        assertFalse(p.equals(p1), "Equals doesn't work");
     }
 }
