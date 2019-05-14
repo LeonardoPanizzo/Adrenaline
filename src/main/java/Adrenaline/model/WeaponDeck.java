@@ -10,6 +10,7 @@ public class WeaponDeck {
     public WeaponDeck(){
         size=0;
         weaponDeck=new Vector<WeaponCard>(21);
+        weaponDeck.add(new WCCyberblade());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
         weaponDeck.add(new WCLockRifle());
@@ -31,7 +32,6 @@ public class WeaponDeck {
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
-        weaponDeck.add(new WCWhisper());
         shuffle();
     }
 
