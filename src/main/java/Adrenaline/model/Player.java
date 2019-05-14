@@ -227,6 +227,11 @@ public class Player {
         position.setPlayer(this);
     }
 
+    public void setFirstPosition(Position position) {
+        this.position = position;
+        position.setPlayer(this);
+    }
+
     /**
      * The round begin, so the player can do 2 actions.
      */
