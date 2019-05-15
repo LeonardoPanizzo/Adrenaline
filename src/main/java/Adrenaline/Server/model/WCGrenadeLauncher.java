@@ -1,4 +1,4 @@
-package Adrenaline.model;
+package Adrenaline.Server.model;
 
 /**
  * basic effect: Deal 1 damage to 1 target you can see. Then you may move
