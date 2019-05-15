@@ -1,6 +1,6 @@
 package Adrenaline;
 
-import Adrenaline.control.Controller;
+import Adrenaline.Server.control.Controller;
 
 import java.net.MalformedURLException;
 import java.rmi.*;

@@ -1,7 +1,7 @@
 package Adrenaline;
 
-import Adrenaline.control.RemoteController;
-import Adrenaline.view.TextView;
+import Adrenaline.Server.control.RemoteController;
+import Adrenaline.Client.view.TextView;
 
 import java.io.IOException;
 import java.io.PrintWriter;

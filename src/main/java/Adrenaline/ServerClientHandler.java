@@ -1,7 +1,5 @@
 package Adrenaline;
 
-import Adrenaline.control.Controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
