@@ -24,7 +24,7 @@ public class WCShotgun extends WeaponCard{
                     attackedPlayers[0].receivedDamages(attacker);
                 loaded=false;
                 done=true;
-                if(movements!=null && movements.length==1){ //todo: se l'input del movimento è sbagliato l'attacco viene fatto comunque ma non viene spostato l'attaccato
+                if(movements!=null && movements.length==1){
                     if(attackedPlayers[0].getPosition().reachable(movements[0]))
                         attackedPlayers[0].setPosition(movements[0]);
                 }
