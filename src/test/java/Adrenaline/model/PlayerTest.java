@@ -221,7 +221,7 @@ public class PlayerTest {
         Position[] pos = {new Position(1, 0, 'r', true, true, ad, wd)};
         Position[] play = {new Position(0, 0, 'r', true, false, ad, wd)};
         p.roundBegin();
-        p.setPosition(play[0]);
+        p.setFirstPosition(play[0]);
         p.move(pos);
 
         assertEquals(1, p.getAction(), "Number of action isn't correct");
@@ -239,7 +239,7 @@ public class PlayerTest {
         AmmoDeck ad = new AmmoDeck();
         WeaponDeck wd = new WeaponDeck();
         Position pos = new Position(1, 0, 'r', true, true, ad, wd);
-        p.setPosition(pos);
+        p.setFirstPosition(pos);
         p.roundBegin();
         p.grabAmmoCard();
 
@@ -248,9 +248,9 @@ public class PlayerTest {
         pos = new Position(1, 0, 'r', true, false, ad, wd);
         char[] value = new char[] {'b', 'y', 'r', 'p'};
         AmmoCard ammoCard = new AmmoCard(value);
-        p.setPosition(pos);
+        p.setFirstPosition(pos);
         p.getPosition().setAmmo(ammoCard);
-        p.setPosition(pos);
+        p.setFirstPosition(pos);
         p.grabAmmoCard();
         p.grabAmmoCard();
 
@@ -265,9 +265,9 @@ public class PlayerTest {
         pos = new Position(1, 0, 'r', true, false, ad, wd);
         value = new char[] {'b', 'y', 'r', '_'};
         ammoCard = new AmmoCard(value);
-        p.setPosition(pos);
+        p.setFirstPosition(pos);
         p.getPosition().setAmmo(ammoCard);
-        p.setPosition(pos);
+        p.setFirstPosition(pos);
         p.grabAmmoCard();
 
         assertEquals(1, p.getAmmo()[0], "Blue ammo aren't correct");
@@ -298,7 +298,7 @@ public class PlayerTest {
         pos.giveWeapon(weapon1);
         pos.giveWeapon(weapon2);
         pos.giveWeapon(weapon);
-        play.setPosition(pos);
+        play.setFirstPosition(pos);
 
         char[]selectedAmmo = new char[]{'b', 'b'};
         play.grabWeaponCard(weapon1, selectedAmmo);
@@ -622,14 +622,14 @@ public class PlayerTest {
         Position pos1 = board[1][2];
         Position pos2 = board[0][1];
         Position pos3 = board[1][2];
-        p2.setPosition(pos2);
-        p3.setPosition(pos3);
+        p2.setFirstPosition(pos2);
+        p3.setFirstPosition(pos3);
         pos0.chooseArm(0);
         pos0.chooseArm(1);
         pos0.chooseArm(2);
         pos0.giveWeapon(wep0);
-        p0.setPosition(pos0);
-        p1.setPosition(pos1);
+        p0.setFirstPosition(pos0);
+        p1.setFirstPosition(pos1);
         char[] selAmmo = new char[]{'r', 'y'};
         p0.grabWeaponCard(wep0, selAmmo);
         Player[] playerAttacked = {p1};
@@ -640,7 +640,7 @@ public class PlayerTest {
         assertEquals(11, p1.getLife(), "P1 life isn't correct");
 
         pos1 = b.getBoard()[1][3];
-        p1.setPosition(pos1);
+        p1.setFirstPosition(pos1);
         p0.shot(wep0, playerAttacked, -1, mode2, null, null);
 
         assertEquals(8, p1.getLife(), "P1 life isn't correct");
@@ -664,7 +664,7 @@ public class PlayerTest {
         p0.grabWeaponCard(wep1, selAmmo);
         playerAttacked = new Player[]{p1};
         pos1 = new Position(0, 0, 'b', true, false, ad, wd);
-        p1.setPosition(pos1);
+        p1.setFirstPosition(pos1);
         mode2 = new int[] {0};
         p0.shot(wep1, playerAttacked, -1, mode2, null, null);
 
@@ -674,7 +674,7 @@ public class PlayerTest {
 
         //With optional effect
         playerAttacked = new Player[]{p1, p2};
-        p2.setPosition(pos1);
+        p2.setFirstPosition(pos1);
         p0.setAmmo('b', 2);
         p0.setAmmo('r', 1);
         p0.setAction(2);
@@ -759,14 +759,14 @@ public class PlayerTest {
         assertNotEquals(testPosition, p.getPosition(), "Position is not correct");
 
         Position position = new Position(0, 0, 'b', true, false, ad, wd);
-        p.setPosition(position);
+        p.setFirstPosition(position);
         testPosition = new Position(1, 2, 'b', true, true, ad, wd);
         p.respawn(pu1, testPosition);
 
         assertNull(p.getPowerup()[0], "First powerup not used");
         assertEquals(testPosition, p.getPosition(), "Player isn't respawned");
 
-        p.setPosition(position);
+        p.setFirstPosition(position);
         p.respawn(pu1, testPosition);
 
         assertNotEquals(testPosition, p.getPosition(), "Player is respawned");
@@ -820,7 +820,7 @@ public class PlayerTest {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
-        p0.setPosition(b.getBoard()[0][0]);
+        p0.setFirstPosition(b.getBoard()[0][0]);
         p0.setAction(2);
         Position[] move = new Position[] {b.getBoard()[0][1]};
         p0.moveAndGrab(move);
@@ -874,7 +874,7 @@ public class PlayerTest {
         Player p0 = new Player(0, pd);
         PowerupCard[] pu = {new PUTeleporter('r')};
         Position[] pos = {b.getBoard()[0][3]};
-        p0.setPosition(b.getBoard()[0][0]);
+        p0.setFirstPosition(b.getBoard()[0][0]);
         p0.setPowerup(pu);
         p0.usePowerup(pu[0], null, pos, ' ');
         pos = new Position[]{b.getBoard()[2][3]};

@@ -14,8 +14,9 @@ public class Position {
     private WeaponCard[] weapons;      //weapons found in the position
     private AmmoDeck ammoDeck;
     private WeaponDeck weaponDeck;
+    private Vector<Player> players;
 
-    //beacause positions are fixed they will be red from a file each time, the file will call the constructor
+    //because positions are fixed they will be red from a file each time, the file will call the constructor
     public Position(int i, int j, char room, boolean door, boolean respawnPoint, AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
         matr[0]=i;
@@ -26,6 +27,7 @@ public class Position {
         this.respawnPoint=respawnPoint;
         this.ammoDeck=deckAmmo;
         this.weaponDeck=deckWeapon;
+        players=new Vector<Player>(0,1);
         if(door){
             linked=new Vector<Position>();
         }
@@ -57,6 +59,14 @@ public class Position {
 
     public int[] getCoordinate() {
         return matr;
+    }
+
+    public void deletePlayer(Player x){
+        players.remove(x);
+    }
+
+    public void setPlayer(Player x){
+        players.add(x);
     }
 
     public boolean isRespawnPoint() {
