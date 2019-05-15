@@ -84,6 +84,19 @@ public class Position {
         }
     }
 
+    /**
+     * return an array containing the players in the position this
+     * @return
+     */
+    public Player[] getPlayers(){
+        int tot=players.size();
+        Player[] playertoretu=new Player[tot];
+        for(int i=0; i<tot; i++){
+            playertoretu[i]=players.get(i);
+        }
+        return playertoretu;
+    }
+
     /*@requires x!=null;
      @receives the positions that will be linked to this.position, the link is possible only if this and all the
      @positions in x are doors

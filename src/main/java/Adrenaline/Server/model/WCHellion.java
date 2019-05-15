@@ -17,27 +17,26 @@ public class WCHellion extends WeaponCard{
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
-        if(isLoaded()){
-            if(attackedPlayers.length==1 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().reachable(attackedPlayers[0].getPosition())){//checks if the target is visible and not in the same position as the attacker
+        if(isLoaded() && attackedPlayers.length==1 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition())){
                 if(mode1==0) {
                     attackedPlayers[0].receivedDamages(attacker);
-                    attackedPlayers[0].setMarksReceived(attacker, 1);
-                    attacker.setMarksGiven(attackedPlayers[0], 1);
-                    //todo: dare i marchi agli altri giocatori che si trovano nella stessa posizione di attackedplayers[0]
-                    // [Andrea] penso convenga considereare passati come parametri i giocatori che ricevono il marchio
+                    Player[] playertomark=attackedPlayers[0].getPosition().getPlayers();
+                    for(int i=0; i<playertomark.length; i++){
+                        attackedPlayers[i].setMarksReceived(attacker, 1);
+                        attacker.setMarksGiven(attackedPlayers[i], 1);
+                    }
                     done = true;
                     loaded = false;
-                }else if(mode1==1){
-                    if(isPaid(attacker, payment)){
+                }else if(mode1==1 && isPaid(attacker, payment)){
                         attackedPlayers[0].receivedDamages(attacker);
-                        attackedPlayers[0].setMarksReceived(attacker, 2);
-                        attacker.setMarksGiven(attackedPlayers[0], 2);
-                        //todo: dare i marchi agli altri giocatori che si trovano nella stessa posizione di attackedplayers[0]
+                        Player[] playertomark=attackedPlayers[0].getPosition().getPlayers();
+                        for(int i=0; i<playertomark.length; i++) {
+                            attackedPlayers[i].setMarksReceived(attacker, 2);
+                            attacker.setMarksGiven(attackedPlayers[i], 2);
+                        }
                         done = true;
                         loaded = false;
-                    }
                 }
-            }
         }
         return done;
     }
