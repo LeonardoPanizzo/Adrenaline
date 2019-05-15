@@ -7,6 +7,8 @@ import  java.rmi.*;
 
 // SERVER INT... client vuole fare azione di scrittura
 
+//view server lato rmi
+
 public interface RemoteController extends Remote {
 
     void createBoard(Integer boardNumber) throws RemoteException;
@@ -17,7 +19,7 @@ public interface RemoteController extends Remote {
 
     void registerClient(RemoteView client) throws RemoteException;
 
-    void createDecks() throws RemoteException;
+    Object[] createDecks() throws RemoteException;
 
 
 

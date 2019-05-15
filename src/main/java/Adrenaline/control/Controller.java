@@ -1,11 +1,9 @@
 package Adrenaline.control;
 
-import Adrenaline.model.Board;
-import Adrenaline.model.Player;
-import Adrenaline.model.PowerupDeck;
-import Adrenaline.model.WeaponDeck;
+import Adrenaline.model.*;
 import Adrenaline.view.RemoteView;
 import Adrenaline.view.TextView;
+import Adrenaline.view.View;
 
 import java.io.IOException;
 import java.rmi.*;
@@ -13,7 +11,7 @@ import java.rmi.server.*;
 import java.util.*;
 
 
-public class Controller extends UnicastRemoteObject implements RemoteController {
+public class Controller  implements RemoteController {
 
     //private final Map<String, RemoteView> views = new HashMap<>();
     private ArrayList<RemoteView> clients;
@@ -28,13 +26,17 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
         return clients;
     }
 
-    public synchronized void registerClient(RemoteView client) throws RemoteException{
+    public synchronized void registerClient(View client) throws RemoteException{
 
         this.clients.add(client);
 
         int id = this.clients.indexOf(client);
 
-     //   new Player(id);   todo: usare nuovo costruttore di player: prende il numero giocatore e il mazzo dei power up
+        Object[] temp=createDecks();
+        PowerupDeck PUDeck=(PowerupDeck) temp[0];
+        WeaponDeck WDeck=(WeaponDeck) temp[1];
+
+        new Player(id, PUDeck);
 
         System.out.println("Player " + id + " created\n");
         ack("Your Player id is: " + id + "\n");
@@ -48,9 +50,11 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
 
     }
 
-    public void createDecks() throws RemoteException{
-     //   PowerupDeck PUDeck= new PowerupDeck(); todo: usare nuovo costruttore: prende una board come parametro
+    public Object[] createDecks() throws RemoteException{
+        PowerupDeck PUDeck= new PowerupDeck();
         WeaponDeck WDeck = new WeaponDeck();
+
+        return new Object[] {PUDeck, WDeck};
     }
 
     public void sendMessage(String message) {
@@ -70,7 +74,7 @@ public class Controller extends UnicastRemoteObject implements RemoteController 
 */
 
 
-    public String getMessage(RemoteView view) throws RemoteException {
+    public String getMessage(View view) throws RemoteException {
         //String message = "ciao dal controller";
 
         Scanner scanner = new Scanner(System.in);

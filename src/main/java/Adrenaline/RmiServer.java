@@ -7,7 +7,7 @@ import java.rmi.*;
 import java.rmi.registry.*;
 
 
-public class RmiServer extends Thread {
+public class RmiServer {
 
     public void execute() throws RemoteException, MalformedURLException {
 
@@ -24,6 +24,7 @@ public class RmiServer extends Thread {
         System.out.println("PeerServer bound in registry");
     }
 
+    /*
     public void run() {
         try {
             execute();
@@ -33,4 +34,5 @@ public class RmiServer extends Thread {
             e.printStackTrace();
         }
     }
+    */
 }

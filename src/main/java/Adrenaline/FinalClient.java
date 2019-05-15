@@ -62,6 +62,9 @@ public class FinalClient {
             socketOut.close();
             socket.close();
         }
+
+        //new SocketView
+
     }
 
 
