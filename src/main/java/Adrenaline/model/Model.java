@@ -10,16 +10,7 @@ import java.rmi.RemoteException;
 public class Model {
     public static void main (String args[]) {
 
-        try {
-            FinalServer.main(null);
-            FinalClient.main(null);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
     }
         /*
