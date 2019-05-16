@@ -11,6 +11,7 @@ public class WeaponDeck {
         size=0;
         weaponDeck=new Vector<WeaponCard>(21);
         weaponDeck.add(new WCCyberblade());
+        weaponDeck.add(new WCElectroscythe());
         weaponDeck.add(new WCGrenadeLauncher());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
@@ -19,6 +20,7 @@ public class WeaponDeck {
         weaponDeck.add(new WCShotgun());
         weaponDeck.add(new WCSledgehammer());
         weaponDeck.add(new WCTHOR());
+        weaponDeck.add(new WCVortexcannon());
         weaponDeck.add(new WCWhisper());
         weaponDeck.add(new WCZX2());
         //TODO le armi sotto sono solo copie di quelle sopra, servono per far arrivare la quantità di armi a 21
@@ -30,8 +32,6 @@ public class WeaponDeck {
         weaponDeck.add(new WCHellion());
         weaponDeck.add(new WCWhisper());
         weaponDeck.add(new WCLockRifle());
-        weaponDeck.add(new WCHeatseeker());
-        weaponDeck.add(new WCHellion());
         shuffle();
     }
 
