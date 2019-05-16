@@ -57,7 +57,7 @@ public class WCCyberblade extends WeaponCard{
                         attackedPlayers[1].receivedDamages(attacker);
                     loaded=false;
                     done=true;
-                }else if(mode2[0]==1 && mode2[1]==0 && mode2[2]==2 && attackerpos.reachable(movements[0]) && movements[0].equals(attackedpos) && attackerpos.equals(attackedPlayers[1].getPosition()) && isPaid(attacker, payment, mode2)){
+                }else if(mode2[0]==1 && mode2[1]==0 && mode2[2]==2 && attackerpos.reachable(movements[0]) && movements[0].equals(attackedpos) && isPaid(attacker, payment, mode2)){
                     attacker.setPosition(movements[0]);
                     for(int i=0; i<2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
