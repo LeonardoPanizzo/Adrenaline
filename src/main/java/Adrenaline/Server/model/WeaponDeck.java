@@ -16,10 +16,12 @@ public class WeaponDeck {
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
         weaponDeck.add(new WCLockRifle());
+        weaponDeck.add(new WCMachineGun());
         weaponDeck.add(new WCPlasmaGun());
         weaponDeck.add(new WCShotgun());
         weaponDeck.add(new WCSledgehammer());
         weaponDeck.add(new WCTHOR());
+        weaponDeck.add(new WCTractorBeam());
         weaponDeck.add(new WCVortexcannon());
         weaponDeck.add(new WCWhisper());
         weaponDeck.add(new WCZX2());
@@ -30,8 +32,6 @@ public class WeaponDeck {
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
-        weaponDeck.add(new WCWhisper());
-        weaponDeck.add(new WCLockRifle());
         shuffle();
     }
 
