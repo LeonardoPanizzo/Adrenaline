@@ -2,13 +2,15 @@ package Adrenaline.Server.control;
 
 import Adrenaline.Server.model.*;
 import Adrenaline.Client.view.RemoteView;
-import Adrenaline.Client.view.View;
 
 import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 
-public class Controller  implements RemoteController {
+//TEROICAMENTE NON DEVE extends UnicastRemoteObject !!!
+
+public class Controller extends UnicastRemoteObject implements RemoteController {
 
     //private final Map<String, RemoteView> views = new HashMap<>();
     private ArrayList<RemoteView> clients;
@@ -23,7 +25,7 @@ public class Controller  implements RemoteController {
         return clients;
     }
 
-    public synchronized void registerClient(View client) throws RemoteException{
+    public synchronized void registerClient(RemoteView client) throws RemoteException{
 
         this.clients.add(client);
 
@@ -71,7 +73,7 @@ public class Controller  implements RemoteController {
 */
 
 
-    public String getMessage(View view) throws RemoteException {
+    public String getMessage(RemoteView view) throws RemoteException {
         //String message = "ciao dal controller";
 
         Scanner scanner = new Scanner(System.in);
