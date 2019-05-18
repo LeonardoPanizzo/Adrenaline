@@ -255,7 +255,7 @@ public class Player {
         if(this.action > 0){
             for(int i=0; i<3 && i<position.length; i++){
                 if (this.position.reachable(position[i]))
-                    this.position = position[i];
+                    this.setPosition(position[i]);
                 this.action--;
             }
         }
