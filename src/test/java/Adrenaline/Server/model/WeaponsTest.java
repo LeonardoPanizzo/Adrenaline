@@ -183,5 +183,60 @@ public class WeaponsTest {
         assertEquals(0, p3.getMarksReceived()[0], "p3 marks aren't correct");
         marks = new int[]{0, 2, 3, 0, 0};
         assertArrayEquals(marks, p0.getMarksGiven(), "p0 marks given are not correct");
+        assertNull(p0.getPowerup()[0], "p0 power up cards are correct");
     }
+
+    @Test
+    public void ElectroScytheTest(){
+        Board b = new Board(2);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p1.setAction(2);
+        Player p2 = new Player(2, pd);
+        p2.setAction(2);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[1][2]);
+        p2.setFirstPosition(b.getBoard()[1][2]);
+        p3.setFirstPosition(b.getBoard()[1][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCElectroscythe();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {};
+        Player[] players = {};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon,ammoSel);
+        Position[] movePosition = new Position[]{b.getBoard()[0][2]};
+        p1.move(movePosition);
+        p2.move(movePosition);
+
+        //mode1 = 0
+        p0.shot(weapon, players, 0, null, null, payment);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(11, p3.getLife(), "p3 life isn't correct");
+
+        //Mode1 = 1
+        p0.setAmmo('r', 1);
+        p0.setAmmo('b', 1);
+        p0.setAction(2);
+        char[]selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+
+        p0.shot(weapon, players, 1, null, null, payment);
+
+        assertEquals(8, p1.getLife(), "p1 life isn't correct");
+        assertEquals(8, p2.getLife(), "p2 life isn't correct");
+        assertEquals(11, p3.getLife(), "p3 life isn't correct");
+        assertNull(p0.getPowerup()[0], "p0 power up cards are correct");
+    }
+
+
 }
