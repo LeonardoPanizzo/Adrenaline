@@ -66,6 +66,10 @@ public class Player {
     }
 */
 
+    public void setLife(int life) {
+        this.life = life;
+    }
+
     public void setPowerup(PowerupCard[] powerup) {
         this.powerup = powerup;
     }
