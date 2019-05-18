@@ -185,6 +185,83 @@ public class WeaponsTest {
     }
 
     @Test
+    public void FlameThrowerTest(){
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[0][1]);
+        p2.setFirstPosition(b.getBoard()[0][0]);
+        p3.setFirstPosition(b.getBoard()[1][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCFlamethrower();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {};
+        Position[] squares = new Position[]{b.getBoard()[0][1], b.getBoard()[0][0]};
+        Player[] players = {p1, p2};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, ammoSel);
+
+        //mode1 = 0 with two squares
+        p0.shot(weapon, players, 0, null, squares, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(11, p3.getLife(), "p3 life isn't correct");
+
+        //To control that a player on p0 position can't be attacked
+        p2.setPosition(p0.getPosition());
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        char[]selAmmo = new char[]{'r'};
+        squares = new Position[]{b.getBoard()[0][1], b.getBoard()[0][2]};
+        p0.reload(weapon, selAmmo);
+        p0.shot(weapon, players, 0, null, squares, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(11, p3.getLife(), "p3 life isn't correct");
+
+        //mode1 = 0 with one square
+        p2.setPosition(b.getBoard()[0][0]);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'r'};
+        squares = new Position[]{b.getBoard()[0][1]};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p0.shot(weapon, players, 0, null, squares, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(11, p3.getLife(), "p3 life isn't correct");
+
+        //mode1 = 1, with 2 squares
+        p1.setPosition(b.getBoard()[1][2]);
+        p2.setPosition(b.getBoard()[2][2]);
+        p0.setAmmo('r', 1);
+        p0.setAmmo('y', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'r'};
+        squares = new Position[]{b.getBoard()[1][2], b.getBoard()[2][2]};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{};
+        p0.shot(weapon, players, 1, null, squares, null);
+
+        assertEquals(7, p1.getLife(), "p1 life isn't correct");
+        assertEquals(9, p2.getLife(), "p2 life isn't correct");
+        assertEquals(9, p3.getLife(), "p3 life isn't correct");
+    }
+
+    @Test
     public void FurnaceTest(){
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
