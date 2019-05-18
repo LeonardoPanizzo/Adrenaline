@@ -125,4 +125,47 @@ public class PositionTest {
         assertEquals(p21.getRoom(),'r');
         assertEquals(p34.getRoom(),'y');
     }
+
+    @Test
+    public void setPosition(){
+        AmmoDeck deck1=new AmmoDeck();
+        WeaponDeck deck2=new WeaponDeck();
+        PowerupDeck deck3=new PowerupDeck();
+        Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
+        Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
+        Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
+        Position p21 = new Position(2, 1, 'r', true, true, deck1, deck2);
+        Position p22 = new Position(2, 2, 'r', true, false, deck1, deck2);
+        Position p23 = new Position(2, 3, 'r', true, false, deck1, deck2);
+        Position p24 = new Position(2, 4, 'y', true, false, deck1, deck2);
+        Position p34 = new Position(3, 4, 'y', true, true, deck1, deck2);
+        Position p32 = new Position(3, 2, 'w', true, false, deck1, deck2);
+        Position p33 = new Position(3, 3, 'w', true, true, deck1, deck2);
+        p11.setLinks(p21);
+        p13.setLinks(p23);
+        p21.setLinks(p11);
+        p22.setLinks(p32);
+        p23.setLinks(p24);
+        p23.setLinks(p13);
+        p24.setLinks(p23);
+        p34.setLinks(p33);
+        p32.setLinks(p22);
+        p33.setLinks(p34);
+
+        Player pla1=new Player(1, deck3);
+        Player pla2=new Player(2, deck3);
+        Player pla3=new Player(3, deck3);
+        Player pla4=new Player(4, deck3);
+        Player[] pla=new Player[]{pla1, pla2, pla3, pla4};
+
+        pla1.setPosition(p11);
+        pla2.setPosition(p11);
+        pla3.setPosition(p11);
+        pla4.setPosition(p11);
+
+        assertEquals(p11.getPlayers()[0],pla1);
+        assertEquals(p11.getPlayers()[1],pla2);
+        assertEquals(p11.getPlayers()[2],pla3);
+        assertEquals(p11.getPlayers()[3],pla4);
+    }
 }
