@@ -21,7 +21,7 @@ public class WCGrenadeLauncher extends WeaponCard{
 
     @Override
     /*
-    movements[0] il the position where attacked.players[0] will be moved, movements[1] il where the grenade hits
+    movements[0] the position where attacked.players[0] will be moved, movements[1] where the grenade hits
      */
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
@@ -36,19 +36,19 @@ public class WCGrenadeLauncher extends WeaponCard{
             }else if(mode2.length==2){
                 if(mode2[0]==0 && mode2[1]==1 && movements.length==2 && attacker.getPosition().visible(movements[1]) && isPaid(attacker, payment)){
                     attackedPlayers[0].receivedDamages(attacker);
-                    if(attackedPlayers[0].getPosition().reachable(movements[0])){
+                    if(movements[0] != null && attackedPlayers[0].getPosition().reachable(movements[0])){
                         attackedPlayers[0].setPosition(movements[0]);
                     }
                     Player[] temp=movements[1].getPlayers();
                     for(int i=0; i<temp.length; i++){
-                        attackedPlayers[i].receivedDamages(attacker);
+                        temp[i].receivedDamages(attacker);
                     }
                     loaded=false;
                     done=true;
                 }else if(mode2[0]==1 && mode2[1]==0 && movements.length==2 && attacker.getPosition().visible(movements[1]) && isPaid(attacker, payment)){
                     Player[] temp=movements[1].getPlayers();
                     for(int i=0; i<temp.length; i++) {
-                        attackedPlayers[i].receivedDamages(attacker);
+                        temp[i].receivedDamages(attacker);
                     }
                     attackedPlayers[0].receivedDamages(attacker);
                     if(attackedPlayers[0].getPosition().reachable(movements[0])){
