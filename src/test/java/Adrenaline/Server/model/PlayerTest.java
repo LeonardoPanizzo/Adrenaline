@@ -852,6 +852,8 @@ public class PlayerTest {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
+        PowerupCard[] settings = new PowerupCard[]{null, null, null};
+        p0.setPowerup(settings);
         p0.drawPowerup();
 
         assertNotNull(p0.getPowerup()[0]);
@@ -893,5 +895,19 @@ public class PlayerTest {
 
         assertTrue(p.equals(p0), "Equals doesn't work");
         assertFalse(p.equals(p1), "Equals doesn't work");
+    }
+
+    @Test
+    public void choseFirstGamePositionTest(){
+        PowerupDeck pd = new PowerupDeck();
+        WeaponDeck wd = new WeaponDeck();
+        AmmoDeck ad = new AmmoDeck();
+        Player p = new Player(0, pd);
+        PowerupCard spawn = p.getPowerup()[0];
+        char color = spawn.getColour();
+        Position first = new Position(0, 0, color, false, true, ad, wd);
+        p.choseFirstGamePosition(spawn, first);
+
+        assertEquals(first, p.getPosition(), "Position isn't correct");
     }
 }
