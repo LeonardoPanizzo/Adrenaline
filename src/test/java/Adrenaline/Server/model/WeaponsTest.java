@@ -390,4 +390,31 @@ public class WeaponsTest {
         assertEquals(7, p2.getLife(), "p2 life isn't correct");
         assertEquals(7, p3.getLife(), "p3 life isn't correct");
     }
+
+    @Test
+    public void HeatseekerTest(){
+        Board b = new Board(3);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p1.setAction(2);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[2][0]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCHeatseeker();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {'y'};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, ammoSel, payment);
+
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(8, p1.getLife(), "p1 life isn't correct");
+    }
 }
