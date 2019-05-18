@@ -28,7 +28,10 @@ public class WCMachineGun extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1 && attackedPlayers.length<=3 && mode2.length>=1){
-            if(mode2.length==1 && mode2[0]==0 && (attackedPlayers.length==1 || attackedPlayers.length == 2 && attacker.canSee(attackedPlayers[1])) && attacker.canSee(attackedPlayers[0])){
+            if(mode2.length==1 && mode2[0]==0){
+                boolean allvisible=true;
+                for(int i=0; i<attackedPlayers.length && allvisible; i++)
+                    allvisible=attacker.canSee(attackedPlayers[i]);
                 for(int i=0; i<attackedPlayers.length; i++) {
                     attackedPlayers[i].receivedDamages(attacker);
                 }
@@ -46,14 +49,17 @@ public class WCMachineGun extends WeaponCard{
                         loaded=false;
                         done=true;
                     }
-                }else if((mode2[0]==0 && mode2[1]==2)||(mode2[0]==2 && mode2[1]==0) && attackedPlayers.length>=2){
+                }else if((mode2[0]==0 && mode2[1]==2)||(mode2[0]==2 && mode2[1]==0)){
                     boolean allvisible=true;
                     for(int i=0; i<attackedPlayers.length && allvisible; i++)
                         allvisible=attacker.canSee(attackedPlayers[i]);
                     if(allvisible && isPaid(attacker, payment, mode2)){
                         for(int i=0; i<attackedPlayers.length; i++)
                             attackedPlayers[i].receivedDamages(attacker);
-                        attackedPlayers[attackedPlayers.length-1].receivedDamages(attacker); //optional effect n2
+                        if(attackedPlayers.length<3)
+                            attackedPlayers[attackedPlayers.length-1].receivedDamages(attacker); //optional effect n2
+                        else
+                            attackedPlayers[1].receivedDamages(attacker); //optional effect n2
                         loaded=false;
                         done=true;
                     }
