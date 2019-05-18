@@ -33,7 +33,7 @@ public class WeaponDeck {
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
         shuffle();
-        //flamethrower,rocket launcher, power glove, rail gun
+        //rocket launcher, power glove, rail gun
     }
 
     public void shuffle(){
