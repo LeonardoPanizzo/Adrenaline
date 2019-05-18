@@ -35,7 +35,7 @@ public class WCFurnace extends WeaponCard{
                 boolean sameroom=true; //all the positions in movements are in the same room
                 for(int i=0; i<movements.length-1 && sameroom; i++)
                     sameroom=movements[i].getRoom()==movements[i+1].getRoom();
-                boolean differentroom=!(attacker.getPosition().getRoom()==movements[0].getRoom()); //checks if attacker is not on the hit room
+                boolean differentroom=(attacker.getPosition().getRoom()!=movements[0].getRoom()); //checks if attacker is not on the hit room
                 if(sameroom && differentroom){
                     attackall(attacker, movements);
                     loaded=false;
