@@ -19,6 +19,7 @@ public class WeaponDeck {
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCMachineGun());
         weaponDeck.add(new WCPlasmaGun());
+        weaponDeck.add(new WCShockwave());
         weaponDeck.add(new WCShotgun());
         weaponDeck.add(new WCSledgehammer());
         weaponDeck.add(new WCTHOR());
@@ -27,12 +28,12 @@ public class WeaponDeck {
         weaponDeck.add(new WCWhisper());
         weaponDeck.add(new WCZX2());
         //TODO le armi sotto sono solo copie di quelle sopra, servono per far arrivare la quantità di armi a 21
-        weaponDeck.add(new WCHellion());
         weaponDeck.add(new WCWhisper());
         weaponDeck.add(new WCLockRifle());
         weaponDeck.add(new WCHeatseeker());
         weaponDeck.add(new WCHellion());
         shuffle();
+        //flamethrower,rocket launcher, power glove, rail gun
     }
 
     public void shuffle(){
