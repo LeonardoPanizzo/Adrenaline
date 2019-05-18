@@ -32,7 +32,7 @@ public class WCMachineGun extends WeaponCard{
                 boolean allvisible=true;
                 for(int i=0; i<attackedPlayers.length && allvisible; i++)
                     allvisible=attacker.canSee(attackedPlayers[i]);
-                for(int i=0; i<attackedPlayers.length; i++) {
+                for(int i=0; i<attackedPlayers.length && allvisible; i++) {
                     attackedPlayers[i].receivedDamages(attacker);
                 }
                 loaded=false;
