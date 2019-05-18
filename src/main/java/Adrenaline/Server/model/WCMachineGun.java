@@ -64,18 +64,21 @@ public class WCMachineGun extends WeaponCard{
                         done=true;
                     }
                 }
-            }else if(mode2.length==3 && attackedPlayers.length>=2){
+            }else if(mode2.length==3){
                 if((mode2[0]==0 && mode2[1]==1 && mode2[2]==2)||(mode2[0]==0 && mode2[1]==2 && mode2[2]==1)||(mode2[0]==1 && mode2[1]==0 && mode2[2]==2)||(mode2[0]==1 && mode2[1]==2 && mode2[2]==0)||(mode2[0]==2 && mode2[1]==0 && mode2[2]==1)||(mode2[0]==2 && mode2[1]==1 && mode2[2]==0)){
                     boolean allvisible=true;
                     for(int i=0; i<attackedPlayers.length && allvisible; i++)
                         allvisible=attacker.canSee(attackedPlayers[i]);
                     if(allvisible && isPaid(attacker, payment, mode2)){
                         attackedPlayers[0].receivedDamages(attacker);//optional effect n1
-                        attackedPlayers[attackedPlayers.length-1].receivedDamages(attacker); //optional effect n2
+                        if(attackedPlayers.length<3)
+                            attackedPlayers[attackedPlayers.length-1].receivedDamages(attacker); //optional effect n2
+                        else
+                            attackedPlayers[1].receivedDamages(attacker); //optional effect n2
                         for(int i=0; i<attackedPlayers.length; i++)
                             attackedPlayers[i].receivedDamages(attacker);
                         loaded=false;
-                        done=false;
+                        done=true;
                     }
                 }
             }
