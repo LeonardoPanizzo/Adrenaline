@@ -229,7 +229,6 @@ public class WeaponsTest {
         p0.setAction(2);
         char[]selAmmo = new char[]{'b'};
         p0.reload(weapon, selAmmo);
-
         p0.shot(weapon, players, 1, null, null, payment);
 
         assertEquals(8, p1.getLife(), "p1 life isn't correct");
@@ -238,5 +237,55 @@ public class WeaponsTest {
         assertNull(p0.getPowerup()[0], "p0 power up cards are correct");
     }
 
+    @Test
+    public void FurnaceTest(){
+        Board b = new Board(2);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p1.setAction(2);
+        Player p2 = new Player(2, pd);
+        p2.setAction(2);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[1][2]);
+        p2.setFirstPosition(b.getBoard()[1][3]);
+        p3.setFirstPosition(b.getBoard()[2][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCFurnace();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {};
+        Position[] roomSquares = new Position[]{b.getBoard()[1][2], b.getBoard()[1][3], b.getBoard()[2][2], b.getBoard()[2][3]};
+        Player[] players = {};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, ammoSel, payment);
 
+        //mode1 = 0
+        p0.shot(weapon, players, 0, null, roomSquares, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(10, p3.getLife(), "p3 life isn't correct");
+        assertNull(p0.getPowerup()[0], "p0 power up cards are correct");
+
+        //Mode1 = 1
+        p0.setAmmo('r', 1);
+        p0.setAmmo('b', 1);
+        p0.setAction(2);
+        char[]selAmmo = new char[]{'b', 'r'};
+        p0.reload(weapon, selAmmo);
+        Position[] movePosition = new Position[]{b.getBoard()[1][2]};
+        p2.move(movePosition);
+        roomSquares = new Position[]{b.getBoard()[1][2]};
+        p0.shot(weapon, players, 1, null, roomSquares, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+        assertEquals(9, p2.getLife(), "p2 life isn't correct");
+        assertEquals(10, p3.getLife(), "p3 life isn't correct");
+    }
 }
