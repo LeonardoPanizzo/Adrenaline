@@ -38,6 +38,21 @@ public class WeaponCard {
         return costs.clone();           //andrea: altrimenti si ritorna l'attributo e può essere modificato!
     }
 
+    /**
+     * give one damage to all the players in movements, used only by WCFurnace and WCShockwave
+     * @param attacker
+     * @param movements
+     */
+    protected void attackall(Player attacker, Position[] movements){
+        Player[] temp;
+        for(int i=0; i<movements.length; i++){
+            temp=movements[i].getPlayers();
+            for(int j=0; j<temp.length; j++){
+                temp[j].receivedDamages(attacker);
+            }
+        }
+    }
+
     public boolean isPaid(Player p, PowerupCard[] payment){ //valid only for the weapon with only an addiotional effect or only one option
         boolean paid=false;
         if(payment == null || payment.length==0){
