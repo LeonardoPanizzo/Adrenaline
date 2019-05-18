@@ -34,10 +34,10 @@ public class WCFlamethrower extends WeaponCard{
                 closeposition=movements[0].reachable(movements[1]);
             boolean onedirectionx=attacker.getPosition().getCoordinate()[0]==movements[0].getCoordinate()[0]; //checks that the x coordinate is the same for all the position
             if(onedirectionx && movements.length==2)
-                onedirectionx=movements[0].getCoordinate()[0]==movements[1].getCoordinate()[0];
+                onedirectionx=movements[0].getCoordinate()[0]==movements[1].getCoordinate()[0] && movements[1] != attacker.getPosition();
             boolean onedirectiony=attacker.getPosition().getCoordinate()[1]==movements[0].getCoordinate()[1];//checks that the y coordinate is the same for all the position
             if(onedirectiony && movements.length==2)
-                onedirectiony=movements[0].getCoordinate()[1]==movements[1].getCoordinate()[1];
+                onedirectiony=movements[0].getCoordinate()[1]==movements[1].getCoordinate()[1] && movements[1] != attacker.getPosition();
 
 
             if(mode1==0 && attackedPlayers.length>=1 && attackedPlayers.length<=2 && attackedPlayers.length==movements.length){
