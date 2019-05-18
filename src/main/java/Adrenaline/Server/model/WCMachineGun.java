@@ -28,7 +28,7 @@ public class WCMachineGun extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1 && attackedPlayers.length<=3 && mode2.length>=1){
-            if(mode2.length==1 && mode2[0]==0 && attackedPlayers.length==1 || attackedPlayers.length == 2 && attacker.canSee(attackedPlayers[0]) && attacker.canSee(attackedPlayers[1])){
+            if(mode2.length==1 && (mode2[0]==0 && attackedPlayers.length==1 || attackedPlayers.length == 2) && attacker.canSee(attackedPlayers[0]) && attacker.canSee(attackedPlayers[1])){
                 for(int i=0; i<attackedPlayers.length; i++) {
                     attackedPlayers[i].receivedDamages(attacker);
                 }
