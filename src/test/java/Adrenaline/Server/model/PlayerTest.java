@@ -813,6 +813,10 @@ public class PlayerTest {
         p.setMarksGiven(new Player(2, pwd), 4);
 
         assertEquals(3, p.getMarksGiven()[2]);
+
+        p.setLife(5);
+
+        assertEquals(5, p.getLife());
     }
 
     @Test
