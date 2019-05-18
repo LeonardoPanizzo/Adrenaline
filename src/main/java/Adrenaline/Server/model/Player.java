@@ -42,12 +42,12 @@ public class Player {
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
         this.score = 0;
         this.weapons = new WeaponCard[]{null, null, null};
-        this.powerup = new PowerupCard[]{null, null, null};
+        this.powerUpDeck = powerUpDeck;
+        this.powerup = new PowerupCard[]{this.powerUpDeck.pickUpPowerup(), this.powerUpDeck.pickUpPowerup(), null};
         this.finalRound = false;
         this.firstPlayer = false;
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
-        this.powerUpDeck = powerUpDeck;
     }
 
     public Position getPosition(){
@@ -859,7 +859,7 @@ public class Player {
             if (position.getRoom() == colour && position.isRespawnPoint()) {
                 boolean control = this.updatePowerup(pow);
                 if (control)
-                    this.position = position;
+                    this.setPosition(position);
                 else
                     System.out.println("You don't have this PowerUp Card");
             } else
@@ -907,6 +907,28 @@ public class Player {
         }
         else
             System.out.println("You can't draw more power up cards");
+    }
+
+    public void choseFirstGamePosition(PowerupCard powerup, Position position){
+        boolean control1 = false;
+        for(int i=0; i<3; i++) {
+            if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
+                control1 = true;
+            }
+        }
+        if(control1) {
+            PowerupCard[] pow = new PowerupCard[1];
+            pow[0] = powerup;
+            char colour = powerup.getColour();
+            if (position.getRoom() == colour && position.isRespawnPoint()) {
+                boolean control = this.updatePowerup(pow);
+                if (control)
+                    this.setFirstPosition(position);
+                else
+                    System.out.println("You don't have this PowerUp Card");
+            } else
+                System.out.println("Incorrect Position");
+        }
     }
 
 }
