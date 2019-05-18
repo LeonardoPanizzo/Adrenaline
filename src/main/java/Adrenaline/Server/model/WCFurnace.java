@@ -14,16 +14,6 @@ public class WCFurnace extends WeaponCard{
         super("Furnace", new char[]{'r','b'}, new char[]{});
     }
 
-    private void attackall(Player attacker, Position[] movements){
-        Player[] temp;
-        for(int i=0; i<movements.length; i++){
-            temp=movements[i].getPlayers();
-            for(int j=0; j<temp.length; j++){
-                temp[j].receivedDamages(attacker);
-            }
-        }
-    }
-
     /*
     movements contains the hit positions
      */
