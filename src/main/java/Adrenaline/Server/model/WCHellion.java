@@ -22,8 +22,8 @@ public class WCHellion extends WeaponCard{
                     attackedPlayers[0].receivedDamages(attacker);
                     Player[] playertomark=attackedPlayers[0].getPosition().getPlayers();
                     for(int i=0; i<playertomark.length; i++){
-                        attackedPlayers[i].setMarksReceived(attacker, 1);
-                        attacker.setMarksGiven(attackedPlayers[i], 1);
+                        playertomark[i].setMarksReceived(attacker, 1);
+                        attacker.setMarksGiven(playertomark[i], 1);
                     }
                     done = true;
                     loaded = false;
@@ -31,8 +31,8 @@ public class WCHellion extends WeaponCard{
                         attackedPlayers[0].receivedDamages(attacker);
                         Player[] playertomark=attackedPlayers[0].getPosition().getPlayers();
                         for(int i=0; i<playertomark.length; i++) {
-                            attackedPlayers[i].setMarksReceived(attacker, 2);
-                            attacker.setMarksGiven(attackedPlayers[i], 2);
+                            playertomark[i].setMarksReceived(attacker, 2);
+                            attacker.setMarksGiven(playertomark[i], 2);
                         }
                         done = true;
                         loaded = false;
