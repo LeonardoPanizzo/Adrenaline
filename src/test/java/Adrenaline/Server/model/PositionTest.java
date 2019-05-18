@@ -158,14 +158,21 @@ public class PositionTest {
         Player pla4=new Player(4, deck3);
         Player[] pla=new Player[]{pla1, pla2, pla3, pla4};
 
-        pla1.setPosition(p11);
-        pla2.setPosition(p11);
-        pla3.setPosition(p11);
-        pla4.setPosition(p11);
+        pla1.setFirstPosition(p11);
+        pla2.setFirstPosition(p11);
+        pla3.setFirstPosition(p11);
+        pla4.setFirstPosition(p11);
 
         assertEquals(p11.getPlayers()[0],pla1);
         assertEquals(p11.getPlayers()[1],pla2);
         assertEquals(p11.getPlayers()[2],pla3);
         assertEquals(p11.getPlayers()[3],pla4);
+
+        pla4.setPosition(p33);
+        assertEquals(p33.getPlayers()[0],pla4);
+        assertEquals(p11.getPlayers().length==3, true);
+        assertEquals(p11.getPlayers()[0],pla1);
+        assertEquals(p11.getPlayers()[1],pla2);
+        assertEquals(p11.getPlayers()[2],pla3);
     }
 }
