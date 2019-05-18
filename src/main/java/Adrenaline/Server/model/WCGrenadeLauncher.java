@@ -51,7 +51,7 @@ public class WCGrenadeLauncher extends WeaponCard{
                         temp[i].receivedDamages(attacker);
                     }
                     attackedPlayers[0].receivedDamages(attacker);
-                    if(attackedPlayers[0].getPosition().reachable(movements[0])){
+                    if(movements[0] != null && attackedPlayers[0].getPosition().reachable(movements[0])){
                         attackedPlayers[0].setPosition(movements[0]);
                     }
                     loaded=false;
