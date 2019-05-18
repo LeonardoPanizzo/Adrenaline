@@ -65,7 +65,6 @@ public class Player {
         return damagedPlayers;
     }
 */
-
     public void setLife(int life) {
         this.life = life;
     }
