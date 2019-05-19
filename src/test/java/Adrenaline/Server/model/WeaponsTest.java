@@ -259,6 +259,22 @@ public class WeaponsTest {
         assertEquals(7, p1.getLife(), "p1 life isn't correct");
         assertEquals(9, p2.getLife(), "p2 life isn't correct");
         assertEquals(9, p3.getLife(), "p3 life isn't correct");
+
+        //mode1 = 1, with one squares
+        p1.setPosition(b.getBoard()[1][2]);
+        p2.setPosition(b.getBoard()[2][2]);
+        p0.setAmmo('r', 1);
+        p0.setAmmo('y', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'r'};
+        squares = new Position[]{b.getBoard()[1][2]};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{};
+        p0.shot(weapon, players, 1, null, squares, null);
+
+        assertEquals(5, p1.getLife(), "p1 life isn't correct");
+        assertEquals(9, p2.getLife(), "p2 life isn't correct");
+        assertEquals(7, p3.getLife(), "p3 life isn't correct");
     }
 
     @Test
