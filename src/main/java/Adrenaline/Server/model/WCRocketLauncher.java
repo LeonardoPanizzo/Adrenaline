@@ -3,16 +3,16 @@ package Adrenaline.Server.model;
 /**
  * basic effect: Deal 2 damage to 1 target you can see that is not on your
  * square. Then you may move the target 1 square.
- * with rocket jump: Move 1 or 2 squares. This effect can be used either
- * before or after the basic effect.
- * with fragmenting warhead: During the basic effect, deal 1 damage to
+ * <p>with rocket jump: Move 1 or 2 squares. This effect can be used either
+ * before or after the basic effect.</p>
+ * <p>with fragmenting warhead: During the basic effect, deal 1 damage to
  * every player on your target's original square – including the target,
- * even if you move it.
- * Notes: If you use the rocket jump before the basic effect, you consider
+ * even if you move it.</p>
+ * <p>Notes: If you use the rocket jump before the basic effect, you consider
  * only your new square when determining if a target is legal. You can
  * even move off a square so you can shoot someone on it. If you use the
  * fragmenting warhead, you deal damage to everyone on the target's
- * square before you move the target – your target will take 3 damage total.
+ * square before you move the target – your target will take 3 damage total.</p>
  */
 
 public class WCRocketLauncher extends WeaponCard{
@@ -31,24 +31,24 @@ public class WCRocketLauncher extends WeaponCard{
             if(mode2.length==1 && mode2[0]==0 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition())){
                 for(int i=0; i<2; i++)
                     attackedPlayers[0].receivedDamages(attacker);
-                if(movements.length==1 && attackedPlayers[0].getPosition().reachable(movements[0]))
+                if(movements != null && movements.length==1 && attackedPlayers[0].getPosition().reachable(movements[0]))
                     attackedPlayers[0].setPosition(movements[0]);
                 loaded=false;
                 done=true;
-            }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==1 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition()) && movements[1]!=null && attacker.getPosition().reachable(movements[1]) && isPaid(attacker, payment, mode2)){
+            }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==1 && attacker.canSee(attackedPlayers[0]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition()) && movements != null && movements[1]!=null && attacker.getPosition().reachable(movements[1]) && isPaid(attacker, payment, mode2)){
                 for(int i=0; i<2; i++)
                     attackedPlayers[0].receivedDamages(attacker);
                 if(movements[0]!=null && attackedPlayers[0].getPosition().reachable(movements[0]))
                     attackedPlayers[0].setPosition(movements[0]);
-                if(movements[2]!=null && movements[1].reachable(movements[2])){
+                if(movements.length==3 && movements[2]!=null && movements[1].reachable(movements[2])){
                     attacker.setPosition(movements[2]);
                 }else{
                     attacker.setPosition(movements[1]);
                 }
                 loaded=false;
                 done=true;
-            }else if(mode2.length==2 && mode2[0]==1 && mode2[1]==0 && movements[1]!=null && attacker.getPosition().reachable(movements[1])){
-                if(movements[2]!=null && movements[1].reachable(movements[2]) && movements[2].visible(attackedPlayers[0].getPosition()) && !movements[2].equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
+            }else if(mode2.length==2 && mode2[0]==1 && mode2[1]==0 && movements != null && movements[1]!=null && attacker.getPosition().reachable(movements[1])){
+                if(movements.length == 3 && movements[2]!=null && movements[1].reachable(movements[2]) && movements[2].visible(attackedPlayers[0].getPosition()) && !movements[2].equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
                     for(int i=0; i<2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
                     if(movements[0]!=null && attackedPlayers[0].getPosition().reachable(movements[0]))
@@ -56,7 +56,7 @@ public class WCRocketLauncher extends WeaponCard{
                     attacker.setPosition(movements[2]);
                     loaded=false;
                     done=true;
-                }else if(movements[1].visible(attackedPlayers[0].getPosition()) && !movements[1].equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
+                }else if(movements.length == 2 && movements[1].visible(attackedPlayers[0].getPosition()) && !movements[1].equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
                     for(int i=0; i<2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
                     if(movements[0]!=null && attackedPlayers[0].getPosition().reachable(movements[0]))
