@@ -721,4 +721,98 @@ public class WeaponsTest {
         assertEquals(7, p2.getLife(), "p1 life isn't correct");
         assertEquals(10, p3.getLife(), "p1 life isn't correct");
     }
+
+    @Test
+    public void RocketLauncherTest(){
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[0][2]);
+        p2.setFirstPosition(b.getBoard()[1][3]);
+        p3.setFirstPosition(b.getBoard()[2][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCRocketLauncher();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {'r'};
+        Player[] players = {p1};
+        Position[] move = new Position[]{b.getBoard()[1][2], b.getBoard()[0][1]};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, ammoSel);
+        int[] mode2 = new int[]{1, 0};
+
+        //mode2 = {1, 0}, p0 one movement, p1 is moved
+        p0.shot(weapon, players, -1, mode2, move, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+        assertEquals(b.getBoard()[0][1], p0.getPosition(), "p0 position isn't correct");
+
+        //mode2 = {0}, p1 is not moved
+        p0.setAmmo('r', 2);
+        p0.setAction(2);
+        p1.setPosition(b.getBoard()[0][2]);
+        char[] selAmmo = new char[]{'r', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode2 = new int[]{0};
+        p0.shot(weapon, players, -1, mode2, null, null);
+
+        assertEquals(7, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode2 = {0}, p1 is moved
+        p0.setAmmo('r', 2);
+        p0.setAction(2);
+        p1.setPosition(b.getBoard()[0][2]);
+        selAmmo = new char[]{'r', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode2 = new int[]{0};
+        move = new Position[]{b.getBoard()[1][2]};
+        p0.shot(weapon, players, -1, mode2, move, null);
+
+        assertEquals(5, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode2 = {0, 1}, p0 one movement, p1 is not moved
+        p0.setAmmo('r', 2);
+        p0.setAmmo('b', 1);
+        p0.setAction(2);
+        p1.setPosition(b.getBoard()[0][2]);
+        selAmmo = new char[]{'r', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode2 = new int[]{0, 1};
+        move = new Position[]{null, b.getBoard()[0][2]};
+        p0.shot(weapon, players, -1, mode2, move, null);
+
+        assertEquals(3, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[0][2], p0.getPosition(), "p0 position isn't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode2 = {0, 1}, p0 2 movement, p1 is not moved
+        p0.setAmmo('r', 2);
+        p0.setAmmo('b', 1);
+        p0.setAction(2);
+        p1.setPosition(b.getBoard()[0][1]);
+        selAmmo = new char[]{'r', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode2 = new int[]{0, 1};
+        move = new Position[]{null, b.getBoard()[0][3], b.getBoard()[1][3]};
+        p0.shot(weapon, players, -1, mode2, move, null);
+
+        assertEquals(1, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][3], p0.getPosition(), "p0 position isn't correct");
+        assertEquals(b.getBoard()[0][1], p1.getPosition(), "p1 position isn't correct");
+    }
 }
