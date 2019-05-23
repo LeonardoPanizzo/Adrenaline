@@ -23,9 +23,9 @@ public class WCPlasmaGun extends WeaponCard{
             attacked.receivedDamages(attacker);
     }
 
-    private void move(Player attacker, Position[] movemets){
-        for(int i=0; i<movemets.length; i++){
-            attacker.setPosition(movemets[i]);
+    private void move(Player attacker, Position[] movements){
+        for(int i=0; i<movements.length; i++){
+            attacker.setPosition(movements[i]);
         }
     }
 
@@ -37,7 +37,7 @@ public class WCPlasmaGun extends WeaponCard{
             damage(attacker, attackedPlayers[0],2);
             this.loaded=false;
             done=true;
-        }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==2 && attacker.canSee(attackedPlayers[0]) && isPaid(attacker, payment, mode2)){
+        }else if(mode2.length==2 && (mode2[0]==0 && mode2[1]==2 || mode2[0]==2 && mode2[1]==0 ) && attacker.canSee(attackedPlayers[0]) && isPaid(attacker, payment, mode2)){
             damage(attacker, attackedPlayers[0],3);
             this.loaded=false;
             done=true;
