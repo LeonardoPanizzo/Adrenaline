@@ -988,4 +988,31 @@ public class WeaponsTest {
         assertEquals(b.getBoard()[1][2], p0.getPosition(), "p0 position isn't correct");
         assertEquals(b.getBoard()[0][1], p1.getPosition(), "p1 position isn't correct");
     }
+
+    @Test
+    public void PlasmaGunTest(){
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[0][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCPlasmaGun();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] ammoSel = new char[] {'r'};
+        Player[] players = {p1};
+        Position[] move = new Position[]{b.getBoard()[1][2], b.getBoard()[0][1]};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, ammoSel);
+        int[] mode2 = new int[]{1, 0};
+
+        //mode2 = {0}, p0 no movement
+        p0.shot(weapon, players, -1, mode2, move, null);
+    }
 }
