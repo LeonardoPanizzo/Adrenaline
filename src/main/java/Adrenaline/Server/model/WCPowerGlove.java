@@ -46,7 +46,8 @@ public class WCPowerGlove extends WeaponCard{
                 }else if(attackedPlayers.length==2 && attackedPlayers[0].getPosition().reachable(attackedPlayers[1].getPosition()) && isPaid(attacker, payment)){
                     boolean sameValueOfX = attacker.getPosition().getCoordinate()[0] == attackedPlayers[1].getPosition().getCoordinate()[0];
                     boolean sameValueOfY = attacker.getPosition().getCoordinate()[1] == attackedPlayers[1].getPosition().getCoordinate()[1];
-                    if(sameValueOfX || sameValueOfY){
+                    boolean sameDirection = (sameValueOfX || sameValueOfY) && attacker.getPosition() != attackedPlayers[1].getPosition();
+                    if(sameDirection){
                         for (int i = 0; i < 2; i++) {
                             attackedPlayers[i].receivedDamages(attacker);
                             attackedPlayers[i].receivedDamages(attacker);
