@@ -15,7 +15,7 @@ public class WCShockwave extends WeaponCard{
     }
 
     /*
-    in mode1[0]==0 it works with attacked players, if mode1[1]==1 works with movements
+    in mode1==0 it works with attacked players, if mode1==1 works with movements
      */
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
