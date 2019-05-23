@@ -69,13 +69,13 @@ public class WCRocketLauncher extends WeaponCard{
                 Player[] temp=attackedPlayers[0].getPosition().getPlayers();
                 for(int i=0; i<2; i++)
                     attackedPlayers[0].receivedDamages(attacker);
-                if(movements[0]!=null && attackedPlayers[0].getPosition().reachable(movements[0]))
+                if(movements != null && movements[0]!=null && attackedPlayers[0].getPosition().reachable(movements[0]))
                     attackedPlayers[0].setPosition(movements[0]);
                 for(int i=0; i<temp.length; i++)
                     temp[i].receivedDamages(attacker);
                 loaded=false;
                 done=true;
-            }else if(mode2.length==3 && ((mode2[0]==0 && mode2[1]==1 && mode2[2]==2) || (mode2[0]==0 && mode2[1]==2 && mode2[2]==1) || (mode2[0]==2 && mode2[1]==0 && mode2[2]==1)) && attacker.canSee(attackedPlayers[0]) && movements[1]!=null && attacker.getPosition().reachable(movements[1]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
+            }else if(mode2.length==3 && ((mode2[0]==0 && mode2[1]==1 && mode2[2]==2) || (mode2[0]==0 && mode2[1]==2 && mode2[2]==1) || (mode2[0]==2 && mode2[1]==0 && mode2[2]==1)) && attacker.canSee(attackedPlayers[0]) && movements != null && movements[1]!=null && attacker.getPosition().reachable(movements[1]) && !attacker.getPosition().equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
                 Player[] temp=attackedPlayers[0].getPosition().getPlayers();
                 for(int i=0; i<2; i++)
                     attackedPlayers[0].receivedDamages(attacker);
@@ -83,8 +83,11 @@ public class WCRocketLauncher extends WeaponCard{
                     attackedPlayers[0].setPosition(movements[0]);
                 for(int i=0; i<temp.length; i++)
                     temp[i].receivedDamages(attacker);
-                if(movements[2]!=null && movements[1].reachable(movements[2]))
-                    attacker.setPosition(movements[2]);
+                if(movements[1]!=null && attacker.getPosition().reachable(movements[1])) {
+                    attacker.setPosition(movements[1]);
+                    if (movements[2] != null && movements[1].reachable(movements[2]))
+                        attacker.setPosition(movements[2]);
+                }
                 loaded=false;
                 done=true;
             }else if(mode2.length==3 && ((mode2[0]==1 && mode2[1]==0 && mode2[2]==2) || (mode2[0]==1 && mode2[1]==2 && mode2[2]==0) || (mode2[0]==2 && mode2[1]==1 && mode2[2]==0)) && movements[1]!=null && attacker.getPosition().reachable(movements[1])){
