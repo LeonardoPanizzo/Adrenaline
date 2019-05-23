@@ -84,6 +84,8 @@ public class WeaponCard {
                 }
             }
         }
+        if(!paid)
+            System.out.println("The extra cost is not pay");
         return paid;
     }
 
@@ -118,6 +120,8 @@ public class WeaponCard {
                     paid=p.updatePowerup(payment);
             }
         }
+        if(!paid)
+            System.out.println("The extra cost is not pay");
         return paid;
     }
 
