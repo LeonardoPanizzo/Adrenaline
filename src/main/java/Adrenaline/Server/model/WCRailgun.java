@@ -41,7 +41,7 @@ public class WCRailgun extends WeaponCard{
                         attackedPlayers[0].receivedDamages(attacker);
                     loaded=false;
                     done=true;
-                }else if(attackedPlayers.length==2){
+                }else{
                     onedirectionx=onedirectionx && attackedPlayers[0].getPosition().getCoordinate()[0]==attackedPlayers[1].getPosition().getCoordinate()[0];
                     onedirectiony=onedirectiony && attackedPlayers[0].getPosition().getCoordinate()[1]==attackedPlayers[1].getPosition().getCoordinate()[1];
                     if(onedirectionx || onedirectiony){
