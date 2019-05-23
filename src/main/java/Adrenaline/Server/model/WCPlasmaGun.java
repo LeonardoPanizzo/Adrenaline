@@ -37,7 +37,7 @@ public class WCPlasmaGun extends WeaponCard{
             damage(attacker, attackedPlayers[0],2);
             this.loaded=false;
             done=true;
-        }else if(mode2.length==2 && (mode2[0]==0 && mode2[1]==2 || mode2[0]==2 && mode2[1]==0 ) && attacker.canSee(attackedPlayers[0]) && isPaid(attacker, payment, mode2)){
+        }else if(mode2.length==2 && mode2[0]==0 && mode2[1]==2 && attacker.canSee(attackedPlayers[0]) && isPaid(attacker, payment, mode2)){
             damage(attacker, attackedPlayers[0],3);
             this.loaded=false;
             done=true;
@@ -54,12 +54,12 @@ public class WCPlasmaGun extends WeaponCard{
                 done=true;
             }
         }else if(mode2.length==3 && movements.length<=2){
-            if(((mode2[0]==0 && mode2[1]==2 && mode2[2]==1) || (mode2[0]==0 && mode2[1]==1 && mode2[2]==2) || (mode2[0]==2 && mode2[1]==0 && mode2[2]==1) && isPaid(attacker, payment, mode2)) && attacker.canSee(attackedPlayers[0]) && attacker.getPosition().reachable(movements)){
+            if(((mode2[0]==0 && mode2[1]==2 && mode2[2]==1) || (mode2[0]==0 && mode2[1]==1 && mode2[2]==2) && isPaid(attacker, payment, mode2)) && attacker.canSee(attackedPlayers[0]) && attacker.getPosition().reachable(movements)){
                 damage(attacker, attackedPlayers[0],3);
                 move(attacker,movements);
                 this.loaded=false;
                 done=true;
-            }else if((mode2[0]==1 && mode2[1]==0 && mode2[2]==2) || (mode2[0]==2 && mode2[1]==1 && mode2[2]==0) || (mode2[0]==1 && mode2[1]==2 && mode2[2]==0) && attacker.getPosition().reachable(movements) && movements[movements.length-1].visible(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
+            }else if(mode2[0]==1 && mode2[1]==0 && mode2[2]==2 && attacker.getPosition().reachable(movements) && movements[movements.length-1].visible(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
                 move(attacker,movements);
                 damage(attacker, attackedPlayers[0],3);
                 this.loaded=false;
