@@ -721,7 +721,7 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(7, p2.getLife(), "p1 life isn't correct");
         assertEquals(10, p3.getLife(), "p1 life isn't correct");
     }
-    
+
     @Test
     public void PlasmaGunTest(){
         Board b = new Board(4);
@@ -1378,5 +1378,9 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(6, p3.getLife(), "p3 life isn't correct");
         assertEquals(b.getBoard()[1][2], p0.getPosition(), "p0 position isn't correct");
         assertEquals(b.getBoard()[0][1], p1.getPosition(), "p1 position isn't correct");
+    }
+
+    @Test
+    public void ShockwaveTest(){
     }
 }
