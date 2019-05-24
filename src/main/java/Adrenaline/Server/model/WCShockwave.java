@@ -48,7 +48,7 @@ public class WCShockwave extends WeaponCard{
                         differentposition=!(movements[i].equals(movements[j]));
                     }
                 }
-                if(movements.length==4) {
+                if(close && differentposition && isPaid(attacker, payment)){
                     attackall(attacker, movements);
                     loaded = false;
                     done = true;
