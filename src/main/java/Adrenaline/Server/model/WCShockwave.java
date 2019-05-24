@@ -41,7 +41,7 @@ public class WCShockwave extends WeaponCard{
             }else if(mode1==1 && movements.length>=1){
                 boolean close=true;//checks if the movements position are reachable for the attacker
                 for(int i=0; close && i<movements.length; i++)
-                    close=attacker.getPosition().reachable(attackedPlayers[i].getPosition());
+                    close=attacker.getPosition().reachable(movements[i]);
                 boolean differentposition=!(attacker.getPosition().equals(movements[0])); //checks that all the positions passed are different from each other
                 for(int i=0; differentposition && i<movements.length; i++){
                     for(int j=i; j<movements.length; j++){
