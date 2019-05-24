@@ -1517,6 +1517,37 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
 
     @Test
     public void SledgehammerTest(){
-        
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[0][2]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCSledgehammer();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] selAmmo = new char[]{};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, selAmmo);
+
+        //mode1 = 0
+        p0.shot(weapon, players, 0, null, null, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+
+        //mode1 = 1, p1 zero movement
+        p0.setAmmo('y', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'y'};
+        p0.reload(weapon, selAmmo);
+        p1.setPosition(b.getBoard()[0][2]);
+        Position[] move = new Position[]{b.getBoard()[1][2]};
+        p0.shot(weapon, players, 1, null, move, null); //todo: end this test
     }
 }
