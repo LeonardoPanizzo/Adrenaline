@@ -24,9 +24,8 @@ public class WCShotgun extends WeaponCard{
                     attackedPlayers[0].receivedDamages(attacker);
                 loaded=false;
                 done=true;
-                if(movements!=null && movements.length==1){
-                    if(attackedPlayers[0].getPosition().reachable(movements[0]))
-                        attackedPlayers[0].setPosition(movements[0]);
+                if(movements!=null && movements.length==1 && attackedPlayers[0].getPosition().reachable(movements[0])){
+                    attackedPlayers[0].setPosition(movements[0]);
                 }
             }else if(mode1==1 && attackedPlayers.length==1 && attacker.getPosition().reachable(attackedPlayers[0].getPosition())){//checks if the attacked is one position away from the attacker
                 for(int i=0; i<2; i++){
