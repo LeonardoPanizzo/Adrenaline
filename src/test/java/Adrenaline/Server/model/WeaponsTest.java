@@ -1473,24 +1473,45 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
-        Player p2 = new Player(2, pd);
-        Player p3 = new Player(3, pd);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
-        p2.setFirstPosition(b.getBoard()[1][3]);
-        p3.setFirstPosition(b.getBoard()[2][2]);
         Position pos = b.getBoard()[0][2];
         WeaponCard weapon = new WCShotgun();
         pos.chooseArm(0);
         pos.chooseArm(1);
         pos.chooseArm(2);
         pos.giveWeapon(weapon);
-        char[] selAmmo = new char[] {};
+        char[] selAmmo = new char[]{'y'};
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
         p0.grabWeaponCard(weapon, selAmmo);
-        Position[] move = new Position[]{};
-        p0.setPosition(b.getBoard()[1][2]);
+        Position[] move = new Position[]{b.getBoard()[0][1]};
+
+        //mode1 = 0, p1 isn't moved
+        p0.shot(weapon, players, 0, null, null, null);
+
+        assertEquals(8, p1.getLife(), "p1 life ins't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 0, p1 is moved
+        p0.setAmmo('y', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'y'};
+        p0.reload(weapon, selAmmo, payment);
+        p0.shot(weapon, players, 0, null, move, null);
+
+        assertEquals(5, p1.getLife(), "p1 life ins't correct");
+        assertEquals(b.getBoard()[0][1], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 1
+        p0.setAmmo('y', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'y', 'y'};
+        p0.reload(weapon, selAmmo);
+        p0.shot(weapon, players, 1, null, move, null);
+
+        assertEquals(3, p1.getLife(), "p1 life ins't correct");
+        assertEquals(b.getBoard()[0][1], p1.getPosition(), "p1 position isn't correct");
     }
 }
