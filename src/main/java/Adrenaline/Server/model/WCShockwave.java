@@ -49,9 +49,12 @@ public class WCShockwave extends WeaponCard{
                     }
                 }
                 if(close && differentposition && isPaid(attacker, payment)){
-                    attackall(attacker, movements);
-                    loaded=false;
-                    done=true;
+                    if(movements.length==4) {
+                        attackall(attacker, movements);
+                        loaded = false;
+                        done = true;
+                    }else
+                        System.out.println("Non all position around you are selected");
                 }
             }
         }
