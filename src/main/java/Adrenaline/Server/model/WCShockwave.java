@@ -21,7 +21,7 @@ public class WCShockwave extends WeaponCard{
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded()){
-            if(mode1==0 && attackedPlayers.length>=1 && attackedPlayers.length<=3){
+            if(mode1==0 && attackedPlayers != null && attackedPlayers.length>=1 && attackedPlayers.length<=3){
                 boolean differentposition=!(attacker.getPosition().equals(attackedPlayers[0].getPosition())); //checks that all the players are in different positions
                 for(int i=0; i<attackedPlayers.length && differentposition; i++){
                     for(int j=i+1; j<attackedPlayers.length && differentposition; j++){
