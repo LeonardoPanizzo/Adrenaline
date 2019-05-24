@@ -54,7 +54,7 @@ public class WCShockwave extends WeaponCard{
                         loaded = false;
                         done = true;
                     }else
-                        System.out.println("Non all position around you are selected");
+                        System.out.println ("Non all position around you are selected");
                 }
             }
         }
