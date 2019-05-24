@@ -38,7 +38,9 @@ public class WCSledgehammer extends WeaponCard{
                     loaded=false;
                     done=true;
                 }else if(movements.length==2 && attacker.getPosition().reachable(movements)){
-                    if((attacker.getPosition().getCoordinate()[0]==movements[0].getCoordinate()[0] && movements[0].getCoordinate()[0]==movements[1].getCoordinate()[0]) || (attacker.getPosition().getCoordinate()[1]==movements[0].getCoordinate()[1] && movements[0].getCoordinate()[1]==movements[1].getCoordinate()[1])){//checks if it is moving in one direction
+                    boolean sameX = attacker.getPosition().getCoordinate()[0]==movements[0].getCoordinate()[0] && movements[0].getCoordinate()[0]==movements[1].getCoordinate()[0];
+                    boolean sameY = attacker.getPosition().getCoordinate()[1]==movements[0].getCoordinate()[1] && movements[0].getCoordinate()[1]==movements[1].getCoordinate()[1];
+                    if(sameX || sameY){     //checks if it is moving in one direction
                         for(int i=0; i<3; i++)
                             attackedPlayers[0].receivedDamages(attacker);
                         attackedPlayers[0].setPosition(movements[1]);
