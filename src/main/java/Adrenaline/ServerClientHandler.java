@@ -12,46 +12,6 @@ public class ServerClientHandler implements Runnable {
         this.socket = socket;
     }
 
-/*
-    public static void sendMessage(Socket socket, String message) throws IOException {
-        PrintWriter out = new PrintWriter(socket.getOutputStream());
-        //System.out.println(out);
-    }
-
-
-    public static void getMessage(Socket socket) throws IOException{
-        Scanner in = new Scanner(socket.getInputStream());
-        while (true) {
-            Integer line = in.nextInt();
-            if (line.equals(1) || line.equals(2) || line.equals(3) || line.equals(4)) {
-                numBoard = line;
-                break;
-            }
-        }
-
-
-    public void run() {
-
-
-        //sendMessage("has connected to the server."); //TODO method has connected
-        Scanner in = new Scanner(socket.getInputStream());
-        String message;
-        while (true) {
-            try {
-                message = in.nextLine();
-                sendMessage(this.socket, message + "\n");
-                getMessage(this.socket);
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-}*/
-
-
-
 
     public void run() {
         try {

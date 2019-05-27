@@ -1,11 +1,13 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * using this power up the player's figure will be teleported in a position choosed by the player, this power up
  * can be played at any time during the player's own turn
  */
 
-public class PUTeleporter extends PowerupCard {
+public class PUTeleporter extends PowerupCard implements Serializable {
 
     public PUTeleporter(char colour){
         super("teleporter", colour);

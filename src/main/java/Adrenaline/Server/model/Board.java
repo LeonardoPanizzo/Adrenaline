@@ -17,7 +17,7 @@ import java.util.*;
  * Board class is the virtual representation of the physical map
  *
  */
-public class Board {
+public class Board implements Serializable {
 
     //private	static int[] skulls;
     private	static Vector<Integer> skulls;

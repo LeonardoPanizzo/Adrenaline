@@ -1,11 +1,13 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * You may play this card when you receive damage from a player you can see.
  * Give that player 1 mark.
  */
 
-public class PUTagbackGrenade extends PowerupCard{
+public class PUTagbackGrenade extends PowerupCard implements Serializable {
 
     public PUTagbackGrenade(char colour){
         super("targetback grenade", colour);

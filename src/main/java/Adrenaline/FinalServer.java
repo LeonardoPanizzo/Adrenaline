@@ -1,11 +1,12 @@
 package Adrenaline;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
 public class FinalServer {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         //array list controller
 
@@ -18,7 +19,16 @@ public class FinalServer {
             e.printStackTrace();
         }
 
-        new SocketServer(1337).start();
+        //new SocketServer(1337).start();
+
+
+        ChatServer server = new ChatServer(8000);
+
+        try {
+            server.run();
+        } finally {
+            server.close();
+        }
 
         //TODO dati mutua esclusione
 

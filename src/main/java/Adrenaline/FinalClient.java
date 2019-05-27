@@ -1,7 +1,8 @@
 package Adrenaline;
 
-import Adrenaline.Server.control.RemoteController;
+import Adrenaline.Client.control.ClientController;
 import Adrenaline.Client.view.TextView;
+import Adrenaline.Server.control.RemoteController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,6 +39,7 @@ public class FinalClient {
 
 
     public static void useSocket() throws IOException {
+        /*
         String ip = "127.0.0.1";
         int port = 1337;
         Socket socket = new Socket(ip, port);
@@ -62,8 +64,23 @@ public class FinalClient {
             socketOut.close();
             socket.close();
         }
-
+*/
         //new SocketView
+
+
+        String host = "127.0.0.1";
+        int port = 8000;
+        System.out.println("aa");
+
+        MyClient client = new MyClient(host, port);
+        System.out.println("bb");
+
+        client.init();
+        System.out.println("cc");
+        ClientController controller = new ClientController(client);
+        controller.run();
+
+        client.close();
 
     }
 

@@ -1,7 +1,7 @@
 package Adrenaline.Server.control;
 
-import Adrenaline.Server.model.*;
 import Adrenaline.Client.view.RemoteView;
+import Adrenaline.Server.model.*;
 
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
