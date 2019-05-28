@@ -1577,4 +1577,31 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(0, p1.getLife(), "p1 life isn't correct");
         assertEquals(b.getBoard()[2][2], p1.getPosition(), "p1 position isn't correct");
     }
+
+    @Test
+    public void ThorTest(){
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(1, pd);
+        Player p3 = new Player(1, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[2][2]);
+        p2.setFirstPosition(b.getBoard()[2][0]);
+        p3.setFirstPosition(b.getBoard()[0][0]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCTHOR();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] selAmmo = new char[]{'r'};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, selAmmo);
+        int[] mode2 = new int[]{0};
+    }
 }
