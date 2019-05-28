@@ -90,9 +90,9 @@ public class WCRocketLauncher extends WeaponCard{
                 }
                 loaded=false;
                 done=true;
-            }else if(mode2.length==3 && ((mode2[0]==1 && mode2[1]==0 && mode2[2]==2) || (mode2[0]==1 && mode2[1]==2 && mode2[2]==0) || (mode2[0]==2 && mode2[1]==1 && mode2[2]==0)) && movements[1]!=null && attacker.getPosition().reachable(movements[1])){
+            }else if(mode2.length==3 && ((mode2[0]==1 && mode2[1]==0 && mode2[2]==2) || (mode2[0]==1 && mode2[1]==2 && mode2[2]==0) || (mode2[0]==2 && mode2[1]==1 && mode2[2]==0)) && movements != null && movements[1]!=null && attacker.getPosition().reachable(movements[1])){
                 Player[] temp=attackedPlayers[0].getPosition().getPlayers();
-                if(movements[2]!=null && movements[1].reachable(movements[2]) && movements[2].visible(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
+                if(movements.length == 3 && movements[2]!=null && movements[1].reachable(movements[2]) && movements[2].visible(attackedPlayers[0].getPosition()) && isPaid(attacker, payment, mode2)){
                     attacker.setPosition(movements[2]);
                     for(int i=0; i<2; i++)
                         attackedPlayers[0].receivedDamages(attacker);
