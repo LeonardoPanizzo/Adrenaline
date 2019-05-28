@@ -3,7 +3,7 @@ package Adrenaline.Server.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo approfondito
+public class WeaponsTest {
     @Test
     public void CyberBladeTest(){
         Board b = new Board(1);
@@ -2014,6 +2014,6 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
 
     @Test
     public void isPaidTest(){
-        
+
     }
 }
