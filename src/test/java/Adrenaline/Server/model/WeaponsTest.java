@@ -1938,4 +1938,55 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
         assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
     }
+
+    @Test
+    public void ZX2Test(){
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[1][2]);
+        p2.setFirstPosition(b.getBoard()[2][2]);
+        p3.setFirstPosition(b.getBoard()[2][3]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCZX2();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] selAmmo = new char[]{};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, payment);
+
+        //mode1 = 0
+        p0.shot(weapon, players, 0, null, null, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(2, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(2, p0.getMarksGiven()[1], "p0 marks given to p1 aren't correct");
+
+        //mode1 = 1
+        p0.setAmmo('y', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'r', 'y'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2, p3};
+        p1.setPosition(b.getBoard()[1][2]);
+        p0.shot(weapon, players, 1, null, null, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(3, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(3, p0.getMarksGiven()[1], "p0 marks given to p1 aren't correct");
+        assertEquals(1, p2.getMarksReceived()[0], "p2 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[2], "p0 marks given to p2 aren't correct");
+        assertEquals(1, p3.getMarksReceived()[0], "p3 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[3], "p0 marks given to p3 aren't correct");
+    }
 }
