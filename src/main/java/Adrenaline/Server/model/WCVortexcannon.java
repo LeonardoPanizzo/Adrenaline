@@ -26,7 +26,7 @@ public class WCVortexcannon extends WeaponCard{
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
-        if(isLoaded() && mode2.length>=0 && attackedPlayers.length>=1 && movements.length>=1 && !attacker.getPosition().equals(movements[0]) && attacker.getPosition().visible(movements[0]) && ((attackedPlayers[0].getPosition().equals(movements[0]))||(attackedPlayers[0].getPosition().reachable(movements[0])))){
+        if(isLoaded() && attackedPlayers.length>=1 && movements.length>=1 && !attacker.getPosition().equals(movements[0]) && attacker.getPosition().visible(movements[0]) && ((attackedPlayers[0].getPosition().equals(movements[0]))||(attackedPlayers[0].getPosition().reachable(movements[0])))){
             if(mode2.length==1 && mode2[0]==0){
                 attackedPlayers[0].setPosition(movements[0]);
                 for(int i=0; i<2; i++)
