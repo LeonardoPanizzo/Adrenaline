@@ -22,7 +22,7 @@ public class WCWhisper extends WeaponCard{
         if(isLoaded() && attackedPlayers.length==1){
             Position attackerposition=attacker.getPosition();
             Position attackedposition=attackedPlayers[0].getPosition();
-            if(attackerposition.visible(attackedposition) && !attackedposition.reachable(attackedposition) && !attackedposition.equals(attackedposition)){//checks if the positions are at least two steps away from each other
+            if(attackerposition.visible(attackedposition) && !attackerposition.reachable(attackedposition) && !attackerposition.equals(attackedposition)){//checks if the positions are at least two steps away from each other
                 for(int i=0; i<3; i++){
                     attackedPlayers[0].receivedDamages(attacker);
                 }
