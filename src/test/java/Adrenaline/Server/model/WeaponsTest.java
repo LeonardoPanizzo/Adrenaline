@@ -1742,4 +1742,9 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(-1, p1.getLife(), "p1 life isn't correct");
         assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
     }
+
+    @Test
+    public void Vortexcannon(){
+        
+    }
 }
