@@ -1603,7 +1603,7 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         p0.setPowerup(payment);
         p0.grabWeaponCard(weapon, selAmmo);
         int[] mode2 = new int[]{0};
-        
+
         //mode2 = {0}
         p0.shot(weapon, players, -1, mode2, null, null);
 
