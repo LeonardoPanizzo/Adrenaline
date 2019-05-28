@@ -1585,8 +1585,8 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
-        Player p2 = new Player(1, pd);
-        Player p3 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][2]);
         p2.setFirstPosition(b.getBoard()[2][0]);
@@ -1658,7 +1658,7 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         p0.setPowerup(payment);
         p0.grabWeaponCard(weapon, selAmmo);
         int mode1 = 0;
-        Position[] movements = new Position[]{b.getBoard()[2][1], b.getBoard()[2][2] };
+        Position[] movements = new Position[]{b.getBoard()[2][1], b.getBoard()[2][2]};
 
         //mode1 = 0, p1 2 movements
         p0.shot(weapon, players, mode1, null, movements, null);
@@ -1745,6 +1745,110 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
 
     @Test
     public void Vortexcannon(){
-        
+        Board b = new Board(3);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        Player p2 = new Player(2, pd);
+        Player p3 = new Player(3, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[0][2]);
+        p2.setFirstPosition(b.getBoard()[0][2]);
+        p3.setFirstPosition(b.getBoard()[1][3]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCVortexcannon();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] selAmmo = new char[]{'b'};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, selAmmo);
+        int[] mode2 = new int[]{0};
+        Position[] movements = new Position[]{b.getBoard()[1][2]};
+
+        //mode2 = {0}, p1 is moved
+        p0.shot(weapon, players, -1, mode2, movements, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode2 = {0}, p1 is not moved
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'r', 'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p1.setPosition(b.getBoard()[1][2]);
+        movements = new Position[]{b.getBoard()[1][2]};
+        mode2 = new int[]{0};
+        p0.shot(weapon, players, -1, mode2, movements, null);
+
+        assertEquals(7, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode2 = {0, 1}, p1 is not moved, p2 is in p0 position, p3 is in a not visible position from p0 position
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'r', 'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2, p3};
+        p1.setPosition(b.getBoard()[1][2]);
+        movements = new Position[]{b.getBoard()[1][2]};
+        mode2 = new int[]{0, 1};
+        p0.shot(weapon, players, -1, mode2, movements, payment);
+
+        assertEquals(5, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p2.getPosition(), "p2 position isn't correct");
+        assertEquals(10, p3.getLife(), "p3 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p3.getPosition(), "p3 position isn't correct");
+
+        //mode2 = {0, 1}, p1 is moved, p2 is in a not visible position from p0 position (only one extra player is selected)
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'r', 'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2};
+        p1.setPosition(b.getBoard()[1][1]);
+        p2.setPosition(b.getBoard()[1][3]);
+        movements = new Position[]{b.getBoard()[1][2]};
+        mode2 = new int[]{0, 1};
+        p0.shot(weapon, players, -1, mode2, movements, null);
+
+        assertEquals(3, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+        assertEquals(9, p2.getLife(), "p2 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p2.getPosition(), "p2 position isn't correct");
+        assertEquals(10, p3.getLife(), "p3 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p3.getPosition(), "p3 position isn't correct");
+
+        //mode2 = {0, 1}, p1 is moved, p2 is not moved, p3 is in p1 position
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'r', 'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2, p3};
+        p1.setPosition(b.getBoard()[1][1]);
+        p2.setPosition(b.getBoard()[1][2]);
+        p3.setPosition(b.getBoard()[1][1]);
+        movements = new Position[]{b.getBoard()[1][2]};
+        mode2 = new int[]{0, 1};
+        p0.shot(weapon, players, -1, mode2, movements, null);
+
+        assertEquals(1, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p1.getPosition(), "p1 position isn't correct");
+        assertEquals(8, p2.getLife(), "p2 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p2.getPosition(), "p2 position isn't correct");
+        assertEquals(9, p3.getLife(), "p3 life isn't correct");
+        assertEquals(b.getBoard()[1][2], p3.getPosition(), "p3 position isn't correct");
     }
 }
