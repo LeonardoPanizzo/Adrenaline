@@ -1603,5 +1603,37 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         p0.setPowerup(payment);
         p0.grabWeaponCard(weapon, selAmmo);
         int[] mode2 = new int[]{0};
+        
+        //mode2 = {0}
+        p0.shot(weapon, players, -1, mode2, null, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+
+        //mode2 = {0, 1}
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2};
+        mode2 = new int[]{0, 1};
+        p0.shot(weapon, players, -1, mode2, null, payment);
+
+        assertEquals(7, p1.getLife(), "p1 life isn't correct");
+        assertEquals(10, p2.getLife(), "p2 life isn't correct");
+
+        //mode2 = {0, 1, 2}
+        p0.setAmmo('b', 3);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'r'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1, p2, p3};
+        mode2 = new int[]{0, 1, 2};
+        p0.shot(weapon, players, -1, mode2, null, null);
+
+        assertEquals(5, p1.getLife(), "p1 life isn't correct");
+        assertEquals(9, p2.getLife(), "p2 life isn't correct");
+        assertEquals(9, p3.getLife(), "p3 life isn't correct");
     }
 }
