@@ -1854,6 +1854,88 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
 
     @Test
     public void WhisperTest(){
-        
+        Board b = new Board(4);
+        PowerupDeck pd = new PowerupDeck();
+        Player p0 = new Player(0, pd);
+        p0.setAction(2);
+        Player p1 = new Player(1, pd);
+        p0.setFirstPosition(b.getBoard()[0][2]);
+        p1.setFirstPosition(b.getBoard()[2][3]);
+        Position pos = b.getBoard()[0][2];
+        WeaponCard weapon = new WCWhisper();
+        pos.chooseArm(0);
+        pos.chooseArm(1);
+        pos.chooseArm(2);
+        pos.giveWeapon(weapon);
+        char[] selAmmo = new char[]{'b'};
+        Player[] players = {p1};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
+        p0.setPowerup(payment);
+        p0.grabWeaponCard(weapon, selAmmo, payment);
+        p0.setPosition(b.getBoard()[1][2]);
+
+        //p1 is in the same room in a correct position
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(8, p1.getLife(), "p1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
+
+        //p1 is more than two moves far form p0
+        p0.setAmmo('y', 1);
+        p0.setAmmo('b', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'b', 'y'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p0.setPosition(b.getBoard()[0][2]);
+        p1.setPosition(b.getBoard()[2][3]);
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(4, p1.getLife(), "p1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
+
+        //p1 is in an invalid position (same p0 position)
+        p0.setAmmo('y', 1);
+        p0.setAmmo('b', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'b', 'y'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p1.setPosition(b.getBoard()[0][2]);
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(4, p1.getLife(), "p1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
+
+        //p1 is in an invalid position (on a not visible position from p0 position)
+        p0.setAmmo('y', 1);
+        p0.setAmmo('b', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'b', 'y'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p1.setPosition(b.getBoard()[2][1]);
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(4, p1.getLife(), "p1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
+
+        //p1 is in an invalid position (too much close p0 position)
+        p0.setAmmo('y', 1);
+        p0.setAmmo('b', 2);
+        p0.setAction(2);
+        selAmmo = new char[]{'b', 'b', 'y'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        p1.setPosition(b.getBoard()[1][2]);
+        p0.shot(weapon, players, -1, null, null, null);
+
+        assertEquals(4, p1.getLife(), "p1 life isn't correct");
+        assertEquals(1, p1.getMarksReceived()[0], "p1 marks received aren't correct");
+        assertEquals(1, p0.getMarksGiven()[1], "p0 marks given aren't correct");
     }
 }
