@@ -1644,23 +1644,102 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
-        Player p2 = new Player(1, pd);
-        Player p3 = new Player(1, pd);
         p0.setFirstPosition(b.getBoard()[0][2]);
-        p1.setFirstPosition(b.getBoard()[2][2]);
-        p2.setFirstPosition(b.getBoard()[2][0]);
-        p3.setFirstPosition(b.getBoard()[0][0]);
+        p1.setFirstPosition(b.getBoard()[1][1]);
         Position pos = b.getBoard()[0][2];
-        WeaponCard weapon = new WCTHOR();
+        WeaponCard weapon = new WCTractorBeam();
         pos.chooseArm(0);
         pos.chooseArm(1);
         pos.chooseArm(2);
         pos.giveWeapon(weapon);
-        char[] selAmmo = new char[]{'r'};
+        char[] selAmmo = new char[]{};
         Player[] players = {p1};
-        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
+        PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
         p0.grabWeaponCard(weapon, selAmmo);
-        int[] mode2 = new int[]{0};
+        int mode1 = 0;
+        Position[] movements = new Position[]{b.getBoard()[2][1], b.getBoard()[2][2] };
+
+        //mode1 = 0, p1 2 movements
+        p0.shot(weapon, players, mode1, null, movements, null);
+
+        assertEquals(10, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[2][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 0, p1 1 movement
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode1 = 0;
+        p1.setPosition(b.getBoard()[2][1]);
+        movements = new Position[]{b.getBoard()[2][2]};
+        p0.shot(weapon, players, mode1, null, movements, null);
+
+        assertEquals(9, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[2][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 0, p1 no movement
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode1 = 0;
+        movements = new Position[]{};
+        p0.shot(weapon, players, mode1, null, movements, null);
+
+        assertEquals(8, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[2][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 1, p1 2 movements
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode1 = 1;
+        p1.setPosition(b.getBoard()[1][3]);
+        movements = new Position[]{b.getBoard()[1][2], b.getBoard()[0][2]};
+        p0.shot(weapon, players, mode1, null, movements, payment);
+
+        assertEquals(5, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 1, p1 1 movement
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAmmo('y', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode1 = 1;
+        p1.setPosition(b.getBoard()[1][2]);
+        movements = new Position[]{b.getBoard()[0][2]};
+        p0.shot(weapon, players, mode1, null, movements, null);
+
+        assertEquals(2, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
+
+        //mode1 = 1, p1 no movement
+        p0.setAmmo('b', 1);
+        p0.setAmmo('r', 1);
+        p0.setAmmo('y', 1);
+        p0.setAction(2);
+        selAmmo = new char[]{'b'};
+        p0.reload(weapon, selAmmo);
+        players = new Player[]{p1};
+        mode1 = 1;
+        p1.setPosition(b.getBoard()[0][2]);
+        movements = new Position[]{};
+        p0.shot(weapon, players, mode1, null, movements, null);
+
+        assertEquals(-1, p1.getLife(), "p1 life isn't correct");
+        assertEquals(b.getBoard()[0][2], p1.getPosition(), "p1 position isn't correct");
     }
 }
