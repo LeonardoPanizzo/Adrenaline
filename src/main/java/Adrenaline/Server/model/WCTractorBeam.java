@@ -46,11 +46,11 @@ public class WCTractorBeam extends WeaponCard{
                     loaded=false;
                     done=true;
                 }else if (movements != null){
-                    boolean correctinput = true;
+                    boolean correctinput = attackedPlayers[0].getPosition().reachable(movements[0]);
                     for (int i = 0; i < movements.length - 1 && correctinput; i++) //in case the attacker wants to move the attacked
                         correctinput = movements[i].reachable(movements[i + 1]);
                     correctinput = correctinput && attacker.getPosition().equals(movements[movements.length - 1]);
-                    if (correctinput && movements.length > 1) {
+                    if (correctinput && movements.length != 0) {
                         attackedPlayers[0].setPosition(movements[movements.length - 1]);
                         for (int i = 0; i < 3; i++)
                             attackedPlayers[0].receivedDamages(attacker);
