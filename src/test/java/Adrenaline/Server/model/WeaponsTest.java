@@ -2011,4 +2011,9 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(1, p3.getMarksReceived()[0], "p3 marks received aren't correct");
         assertEquals(1, p0.getMarksGiven()[3], "p0 marks given to p3 aren't correct");
     }
+
+    @Test
+    public void isPaidTest(){
+        
+    }
 }
