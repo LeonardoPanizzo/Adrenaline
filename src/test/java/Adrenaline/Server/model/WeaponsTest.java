@@ -1851,4 +1851,9 @@ public class WeaponsTest {  //TODO: testare isPayd nelle due versioni in modo ap
         assertEquals(9, p3.getLife(), "p3 life isn't correct");
         assertEquals(b.getBoard()[1][2], p3.getPosition(), "p3 position isn't correct");
     }
+
+    @Test
+    public void WhisperTest(){
+        
+    }
 }
