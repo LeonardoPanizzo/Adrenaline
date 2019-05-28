@@ -27,7 +27,7 @@ public class WCTractorBeam extends WeaponCard{
                     attackedPlayers[0].receivedDamages(attacker);
                     loaded=false;
                     done=true;
-                }else{
+                }else if(movements != null){
                     boolean correctinput = true;
                     for (int i = 0; i < movements.length - 1 && correctinput; i++) //in case the attacker wants to move the attacked
                         correctinput = movements[i].reachable(movements[i + 1]);
@@ -41,10 +41,11 @@ public class WCTractorBeam extends WeaponCard{
                 }
             }else if(mode1==1) {
                 if((movements==null || movements.length==0) && attacker.getPosition().equals(attackedPlayers[0].getPosition()) && isPaid(attacker, payment)){
-                    attackedPlayers[0].receivedDamages(attacker);
+                    for (int i = 0; i < 3; i++)
+                        attackedPlayers[0].receivedDamages(attacker);
                     loaded=false;
                     done=true;
-                }else {
+                }else if (movements != null){
                     boolean correctinput = true;
                     for (int i = 0; i < movements.length - 1 && correctinput; i++) //in case the attacker wants to move the attacked
                         correctinput = movements[i].reachable(movements[i + 1]);
