@@ -35,7 +35,7 @@ public class LaunchClient {
 
         client.init();
         System.out.println("cc");
-        ClientController controller = new ClientController(client);
+        ClientController controller = new ClientController(client, host, port);
         controller.run();
 
         client.close();

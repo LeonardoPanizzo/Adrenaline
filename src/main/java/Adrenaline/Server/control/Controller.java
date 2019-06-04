@@ -10,7 +10,10 @@ import java.util.*;
 
 //TEROICAMENTE NON DEVE extends UnicastRemoteObject !!!
 
-public class Controller extends UnicastRemoteObject implements RemoteController {
+
+// DEVO AVERE GESTIONE REQUEST!
+
+public class Controller {//extends UnicastRemoteObject implements RemoteController {
 
     //private final Map<String, RemoteView> views = new HashMap<>();
     private ArrayList<RemoteView> clients;

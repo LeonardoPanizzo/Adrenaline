@@ -1,6 +1,7 @@
 package Adrenaline;
 
 import Adrenaline.Client.model.Response;
+import Adrenaline.Client.view.CView;
 import Adrenaline.Server.control.ServerController;
 import Adrenaline.Server.model.Request;
 import Adrenaline.Server.model.commands.MessageNotification;
@@ -23,7 +24,14 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
         this.out = new ObjectOutputStream(s.getOutputStream());
         this.in = new ObjectInputStream(s.getInputStream());
 
-        this.controller = new ServerController(this);
+        this.controller = new ServerController(this); //<-------- se rmi devo
+    }
+
+    public ClientHandler() throws IOException {
+        this.socket = null;
+        this.out = null;
+        this.in = null;
+        this.controller = new ServerController(); //<-------- se rmi devo
     }
 
     private void printError(String message) {

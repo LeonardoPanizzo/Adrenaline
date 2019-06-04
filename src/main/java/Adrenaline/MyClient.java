@@ -3,30 +3,46 @@ package Adrenaline;
 import Adrenaline.Client.model.Response;
 import Adrenaline.Server.model.Request;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
-
 
 
 public class MyClient {
     private final String host;
-    private final int port;
+    private final Integer port;
     private Socket connection;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    public MyClient(String host, int port) {
+
+    public MyClient(String host, int port) throws IOException {
         this.host = host;
         this.port = port;
+        this.connection = new Socket(host, port);
+
     }
 
+    public MyClient() throws IOException{
+        this.host = null;
+        this.port = null;
+        connection = null;
+        /*
+        out = new ObjectOutputStream(System.out);
+        in = new ObjectInputStream(System.in);
+        */
+    }
+
+
     public void init() throws IOException {
+        /*
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
+        */
+        out = new ObjectOutputStream(connection.getOutputStream());
+        in = new ObjectInputStream(connection.getInputStream());
     }
+
 
     public void close() throws IOException {
         in.close();

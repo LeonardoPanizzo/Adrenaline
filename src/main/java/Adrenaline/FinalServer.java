@@ -11,6 +11,7 @@ public class FinalServer {
         //array list controller
 
 
+
         try {
             new RmiServer().execute();
         } catch (RemoteException e) {

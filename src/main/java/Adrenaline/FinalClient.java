@@ -1,7 +1,9 @@
 package Adrenaline;
 
 import Adrenaline.Client.control.ClientController;
+import Adrenaline.Client.view.ClientTunnel;
 import Adrenaline.Client.view.TextView;
+import Adrenaline.Server.control.RemoteBiCon;
 import Adrenaline.Server.control.RemoteController;
 
 import java.io.IOException;
@@ -20,20 +22,24 @@ public class FinalClient {
 
         //Registry registry = LocateRegistry.getRegistry();
 
-        RemoteController controller = (RemoteController) Naming.lookup("//localhost/controller"); //   //localhost/controller
+        RemoteBiCon controller = (RemoteBiCon) Naming.lookup("//localhost/controller"); //   //localhost/controller
 
         //RemoteController controller = (RemoteController) registry.lookup("controller");
 
 
         System.out.println("[System] Client is ready.\n");
 
-
+/*
         System.out.print("[System] Enter your name: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
+*/
 
+        //new TextView(name, controller).run();
+        ClientTunnel tunnel = new ClientTunnel(controller);
 
-        new TextView(name, controller).run();
+        tunnel.start();
+
 
     }
 
@@ -77,7 +83,7 @@ public class FinalClient {
 
         client.init();
         System.out.println("cc");
-        ClientController controller = new ClientController(client);
+        ClientController controller = new ClientController(client, host, port);
         controller.run();
 
         client.close();

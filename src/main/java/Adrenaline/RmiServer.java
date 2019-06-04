@@ -1,5 +1,6 @@
 package Adrenaline;
 
+import Adrenaline.Server.control.BiController;
 import Adrenaline.Server.control.Controller;
 
 import java.net.MalformedURLException;
@@ -18,7 +19,10 @@ public class RmiServer {
             System.out.println("java RMI registry already exists.");
         }
 
-        Controller obj = new Controller();
+
+        BiController obj = new BiController();
+        // DEVO USARE UNA CLASSE CHE NON SIA IL CONTROLLER MA UN QUALCOSA CHE SE HO RMI ACCEDO AL CONTROLLER
+        // ALTRIMENTI USO SOCKET
 
         Naming.rebind("//localhost/controller", obj);
         System.out.println("PeerServer bound in registry");

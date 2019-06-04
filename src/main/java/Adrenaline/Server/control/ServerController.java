@@ -11,7 +11,7 @@ import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 import Adrenaline.ServerClientHandler;
 
-
+import java.net.Socket;
 
 
 public class ServerController implements RequestHandler {
@@ -19,8 +19,28 @@ public class ServerController implements RequestHandler {
     private final ClientHandler clientHandler; //ServerClientHandler
 
     public ServerController(ClientHandler clientHandler) {
+
         this.clientHandler = clientHandler;
+
+/*
+        this.connection = new Socket(host, port);
+        if (this.connection.getInetAddress().isReachable(2)) { //socket
+            this.cView = new CView(this);
+            this.tunnelView = null;
+        }
+        else {
+            this.tunnelView = new ClientTunnel(this);//new CView(this);
+            this.cView = null;
+        }
+        */
     }
+
+
+    public ServerController() {
+
+        this.clientHandler = null;
+    }
+
 
     // ------ Request handling
 

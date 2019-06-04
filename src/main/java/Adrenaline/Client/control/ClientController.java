@@ -3,8 +3,12 @@ package Adrenaline.Client.control;
 import Adrenaline.Client.model.Response;
 import Adrenaline.Client.model.ResponseHandler;
 import Adrenaline.Client.view.CView;
+import Adrenaline.Client.view.ClientTunnel;
 import Adrenaline.ClientContext;
+import Adrenaline.ClientHandler;
 import Adrenaline.MyClient;
+import Adrenaline.Server.control.RemoteBiCon;
+import Adrenaline.Server.control.RemoteController;
 import Adrenaline.Server.model.Board;
 import Adrenaline.Server.model.PowerupDeck;
 import Adrenaline.Server.model.commands.BoardResponse;
@@ -13,22 +17,44 @@ import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.rmi.Remote;
 
 
 public class ClientController implements ResponseHandler {
     //reference to networking layer
     private final MyClient client;
+    private Socket connection;
     //private Thread receiver;
 
     // the view
-    private final CView view;
+    private final CView cView;
+    private final ClientTunnel tunnelView;
 
     private Board currentBoard;
     private PowerupDeck currentPUDeck;
 
-    public ClientController(MyClient client) {
+    public ClientController(MyClient client, String host, int port) throws UnknownHostException, IOException {
         this.client = client;
-        this.view = new CView(this);
+        this.connection = new Socket(host, port);
+
+        if (this.connection.getInetAddress().isReachable(2)) { //socket
+            this.cView = new CView(this);
+            this.tunnelView = null;
+        }
+        else {
+            this.tunnelView = new ClientTunnel(this);//new CView(this);
+            this.cView = null;
+        }
+    }
+
+    public ClientController(RemoteBiCon controller) throws IOException{
+
+        this.client = new MyClient();
+        this.connection = null;
+        this.cView = null;
+        this.tunnelView = null;
     }
 
 
@@ -65,7 +91,8 @@ public class ClientController implements ResponseHandler {
 
 
     public void run() throws IOException {
-        view.chooseBoardPhase();
+        cView.chooseBoardPhase();
+        tunnelView.start();
 
         //view.choosePUDeckPhase();
 
