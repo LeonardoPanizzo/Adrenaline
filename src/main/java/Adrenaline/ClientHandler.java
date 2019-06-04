@@ -1,9 +1,8 @@
 package Adrenaline;
 
-import Adrenaline.Client.model.Response;
-import Adrenaline.Client.view.CView;
+import Adrenaline.Server.model.Response;
 import Adrenaline.Server.control.ServerController;
-import Adrenaline.Server.model.Request;
+import Adrenaline.Client.model.Request;
 import Adrenaline.Server.model.commands.MessageNotification;
 
 import java.io.IOException;

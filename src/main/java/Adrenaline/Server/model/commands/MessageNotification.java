@@ -1,6 +1,6 @@
 package Adrenaline.Server.model.commands;
 
-import Adrenaline.Client.model.Response;
+import Adrenaline.Server.model.Response;
 import Adrenaline.Client.model.ResponseHandler;
 import Adrenaline.ClientContext;
 import Adrenaline.Message;

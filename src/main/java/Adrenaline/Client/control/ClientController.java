@@ -1,14 +1,10 @@
 package Adrenaline.Client.control;
 
-import Adrenaline.Client.model.Response;
 import Adrenaline.Client.model.ResponseHandler;
 import Adrenaline.Client.view.CView;
 import Adrenaline.Client.view.ClientTunnel;
 import Adrenaline.ClientContext;
-import Adrenaline.ClientHandler;
 import Adrenaline.MyClient;
-import Adrenaline.Server.control.RemoteBiCon;
-import Adrenaline.Server.control.RemoteController;
 import Adrenaline.Server.model.Board;
 import Adrenaline.Server.model.PowerupDeck;
 import Adrenaline.Server.model.commands.BoardResponse;
@@ -19,7 +15,6 @@ import Adrenaline.Server.model.commands.PUDeckResponse;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.rmi.Remote;
 
 
 public class ClientController implements ResponseHandler {
@@ -49,6 +44,7 @@ public class ClientController implements ResponseHandler {
         }
     }
 
+    /*
     public ClientController(RemoteBiCon controller) throws IOException{
 
         this.client = new MyClient();
@@ -56,7 +52,7 @@ public class ClientController implements ResponseHandler {
         this.cView = null;
         this.tunnelView = null;
     }
-
+*/
 
     public Board createBoard(Integer variation) {
         client.request(new CreateBoardRequest(variation));

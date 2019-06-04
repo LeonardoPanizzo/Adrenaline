@@ -1,6 +1,6 @@
 package Adrenaline.Server.control;
 
-import Adrenaline.Client.model.Response;
+import Adrenaline.Server.model.Response;
 import Adrenaline.ClientHandler;
 import Adrenaline.Server.model.Board;
 import Adrenaline.Server.model.PowerupDeck;
@@ -9,18 +9,15 @@ import Adrenaline.Server.model.commands.BoardResponse;
 import Adrenaline.Server.model.commands.CreateBoardRequest;
 import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
-import Adrenaline.ServerClientHandler;
-
-import java.net.Socket;
 
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer
-    private final ClientHandler clientHandler; //ServerClientHandler
+    //private final ClientHandler clientHandler; //ServerClientHandler
 
     public ServerController(ClientHandler clientHandler) {
 
-        this.clientHandler = clientHandler;
+        //this.clientHandler = clientHandler;
 
 /*
         this.connection = new Socket(host, port);
@@ -38,7 +35,7 @@ public class ServerController implements RequestHandler {
 
     public ServerController() {
 
-        this.clientHandler = null;
+        //this.clientHandler = null;
     }
 
 

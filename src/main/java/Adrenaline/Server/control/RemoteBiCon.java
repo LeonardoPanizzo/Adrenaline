@@ -1,6 +1,6 @@
 package Adrenaline.Server.control;
 
-import Adrenaline.Client.model.Response;
+import Adrenaline.Server.model.Response;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

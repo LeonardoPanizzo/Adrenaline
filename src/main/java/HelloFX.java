@@ -19,4 +19,8 @@ public class HelloFX extends Application {
     public static void main(String[] args) {
         launch();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e60ca74d5f07c8a0ea21a862b244d46088e88fe7
 }

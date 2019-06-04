@@ -1,7 +1,7 @@
 package Adrenaline.Server.model.commands;
 
-import Adrenaline.Client.model.Response;
-import Adrenaline.Server.model.Request;
+import Adrenaline.Server.model.Response;
+import Adrenaline.Client.model.Request;
 import Adrenaline.Server.model.RequestHandler;
 
 public class CreateBoardRequest implements Request {

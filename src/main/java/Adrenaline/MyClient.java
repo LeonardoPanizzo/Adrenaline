@@ -1,7 +1,7 @@
 package Adrenaline;
 
-import Adrenaline.Client.model.Response;
-import Adrenaline.Server.model.Request;
+import Adrenaline.Server.model.Response;
+import Adrenaline.Client.model.Request;
 
 import java.io.*;
 import java.net.Socket;
