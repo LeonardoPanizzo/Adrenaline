@@ -1,12 +1,9 @@
 package Adrenaline.Server.control;
 
-import Adrenaline.Client.model.Response;
-import Adrenaline.Client.model.ResponseHandler;
-import Adrenaline.Client.view.RemoteView;
+import Adrenaline.Server.model.Response;
 import Adrenaline.ClientHandler;
 import Adrenaline.Server.model.Board;
 import Adrenaline.Server.model.PowerupDeck;
-import Adrenaline.Server.model.Request;
 import Adrenaline.Server.model.RequestHandler;
 import Adrenaline.Server.model.commands.BoardResponse;
 import Adrenaline.Server.model.commands.CreateBoardRequest;

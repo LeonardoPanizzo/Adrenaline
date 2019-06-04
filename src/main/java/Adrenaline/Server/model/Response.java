@@ -1,4 +1,6 @@
-package Adrenaline.Client.model;
+package Adrenaline.Server.model;
+
+import Adrenaline.Client.model.ResponseHandler;
 
 import java.io.Serializable;
 

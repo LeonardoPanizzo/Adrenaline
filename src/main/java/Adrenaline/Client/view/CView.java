@@ -45,7 +45,14 @@ public class CView {
         } catch (RemoteException e){
             e.printStackTrace();
         }
-        controller.createBoard(variation); // CHIAMA CONTROLLER CHE E NULL
+
+        try {
+
+            controller.createBoard(variation); // CHIAMA CONTROLLER CHE E NULL
+
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     public void choosePUDeckPhase() {
