@@ -3,6 +3,7 @@ package Adrenaline.Server.control;
 import Adrenaline.Client.view.RemoteView;
 import Adrenaline.Server.model.*;
 
+import java.io.FileNotFoundException;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -44,7 +45,7 @@ public class Controller {//extends UnicastRemoteObject implements RemoteControll
         ack("Your Player id is: " + id + "\n");
     }
 
-    public void createBoard(Integer boardNumber) throws RemoteException{
+    public void createBoard(Integer boardNumber) throws RemoteException, FileNotFoundException {
 
         //if (board ancora non creata per questo game)
         Board board = new Board(boardNumber);

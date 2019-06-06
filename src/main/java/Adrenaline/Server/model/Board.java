@@ -2,13 +2,15 @@ package Adrenaline.Server.model;
 
 
 import java.io.*;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-
+import java.util.Arrays;
+import java.util.List;
+import java.lang.reflect.Type;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -34,100 +36,26 @@ public class Board implements Serializable {
      * @param num
      * @see 1.json
      */
-    public Board(int num) /*throws org.json.simple.parser.ParseException, java.io.FileNotFoundException, java.io.IOException*/ {    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
-
-        boolean range = (num <= 4) && (num > 0);
-
-        if(range){
-
-
-            //player 1 starts the game
-
-
-            //this.skulls = new int[8];
-            this.skulls = new Vector<Integer>(0);
-            //-1 means that a skull is present, it will be replaced by a player's id
-            //for (int x : skulls)
-                //this.skulls[x] = -1;
-                //this.skulls.add(x,-1);
+    public Board(int num) throws FileNotFoundException, NumberFormatException, IndexOutOfBoundsException{    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
+        if(num>=1 && num <=4) {
+            this.skulls=new Vector<Integer>(0);
             for (int i =0; i < 8; i++)
-                this.skulls.add(i, -1);
-
-
-            this.board = new Position[3][4];
+                this.skulls.add(i, -1); //-1 means that a skull is present, it will be replaced by a player's id
             this.round = 0;
             this.variation = num;
             this.finalRound = false;
-
-            AmmoDeck ad = new AmmoDeck();       // ---\ metodi aggiunti per creare le posizioni
-            WeaponDeck wd = new WeaponDeck();   // ---/
-            //get the map variation
-
-
-            JSONParser parser = new JSONParser();
-
+            SupportPosition[] support;
+            AmmoDeck deck1 = new AmmoDeck();
+            WeaponDeck deck2 = new WeaponDeck();
+            board = new Position[3][4];
+            String path = "src/main/resources/room" + num + ".json";
             try {
-
-                //"src/main/resources/1.json"
-                //"src/main/resources/" + Integer.toString(num) + ".json"
-
-
-
-                Object obj = parser.parse(new FileReader("src/main/resources/" + Integer.toString(num) + ".json"));
-
-                JSONObject jsonObject = (JSONObject) obj;
-                System.out.println(jsonObject);
-
-                JSONArray i = (JSONArray) jsonObject.get("i");
-                JSONArray j = (JSONArray) jsonObject.get("j");
-                JSONArray room = (JSONArray) jsonObject.get("room");
-                JSONArray door = (JSONArray) jsonObject.get("door");
-                JSONArray reset = (JSONArray) jsonObject.get("resetPoint");
-
-                Iterator<Integer> iteratorI = i.iterator();
-                Iterator<Integer> iteratorJ = j.iterator();
-                Iterator<String> iteratorRoom = room.iterator();
-                Iterator<Boolean> iteratorDoor = door.iterator();
-                Iterator<Boolean> iteratorReset = reset.iterator();
-
-
-                Integer iteratorINext = null;
-                Integer iteratorJNext = null;
-                String iteratorRoomNext = null;
-                Boolean iteratorDoorNext = null;
-                Boolean iteratorResetNext = null;
-
-
-                while (iteratorI.hasNext() && iteratorJ.hasNext() ) {
-
-                    int x = 0;
-                 //   this.board[( (Number) iteratorI.next() ).intValue()][( (Number) iteratorJ.next() ).intValue()] = new Position(( (Number) iteratorI.next() ).intValue(), ( (Number) iteratorJ.next() ).intValue(), iteratorRoom.next().charAt(x), iteratorDoor.next(), iteratorReset.next(), ad, wd);
-
-
-                    iteratorINext = ((Number) iteratorI.next() ).intValue();
-                    iteratorJNext = ( (Number) iteratorJ.next() ).intValue();
-                    iteratorRoomNext = iteratorRoom.next();
-                    iteratorDoorNext = iteratorDoor.next();
-                    iteratorResetNext = iteratorReset.next();
-
-                    this.board[( iteratorINext )][( iteratorJNext )] = new Position((  iteratorINext ), (  iteratorJNext ), iteratorRoomNext.charAt(x), iteratorDoorNext, iteratorResetNext, ad, wd);
-
-
-                    x++;
-
-                    //this.board[iteratorI.next()][iteratorJ.next()] = new Position(1, 1, 'b', true, true);
+                JsonReader reader = new JsonReader(new FileReader(path));
+                support = new Gson().fromJson(reader, SupportPosition[].class);
+                for (int i = 0; i < support.length; i++) {
+                    board[support[i].geti()][support[i].getj()] = new Position(support[i], deck1, deck2);
                 }
-
-                /* TODO setlinks look at PositionTest java.lang.NullPointerException at Adrenaline.Server.model.Position.setLinks(Position.java:72)
-
-
-                 * TODO indexes not found in file.json <-----
-                */
-
-
-                if (num == 1){
-                    //this.board[1][1].setLinks(this.board[1][3]);
-
+                if (num == 1) {
                     board[0][0].setLinks(board[1][0]);
                     board[0][2].setLinks(board[1][2]);
                     board[1][0].setLinks(board[0][0]);
@@ -138,9 +66,7 @@ public class Board implements Serializable {
                     board[2][3].setLinks(board[2][2]);
                     board[2][1].setLinks(board[1][1]);
                     board[2][2].setLinks(board[2][3]);
-                }
-
-                if (num == 2){
+                } else if (num == 2) {
                     board[0][0].setLinks(board[1][0]);
                     board[0][2].setLinks(board[0][3]);
                     board[0][2].setLinks(board[1][2]);
@@ -153,9 +79,7 @@ public class Board implements Serializable {
                     board[1][2].setLinks(board[0][2]);
                     board[1][3].setLinks(board[0][3]);
                     board[2][2].setLinks(board[2][1]);
-                }
-
-                if (num == 3){
+                } else if (num == 3) {
                     board[0][0].setLinks(board[0][1]);
                     board[1][0].setLinks(board[2][0]);
                     board[0][1].setLinks(board[0][0]);
@@ -170,9 +94,7 @@ public class Board implements Serializable {
                     board[2][2].setLinks(board[2][3]);
                     board[1][3].setLinks(board[1][2]);
                     board[2][3].setLinks(board[2][2]);
-                }
-
-                if (num == 4) {
+                } else if (num == 4) {
                     board[0][0].setLinks(board[0][1]);
                     board[1][0].setLinks(board[2][0]);
                     board[0][1].setLinks(board[0][0]);
@@ -190,35 +112,17 @@ public class Board implements Serializable {
                     board[1][3].setLinks(board[0][3]);
                     board[2][2].setLinks(board[2][1]);
                 }
-
-            }catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                System.out.println("File missing");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+                 throw new FileNotFoundException();
+            } catch (NumberFormatException t) {
+                t.printStackTrace();
+                throw new NumberFormatException();
             }
-
+        }else{
+            throw new IndexOutOfBoundsException();
         }
-
-        else {
-
-            try {
-            } catch (IndexOutOfBoundsException e){
-
-                e.printStackTrace();
-
-                System.out.println("Out of range board");
-
-            }
-        }
-
     }
-
-
 
     //useful for endGame() and scoring
 

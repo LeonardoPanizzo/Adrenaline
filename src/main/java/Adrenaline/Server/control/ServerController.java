@@ -10,6 +10,8 @@ import Adrenaline.Server.model.commands.CreateBoardRequest;
 import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 
+import java.io.FileNotFoundException;
+
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer
@@ -46,7 +48,12 @@ public class ServerController implements RequestHandler {
     public Response handle(CreateBoardRequest request){
 
         Integer variation = request.variation;
-        return new BoardResponse(new Board(variation));
+        try {
+            return new BoardResponse(new Board(variation));
+        }catch (FileNotFoundException e){
+            System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
+            //todo: qui bisogna comunque inserire una return  perchè quella di prima (riga 52) potrebbe non essere creata nel caso dell'eccezzione
+        }
     }
 
     @Override
