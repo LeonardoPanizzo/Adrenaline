@@ -40,6 +40,29 @@ public class Position {
         }
     }
 
+    public Position(SupportPosition p1,AmmoDeck deckAmmo, WeaponDeck deckWeapon){
+        matr=new int[2];
+        matr[0]=p1.geti();
+        matr[1]=p1.getj();
+        this.room=p1.getroom();
+        this.door=p1.getdoor();
+        this.ndoor=0;
+        this.respawnPoint=p1.getrespawn();
+        this.ammoDeck=deckAmmo;
+        this.weaponDeck=deckWeapon;
+        players=new Vector<Player>(0,1);
+        if(door){
+            linked=new Vector<Position>();
+        }
+        if(respawnPoint) {
+            weapons=new WeaponCard[3];
+            for(int k=0;k<3;k++)        //drawn 3 weaponcard
+                weapons[k]=weaponDeck.pickUpWeapon();
+        }else{
+            ammo=ammoDeck.pickUpAmmo();
+        }
+    }
+
     //todo this metod should be removed (only test use)
     public void setAmmo(AmmoCard ammo) {
         this.ammo = ammo;
