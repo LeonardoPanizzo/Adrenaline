@@ -43,8 +43,8 @@ public class SupportPosition {
             return true;
         return false;
     }
-    /*public String toString(){
+    public String toString(){
         String a=matr[0]+"  "+matr[1]+" "+room+" "+door+" "+respawnPoint+" ";
         return a;
-    }*/
+    }
 }
