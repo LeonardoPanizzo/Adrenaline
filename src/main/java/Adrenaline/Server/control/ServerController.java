@@ -52,7 +52,7 @@ public class ServerController implements RequestHandler {
             return new BoardResponse(new Board(variation));
         }catch (FileNotFoundException e){
             System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
-            //todo: qui bisogna comunque inserire una return  perchè quella di prima (riga 52) potrebbe non essere creata nel caso dell'eccezzione
+            return new BoardResponse(new Board());
         }
     }
 

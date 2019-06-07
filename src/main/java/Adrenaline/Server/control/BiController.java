@@ -10,6 +10,7 @@ import Adrenaline.Server.model.commands.CreateBoardRequest;
 import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -33,9 +34,15 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
     }
 
     @Override
-    public Response handle(CreateBoardRequest request){
+    public Response handle(CreateBoardRequest request) {
         Integer variation = request.variation;
-        return new BoardResponse(new Board(variation));
+        try {
+            return new BoardResponse(new Board(variation));
+        }catch (
+                FileNotFoundException e){
+            System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
+            return new BoardResponse(new Board());
+        }
     }
 
     @Override
@@ -45,8 +52,13 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
     }
 
     public Response createBoard(Integer boardNumber) throws RemoteException {
-
-        return new BoardResponse(new Board(boardNumber));
+        try {
+            return new BoardResponse(new Board(boardNumber));
+        }catch (
+                FileNotFoundException e){
+            System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
+            return new BoardResponse(new Board());
+        }
     }
 
 /*

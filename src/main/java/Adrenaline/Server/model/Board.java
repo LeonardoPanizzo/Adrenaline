@@ -124,6 +124,16 @@ public class Board implements Serializable {
         }
     }
 
+    //in case the program is not able to read the file it needs an empty board is created
+    public Board (){
+        this.skulls=new Vector<Integer>(0);
+        for (int i =0; i < 8; i++)
+            this.skulls.add(i, -1); //-1 means that a skull is present, it will be replaced by a player's id
+        this.round = 0;
+        this.finalRound = false;
+    }
+
+
     //useful for endGame() and scoring
 
     /**
