@@ -36,7 +36,7 @@ public class Board implements Serializable {
      * @param num
      * @see 1.json
      */
-    public Board(int num) throws FileNotFoundException, NumberFormatException, IndexOutOfBoundsException{    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
+    public Board(int num){    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
         if(num>=1 && num <=4) {
             this.skulls=new Vector<Integer>(0);
             for (int i =0; i < 8; i++)
@@ -114,10 +114,8 @@ public class Board implements Serializable {
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                 throw new FileNotFoundException();
             } catch (NumberFormatException t) {
                 t.printStackTrace();
-                throw new NumberFormatException();
             }
         }else{
             throw new IndexOutOfBoundsException();
