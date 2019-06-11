@@ -1,3 +1,6 @@
+package Adrenaline.Client.view;
+
+import Adrenaline.Server.model.Player;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,7 +69,7 @@ public class AdrenalineView extends Application {
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
         scene.getStylesheets().add
-                (AdrenalineView.class.getResource("View.css").toExternalForm());
+                (AdrenalineView.class.getResource("/view.css").toExternalForm());
         primaryStage.show();
     }
 }
