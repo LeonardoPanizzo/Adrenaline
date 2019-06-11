@@ -1,28 +1,24 @@
 package Adrenaline;
 
 import Adrenaline.Client.control.ClientController;
-import Adrenaline.Client.view.ClientTunnel;
-import Adrenaline.Client.view.TextView;
+import Adrenaline.Client.control.ClientTunnel;
 import Adrenaline.Server.control.RemoteBiCon;
-import Adrenaline.Server.control.RemoteController;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
-import java.net.Socket;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.NoSuchElementException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class FinalClient {
 
     public static void useRmi() throws RemoteException, NotBoundException, MalformedURLException {
 
-        //Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
 
-        RemoteBiCon controller = (RemoteBiCon) Naming.lookup("//localhost/controller"); //   //localhost/controller
+        RemoteBiCon controller = (RemoteBiCon) registry.lookup("controller"); //   //localhost/controller
 
         //RemoteController controller = (RemoteController) registry.lookup("controller");
 

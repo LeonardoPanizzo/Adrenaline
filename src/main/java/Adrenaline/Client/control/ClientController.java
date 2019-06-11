@@ -2,7 +2,6 @@ package Adrenaline.Client.control;
 
 import Adrenaline.Client.model.ResponseHandler;
 import Adrenaline.Client.view.CView;
-import Adrenaline.Client.view.ClientTunnel;
 import Adrenaline.ClientContext;
 import Adrenaline.MyClient;
 import Adrenaline.Server.model.Board;

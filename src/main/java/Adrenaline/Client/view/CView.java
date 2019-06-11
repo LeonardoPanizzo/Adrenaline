@@ -39,19 +39,21 @@ public class CView {
     public void chooseBoardPhase() {
         System.out.println("Enter board number: ");
         Integer variation = userNumInput();
-        try {
-            rmiController.createBoard(variation);
+        if (rmiController != null) {
+            try {
+                rmiController.createBoard(variation);
 
-        } catch (RemoteException e){
-            e.printStackTrace();
-        }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
 
-        try {
+                controller.createBoard(variation); // CHIAMA CONTROLLER CHE E NULL
 
-            controller.createBoard(variation); // CHIAMA CONTROLLER CHE E NULL
-
-        } catch (NullPointerException e){
-            e.printStackTrace();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -1,6 +1,8 @@
-package Adrenaline.Client.view;
+package Adrenaline.Client.control;
 
 import Adrenaline.Client.control.ClientController;
+import Adrenaline.Client.view.CView;
+import Adrenaline.Client.view.RemoteView;
 import Adrenaline.Server.control.RemoteBiCon;
 import Adrenaline.Server.control.RemoteController;
 

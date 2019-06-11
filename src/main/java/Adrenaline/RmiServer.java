@@ -11,12 +11,13 @@ import java.rmi.registry.*;
 public class RmiServer {
 
     public void execute() throws RemoteException, MalformedURLException {
-
+        Registry reg;
         try {
-            LocateRegistry.createRegistry(1099);
+            reg = LocateRegistry.createRegistry(1099);
             System.out.println("java RMI registry created.");
         } catch (RemoteException e) {
             System.out.println("java RMI registry already exists.");
+            return;
         }
 
 
@@ -24,7 +25,7 @@ public class RmiServer {
         // DEVO USARE UNA CLASSE CHE NON SIA IL CONTROLLER MA UN QUALCOSA CHE SE HO RMI ACCEDO AL CONTROLLER
         // ALTRIMENTI USO SOCKET
 
-        Naming.rebind("//localhost/controller", obj);
+        reg.rebind("controller", obj);
         System.out.println("PeerServer bound in registry");
     }
 
