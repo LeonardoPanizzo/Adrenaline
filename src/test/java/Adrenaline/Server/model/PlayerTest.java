@@ -66,6 +66,8 @@ public class PlayerTest {
         life = p.getLife();
         playersDamage = p.getPlayersDamage();
 
+        System.out.println(p.toString()); //leonardo: aggiunto per testare se la stampa delle informazioni del giocatore è corretta
+
         assertEquals(7, life, "Life isn't correct");
         assertEquals(-1, playersDamage[0][0], "Order of player 1 isn't correct");
         assertEquals(0, playersDamage[0][1], "Total player 1 damage isn't correct");
