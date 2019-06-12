@@ -36,13 +36,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
     @Override
     public Response handle(CreateBoardRequest request) {
         Integer variation = request.variation;
-        try {
-            return new BoardResponse(new Board(variation));
-        }catch (
-                FileNotFoundException e){
-            System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
-            return new BoardResponse(new Board());
-        }
+        return new BoardResponse(new Board(variation));
     }
 
     @Override
@@ -52,13 +46,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
     }
 
     public Response createBoard(Integer boardNumber) throws RemoteException {
-        try {
-            return new BoardResponse(new Board(boardNumber));
-        }catch (
-                FileNotFoundException e){
-            System.out.println("error"); //leonardo: there is a chance of exception and it's not possible to build the project unless it's managed
-            return new BoardResponse(new Board());
-        }
+        return new BoardResponse(new Board(boardNumber));
     }
 
 /*
