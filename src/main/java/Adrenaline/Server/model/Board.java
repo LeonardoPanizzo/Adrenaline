@@ -122,6 +122,19 @@ public class Board implements Serializable {
         }
     }
 
+    public String toString(){
+        String info="board:\n";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                if(board[i][j]!=null){
+                    info=info+board[i][j].toString()+"  ";
+                }
+            }
+            info=info+"\n";
+        }
+        return info;
+    }
+
     //useful for endGame() and scoring
 
     /**

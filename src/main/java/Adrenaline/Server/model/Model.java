@@ -6,6 +6,22 @@ public class Model {
 
 
     }
+        /*stampe necessarie per il giocatore in CLI
+        stampa(board.getround());
+        for(int i=0; i<nplayers; i++){      //stampa le informazioni dei giocatori
+            stampa(players[i].toString());
+        }
+        for(int i=0; i<3; i++){             //uso questo per stampare le posizioni o lo gestisco tramire board
+            for(int j=0; i<4; j++){
+                if(board.getBoard()[i][j]!=null){
+                    stampa(board.getBoard()[i][j].toString());
+                }
+                stampa("   ");
+            }
+            stampa("\n");
+        }
+         */
+
         /*
         int numBoard;
         System.out.println("Scegli il tabellone");

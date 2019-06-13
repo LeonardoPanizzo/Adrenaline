@@ -96,6 +96,19 @@ public class Position {
         return respawnPoint;
     }
 
+    public String toString(){             //prints only the munitions and the weapons found on this room, the colour isn't needed because the CLI user has his board
+        String info;
+        if(this.respawnPoint){
+            info="the weapons are: ";
+            for(int i=0; i<weapons.length; i++){
+                info=info+weapons[i].getName()+" ";
+            }
+        }else{
+            info="the munitions are: "+ammo.toString();
+        }
+        return info;
+    }
+
     /*@requires x!=null;
              @receives the position that will be linked to this.position,
              @the link is possible only if this and x are doors
