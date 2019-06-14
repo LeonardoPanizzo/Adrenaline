@@ -279,15 +279,22 @@ public class Player {
      * @see Position
      */
     public void move(Position[] position){
+        boolean correctmoves=this.position.reachable(position[0]);
         if(this.action > 0){
-            for(int i=0; i<3 && i<position.length; i++){
-                if (this.position.reachable(position[i]))
-                    this.setPosition(position[i]);
-                this.action--;
+            for(int i=0; i<2 && i<position.length-1 && correctmoves; i++){
+                if (!(position[i].reachable(position[i+1])))
+                    correctmoves=false;
+            }
+            if(correctmoves){
+                this.setPosition(position[position.length-1]);
+                action--;
+                System.out.println("moved");
+            }else{
+                System.out.println("invalid input");
             }
         }
         else
-            System.out.println("Actions completed");
+            System.out.println("Not valid action");
     }
 
     /**
