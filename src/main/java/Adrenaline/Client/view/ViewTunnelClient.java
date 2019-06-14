@@ -1,6 +1,8 @@
-package Adrenaline.Client.control;
+package Adrenaline.Client.view;
 
 public interface ViewTunnelClient {
 
     public void chooseBoardPhase();
+    public void start();
+
 }

@@ -43,15 +43,6 @@ public class ClientController implements ResponseHandler {
         }
     }
 
-    /*
-    public ClientController(RemoteBiCon controller) throws IOException{
-
-        this.client = new MyClient();
-        this.connection = null;
-        this.cView = null;
-        this.tunnelView = null;
-    }
-*/
 
     public Board createBoard(Integer variation) {
         client.request(new CreateBoardRequest(variation));
@@ -65,24 +56,6 @@ public class ClientController implements ResponseHandler {
         return currentPUDeck;
     }
 
-
-    /*
-    public void startMessaging() {
-        // start a receiver thread
-        receiver = new Thread(
-                () -> {
-                    Response response;
-                    do {
-                        response = client.nextResponse();
-                        if (response != null) {
-                            response.handle(this);
-                        }
-                    } while (response != null);
-                }
-        );
-        receiver.start();
-    }
-*/
 
 
     public void run() throws IOException {

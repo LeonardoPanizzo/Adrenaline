@@ -2,6 +2,8 @@ package Adrenaline;
 
 import Adrenaline.Client.control.ClientController;
 import Adrenaline.Client.control.ClientTunnel;
+import Adrenaline.Client.view.ViewTunnelA;
+import Adrenaline.Client.view.ViewTunnelB;
 import Adrenaline.Server.control.RemoteBiCon;
 
 import java.io.IOException;
@@ -31,10 +33,8 @@ public class FinalClient {
         String name = scanner.nextLine();
 */
 
-        //new TextView(name, controller).run();
-        ClientTunnel tunnel = new ClientTunnel(controller);
+        new ViewTunnelB(controller);
 
-        tunnel.start();
 
 
     }
@@ -77,19 +77,19 @@ public class FinalClient {
         MyClient client = new MyClient(host, port);
         System.out.println("bb");
 
-        client.init();
-        System.out.println("cc");
-        ClientController controller = new ClientController(client, host, port);
-        controller.run();
+        //client.init();
+        //System.out.println("cc");
 
-        client.close();
+        //TODO crea view
+        new ViewTunnelA(client,host,port);
+
 
     }
 
 
     public static void main(String[] args) throws RemoteException, NotBoundException, IOException {
 
-        FinalClient client = new FinalClient();
+        //FinalClient client = new FinalClient();
 
         //System.out.print("[System] Choose between socket and rmi: ");
         Scanner scanner = new Scanner(System.in);

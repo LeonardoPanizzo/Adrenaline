@@ -1,11 +1,14 @@
 package Adrenaline.Server.model;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WeaponsTest {
     @Test
-    public void CyberBladeTest(){
+    public void CyberBladeTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -134,7 +137,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void ElectroScytheTest(){
+    public void ElectroScytheTest() throws FileNotFoundException {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -185,7 +188,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void FlameThrowerTest(){
+    public void FlameThrowerTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -278,7 +281,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void FurnaceTest(){
+    public void FurnaceTest() throws FileNotFoundException {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -330,7 +333,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void GrenadeLauncherTest(){
+    public void GrenadeLauncherTest() throws FileNotFoundException {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -432,7 +435,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void HeatseekerTest(){
+    public void HeatseekerTest() throws FileNotFoundException {
         Board b = new Board(3);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -459,7 +462,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void HellionTest(){
+    public void HellionTest() throws FileNotFoundException {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -511,7 +514,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void LockRifleTest(){
+    public void LockRifleTest() throws FileNotFoundException {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -555,7 +558,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void MachineGunTest(){
+    public void MachineGunTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -723,7 +726,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void PlasmaGunTest(){
+    public void PlasmaGunTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -888,7 +891,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void PowerGloveTest(){
+    public void PowerGloveTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -995,7 +998,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void RailgunTest(){
+    public void RailgunTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1114,7 +1117,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void RocketLauncherTest(){
+    public void RocketLauncherTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1403,7 +1406,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void ShockwaveTest(){
+    public void ShockwaveTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1489,7 +1492,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void ShotgunTest(){
+    public void ShotgunTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1538,7 +1541,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void SledgehammerTest(){
+    public void SledgehammerTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1601,7 +1604,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void ThorTest(){
+    public void ThorTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1660,7 +1663,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void TractorBeamTest(){
+    public void TractorBeamTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1766,7 +1769,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void Vortexcannon(){
+    public void Vortexcannon() throws FileNotFoundException {
         Board b = new Board(3);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1875,7 +1878,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void WhisperTest(){
+    public void WhisperTest() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -1962,7 +1965,7 @@ public class WeaponsTest {
     }
 
     @Test
-    public void ZX2Test(){
+    public void ZX2Test() throws FileNotFoundException {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);

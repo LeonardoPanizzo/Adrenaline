@@ -6,6 +6,7 @@ import Adrenaline.Client.model.Request;
 import Adrenaline.Server.model.commands.MessageNotification;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -15,24 +16,31 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
     private boolean stop;
+    private InputStream is;
 
     private final ServerController controller;
 
     public ClientHandler(Socket s) throws IOException {
+
+
+
+
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());
+        this.out.flush();
         this.in = new ObjectInputStream(s.getInputStream());
 
-        this.controller = new ServerController(this); //<-------- se rmi devo
+        this.controller = new ServerController(); //<-------- se rmi devo
     }
 
+    /*
     public ClientHandler() throws IOException {
         this.socket = null;
         this.out = null;
         this.in = null;
         this.controller = new ServerController(); //<-------- se rmi devo
     }
-
+*/
     private void printError(String message) {
         System.err.println(">>> ERROR@" + socket.getRemoteSocketAddress() + ": " + message);
     }
@@ -93,9 +101,11 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
 
     // --- Directly forward notifications to clients
 
+
     @Override
     public void onMessage(Message message) {
         respond(new MessageNotification(message));
     }
+
 
 }

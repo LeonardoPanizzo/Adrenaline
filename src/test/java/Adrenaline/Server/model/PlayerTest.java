@@ -2,11 +2,13 @@ package Adrenaline.Server.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     @Test
-    public void constructorTest(){
+    public void constructorTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(3, pwd);
@@ -35,7 +37,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void endOfRoundTest(){
+    public void endOfRoundTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(0, pwd);
@@ -45,7 +47,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void receivedDamagesTest(){
+    public void receivedDamagesTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
@@ -120,7 +122,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void sortedPlayersTest(){
+    public void sortedPlayersTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p1 = new Player(1, pwd);
@@ -140,7 +142,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void givePointsTest(){
+    public void givePointsTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
@@ -160,7 +162,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void limitCasesTest(){               //Test on possible critical cases
+    public void limitCasesTest() throws FileNotFoundException {               //Test on possible critical cases
         //All damages by only one player. After that, one other player attack (all the exceeding damages are thrown away.
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
@@ -212,7 +214,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void actionMoveTest(){
+    public void actionMoveTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(0, pwd);
@@ -232,7 +234,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void actionGrabTest (){
+    public void actionGrabTest () throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(0, pwd);
@@ -276,7 +278,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void grabWeaponTest(){
+    public void grabWeaponTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         AmmoDeck ad = new AmmoDeck();
@@ -339,7 +341,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void reloadTest(){
+    public void reloadTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
@@ -603,7 +605,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void shotTest(){
+    public void shotTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         AmmoDeck ad = new AmmoDeck();
@@ -738,7 +740,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void respawnTest(){
+    public void respawnTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
@@ -773,7 +775,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void setterGetterTest (){
+    public void setterGetterTest () throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(0, pwd);
@@ -820,7 +822,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveAndGrabTest(){
+    public void moveAndGrabTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -840,7 +842,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void updateAmmoTest(){   //public boolean updateAmmo(int[] am)
+    public void updateAmmoTest() throws FileNotFoundException {   //public boolean updateAmmo(int[] am)
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -852,7 +854,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void drawPoweUpTest(){
+    public void drawPoweUpTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
@@ -874,7 +876,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void usePowerupTest(){
+    public void usePowerupTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);

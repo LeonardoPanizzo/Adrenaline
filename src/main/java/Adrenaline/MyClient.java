@@ -8,28 +8,18 @@ import java.net.Socket;
 
 
 public class MyClient {
-    private final String host;
-    private final Integer port;
+    //private final String host;
+    //private final Integer port;
     private Socket connection;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
 
     public MyClient(String host, int port) throws IOException {
-        this.host = host;
-        this.port = port;
+        //this.host = host;
+        //this.port = port;
         this.connection = new Socket(host, port);
 
-    }
-
-    public MyClient() throws IOException{
-        this.host = null;
-        this.port = null;
-        connection = null;
-        /*
-        out = new ObjectOutputStream(System.out);
-        in = new ObjectInputStream(System.in);
-        */
     }
 
 
@@ -39,7 +29,10 @@ public class MyClient {
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
         */
+
+
         out = new ObjectOutputStream(connection.getOutputStream());
+        out.flush();
         in = new ObjectInputStream(connection.getInputStream());
     }
 
@@ -67,6 +60,8 @@ public class MyClient {
     public void request(Request request) {
         try {
             out.writeObject(request);
+            out.flush();
+            System.out.println("request accepted\n");
         } catch (IOException e) {
             System.err.println("Exception on network: " + e.getMessage());
         }

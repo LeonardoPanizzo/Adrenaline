@@ -7,5 +7,5 @@ import java.rmi.RemoteException;
 
 public interface RemoteBiCon extends Remote {
 
-    Response createBoard(Integer boardNumber) throws RemoteException;
+    void createBoard(Integer boardNumber) throws RemoteException;
 }

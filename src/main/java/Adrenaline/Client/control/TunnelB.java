@@ -1,7 +1,6 @@
 package Adrenaline.Client.control;
 
 import Adrenaline.Client.view.CView;
-import Adrenaline.Client.view.ControlTunnelClient;
 import Adrenaline.Server.control.RemoteBiCon;
 
 import java.rmi.RemoteException;
@@ -9,7 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 // RMI!!
 
-public class TunnelB extends UnicastRemoteObject implements ControlTunnelClient {
+public class TunnelB extends UnicastRemoteObject {
 
     private final RemoteBiCon controller;
     private CView tunnel;

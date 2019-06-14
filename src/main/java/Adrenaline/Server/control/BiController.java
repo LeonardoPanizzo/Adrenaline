@@ -15,13 +15,14 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class BiController extends UnicastRemoteObject implements RemoteBiCon, RequestHandler {
+public class BiController extends UnicastRemoteObject implements RemoteBiCon{//, RequestHandler {
 
-    private ServerController controller;
-    private ClientHandler handler;
+    //private ServerController controller;
+    //private ClientHandler handler;
 
 
     public BiController () throws RemoteException {
+        /*
         try {
             this.handler = new ClientHandler();
             this.controller = new ServerController(handler);
@@ -29,10 +30,20 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
 
             e.printStackTrace();
         }
-        this.handler = null;
-        this.controller = new ServerController();
+        */
     }
 
+    public void createBoard(Integer boardNumber) throws RemoteException {
+        try {
+            new Board(boardNumber);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+    }//this.controller.createBoard(boardNumber);}
+
+
+    /*
     @Override
     public Response handle(CreateBoardRequest request) {
         Integer variation = request.variation;
@@ -60,6 +71,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon, Re
             return new BoardResponse(new Board());
         }
     }
+    */
 
 /*
     public void createBoard(Integer boardNumber) throws RemoteException {this.controller.createBoard(boardNumber);}

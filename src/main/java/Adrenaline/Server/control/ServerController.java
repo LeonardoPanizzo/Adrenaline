@@ -16,10 +16,11 @@ import java.io.FileNotFoundException;
 public class ServerController implements RequestHandler {
     // reference to the networking layer
     //private final ClientHandler clientHandler; //ServerClientHandler
-
+/*
     public ServerController(ClientHandler clientHandler) {
 
         //this.clientHandler = clientHandler;
+
 
 /*
         this.connection = new Socket(host, port);
@@ -32,13 +33,7 @@ public class ServerController implements RequestHandler {
             this.cView = null;
         }
         */
-    }
-
-
-    public ServerController() {
-
-        //this.clientHandler = null;
-    }
+    //}
 
 
     // ------ Request handling
