@@ -6,20 +6,50 @@ public class Model {
 
 
     }
-        /*stampe necessarie per il giocatore in CLI
+        /*
+        //todo stampe necessarie a inizio turno per il giocatore in CLI
         stampa(board.getround());
         for(int i=0; i<nplayers; i++){      //stampa le informazioni dei giocatori
             stampa(players[i].toString());
         }
-        for(int i=0; i<3; i++){             //uso questo per stampare le posizioni o lo gestisco tramire board
-            for(int j=0; i<4; j++){
-                if(board.getBoard()[i][j]!=null){
-                    stampa(board.getBoard()[i][j].toString());
+        stampa(board.toString());
+
+        //todo stampe necessarie per chiedere quale azione vuole fare
+        tramite stampa viene chiesto che l'utente inserisca che azione vuole eseguire (viene letto un carattere per rendere il sistema robusto)
+           1.move
+           2.grab
+           3.shoot
+           4.use powerup
+           5.reload
+           la gestione delle azioni nel turno di un giocatore è spiegata sotto
+         */
+
+        /*Gestione turno di un giocatore
+        while(!board.isfinalround()){
+            board.setround(board.getround()+1);
+            nround=board.getround();
+            while(players[nround%5]==null)
+                nround++;
+            players[nround%5]=setround(true);
+            while(players[nround%5].getaction()>0){
+                //usare l'interfaccia con l'utente per chiedere quale azione vuole essere eseguita
+                if(move){
+                    //usare l'interfaccia per chiedere le posizioni e poi invocare il metodo player.move
+                }else if(shot){
+                    //usare l'interfaccia per chiedere i parametri del metodo
+                    //vedere se l'attaccante ha mirino e vuole usarlo
+                    //vedere se gli utenti attaccati hanno la granata venom e vogliono usarla
+                }else if(grab){
+                    //
+                }else if(usepowerup){
+                    //valido solo per raggio cinetico e teletrasporto
                 }
-                stampa("   ");
-            }
-            stampa("\n");
+            }//qua finisce il while con le mosse del giocatore
+            //chiedere al giocatore se vuole ricaricare qualche arma
+            players[nround%5].setround(false);
+            board.setfinalround();
         }
+        //qua inizia il turno finale
          */
 
         /*
