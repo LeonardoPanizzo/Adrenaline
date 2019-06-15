@@ -68,7 +68,15 @@ public class PlayerTest {
         life = p.getLife();
         playersDamage = p.getPlayersDamage();
 
+
+        p.setAction(3);
+        assertEquals(true, p.grabWeaponCard(new WCSledgehammer(),new char[]{}));
+        assertEquals(true, p.grabWeaponCard(new WCPowerGlove(),new char[]{'b'}));
+        assertEquals(false, p.grabWeaponCard(new WCPowerGlove(),new char[]{}));
+        assertEquals(true, p.grabWeaponCard(new WCPowerGlove(),new char[]{}, new PowerupCard[]{new PUTargetingScope('b')}));
+        assertEquals(false, p.grabWeaponCard(new WCPowerGlove(),new char[]{}, new PowerupCard[]{new PUTargetingScope('b')}));
         System.out.println(p.toString()); //leonardo: aggiunto per testare se la stampa delle informazioni del giocatore è corretta
+        System.out.println(p.completeString());
         System.out.println(b.toString()); //leonardo: aggiunto per testare se la stampa delle informazioni della board è corretta
 
         assertEquals(7, life, "Life isn't correct");
