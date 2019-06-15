@@ -9,6 +9,7 @@ public class Model {
         /*
         //todo stampe necessarie a inizio turno per il giocatore in CLI
         stampa(board.getround());
+        stampa(players[se stesso].completeString())     //stampa le informazioni su se stesso
         for(int i=0; i<nplayers; i++){      //stampa le informazioni dei giocatori
             stampa(players[i].toString());
         }
