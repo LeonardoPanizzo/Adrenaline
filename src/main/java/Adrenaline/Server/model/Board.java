@@ -36,7 +36,7 @@ public class Board implements Serializable {
      * @param num
      * @see 1.json
      */
-    public Board(int num) throws FileNotFoundException, NumberFormatException, IndexOutOfBoundsException{    //le eccezioni sono gestite all'interno della classe. quindi non vengono gestite qui e non si propagano. Non serve il throws
+    public Board(int num){
         if(num>=1 && num <=4) {
             this.skulls=new Vector<Integer>(0);
             for (int i =0; i < 8; i++)
@@ -114,25 +114,26 @@ public class Board implements Serializable {
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                 throw new FileNotFoundException();
             } catch (NumberFormatException t) {
                 t.printStackTrace();
-                throw new NumberFormatException();
             }
         }else{
             throw new IndexOutOfBoundsException();
         }
     }
 
-    //in case the program is not able to read the file it needs an empty board is created
-    public Board (){
-        this.skulls=new Vector<Integer>(0);
-        for (int i =0; i < 8; i++)
-            this.skulls.add(i, -1); //-1 means that a skull is present, it will be replaced by a player's id
-        this.round = 0;
-        this.finalRound = false;
+    public String toString(){
+        String info="board:\n";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                if(board[i][j]!=null){
+                    info=info+board[i][j].toString()+"  ";
+                }
+            }
+            info=info+"\n";
+        }
+        return info;
     }
-
 
     //useful for endGame() and scoring
 

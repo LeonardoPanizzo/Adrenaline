@@ -1,0 +1,14 @@
+.root {
+    -fx-background-image: url("adrenalina.jpg");
+}
+
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: black;
+    -fx-background-color: white;
+}
+
+.text{
+    -fx-background-image: url("Title.png");
+}

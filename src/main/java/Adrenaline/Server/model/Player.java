@@ -213,6 +213,29 @@ public class Player {
         this.finalRound = finalRound;
     }
 
+    public String toString(){           //used in the CLI
+        String info;
+        info="player n."+number+"\n life points: "+life+"\n number of deaths: "+numberOfDeaths+"\n received damages: \n";
+        for(int i=0; i<5; i++){             //used to show the life damage from each player
+            if(playersDamage[i][0]!=-1){
+                info=info+"   by player "+playersDamage[i][0]+": "+playersDamage[i][1]+"\n";
+            }
+        }
+        info=info+"\nmarks received:\n";
+        for(int i=0; i<5; i++){             //used to show the marks received from each player
+            if(marksReceived[i]!=0){
+                 info=info+"   by player "+(i+1)+": "+marksReceived[i];
+            }
+        }
+        info=info+"\nunloaded weapons: \n";
+        for(int i=0; i<3; i++){
+            if(weapons[i]!=null)
+                info=info+weapons[i].getName()+"  ";
+        }
+        info=info+"\nmunitions:\n   blue: "+ammo[0]+"\n   yellow: "+ammo[1]+"\n   red:"+ammo[2];
+        return info;
+    }
+
     public boolean isFinalRound() {
         return finalRound;
     }
@@ -256,15 +279,22 @@ public class Player {
      * @see Position
      */
     public void move(Position[] position){
+        boolean correctmoves=this.position.reachable(position[0]);
         if(this.action > 0){
-            for(int i=0; i<3 && i<position.length; i++){
-                if (this.position.reachable(position[i]))
-                    this.setPosition(position[i]);
-                this.action--;
+            for(int i=0; i<2 && i<position.length-1 && correctmoves; i++){
+                if (!(position[i].reachable(position[i+1])))
+                    correctmoves=false;
+            }
+            if(correctmoves){
+                this.setPosition(position[position.length-1]);
+                action--;
+                System.out.println("moved");
+            }else{
+                System.out.println("invalid input");
             }
         }
         else
-            System.out.println("Actions completed");
+            System.out.println("Not valid action");
     }
 
     /**

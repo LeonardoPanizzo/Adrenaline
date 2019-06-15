@@ -7,6 +7,9 @@ public class AmmoDeck {
     private int size;
     private Vector<AmmoCard> ammoDeck;
 
+    /*
+    p powerup, b blue, r red, y yellow
+     */
     public AmmoDeck(){
         size=0;
         ammoDeck=new Vector<AmmoCard>(36);
