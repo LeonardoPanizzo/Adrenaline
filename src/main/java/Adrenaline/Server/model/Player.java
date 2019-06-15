@@ -213,7 +213,7 @@ public class Player {
         this.finalRound = finalRound;
     }
 
-    public String toString(){           //used in the CLI
+    private String partialString(){      //usato per evitare codice doppio nei metodi qui stto
         String info;
         info="player n."+number+"\n life points: "+life+"\n number of deaths: "+numberOfDeaths+"\n received damages: \n";
         for(int i=0; i<5; i++){             //used to show the life damage from each player
@@ -224,10 +224,28 @@ public class Player {
         info=info+"\nmarks received:\n";
         for(int i=0; i<5; i++){             //used to show the marks received from each player
             if(marksReceived[i]!=0){
-                 info=info+"   by player "+(i+1)+": "+marksReceived[i];
+                info=info+"   by player "+(i+1)+": "+marksReceived[i];
             }
         }
+        return info;
+    }
+
+    public String toString(){           //used in the CLI to see players information
+        String info;
+        info=this.partialString();
         info=info+"\nunloaded weapons: \n";
+        for(int i=0; i<3; i++){
+            if(weapons[i]!=null && !weapons[i].isLoaded())
+                info=info+weapons[i].getName()+"  ";
+        }
+        info=info+"\nmunitions:\n   blue: "+ammo[0]+"\n   yellow: "+ammo[1]+"\n   red:"+ammo[2];
+        return info;
+    }
+
+    public String completeString(){         //used in the CLI to see one own information
+        String info;
+        info=this.partialString();
+        info=info+"\nweapons:\n";
         for(int i=0; i<3; i++){
             if(weapons[i]!=null)
                 info=info+weapons[i].getName()+"  ";
