@@ -13,24 +13,27 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable, MessageReceivedObserver {
     private Socket socket;
-    private final ObjectInputStream in;
-    private final ObjectOutputStream out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
     private boolean stop;
     private InputStream is;
 
-    private final ServerController controller;
+    private ServerController controller;
 
     public ClientHandler(Socket s) throws IOException {
 
-
-
-
         this.socket = s;
-        this.out = new ObjectOutputStream(s.getOutputStream());
-        this.out.flush();
-        this.in = new ObjectInputStream(s.getInputStream());
 
-        this.controller = new ServerController(); //<-------- se rmi devo
+
+/*
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
+*/
+        //this.out.flush();
+        //this.in = new ObjectInputStream(s.getInputStream());
+
+
+        //this.controller = new ServerController(); //<-------- se rmi devo
     }
 
     /*
@@ -47,7 +50,11 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
 
     public void respond(Response response) {
         try {
+            System.out.println("Response\n");
+            out = new ObjectOutputStream(socket.getOutputStream());
+
             out.writeObject(response);
+            out.flush();
         } catch (IOException e) {
             printError("IO - " + e.getMessage());
         }
@@ -55,15 +62,27 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
 
     @Override
     public void run() {
+        System.out.println(socket.getRemoteSocketAddress() + "\n");
         try {
+
+
+
+            //controller = new ServerController();
             do {
+                in = new ObjectInputStream(socket.getInputStream());
+
+                System.out.println("Request\n");
+
                 Request x = (Request) in.readObject();
                 Response response = x.handle(controller);
                 if (response != null) {
                     respond(response);
                 }
             } while (!stop);
+
         } catch (Exception e) {
+            System.out.println("run2\n");
+
             printError(e.getClass().getSimpleName() + " - " + e.getMessage());
         }
 

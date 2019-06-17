@@ -31,9 +31,11 @@ public class MyClient {
         */
 
 
+        /*
         out = new ObjectOutputStream(connection.getOutputStream());
         out.flush();
         in = new ObjectInputStream(connection.getInputStream());
+        */
     }
 
 
@@ -47,6 +49,8 @@ public class MyClient {
 
     public Response nextResponse() {
         try {
+            in = new ObjectInputStream(connection.getInputStream());
+
             return ((Response) in.readObject());
         } catch (IOException e) {
             System.err.println("Exception on network: " + e.getMessage());
@@ -59,8 +63,12 @@ public class MyClient {
 
     public void request(Request request) {
         try {
+
+            out = new ObjectOutputStream(connection.getOutputStream());
             out.writeObject(request);
             out.flush();
+            //in = new ObjectInputStream(connection.getInputStream());
+
             System.out.println("request accepted\n");
         } catch (IOException e) {
             System.err.println("Exception on network: " + e.getMessage());

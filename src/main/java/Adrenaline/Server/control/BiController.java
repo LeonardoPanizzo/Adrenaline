@@ -34,11 +34,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon{//,
     }
 
     public void createBoard(Integer boardNumber) throws RemoteException {
+        /*
         try {
             new Board(boardNumber);
         }catch (FileNotFoundException e){
             e.printStackTrace();
-        }
+        }*/
+        new Board(boardNumber);
+        System.out.println("Board created");
 
     }//this.controller.createBoard(boardNumber);}
 

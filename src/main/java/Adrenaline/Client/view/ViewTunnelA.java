@@ -22,13 +22,13 @@ public class ViewTunnelA {
 
 
 
-    public ViewTunnelA(MyClient client, String host, int port) {
-        try {
+    public ViewTunnelA(MyClient client, String host, int port) throws IOException{
+        //try {
             this.controller = new TunnelA(client, host, port);
-        } catch (IOException e){
+        /*} catch (IOException e){
             e.printStackTrace();
             this.controller = null;
-        }
+        }*/
         //controller.run();
 
         this.fromKeyBoard = new Scanner(System.in);

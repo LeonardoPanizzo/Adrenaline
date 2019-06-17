@@ -15,7 +15,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements Serializable {
 
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
-    private TunnelA controller;
+    private RemoteBiCon controller;
 
     private String userInput() {
         return fromKeyBoard.nextLine();
@@ -30,20 +30,24 @@ public class ViewTunnelB extends UnicastRemoteObject implements Serializable {
 
         this.fromKeyBoard = new Scanner(System.in);
 
+        this.controller = controller;
+
         this.chooseBoardPhase();
     }
 
 
-    public void chooseBoardPhase(){
+    public void chooseBoardPhase() throws RemoteException{
         System.out.println("Enter board number: ");
         Integer variation = userNumInput();
 
         controller.createBoard(variation);
+        System.out.println("Board created");
+
     }
 
     public void choosePUDeckPhase() {
         System.out.println("Creating PUDeck");
-        controller.createPUDeck();
+        //controller.createPUDeck();
     }
 
 }
