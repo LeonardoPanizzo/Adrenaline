@@ -137,55 +137,265 @@ public class AdrenalineView extends Application {
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
 
+        int boardNumber = 3; //todo: prendere il valore della board scelta
+
         //board 1
-        Image x0y0 = new Image(AdrenalineView.class.getResource("/1v0-0.png").toExternalForm());
-        ImageView X0Y0 = new ImageView(x0y0);
-        StackPane xx0yy0 = new StackPane(X0Y0);
-        playerView.add(xx0yy0, 0,0);
-        Image x0y1 = new Image(AdrenalineView.class.getResource("/1v0-1.png").toExternalForm());
-        ImageView X0Y1 = new ImageView(x0y1);
-        StackPane xx0yy1 = new StackPane(X0Y1);
-        playerView.add(xx0yy1, 1,0);
-        Image x0y2 = new Image(AdrenalineView.class.getResource("/1v0-2.png").toExternalForm());
-        ImageView X0Y2 = new ImageView(x0y2);
-        StackPane xx0yy2 = new StackPane(X0Y2);
-        playerView.add(xx0yy2, 2,0);
-        Image x0y3 = new Image(AdrenalineView.class.getResource("/1v0-3.png").toExternalForm());
-        ImageView X0Y3 = new ImageView(x0y3);
-        StackPane xx0yy3 = new StackPane(X0Y3);
-        playerView.add(xx0yy3, 3,0);
-        Image x1y0 = new Image(AdrenalineView.class.getResource("/1v1-0.png").toExternalForm());
-        ImageView X1Y0 = new ImageView(x1y0);
-        StackPane xx1yy0 = new StackPane(X1Y0);
-        playerView.add(xx1yy0, 0,1);
-        Image x1y1 = new Image(AdrenalineView.class.getResource("/1v1-1.png").toExternalForm());
-        ImageView X1Y1 = new ImageView(x1y1);
-        StackPane xx1yy1 = new StackPane(X1Y1);
-        playerView.add(xx1yy1, 1,1);
-        Image x1y2 = new Image(AdrenalineView.class.getResource("/1v1-2.png").toExternalForm());
-        ImageView X1Y2 = new ImageView(x1y2);
-        StackPane xx1yy2 = new StackPane(X1Y2);
-        playerView.add(xx1yy2, 2,1);
-        Image x1y3 = new Image(AdrenalineView.class.getResource("/1v1-3.png").toExternalForm());
-        ImageView X1Y3 = new ImageView(x1y3);
-        StackPane xx1yy3 = new StackPane(X1Y3);
-        playerView.add(xx1yy3, 3,1);
-        Image x2y0 = new Image(AdrenalineView.class.getResource("/1v2-0.png").toExternalForm());
-        ImageView X2Y0 = new ImageView(x2y0);
-        StackPane xx2yy0 = new StackPane(X2Y0);
-        playerView.add(xx2yy0, 0,2);
-        Image x2y1 = new Image(AdrenalineView.class.getResource("/1v2-1.png").toExternalForm());
-        ImageView X2Y1 = new ImageView(x2y1);
-        StackPane xx2yy1 = new StackPane(X2Y1);
-        playerView.add(xx2yy1, 1,2);
-        Image x2y2 = new Image(AdrenalineView.class.getResource("/1v2-2.png").toExternalForm());
-        ImageView X2Y2 = new ImageView(x2y2);
-        StackPane xx2yy2 = new StackPane(X2Y2);
-        playerView.add(xx2yy2, 2,2);
-        Image x2y3 = new Image(AdrenalineView.class.getResource("/1v2-3.png").toExternalForm());
-        ImageView X2Y3 = new ImageView(x2y3);
-        StackPane xx2yy3 = new StackPane(X2Y3);
-        playerView.add(xx2yy3, 3,2);
+        if(boardNumber == 1) {
+            Image x0y0 = new Image(AdrenalineView.class.getResource("/1v0-0.png").toExternalForm());
+            ImageView X0Y0 = new ImageView(x0y0);
+            StackPane xx0yy0 = new StackPane(X0Y0);
+            playerView.add(xx0yy0, 0, 0);
+
+            Image x0y1 = new Image(AdrenalineView.class.getResource("/1v0-1.png").toExternalForm());
+            ImageView X0Y1 = new ImageView(x0y1);
+            StackPane xx0yy1 = new StackPane(X0Y1);
+            playerView.add(xx0yy1, 1, 0);
+
+            Image x0y2 = new Image(AdrenalineView.class.getResource("/1v0-2.png").toExternalForm());
+            ImageView X0Y2 = new ImageView(x0y2);
+            StackPane xx0yy2 = new StackPane(X0Y2);
+            playerView.add(xx0yy2, 2, 0);
+
+            Image x0y3 = new Image(AdrenalineView.class.getResource("/1v0-3.png").toExternalForm());
+            ImageView X0Y3 = new ImageView(x0y3);
+            StackPane xx0yy3 = new StackPane(X0Y3);
+            playerView.add(xx0yy3, 3, 0);
+
+            Image x1y0 = new Image(AdrenalineView.class.getResource("/1v1-0.png").toExternalForm());
+            ImageView X1Y0 = new ImageView(x1y0);
+            StackPane xx1yy0 = new StackPane(X1Y0);
+            playerView.add(xx1yy0, 0, 1);
+
+            Image x1y1 = new Image(AdrenalineView.class.getResource("/1v1-1.png").toExternalForm());
+            ImageView X1Y1 = new ImageView(x1y1);
+            StackPane xx1yy1 = new StackPane(X1Y1);
+            playerView.add(xx1yy1, 1, 1);
+
+            Image x1y2 = new Image(AdrenalineView.class.getResource("/1v1-2.png").toExternalForm());
+            ImageView X1Y2 = new ImageView(x1y2);
+            StackPane xx1yy2 = new StackPane(X1Y2);
+            playerView.add(xx1yy2, 2, 1);
+
+            Image x1y3 = new Image(AdrenalineView.class.getResource("/1v1-3.png").toExternalForm());
+            ImageView X1Y3 = new ImageView(x1y3);
+            StackPane xx1yy3 = new StackPane(X1Y3);
+            playerView.add(xx1yy3, 3, 1);
+
+            Image x2y0 = new Image(AdrenalineView.class.getResource("/1v2-0.png").toExternalForm());
+            ImageView X2Y0 = new ImageView(x2y0);
+            StackPane xx2yy0 = new StackPane(X2Y0);
+            playerView.add(xx2yy0, 0, 2);
+
+            Image x2y1 = new Image(AdrenalineView.class.getResource("/1v2-1.png").toExternalForm());
+            ImageView X2Y1 = new ImageView(x2y1);
+            StackPane xx2yy1 = new StackPane(X2Y1);
+            playerView.add(xx2yy1, 1, 2);
+
+            Image x2y2 = new Image(AdrenalineView.class.getResource("/1v2-2.png").toExternalForm());
+            ImageView X2Y2 = new ImageView(x2y2);
+            StackPane xx2yy2 = new StackPane(X2Y2);
+            playerView.add(xx2yy2, 2, 2);
+
+            Image x2y3 = new Image(AdrenalineView.class.getResource("/1v2-3.png").toExternalForm());
+            ImageView X2Y3 = new ImageView(x2y3);
+            StackPane xx2yy3 = new StackPane(X2Y3);
+            playerView.add(xx2yy3, 3, 2);
+        }
+        //board 2
+        else if(boardNumber == 2){
+            Image x0y0 = new Image(AdrenalineView.class.getResource("/1v0-0.png").toExternalForm());
+            ImageView X0Y0 = new ImageView(x0y0);
+            StackPane xx0yy0 = new StackPane(X0Y0);
+            Image x0y1 = new Image(AdrenalineView.class.getResource("/3v0-1.png").toExternalForm());
+
+            ImageView X0Y1 = new ImageView(x0y1);
+            StackPane xx0yy1 = new StackPane(X0Y1);
+
+            Image x0y2 = new Image(AdrenalineView.class.getResource("/2v0-2.png").toExternalForm());
+            ImageView X0Y2 = new ImageView(x0y2);
+            StackPane xx0yy2 = new StackPane(X0Y2);
+
+            Image x0y3 = new Image(AdrenalineView.class.getResource("/2v0-3.png").toExternalForm());
+            ImageView X0Y3 = new ImageView(x0y3);
+            StackPane xx0yy3 = new StackPane(X0Y3);
+
+            playerView.add(xx0yy0, 0, 0);
+            playerView.add(xx0yy1, 1, 0);
+            playerView.add(xx0yy2, 2, 0);
+            playerView.add(xx0yy3, 3, 0);
+
+            Image x1y0 = new Image(AdrenalineView.class.getResource("/1v1-0.png").toExternalForm());
+            ImageView X1Y0 = new ImageView(x1y0);
+            StackPane xx1yy0 = new StackPane(X1Y0);
+
+            Image x1y1 = new Image(AdrenalineView.class.getResource("/3v1-1.png").toExternalForm());
+            ImageView X1Y1 = new ImageView(x1y1);
+            StackPane xx1yy1 = new StackPane(X1Y1);
+
+            Image x1y2 = new Image(AdrenalineView.class.getResource("/2v1-2.png").toExternalForm());
+            ImageView X1Y2 = new ImageView(x1y2);
+            StackPane xx1yy2 = new StackPane(X1Y2);
+
+            Image x1y3 = new Image(AdrenalineView.class.getResource("/2v1-3.png").toExternalForm());
+            ImageView X1Y3 = new ImageView(x1y3);
+            StackPane xx1yy3 = new StackPane(X1Y3);
+
+            playerView.add(xx1yy0, 0, 1);
+            playerView.add(xx1yy1, 1, 1);
+            playerView.add(xx1yy2, 2, 1);
+            playerView.add(xx1yy3, 3, 1);
+
+            Image x2y0 = new Image(AdrenalineView.class.getResource("/3v2-0.png").toExternalForm());
+            ImageView X2Y0 = new ImageView(x2y0);
+            StackPane xx2yy0 = new StackPane(X2Y0);
+            playerView.add(xx2yy0, 0, 2);
+
+            Image x2y1 = new Image(AdrenalineView.class.getResource("/3v2-1.png").toExternalForm());
+            ImageView X2Y1 = new ImageView(x2y1);
+            StackPane xx2yy1 = new StackPane(X2Y1);
+
+            Image x2y2 = new Image(AdrenalineView.class.getResource("/2v2-2.png").toExternalForm());
+            ImageView X2Y2 = new ImageView(x2y2);
+            StackPane xx2yy2 = new StackPane(X2Y2);
+
+            Image x2y3 = new Image(AdrenalineView.class.getResource("/2v2-3.png").toExternalForm());
+            ImageView X2Y3 = new ImageView(x2y3);
+            StackPane xx2yy3 = new StackPane(X2Y3);
+
+            playerView.add(xx2yy1, 1, 2);
+            playerView.add(xx2yy2, 2, 2);
+            playerView.add(xx2yy3, 3, 2);
+        }
+        //board 3
+        else if(boardNumber == 3){
+            Image x0y0 = new Image(AdrenalineView.class.getResource("/2v0-0.png").toExternalForm());
+            ImageView X0Y0 = new ImageView(x0y0);
+            StackPane xx0yy0 = new StackPane(X0Y0);
+            Image x0y1 = new Image(AdrenalineView.class.getResource("/2v0-1.png").toExternalForm());
+
+            ImageView X0Y1 = new ImageView(x0y1);
+            StackPane xx0yy1 = new StackPane(X0Y1);
+
+            Image x0y2 = new Image(AdrenalineView.class.getResource("/1v0-2.png").toExternalForm());
+            ImageView X0Y2 = new ImageView(x0y2);
+            StackPane xx0yy2 = new StackPane(X0Y2);
+
+            Image x0y3 = new Image(AdrenalineView.class.getResource("/1v0-3.png").toExternalForm());
+            ImageView X0Y3 = new ImageView(x0y3);
+            StackPane xx0yy3 = new StackPane(X0Y3);
+
+            playerView.add(xx0yy0, 0, 0);
+            playerView.add(xx0yy1, 1, 0);
+            playerView.add(xx0yy2, 2, 0);
+            playerView.add(xx0yy3, 3, 0);
+
+            Image x1y0 = new Image(AdrenalineView.class.getResource("/2v1-0.png").toExternalForm());
+            ImageView X1Y0 = new ImageView(x1y0);
+            StackPane xx1yy0 = new StackPane(X1Y0);
+
+            Image x1y1 = new Image(AdrenalineView.class.getResource("/4v1-1.png").toExternalForm());
+            ImageView X1Y1 = new ImageView(x1y1);
+            StackPane xx1yy1 = new StackPane(X1Y1);
+
+            Image x1y2 = new Image(AdrenalineView.class.getResource("/1v1-2.png").toExternalForm());
+            ImageView X1Y2 = new ImageView(x1y2);
+            StackPane xx1yy2 = new StackPane(X1Y2);
+
+            Image x1y3 = new Image(AdrenalineView.class.getResource("/1v1-3.png").toExternalForm());
+            ImageView X1Y3 = new ImageView(x1y3);
+            StackPane xx1yy3 = new StackPane(X1Y3);
+
+            playerView.add(xx1yy0, 0, 1);
+            playerView.add(xx1yy1, 1, 1);
+            playerView.add(xx1yy2, 2, 1);
+            playerView.add(xx1yy3, 3, 1);
+
+            Image x2y0 = new Image(AdrenalineView.class.getResource("/2v2-0.png").toExternalForm());
+            ImageView X2Y0 = new ImageView(x2y0);
+            StackPane xx2yy0 = new StackPane(X2Y0);
+            playerView.add(xx2yy0, 0, 2);
+
+            Image x2y1 = new Image(AdrenalineView.class.getResource("/4v2-1.png").toExternalForm());
+            ImageView X2Y1 = new ImageView(x2y1);
+            StackPane xx2yy1 = new StackPane(X2Y1);
+
+            Image x2y2 = new Image(AdrenalineView.class.getResource("/1v2-2.png").toExternalForm());
+            ImageView X2Y2 = new ImageView(x2y2);
+            StackPane xx2yy2 = new StackPane(X2Y2);
+
+            Image x2y3 = new Image(AdrenalineView.class.getResource("/1v2-3.png").toExternalForm());
+            ImageView X2Y3 = new ImageView(x2y3);
+            StackPane xx2yy3 = new StackPane(X2Y3);
+
+            playerView.add(xx2yy1, 1, 2);
+            playerView.add(xx2yy2, 2, 2);
+            playerView.add(xx2yy3, 3, 2);
+        }
+        //board 4
+        else if(boardNumber == 4){
+            Image x0y0 = new Image(AdrenalineView.class.getResource("/2v0-0.png").toExternalForm());
+            ImageView X0Y0 = new ImageView(x0y0);
+            StackPane xx0yy0 = new StackPane(X0Y0);
+            Image x0y1 = new Image(AdrenalineView.class.getResource("/2v0-1.png").toExternalForm());
+
+            ImageView X0Y1 = new ImageView(x0y1);
+            StackPane xx0yy1 = new StackPane(X0Y1);
+
+            Image x0y2 = new Image(AdrenalineView.class.getResource("/2v0-2.png").toExternalForm());
+            ImageView X0Y2 = new ImageView(x0y2);
+            StackPane xx0yy2 = new StackPane(X0Y2);
+
+            Image x0y3 = new Image(AdrenalineView.class.getResource("/2v0-3.png").toExternalForm());
+            ImageView X0Y3 = new ImageView(x0y3);
+            StackPane xx0yy3 = new StackPane(X0Y3);
+
+            playerView.add(xx0yy0, 0, 0);
+            playerView.add(xx0yy1, 1, 0);
+            playerView.add(xx0yy2, 2, 0);
+            playerView.add(xx0yy3, 3, 0);
+
+            Image x1y0 = new Image(AdrenalineView.class.getResource("/2v1-0.png").toExternalForm());
+            ImageView X1Y0 = new ImageView(x1y0);
+            StackPane xx1yy0 = new StackPane(X1Y0);
+
+            Image x1y1 = new Image(AdrenalineView.class.getResource("/2v1-1.png").toExternalForm());
+            ImageView X1Y1 = new ImageView(x1y1);
+            StackPane xx1yy1 = new StackPane(X1Y1);
+
+            Image x1y2 = new Image(AdrenalineView.class.getResource("/2v1-2.png").toExternalForm());
+            ImageView X1Y2 = new ImageView(x1y2);
+            StackPane xx1yy2 = new StackPane(X1Y2);
+
+            Image x1y3 = new Image(AdrenalineView.class.getResource("/2v1-3.png").toExternalForm());
+            ImageView X1Y3 = new ImageView(x1y3);
+            StackPane xx1yy3 = new StackPane(X1Y3);
+
+            playerView.add(xx1yy0, 0, 1);
+            playerView.add(xx1yy1, 1, 1);
+            playerView.add(xx1yy2, 2, 1);
+            playerView.add(xx1yy3, 3, 1);
+
+            Image x2y0 = new Image(AdrenalineView.class.getResource("/2v2-0.png").toExternalForm());
+            ImageView X2Y0 = new ImageView(x2y0);
+            StackPane xx2yy0 = new StackPane(X2Y0);
+            playerView.add(xx2yy0, 0, 2);
+
+            Image x2y1 = new Image(AdrenalineView.class.getResource("/2v2-1.png").toExternalForm());
+            ImageView X2Y1 = new ImageView(x2y1);
+            StackPane xx2yy1 = new StackPane(X2Y1);
+
+            Image x2y2 = new Image(AdrenalineView.class.getResource("/1v2-2.png").toExternalForm());
+            ImageView X2Y2 = new ImageView(x2y2);
+            StackPane xx2yy2 = new StackPane(X2Y2);
+
+            Image x2y3 = new Image(AdrenalineView.class.getResource("/1v2-3.png").toExternalForm());
+            ImageView X2Y3 = new ImageView(x2y3);
+            StackPane xx2yy3 = new StackPane(X2Y3);
+
+            playerView.add(xx2yy1, 1, 2);
+            playerView.add(xx2yy2, 2, 2);
+            playerView.add(xx2yy3, 3, 2);
+        }
 
         BorderPane view = new BorderPane();
         rootNode.getChildren().add(view);
