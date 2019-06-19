@@ -137,7 +137,7 @@ public class AdrenalineView extends Application {
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
 
-        int boardNumber = 3; //todo: prendere il valore della board scelta
+        int boardNumber = 4; //todo: prendere il valore della board scelta
 
         //board 1
         if(boardNumber == 1) {
@@ -384,11 +384,11 @@ public class AdrenalineView extends Application {
             ImageView X2Y1 = new ImageView(x2y1);
             StackPane xx2yy1 = new StackPane(X2Y1);
 
-            Image x2y2 = new Image(AdrenalineView.class.getResource("/1v2-2.png").toExternalForm());
+            Image x2y2 = new Image(AdrenalineView.class.getResource("/2v2-2.png").toExternalForm());
             ImageView X2Y2 = new ImageView(x2y2);
             StackPane xx2yy2 = new StackPane(X2Y2);
 
-            Image x2y3 = new Image(AdrenalineView.class.getResource("/1v2-3.png").toExternalForm());
+            Image x2y3 = new Image(AdrenalineView.class.getResource("/2v2-3.png").toExternalForm());
             ImageView X2Y3 = new ImageView(x2y3);
             StackPane xx2yy3 = new StackPane(X2Y3);
 
