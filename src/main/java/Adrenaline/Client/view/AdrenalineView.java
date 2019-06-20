@@ -400,7 +400,8 @@ public class AdrenalineView extends Application {
         BorderPane view = new BorderPane();
         rootNode.getChildren().add(view);
 
-        VBox players = new VBox(18);
+        VBox players = new VBox(16);
+        players.setAlignment(Pos.CENTER);
         final String SEE = new String("See Details");
         Image play2 = new Image(AdrenalineView.class.getResource("/player2.png").toExternalForm());
         ImageView plays2 = new ImageView(play2);
@@ -420,14 +421,23 @@ public class AdrenalineView extends Application {
         btn5.setContentDisplay(ContentDisplay.RIGHT);
 
         GridPane you = new GridPane();
+        you.setHgap(10);
         you.getColumnConstraints().add(new ColumnConstraints(150));
-        you.getColumnConstraints().add(new ColumnConstraints(150));
+        you.getColumnConstraints().add(new ColumnConstraints(140));
+        you.getColumnConstraints().add(new ColumnConstraints(70));
+        you.getColumnConstraints().add(new ColumnConstraints(110));
+        you.getColumnConstraints().add(new ColumnConstraints(100));
+        you.getColumnConstraints().add(new ColumnConstraints(90));
+        you.getColumnConstraints().add(new ColumnConstraints(185));
+        you.getColumnConstraints().add(new ColumnConstraints(185));
+        you.getColumnConstraints().add(new ColumnConstraints(240));
 
         Image your = new Image(AdrenalineView.class.getResource("/player1.png").toExternalForm());
         ImageView yourp = new ImageView(your);
         you.add(yourp, 0,0);
 
         VBox ammo1 = new VBox(20);
+        ammo1.setAlignment(Pos.CENTER_LEFT);
         Image blueI = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
         ImageView blueIV = new ImageView(blueI);
         Label blue = new Label("Blue Ammo:", blueIV);
@@ -441,6 +451,7 @@ public class AdrenalineView extends Application {
         you.add(ammo1, 1, 0);
 
         VBox ammo2 = new VBox(20);
+        ammo2.setAlignment(Pos.CENTER_LEFT);
         Image blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
         ImageView blueIV2 = new ImageView(blueI2);
         Label bAmmo = new Label("1", blueIV2);
@@ -455,6 +466,76 @@ public class AdrenalineView extends Application {
         rAmmo.setContentDisplay(ContentDisplay.RIGHT);
         ammo2.getChildren().addAll(bAmmo, yAmmo, rAmmo);
         you.add(ammo2, 2, 0);
+
+        int lifeValue = 0;
+
+        FlowPane life = new FlowPane(10,10);
+        life.setAlignment(Pos.CENTER);
+        Label lifeL = new Label("Your life is: ");
+        Label actualLife = new Label(String.valueOf(lifeValue));
+        life.getChildren().addAll(lifeL, actualLife);
+        you.add(life, 3, 0);
+
+        int damagesValue2 = 0;
+        int damagesValue3 = 0;
+        int damagesValue4 = 0;
+        int damagesValue5 = 0;
+
+        VBox damages1 = new VBox(40);
+        damages1.setAlignment(Pos.CENTER);
+
+        Image dam2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+        ImageView dam2IV = new ImageView(dam2);
+        Label damagesByP2 = new Label("X "+damagesValue2, dam2IV);
+        damages1.getChildren().add(damagesByP2);
+
+        Image dam3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+        ImageView dam3IV = new ImageView(dam3);
+        Label damagesByP3 = new Label("X "+damagesValue3, dam3IV);
+        damages1.getChildren().add(damagesByP3);
+
+        VBox damages2 = new VBox(40);
+        damages2.setAlignment(Pos.CENTER);
+
+        Image dam4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+        ImageView dam4IV = new ImageView(dam4);
+        Label damagesByP4 = new Label("X "+damagesValue4, dam4IV);
+        damages2.getChildren().add(damagesByP4);
+
+        Image dam5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+        ImageView dam5IV = new ImageView(dam5);
+        Label damagesByP5 = new Label("X "+damagesValue5, dam5IV);
+        damages2.getChildren().add(damagesByP5);
+
+        you.add(damages1, 4, 0);
+        you.add(damages2, 5, 0);
+
+        Image weapons = new Image(AdrenalineView.class.getResource("/weap.png").toExternalForm());
+        ImageView weaponsIV = new ImageView(weapons);
+        Button btnWeap = new Button("See Weapons", weaponsIV);
+        btnWeap.setContentDisplay(ContentDisplay.RIGHT);
+        you.add(btnWeap, 6, 0);
+
+        Image powerUp = new Image(AdrenalineView.class.getResource("/power.png").toExternalForm());
+        ImageView powerUpIV = new ImageView(powerUp);
+        Button btnPower = new Button("See Power Up", powerUpIV);
+        btnPower.setContentDisplay(ContentDisplay.RIGHT);
+        you.add(btnPower, 7, 0);
+
+        //todo: aggiungere che prende il nome del giocaore corrente
+        String play = "Player name";
+        //todo: inserire il nome vero dell'azione
+        String action = "action that is done";
+        VBox events = new VBox(10);
+        Label round = new Label("Player Round:");
+        round.setFont(Font.font("", FontWeight.BOLD, 12));
+        Label player = new Label(play);
+        Label actions = new Label("Action/s:");
+        actions.setFont(Font.font("", FontWeight.BOLD, 12));
+        Label event = new Label(play+" "+action);
+        event.setWrapText(true);
+        events.getChildren().addAll(round, player, actions, event);
+        you.add(events, 8, 0);
 
         players.getChildren().addAll(btn2, btn3, btn4, btn5);
         players.setAlignment(Pos.TOP_CENTER);
