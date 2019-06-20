@@ -1,11 +1,7 @@
 package Adrenaline.Client.view;
 
-import Adrenaline.Client.control.ControlTunnelClient;
-import Adrenaline.Client.control.TunnelA;
-import Adrenaline.MyClient;
 import Adrenaline.Server.control.RemoteBiCon;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -1,7 +1,5 @@
 package Adrenaline;
 
-import Adrenaline.Client.control.ClientController;
-import Adrenaline.Client.control.ClientTunnel;
 import Adrenaline.Client.view.ViewTunnelA;
 import Adrenaline.Client.view.ViewTunnelB;
 import Adrenaline.Server.control.RemoteBiCon;

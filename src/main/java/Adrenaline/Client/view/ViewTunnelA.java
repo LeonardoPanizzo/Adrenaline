@@ -1,6 +1,5 @@
 package Adrenaline.Client.view;
 
-import Adrenaline.Client.control.ControlTunnelClient;
 import Adrenaline.Client.control.TunnelA;
 import Adrenaline.MyClient;
 

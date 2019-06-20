@@ -21,7 +21,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon{//,
     //private ClientHandler handler;
 
 
-    public BiController () throws RemoteException {
+   public BiController () throws RemoteException {
+       super();
         /*
         try {
             this.handler = new ClientHandler();
@@ -33,13 +34,15 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon{//,
         */
     }
 
-    public void createBoard(Integer boardNumber) throws RemoteException {
+    public void createBoard(Integer boardNumber) {
         /*
         try {
             new Board(boardNumber);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }*/
+        System.out.println("Board creating...");
+
         new Board(boardNumber);
         System.out.println("Board created");
 

@@ -1,9 +1,6 @@
 package Adrenaline.Client.control;
 
 import Adrenaline.Client.model.ResponseHandler;
-import Adrenaline.Client.view.CView;
-import Adrenaline.Client.view.ViewTunnelA;
-import Adrenaline.Client.view.ViewTunnelClient;
 import Adrenaline.ClientContext;
 import Adrenaline.MyClient;
 import Adrenaline.Server.model.Board;
@@ -14,9 +11,7 @@ import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 
 // SOCKET!!
