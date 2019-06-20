@@ -5,10 +5,7 @@ import Adrenaline.Server.control.ServerController;
 import Adrenaline.Client.model.Request;
 import Adrenaline.Server.model.commands.MessageNotification;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable, MessageReceivedObserver {
@@ -17,12 +14,21 @@ public class ClientHandler implements Runnable, MessageReceivedObserver {
     private ObjectOutputStream out;
     private boolean stop;
     private InputStream is;
+    private InputStreamReader in1;
+    private BufferedReader bf1;
 
     private ServerController controller;
 
     public ClientHandler(Socket s) throws IOException {
 
         this.socket = s;
+        /*
+        this.in1 = new InputStreamReader(s.getInputStream());
+        this.bf1 = new BufferedReader(in1);
+
+        String str = bf1.readLine();
+        System.out.println("client " + str);
+        */
 
 
 /*

@@ -14,6 +14,7 @@ import Adrenaline.Server.model.commands.CreatePUDeckRequest;
 import Adrenaline.Server.model.commands.PUDeckResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -32,7 +33,12 @@ public class TunnelA implements ResponseHandler {
 
     public TunnelA(MyClient client, String host, int port) throws IOException {
         this.client = client;
-        this.connection = new Socket(host, port);
+        //this.connection = new Socket(host, port);
+
+        /*
+        PrintWriter pr = new PrintWriter(connection.getOutputStream());
+        pr.println("ciao");
+        pr.flush();*/
     }
 
 

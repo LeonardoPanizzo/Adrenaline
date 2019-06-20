@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class ViewTunnelB extends UnicastRemoteObject implements Serializable {
+public class ViewTunnelB extends UnicastRemoteObject implements Serializable, RemoteBiCon {
 
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
@@ -32,7 +32,12 @@ public class ViewTunnelB extends UnicastRemoteObject implements Serializable {
 
         this.controller = controller;
 
-        this.chooseBoardPhase();
+        //this.chooseBoardPhase();
+        System.out.println("Enter board number: ");
+        Integer variation = userNumInput();
+
+
+        this.createBoard(variation);
     }
 
 
@@ -43,6 +48,10 @@ public class ViewTunnelB extends UnicastRemoteObject implements Serializable {
         controller.createBoard(variation);
         System.out.println("Board created");
 
+    }
+
+    public void createBoard(Integer boardNumber) throws RemoteException{
+        controller.createBoard(boardNumber);
     }
 
     public void choosePUDeckPhase() {

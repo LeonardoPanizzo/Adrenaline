@@ -9,16 +9,16 @@ import java.util.Scanner;
 
 public class ViewTunnelA {
 
-    private Scanner fromKeyBoard;
+    //private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private TunnelA controller;
 
-    private String userInput() {
+    /*private String userInput() {
         return fromKeyBoard.nextLine();
     }
     private Integer userNumInput() {
         return fromKeyBoard.nextInt();
-    }
+    }*/
 
 
 
@@ -31,7 +31,7 @@ public class ViewTunnelA {
         }*/
         //controller.run();
 
-        this.fromKeyBoard = new Scanner(System.in);
+        //this.fromKeyBoard = new Scanner(System.in);
 
         this.chooseBoardPhase();
     }
@@ -39,7 +39,7 @@ public class ViewTunnelA {
 
     public void chooseBoardPhase() {
         System.out.println("Enter board number: ");
-        Integer variation = userNumInput();
+        Integer variation = new Scanner(System.in).nextInt();//userNumInput();
         try {
 
             controller.createBoard(variation); // CHIAMA CONTROLLER CHE E NULL

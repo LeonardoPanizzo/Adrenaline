@@ -47,7 +47,16 @@ public class MyClient {
 
 
 
-    public Response nextResponse() {
+    public Response nextResponse(){
+        System.out.println(connection.toString());
+        try {
+            System.out.println(connection.getInputStream());
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+
         try {
             in = new ObjectInputStream(connection.getInputStream());
 
