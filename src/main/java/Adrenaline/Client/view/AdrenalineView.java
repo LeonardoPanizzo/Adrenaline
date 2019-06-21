@@ -525,7 +525,7 @@ public class AdrenalineView extends Application {
         //todo: aggiungere che prende il nome del giocaore corrente
         String play = "Player name";
         //todo: inserire il nome vero dell'azione
-        String action = "action that is done";
+        String action = "action that is done. prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi";
         VBox events = new VBox(10);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
@@ -536,6 +536,23 @@ public class AdrenalineView extends Application {
         event.setWrapText(true);
         events.getChildren().addAll(round, player, actions, event);
         you.add(events, 8, 0);
+
+        VBox movements = new VBox(10);
+        Image moveI = new Image(AdrenalineView.class.getResource("/move.png").toExternalForm());
+        ImageView moveIV = new ImageView(moveI);
+        Button moveBtn = new Button("Move", moveIV);
+        moveBtn.setContentDisplay(ContentDisplay.LEFT);
+        Image moveAndGrabI = new Image(AdrenalineView.class.getResource("/moveAndGrab.png").toExternalForm());
+        ImageView moveAndGrabIV = new ImageView(moveAndGrabI);
+        Button moveAndGrabBtn = new Button("Move&Grab", moveAndGrabIV);
+        moveAndGrabBtn.setContentDisplay(ContentDisplay.LEFT);
+        Image shotI = new Image(AdrenalineView.class.getResource("/shot.png").toExternalForm());
+        ImageView shotIV = new ImageView(shotI);
+        Button shotBtn = new Button("Shot", shotIV);
+        shotBtn.setContentDisplay(ContentDisplay.LEFT);
+        //todo aggiungere bottone "passa turno"
+        movements.getChildren().addAll(moveBtn, moveAndGrabBtn, shotBtn);
+        you.add(movements, 9, 0);
 
         players.getChildren().addAll(btn2, btn3, btn4, btn5);
         players.setAlignment(Pos.TOP_CENTER);
