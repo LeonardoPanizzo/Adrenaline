@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Vector;
 
 public class BiController extends UnicastRemoteObject implements RemoteBiCon{//, RequestHandler {
 
@@ -21,8 +22,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon{//,
     //private ClientHandler handler;
 
 
-   public BiController () throws RemoteException {
+    private Vector<RmiClient> clients;
+
+
+    public BiController () throws RemoteException {
        super();
+       clients = new Vector<RmiClient>();
         /*
         try {
             this.handler = new ClientHandler();
@@ -41,13 +46,33 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon{//,
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }*/
+
+        //LE PRINT AVVENGONO SUL SERVER
+
         System.out.println("Board creating...");
 
-        new Board(boardNumber);
-        System.out.println("Board created");
+        try {
+            new Board(boardNumber);
+            sendToAll("[Server] Board created");
+            System.out.println("Board created");
+
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("[Error] Index out of bounds");
+        }
 
     }//this.controller.createBoard(boardNumber);}
 
+
+    public void sendToAll(String newMessage){
+        for(RmiClient c : clients){
+            try {
+                c.getClient().messageFromServer(newMessage);
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /*
     @Override

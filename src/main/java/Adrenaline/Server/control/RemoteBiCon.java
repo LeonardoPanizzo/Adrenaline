@@ -8,4 +8,6 @@ import java.rmi.RemoteException;
 public interface RemoteBiCon extends Remote {
 
     void createBoard(Integer boardNumber) throws RemoteException;
+
+    void sendToAll(String message) throws RemoteException;
 }
