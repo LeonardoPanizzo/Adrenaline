@@ -122,7 +122,7 @@ public class Board implements Serializable {
         }
     }
 
-    public String toString(){
+    public String myToString(){
         String info="board:\n";
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
