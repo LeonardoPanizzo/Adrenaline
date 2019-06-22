@@ -4,6 +4,7 @@ import Adrenaline.Server.model.Board;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -12,6 +13,8 @@ public class Servere {
     private ServerSocket serverSocket = null;
     private Socket socket = null;
     private ObjectInputStream inStream = null;
+    private ObjectOutputStream outStream = null;
+
 
     public Servere() {
 
@@ -24,8 +27,29 @@ public class Servere {
         }
     }
 
-    public void toClient(){
+    public void toClient() {
 
+        try {
+
+            outStream = new ObjectOutputStream(socket.getOutputStream());
+            //Scanner scanner = new Scanner(System.in);
+            //Integer boardVariation = scanner.nextInt();
+
+            //for (int i=0; i<10; i++) {
+            Board board = new Board(1);
+
+                /*Class class = new Class(param);
+                System.out.println("Object to be written = " + class);
+                outputStream.writeObject(class);
+                */
+            System.out.println("Object to be written = " + board);
+            outStream.writeObject(board);
+            //}
+            //outputStream.write(0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void fromClient(){
@@ -58,6 +82,7 @@ public class Servere {
 
     public static void main(String[] args) {
         Servere server = new Servere();
-        server.fromClient();
+        //server.fromClient();
+        server.toClient();
     }
 }

@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class Cliente {
     private Socket socket = null;
-    private ObjectInputStream inputStream = null;
-    private ObjectOutputStream outputStream = null;
+    private ObjectInputStream inStream = null;
+    private ObjectOutputStream outStream = null;
     private boolean isConnected = false;
 
     public Cliente() {
@@ -38,7 +38,7 @@ public class Cliente {
             try {
 
                 isConnected = true;
-                outputStream = new ObjectOutputStream(socket.getOutputStream());
+                outStream = new ObjectOutputStream(socket.getOutputStream());
                 //Scanner scanner = new Scanner(System.in);
                 //Integer boardVariation = scanner.nextInt();
 
@@ -50,7 +50,7 @@ public class Cliente {
                 outputStream.writeObject(class);
                 */
                     System.out.println("Object to be written = " + board);
-                    outputStream.writeObject(board);
+                    outStream.writeObject(board);
                 //}
                 //outputStream.write(0);
 
@@ -61,8 +61,36 @@ public class Cliente {
         }
     }
 
+    public void fromServer(){
+
+        try {
+
+            inStream = new ObjectInputStream(socket.getInputStream());
+            //while (inStream.read() != 0) {
+
+            /*Class class = (Class) inStream.readObject();
+            System.out.println("Object received = " + class);
+            socket.close();*/
+
+            Board board = (Board) inStream.readObject();
+            System.out.println("Object received = " + board);
+            //}
+            socket.close();
+
+        } catch (SocketException se) {
+            System.exit(0);
+        } catch (ClassNotFoundException cn) {
+            cn.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public static void main(String[] args) {
         Cliente client = new Cliente();
-        client.toServer();
+        //client.toServer();
+        client.fromServer();
     }
 }
