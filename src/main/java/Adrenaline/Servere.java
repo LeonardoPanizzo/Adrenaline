@@ -9,13 +9,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class Servere {
+public class Servere implements Runnable {
     private ServerSocket serverSocket = null;
     private Socket socket = null;
     private ObjectInputStream inStream = null;
     private ObjectOutputStream outStream = null;
 
-
+/*
     public Servere() {
 
         try {
@@ -25,6 +25,11 @@ public class Servere {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    */
+
+    public Servere(Socket socket) {
+        this.socket = socket;
     }
 
     public void toClient() {
@@ -52,37 +57,44 @@ public class Servere {
         }
     }
 
-    public void fromClient(){
+    public void fromClient() {
 
-            try {
+        try {
 
-                inStream = new ObjectInputStream(socket.getInputStream());
-                //while (inStream.read() != 0) {
+            inStream = new ObjectInputStream(socket.getInputStream());
+            //while (inStream.read() != 0) {
 
             /*Class class = (Class) inStream.readObject();
             System.out.println("Object received = " + class);
             socket.close();*/
 
-                Board board = (Board) inStream.readObject();
-                System.out.println("Object received = " + board);
-                //}
-                socket.close();
+            Board board = (Board) inStream.readObject();
+            System.out.println("Object received = " + board);
+            //}
+            socket.close();
 
-            } catch (SocketException se) {
-                System.exit(0);
-            } catch (ClassNotFoundException cn) {
-                cn.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (SocketException se) {
+            System.exit(0);
+        } catch (ClassNotFoundException cn) {
+            cn.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
 
+    /*
     public static void main(String[] args) {
         Servere server = new Servere();
         //server.fromClient();
         server.toClient();
+    }
+    */
+
+    public void run(){
+        //server.fromClient();
+        this.toClient();
     }
 }
