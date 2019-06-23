@@ -1,5 +1,7 @@
 package Adrenaline.Client.view;
 
+import Adrenaline.Server.model.Player;
+import Adrenaline.Server.model.PowerupDeck;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,6 +31,48 @@ public class AdrenalineView extends Application {
     String playerName = new String();
     @Override
     public void start (Stage primaryStage){
+
+        int boardNumber = 4; //todo: prendere il valore della board scelta
+
+        Player[] playersInGame = new Player[5];     //Players that play the game
+        int yourID = 1;                             //Client Player's ID
+        //todo: da inizializzare con il numero vero e il vero powerup deck
+        PowerupDeck pwd = new PowerupDeck();
+        Player me = new Player(1, pwd);
+        playersInGame[yourID] = me; //todo: alla fine è da rimuovere
+
+        String blueAmmo = String.valueOf(me.getAmmo('b'));
+        String yellowAmmo = String.valueOf(me.getAmmo('y'));
+        String redAmmo = String.valueOf(me.getAmmo('r'));
+
+        int lifeValue = me.getLife();
+
+        me.setPlayersDamage(0, 2); //todo da eliminare
+        me.setRound(true);
+        me.setName("Andre");
+
+        int[] damagesBy = new int[4];
+        int k = 0;
+        for (int i=0; i<5; i++)
+        {
+            if(i!=yourID){
+                damagesBy[k]=me.getPlayersDamage()[i][1];
+                k++;
+            }
+        }
+
+        String play = null;
+        for (int i=0; i<5; i++)
+        {
+            if(playersInGame[i] != null && playersInGame[i].isRound()) {
+                if (i == yourID) {
+                    play = new String("It's your Turn");
+                }
+                else
+                    play = new String("It's "+playersInGame[i].getName()+" Round");
+            }
+        }
+
         primaryStage.setTitle("Adrenaline");
         StackPane rootNode = new StackPane();
         Scene myScene = new Scene(rootNode, 1000, 600);
@@ -136,8 +180,6 @@ public class AdrenalineView extends Application {
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
         playerView.getColumnConstraints().add(new ColumnConstraints(209));
-
-        int boardNumber = 4; //todo: prendere il valore della board scelta
 
         //board 1
         if(boardNumber == 1) {
@@ -454,32 +496,33 @@ public class AdrenalineView extends Application {
         ammo2.setAlignment(Pos.CENTER_LEFT);
         Image blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
         ImageView blueIV2 = new ImageView(blueI2);
-        Label bAmmo = new Label("1", blueIV2);
+        Label bAmmo = new Label(blueAmmo, blueIV2);
         bAmmo.setContentDisplay(ContentDisplay.RIGHT);
         Image yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
         ImageView yellowIV2 = new ImageView(yellowI2);
-        Label yAmmo = new Label("1", yellowIV2);
+        Label yAmmo = new Label(yellowAmmo, yellowIV2);
         yAmmo.setContentDisplay(ContentDisplay.RIGHT);
         Image redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
         ImageView redIV2 = new ImageView(redI2);
-        Label rAmmo = new Label("1", redIV2);
+        Label rAmmo = new Label(redAmmo, redIV2);
         rAmmo.setContentDisplay(ContentDisplay.RIGHT);
         ammo2.getChildren().addAll(bAmmo, yAmmo, rAmmo);
         you.add(ammo2, 2, 0);
-
-        int lifeValue = 0;
 
         FlowPane life = new FlowPane(10,10);
         life.setAlignment(Pos.CENTER);
         Label lifeL = new Label("Your life is: ");
         Label actualLife = new Label(String.valueOf(lifeValue));
-        life.getChildren().addAll(lifeL, actualLife);
+        Image respI = new Image(AdrenalineView.class.getResource("/respawn.png").toExternalForm());
+        ImageView respIV = new ImageView(respI);
+        Button respawnBtn = new Button("Respawn", respIV);
+        life.getChildren().addAll(lifeL, actualLife, respawnBtn);
         you.add(life, 3, 0);
 
-        int damagesValue2 = 0;
-        int damagesValue3 = 0;
-        int damagesValue4 = 0;
-        int damagesValue5 = 0;
+        int damagesValue2 = damagesBy[0];
+        int damagesValue3 = damagesBy[1];
+        int damagesValue4 = damagesBy[2];
+        int damagesValue5 = damagesBy[3];
 
         VBox damages1 = new VBox(40);
         damages1.setAlignment(Pos.CENTER);
@@ -522,8 +565,6 @@ public class AdrenalineView extends Application {
         btnPower.setContentDisplay(ContentDisplay.RIGHT);
         you.add(btnPower, 7, 0);
 
-        //todo: aggiungere che prende il nome del giocaore corrente
-        String play = "Player name";
         //todo: inserire il nome vero dell'azione
         String action = "action that is done. prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi";
         VBox events = new VBox(10);
@@ -532,12 +573,13 @@ public class AdrenalineView extends Application {
         Label player = new Label(play);
         Label actions = new Label("Action/s:");
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
-        Label event = new Label(play+" "+action);
+        Label event = new Label("Action: "+action);
         event.setWrapText(true);
         events.getChildren().addAll(round, player, actions, event);
         you.add(events, 8, 0);
 
-        VBox movements = new VBox(10);
+        VBox movements = new VBox(5);
+        movements.setAlignment(Pos.CENTER);
         Image moveI = new Image(AdrenalineView.class.getResource("/move.png").toExternalForm());
         ImageView moveIV = new ImageView(moveI);
         Button moveBtn = new Button("Move", moveIV);
@@ -550,8 +592,11 @@ public class AdrenalineView extends Application {
         ImageView shotIV = new ImageView(shotI);
         Button shotBtn = new Button("Shot", shotIV);
         shotBtn.setContentDisplay(ContentDisplay.LEFT);
-        //todo aggiungere bottone "passa turno"
-        movements.getChildren().addAll(moveBtn, moveAndGrabBtn, shotBtn);
+        Image endRound = new Image(AdrenalineView.class.getResource("/endRound.png").toExternalForm());
+        ImageView endRoundIV = new ImageView(endRound);
+        Button endRoundBtn = new Button("End Round", endRoundIV);
+        endRoundBtn.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        movements.getChildren().addAll(moveBtn, moveAndGrabBtn, shotBtn, endRoundBtn);
         you.add(movements, 9, 0);
 
         players.getChildren().addAll(btn2, btn3, btn4, btn5);
@@ -563,5 +608,13 @@ public class AdrenalineView extends Application {
         BorderPane.setAlignment(playerView, Pos.TOP_LEFT);
         view.setBottom(you);
         BorderPane.setAlignment(you, Pos.BOTTOM_CENTER);
+
+        //Event effects
+        respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Button redResBtn = new Button ("Respawn there");
+            }
+        });
     }
 }
