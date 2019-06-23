@@ -1,6 +1,7 @@
 package Adrenaline.Server.model;
 
 public class Player {
+    private String name;
     private int number;
     private Position position;
     private int life;
@@ -65,6 +66,18 @@ public class Player {
         return damagedPlayers;
     }
 */
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setPlayersDamage(int player, int damage) {
+        this.playersDamage[player][1] = damage;
+    }
 
     public void setLife(int life) {
         this.life = life;
