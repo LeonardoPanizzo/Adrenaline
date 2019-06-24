@@ -2,7 +2,7 @@ package Adrenaline.Server.model;
 
 public class Model {
     public static void main (String args[]) {
-
+        //todo parte in cui viene stabilita la connessione
 
 
     }
