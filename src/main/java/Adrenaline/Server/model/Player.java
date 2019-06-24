@@ -20,6 +20,7 @@ public class Player {
     private int madeDamage;
     private int[] damagedPlayers;
     private PowerupDeck powerUpDeck;
+    private boolean firstRound;
 
     /**
      * Is Player Class' constructor.
@@ -49,6 +50,7 @@ public class Player {
         this.firstPlayer = false;
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
+        this.firstRound = true;
     }
 
     public Position getPosition(){
@@ -73,6 +75,14 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public void setFirstRound(boolean firstRound) {
+        this.firstRound = firstRound;
+    }
+
+    public boolean isFirstRound() {
+        return firstRound;
     }
 
     public void setPlayersDamage(int player, int damage) {
@@ -924,8 +934,14 @@ public class Player {
             char colour = powerup.getColour();
             if (position.getRoom() == colour && position.isRespawnPoint()) {
                 boolean control = this.updatePowerup(pow);
-                if (control)
-                    this.setPosition(position);
+                if (control) {
+                    if(this.firstRound) {
+                        this.setFirstPosition(position);
+                        this.firstRound = false;
+                    }
+                    else
+                        this.setPosition(position);
+                }
                 else
                     System.out.println("You don't have this PowerUp Card");
             } else
