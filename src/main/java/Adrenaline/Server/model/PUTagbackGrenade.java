@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class PUTagbackGrenade extends PowerupCard implements Serializable {
 
     public PUTagbackGrenade(char colour){
-        super("targetback grenade", colour);
+        super("tagback grenade", colour);
     }
 
     public boolean use(Player p1, Player p2, Position[] squares, char payment) {
