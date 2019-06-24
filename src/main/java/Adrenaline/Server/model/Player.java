@@ -302,47 +302,45 @@ public class Player {
     }
 
     /**
-     * Change the player's position in one other that is reachable for the initial player's position. If more than 3
-     * position are given, only the first three are thoughtful.
+     * Change the player's position in one other that is reachable for the initial player's position. The length of
+     * position[] is checked in the model so this function can be used during the game and during the final round
      *
      * @param position positions Array where the player want to go
      * @see Player
      * @see Position
      */
-    public void move(Position[] position){
+    public boolean move(Position[] position){
+        boolean done=false;
         boolean correctmoves=this.position.reachable(position[0]);
         if(this.action > 0){
-            for(int i=0; i<2 && i<position.length-1 && correctmoves; i++){
+            for(int i=0; i<position.length-1 && correctmoves; i++){
                 if (!(position[i].reachable(position[i+1])))
                     correctmoves=false;
             }
             if(correctmoves){
                 this.setPosition(position[position.length-1]);
                 action--;
-                System.out.println("moved");
-            }else{
-                System.out.println("invalid input");
+                done=true;
             }
         }
-        else
-            System.out.println("Not valid action");
+        return done;
     }
 
     /**
-     * To use only when the player move before grab something.
+     * To use only when the player move before grab something, the length of posArray[] is checked in the model
      *
      * @param posArray positions where the player wants to go
      * @see Player
      */
-    public void moveAndGrab(Position[] posArray){
+    public boolean moveAndGrab(Position[] posArray){
+        boolean done=false;
         if(this.action > 0){
-            for(int i=0; i<posArray.length; i++){
-                if (this.position.reachable(posArray[i]))
-                    this.position = posArray[i];
+            done=this.move(posArray);
+            if(done) {
+                action++;
             }
         }
-        else
-            System.out.println("Actions completed");
+        return done;
     }
 
     /**
