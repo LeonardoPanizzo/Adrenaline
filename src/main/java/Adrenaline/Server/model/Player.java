@@ -355,7 +355,8 @@ public class Player {
      * @see PowerupCard
      * @see PowerupDeck
      */
-    public void grabAmmoCard(){
+    public boolean grabAmmoCard(){
+        boolean done=false;
         if(this.action >0) {
             if (this.position.isRespawnPoint()) {
                 System.out.println("You can't grab an AmmoCard");
@@ -381,11 +382,13 @@ public class Player {
                     }
                     this.action--;
                     this.position.setAmmo(null);
+                    done=true;
                 }
             }
         }
         else
             System.out.println("Actions completed");
+        return done;
     }
 
     /**
