@@ -35,7 +35,7 @@ public class Player {
         this.number = number;                           //the number is assigned in the same order as the player is connected to the lobby
         this.action = 0;
         this.position = null;                           //the initial position is chosen by the player
-        this.life = 11;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
+        this.life = 0;                                 //remaining player's life. When it is 0, it means death; -1 it means overkill
         this.playersDamage = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
         this.round = false;
         this.marksGiven = new int[]{0, 0, 0, 0, 0};         //marksGiven[i] is the marks' number on player i+1
