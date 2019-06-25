@@ -919,7 +919,7 @@ public class Player {
      * @param powerup the power up to discard to respawn in the respawn point with the same color
      * @param position the position where the player want to respawn
      */
-    public void respawn (PowerupCard powerup, Position position){
+    public boolean respawn (PowerupCard powerup, Position position){
         this.numberOfDeaths ++;
         this.life = 11;
         boolean control1 = false;
@@ -945,9 +945,12 @@ public class Player {
                 }
                 else
                     System.out.println("You don't have this PowerUp Card");
-            } else
+            } else {
                 System.out.println("Incorrect Position");
+                control1 = false;
+            }
         }
+        return control1;
     }
 
     /**
