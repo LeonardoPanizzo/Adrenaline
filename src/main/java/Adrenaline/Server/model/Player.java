@@ -936,6 +936,7 @@ public class Player {
                 boolean control = this.updatePowerup(pow);
                 if (control) {
                     if(this.firstRound) {
+                        this.numberOfDeaths--;
                         this.setFirstPosition(position);
                         this.firstRound = false;
                     }
