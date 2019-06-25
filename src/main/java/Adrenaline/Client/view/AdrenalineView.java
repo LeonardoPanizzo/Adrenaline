@@ -25,6 +25,32 @@ public class AdrenalineView extends Application {
 
 
     int count = 0;
+    StackPane xx0yy0 = new StackPane();
+    StackPane xx0yy1 = new StackPane();
+    StackPane xx0yy2 = new StackPane();
+    StackPane xx0yy3 = new StackPane();
+
+    StackPane xx1yy0 = new StackPane();
+    StackPane xx1yy1 = new StackPane();
+    StackPane xx1yy2 = new StackPane();
+    StackPane xx1yy3 = new StackPane();
+
+    StackPane xx2yy0 = new StackPane();
+    StackPane xx2yy1 = new StackPane();
+    StackPane xx2yy2 = new StackPane();
+    StackPane xx2yy3 = new StackPane();
+
+    int lifeValue = 0;
+    Board board = new Board(1);
+    int boardNumber = board.getVariation(); //todo: prendere il valore della board scelta
+
+    Player[] playersInGame = new Player[5];     //Players that play the game
+    int yourID = 1;                             //Client Player's ID
+    //todo: da inizializzare con il numero vero e il vero powerup deck
+    PowerupDeck pwd = new PowerupDeck();
+    Player me = new Player(1, pwd);
+
+    Label actualLife = new Label(String.valueOf(lifeValue));
 
     public static void main(String[] args) {
         launch(args);
@@ -35,21 +61,11 @@ public class AdrenalineView extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Board board = new Board(1);
-        int boardNumber = board.getVariation(); //todo: prendere il valore della board scelta
-
-        Player[] playersInGame = new Player[5];     //Players that play the game
-        int yourID = 1;                             //Client Player's ID
-        //todo: da inizializzare con il numero vero e il vero powerup deck
-        PowerupDeck pwd = new PowerupDeck();
-        Player me = new Player(1, pwd);
         playersInGame[yourID] = me; //todo: alla fine è da rimuovere
 
         String blueAmmo = String.valueOf(me.getAmmo('b'));
         String yellowAmmo = String.valueOf(me.getAmmo('y'));
         String redAmmo = String.valueOf(me.getAmmo('r'));
-
-        int lifeValue = me.getLife();
 
         me.setPlayersDamage(0, 2); //todo da eliminare
         me.setRound(true);
@@ -74,21 +90,6 @@ public class AdrenalineView extends Application {
             }
         }
 
-
-        StackPane xx0yy0 = new StackPane();
-        StackPane xx0yy1 = new StackPane();
-        StackPane xx0yy2 = new StackPane();
-        StackPane xx0yy3 = new StackPane();
-
-        StackPane xx1yy0 = new StackPane();
-        StackPane xx1yy1 = new StackPane();
-        StackPane xx1yy2 = new StackPane();
-        StackPane xx1yy3 = new StackPane();
-
-        StackPane xx2yy0 = new StackPane();
-        StackPane xx2yy1 = new StackPane();
-        StackPane xx2yy2 = new StackPane();
-        StackPane xx2yy3 = new StackPane();
 
         primaryStage.setTitle("Adrenaline");
         StackPane rootNode = new StackPane();
@@ -529,7 +530,7 @@ public class AdrenalineView extends Application {
         FlowPane life = new FlowPane(10, 10);
         life.setAlignment(Pos.CENTER);
         Label lifeL = new Label("Your life is: ");
-        Label actualLife = new Label(String.valueOf(lifeValue));
+
         Image respI = new Image(AdrenalineView.class.getResource("/respawn.png").toExternalForm());
         ImageView respIV = new ImageView(respI);
         Button respawnBtn = new Button("Respawn", respIV);
@@ -647,48 +648,416 @@ public class AdrenalineView extends Application {
         Button power3 = new Button();
         powerupCards.getChildren().addAll(power1, power2, power3);
 
-        PowerupCard one = new PowerupCard("teleporter", 'b');
+        PowerupCard one = new PowerupCard("teleporter", 'y');
         PowerupCard two = new PowerupCard("Newton", 'b');
-        PowerupCard three = new PowerupCard("tagback grenade", 'y');
-        PowerupCard[] array = {one, two, three};
+        PowerupCard three = new PowerupCard("tagback grenade", 'r');
+        PowerupCard[] array = {one, null, three};
         me.setPowerup(array);
 
-        if (me.getPowerup()[0] != null) {
-            power1.setGraphic(showPowerUp(me.getPowerup()[0]));
-            power1.setContentDisplay(ContentDisplay.TOP);
-            power1.setText("Select");
-        }
+        power1.setGraphic(showPowerUp(me.getPowerup()[0]));
+        power1.setContentDisplay(ContentDisplay.TOP);
+        power1.setText("Select");
+        if (me.getPowerup()[0] == null)
+            power1.setDisable(true);
 
-        if (me.getPowerup()[1] != null) {
-            power2.setGraphic(showPowerUp(me.getPowerup()[1]));
-            power2.setContentDisplay(ContentDisplay.TOP);
-            power2.setText("Select");
-        }
+        power2.setGraphic(showPowerUp(me.getPowerup()[1]));
+        power2.setContentDisplay(ContentDisplay.TOP);
+        power2.setText("Select");
+        if (me.getPowerup()[1] == null)
+            power2.setDisable(true);
 
-        if (me.getPowerup()[2] != null) {
-            power3.setGraphic(showPowerUp(me.getPowerup()[2]));
-            power3.setContentDisplay(ContentDisplay.TOP);
-            power3.setText("Select");
-        }
+        power3.setGraphic(showPowerUp(me.getPowerup()[2]));
+        power3.setContentDisplay(ContentDisplay.TOP);
+        power3.setText("Select");
+        if (me.getPowerup()[2] == null)
+            power3.setDisable(true);
 
-            //Event effects
-            respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    redResBtn.setVisible(true);
-                    yellowResBtn.setVisible(true);
-                    blueResBtn.setVisible(true);
-                }
-            });
+        //Event effects
+        respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                redResBtn.setVisible(true);
+                yellowResBtn.setVisible(true);
+                blueResBtn.setVisible(true);
+            }
+        });
 
-        Image p102 = new Image(AdrenalineView.class.getResource("/p1.png").toExternalForm());
-        ImageView p102IV = new ImageView(p102);
-        Label p1x0y2 = new Label("", p102IV);
+        //buttons to show player 1 position
+        Image p1 = new Image(AdrenalineView.class.getResource("/p1.png").toExternalForm());
+        ImageView p100 = new ImageView(p1);
+        Label p1x0y0 = new Label("", p100);
+        p1x0y0.setVisible(false);
+        xx0yy0.getChildren().add(p1x0y0);
+
+        ImageView p101 = new ImageView(p1);
+        Label p1x0y1 = new Label("", p101);
+        p1x0y1.setVisible(false);
+        xx0yy1.getChildren().add(p1x0y1);
+
+        ImageView p102 = new ImageView(p1);
+        Label p1x0y2 = new Label("", p102);
         p1x0y2.setVisible(false);
         xx0yy2.getChildren().add(p1x0y2);
 
-        //todo: add all button
+        ImageView p103 = new ImageView(p1);
+        Label p1x0y3 = new Label("", p103);
+        p1x0y3.setVisible(false);
+        xx0yy3.getChildren().add(p1x0y3);
 
+        ImageView p110 = new ImageView(p1);
+        Label p1x1y0 = new Label("", p110);
+        xx1yy0.getChildren().add(p1x1y0);
+        p1x1y0.setVisible(false);
+
+        ImageView p111 = new ImageView(p1);
+        Label p1x1y1 = new Label("", p111);
+        xx1yy1.getChildren().add(p1x1y1);
+        p1x1y1.setVisible(false);
+
+        ImageView p112 = new ImageView(p1);
+        Label p1x1y2 = new Label("", p112);
+        xx1yy2.getChildren().add(p1x1y2);
+        p1x1y2.setVisible(false);
+
+        ImageView p113 = new ImageView(p1);
+        Label p1x1y3 = new Label("", p113);
+        p1x1y3.setVisible(false);
+        xx1yy3.getChildren().add(p1x1y3);
+
+        ImageView p120 = new ImageView(p1);
+        Label p1x2y0 = new Label("", p120);
+        xx2yy0.getChildren().add(p1x2y0);
+        p1x2y0.setVisible(false);
+
+        ImageView p121 = new ImageView(p1);
+        Label p1x2y1 = new Label("", p121);
+        xx2yy1.getChildren().add(p1x2y1);
+        p1x2y1.setVisible(false);
+
+        ImageView p122 = new ImageView(p1);
+        Label p1x2y2 = new Label("", p122);
+        xx2yy2.getChildren().add(p1x2y2);
+        p1x2y2.setVisible(false);
+
+        ImageView p123 = new ImageView(p1);
+        Label p1x2y3 = new Label("", p123);
+        p1x2y3.setVisible(false);
+        xx2yy3.getChildren().add(p1x2y3);
+
+        StackPane.setAlignment(p1x0y0, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x0y1, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x0y2, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x0y3, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x1y0, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x1y1, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x1y2, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x1y3, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x2y0, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x2y1, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x2y2, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(p1x2y3, Pos.BOTTOM_LEFT);
+
+        //buttons to show player 2 position
+        Image p2 = new Image(AdrenalineView.class.getResource("/p2.png").toExternalForm());
+        ImageView p200 = new ImageView(p2);
+        Label p2x0y0 = new Label("", p200);
+        p2x0y0.setVisible(false);
+        xx0yy0.getChildren().add(p2x0y0);
+
+        ImageView p201 = new ImageView(p2);
+        Label p2x0y1 = new Label("", p201);
+        p2x0y1.setVisible(false);
+        xx0yy1.getChildren().add(p2x0y1);
+
+        ImageView p202 = new ImageView(p2);
+        Label p2x0y2 = new Label("", p202);
+        p2x0y2.setVisible(false);
+        xx0yy2.getChildren().add(p2x0y2);
+
+        ImageView p203 = new ImageView(p2);
+        Label p2x0y3 = new Label("", p203);
+        p2x0y3.setVisible(false);
+        xx0yy3.getChildren().add(p2x0y3);
+
+        ImageView p210 = new ImageView(p2);
+        Label p2x1y0 = new Label("", p210);
+        xx1yy0.getChildren().add(p2x1y0);
+        p2x1y0.setVisible(false);
+
+        ImageView p211 = new ImageView(p2);
+        Label p2x1y1 = new Label("", p211);
+        xx1yy1.getChildren().add(p2x1y1);
+        p2x1y1.setVisible(false);
+
+        ImageView p212 = new ImageView(p2);
+        Label p2x1y2 = new Label("", p212);
+        xx1yy2.getChildren().add(p2x1y2);
+        p2x1y2.setVisible(false);
+
+        ImageView p213 = new ImageView(p2);
+        Label p2x1y3 = new Label("", p213);
+        p2x1y3.setVisible(false);
+        xx1yy3.getChildren().add(p2x1y3);
+
+        ImageView p220 = new ImageView(p2);
+        Label p2x2y0 = new Label("", p220);
+        xx2yy0.getChildren().add(p2x2y0);
+        p2x2y0.setVisible(false);
+
+        ImageView p221 = new ImageView(p2);
+        Label p2x2y1 = new Label("", p221);
+        xx2yy1.getChildren().add(p2x2y1);
+        p2x2y1.setVisible(false);
+
+        ImageView p222 = new ImageView(p2);
+        Label p2x2y2 = new Label("", p222);
+        xx2yy2.getChildren().add(p2x2y2);
+        p2x2y2.setVisible(false);
+
+        ImageView p223 = new ImageView(p2);
+        Label p2x2y3 = new Label("", p223);
+        p2x2y3.setVisible(false);
+        xx2yy3.getChildren().add(p2x2y3);
+
+        StackPane.setAlignment(p2x0y0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x0y1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x0y2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x0y3, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x1y0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x1y1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x1y2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x1y3, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x2y0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x2y1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x2y2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(p2x2y3, Pos.BOTTOM_CENTER);
+
+        //buttons to show player 3 position
+        Image p3 = new Image(AdrenalineView.class.getResource("/p3.png").toExternalForm());
+        ImageView p300 = new ImageView(p3);
+        Label p3x0y0 = new Label("", p300);
+        p3x0y0.setVisible(false);
+        xx0yy0.getChildren().add(p3x0y0);
+
+        ImageView p301 = new ImageView(p3);
+        Label p3x0y1 = new Label("", p301);
+        p3x0y1.setVisible(false);
+        xx0yy1.getChildren().add(p3x0y1);
+
+        ImageView p302 = new ImageView(p3);
+        Label p3x0y2 = new Label("", p302);
+        p3x0y2.setVisible(false);
+        xx0yy2.getChildren().add(p3x0y2);
+
+        ImageView p303 = new ImageView(p3);
+        Label p3x0y3 = new Label("", p303);
+        p3x0y3.setVisible(false);
+        xx0yy3.getChildren().add(p3x0y3);
+
+        ImageView p310 = new ImageView(p3);
+        Label p3x1y0 = new Label("", p310);
+        xx1yy0.getChildren().add(p3x1y0);
+        p3x1y0.setVisible(false);
+
+        ImageView p311 = new ImageView(p3);
+        Label p3x1y1 = new Label("", p311);
+        xx1yy1.getChildren().add(p3x1y1);
+        p3x1y1.setVisible(false);
+
+        ImageView p312 = new ImageView(p3);
+        Label p3x1y2 = new Label("", p312);
+        xx1yy2.getChildren().add(p3x1y2);
+        p3x1y2.setVisible(false);
+
+        ImageView p313 = new ImageView(p3);
+        Label p3x1y3 = new Label("", p313);
+        p3x1y3.setVisible(false);
+        xx1yy3.getChildren().add(p3x1y3);
+
+        ImageView p320 = new ImageView(p3);
+        Label p3x2y0 = new Label("", p320);
+        xx2yy0.getChildren().add(p3x2y0);
+        p3x2y0.setVisible(false);
+
+        ImageView p321 = new ImageView(p3);
+        Label p3x2y1 = new Label("", p321);
+        xx2yy1.getChildren().add(p3x2y1);
+        p3x2y1.setVisible(false);
+
+        ImageView p322 = new ImageView(p3);
+        Label p3x2y2 = new Label("", p322);
+        xx2yy2.getChildren().add(p3x2y2);
+        p3x2y2.setVisible(false);
+
+        ImageView p323 = new ImageView(p3);
+        Label p3x2y3 = new Label("", p323);
+        p3x2y3.setVisible(false);
+        xx2yy3.getChildren().add(p3x2y3);
+
+        StackPane.setAlignment(p3x0y0, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x0y1, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x0y2, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x0y3, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x1y0, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x1y1, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x1y2, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x1y3, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x2y0, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x2y1, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x2y2, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(p3x2y3, Pos.BOTTOM_RIGHT);
+
+        //buttons to show player 4 position
+        Image p4 = new Image(AdrenalineView.class.getResource("/p4.png").toExternalForm());
+        ImageView p400 = new ImageView(p4);
+        Label p4x0y0 = new Label("", p400);
+        p4x0y0.setVisible(false);
+        xx0yy0.getChildren().add(p4x0y0);
+
+        ImageView p401 = new ImageView(p4);
+        Label p4x0y1 = new Label("", p401);
+        p4x0y1.setVisible(false);
+        xx0yy1.getChildren().add(p4x0y1);
+
+        ImageView p402 = new ImageView(p4);
+        Label p4x0y2 = new Label("", p402);
+        p4x0y2.setVisible(false);
+        xx0yy2.getChildren().add(p4x0y2);
+
+        ImageView p403 = new ImageView(p4);
+        Label p4x0y3 = new Label("", p403);
+        p4x0y3.setVisible(false);
+        xx0yy3.getChildren().add(p4x0y3);
+
+        ImageView p410 = new ImageView(p4);
+        Label p4x1y0 = new Label("", p410);
+        xx1yy0.getChildren().add(p4x1y0);
+        p4x1y0.setVisible(false);
+
+        ImageView p411 = new ImageView(p4);
+        Label p4x1y1 = new Label("", p411);
+        xx1yy1.getChildren().add(p4x1y1);
+        p4x1y1.setVisible(false);
+
+        ImageView p412 = new ImageView(p4);
+        Label p4x1y2 = new Label("", p412);
+        xx1yy2.getChildren().add(p4x1y2);
+        p4x1y2.setVisible(false);
+
+        ImageView p413 = new ImageView(p4);
+        Label p4x1y3 = new Label("", p413);
+        p4x1y3.setVisible(false);
+        xx1yy3.getChildren().add(p4x1y3);
+
+        ImageView p420 = new ImageView(p4);
+        Label p4x2y0 = new Label("", p420);
+        xx2yy0.getChildren().add(p4x2y0);
+        p4x2y0.setVisible(false);
+
+        ImageView p421 = new ImageView(p4);
+        Label p4x2y1 = new Label("", p421);
+        xx2yy1.getChildren().add(p4x2y1);
+        p4x2y1.setVisible(false);
+
+        ImageView p422 = new ImageView(p4);
+        Label p4x2y2 = new Label("", p422);
+        xx2yy2.getChildren().add(p4x2y2);
+        p4x2y2.setVisible(false);
+
+        ImageView p423 = new ImageView(p4);
+        Label p4x2y3 = new Label("", p423);
+        p4x2y3.setVisible(false);
+        xx2yy3.getChildren().add(p4x2y3);
+
+        StackPane.setAlignment(p4x0y0, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x0y1, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x0y2, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x0y3, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x1y0, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x1y1, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x1y2, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x1y3, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x2y0, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x2y1, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x2y2, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(p4x2y3, Pos.CENTER_RIGHT);
+
+        //buttons to show player 5 position
+        Image p5 = new Image(AdrenalineView.class.getResource("/p5.png").toExternalForm());
+        ImageView p500 = new ImageView(p5);
+        Label p5x0y0 = new Label("", p500);
+        p5x0y0.setVisible(false);
+        xx0yy0.getChildren().add(p5x0y0);
+
+        ImageView p501 = new ImageView(p5);
+        Label p5x0y1 = new Label("", p501);
+        p5x0y1.setVisible(false);
+        xx0yy1.getChildren().add(p5x0y1);
+
+        ImageView p502 = new ImageView(p5);
+        Label p5x0y2 = new Label("", p502);
+        p5x0y2.setVisible(false);
+        xx0yy2.getChildren().add(p5x0y2);
+
+        ImageView p503 = new ImageView(p5);
+        Label p5x0y3 = new Label("", p503);
+        p5x0y3.setVisible(false);
+        xx0yy3.getChildren().add(p5x0y3);
+
+        ImageView p510 = new ImageView(p5);
+        Label p5x1y0 = new Label("", p510);
+        xx1yy0.getChildren().add(p5x1y0);
+        p5x1y0.setVisible(false);
+
+        ImageView p511 = new ImageView(p5);
+        Label p5x1y1 = new Label("", p511);
+        xx1yy1.getChildren().add(p5x1y1);
+        p5x1y1.setVisible(false);
+
+        ImageView p512 = new ImageView(p5);
+        Label p5x1y2 = new Label("", p512);
+        xx1yy2.getChildren().add(p5x1y2);
+        p5x1y2.setVisible(false);
+
+        ImageView p513 = new ImageView(p5);
+        Label p5x1y3 = new Label("", p513);
+        p5x1y3.setVisible(false);
+        xx1yy3.getChildren().add(p5x1y3);
+
+        ImageView p520 = new ImageView(p5);
+        Label p5x2y0 = new Label("", p520);
+        xx2yy0.getChildren().add(p5x2y0);
+        p5x2y0.setVisible(false);
+
+        ImageView p521 = new ImageView(p5);
+        Label p5x2y1 = new Label("", p521);
+        xx2yy1.getChildren().add(p5x2y1);
+        p5x2y1.setVisible(false);
+
+        ImageView p522 = new ImageView(p5);
+        Label p5x2y2 = new Label("", p522);
+        xx2yy2.getChildren().add(p5x2y2);
+        p5x2y2.setVisible(false);
+
+        ImageView p523 = new ImageView(p5);
+        Label p5x2y3 = new Label("", p523);
+        p5x2y3.setVisible(false);
+        xx2yy3.getChildren().add(p5x2y3);
+
+        StackPane.setAlignment(p5x0y0, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x0y1, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x0y2, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x0y3, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x1y0, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x1y1, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x1y2, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x1y3, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x2y0, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x2y1, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x2y2, Pos.CENTER_LEFT);
+        StackPane.setAlignment(p5x2y3, Pos.CENTER_LEFT);
+
+        //respawn buttons
         blueResBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -702,90 +1071,245 @@ public class AdrenalineView extends Application {
                         redResBtn.setVisible(false);
                         yellowResBtn.setVisible(false);
                         blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[1], board.getBoard()[0][2]);
+                        power.close();
+                        p1x0y2.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[2], board.getBoard()[0][2]);
+                        power.close();
+                        p1x0y2.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+            }
+        });
+
+        redResBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                power.show();
+                power1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[0], board.getBoard()[1][0]);
+                        power.close();
+                        p1x1y0.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[1], board.getBoard()[1][0]);
+                        power.close();
+                        p1x1y0.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[2], board.getBoard()[1][0]);
+                        power.close();
+                        p1x1y0.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
                     }
                 });
             }
         });
 
-        //todo set all respawn button
+        yellowResBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                power.show();
+                power1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[0], board.getBoard()[2][3]);
+                        power.close();
+                        p1x2y3.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[1], board.getBoard()[2][3]);
+                        power.close();
+                        p1x2y3.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+
+                power3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        me.respawn(me.getPowerup()[2], board.getBoard()[2][3]);
+                        power.close();
+                        p1x2y3.setVisible(true);
+                        redResBtn.setVisible(false);
+                        yellowResBtn.setVisible(false);
+                        blueResBtn.setVisible(false);
+                        if(me.getLife()!=0) {
+                            respawnBtn.setDisable(true);
+                            updateLifeValue();
+                        }
+                    }
+                });
+            }
+        });
+
+        //weapon button
+
     }
 
     //A method to create ImageView for powerup
     public ImageView showPowerUp(PowerupCard powerup) {
-        String name = powerup.getName();
-        char color = powerup.getColour();
 
-        if (color == 'r') {
-            switch (name) {
-                case "teleporter":
-                    Image tele = new Image(AdrenalineView.class.getResource("/redtele.png").toExternalForm());
-                    ImageView teleIV = new ImageView(tele);
-                    return teleIV;
+        if(powerup != null) {
+            String name = powerup.getName();
+            char color = powerup.getColour();
 
-                case "Newton":
-                    Image raggio = new Image(AdrenalineView.class.getResource("/redraggio.png").toExternalForm());
-                    ImageView raggioIV = new ImageView(raggio);
-                    return raggioIV;
+            if (color == 'r') {
+                switch (name) {
+                    case "teleporter":
+                        Image tele = new Image(AdrenalineView.class.getResource("/redtele.png").toExternalForm());
+                        ImageView teleIV = new ImageView(tele);
+                        return teleIV;
 
-                case "tagback grenade":
-                    Image venom = new Image(AdrenalineView.class.getResource("/redvenom.png").toExternalForm());
-                    ImageView venomIV = new ImageView(venom);
-                    return venomIV;
+                    case "Newton":
+                        Image raggio = new Image(AdrenalineView.class.getResource("/redraggio.png").toExternalForm());
+                        ImageView raggioIV = new ImageView(raggio);
+                        return raggioIV;
 
-                case "targeting scope":
-                    Image mirino = new Image(AdrenalineView.class.getResource("/redmirino.png").toExternalForm());
-                    ImageView mirinoIV = new ImageView(mirino);
-                    return mirinoIV;
+                    case "tagback grenade":
+                        Image venom = new Image(AdrenalineView.class.getResource("/redvenom.png").toExternalForm());
+                        ImageView venomIV = new ImageView(venom);
+                        return venomIV;
+
+                    case "targeting scope":
+                        Image mirino = new Image(AdrenalineView.class.getResource("/redmirino.png").toExternalForm());
+                        ImageView mirinoIV = new ImageView(mirino);
+                        return mirinoIV;
+                }
+            } else if (color == 'b') {
+                switch (name) {
+                    case "teleporter":
+                        Image tele = new Image(AdrenalineView.class.getResource("/bluetele.png").toExternalForm());
+                        ImageView teleIV = new ImageView(tele);
+                        return teleIV;
+
+                    case "Newton":
+                        Image raggio = new Image(AdrenalineView.class.getResource("/blueraggio.png").toExternalForm());
+                        ImageView raggioIV = new ImageView(raggio);
+                        return raggioIV;
+
+                    case "tagback grenade":
+                        Image venom = new Image(AdrenalineView.class.getResource("/bluevenom.png").toExternalForm());
+                        ImageView venomIV = new ImageView(venom);
+                        return venomIV;
+
+                    case "targeting scope":
+                        Image mirino = new Image(AdrenalineView.class.getResource("/bluemirino.png").toExternalForm());
+                        ImageView mirinoIV = new ImageView(mirino);
+                        return mirinoIV;
+                }
+            } else if (color == 'y') {
+                switch (name) {
+                    case "teleporter":
+                        Image tele = new Image(AdrenalineView.class.getResource("/yellowtele.png").toExternalForm());
+                        ImageView teleIV = new ImageView(tele);
+                        return teleIV;
+
+                    case "Newton":
+                        Image raggio = new Image(AdrenalineView.class.getResource("/yellowraggio.png").toExternalForm());
+                        ImageView raggioIV = new ImageView(raggio);
+                        return raggioIV;
+
+                    case "tagback grenade":
+                        Image venom = new Image(AdrenalineView.class.getResource("/yellowvenom.png").toExternalForm());
+                        ImageView venomIV = new ImageView(venom);
+                        return venomIV;
+
+                    case "targeting scope":
+                        Image mirino = new Image(AdrenalineView.class.getResource("/yellowmirino.png").toExternalForm());
+                        ImageView mirinoIV = new ImageView(mirino);
+                        return mirinoIV;
+                }
             }
         }
-
-        else if (color == 'b') {
-            switch (name) {
-                case "teleporter":
-                    Image tele = new Image(AdrenalineView.class.getResource("/bluetele.png").toExternalForm());
-                    ImageView teleIV = new ImageView(tele);
-                    return teleIV;
-
-                case "Newton":
-                    Image raggio = new Image(AdrenalineView.class.getResource("/blueraggio.png").toExternalForm());
-                    ImageView raggioIV = new ImageView(raggio);
-                    return raggioIV;
-
-                case "tagback grenade":
-                    Image venom = new Image(AdrenalineView.class.getResource("/bluevenom.png").toExternalForm());
-                    ImageView venomIV = new ImageView(venom);
-                    return venomIV;
-
-                case "targeting scope":
-                    Image mirino = new Image(AdrenalineView.class.getResource("/bluemirino.png").toExternalForm());
-                    ImageView mirinoIV = new ImageView(mirino);
-                    return mirinoIV;
-            }
-        }
-
-        else if (color == 'y') {
-            switch (name) {
-                case "teleporter":
-                    Image tele = new Image(AdrenalineView.class.getResource("/yellowtele.png").toExternalForm());
-                    ImageView teleIV = new ImageView(tele);
-                    return teleIV;
-
-                case "Newton":
-                    Image raggio = new Image(AdrenalineView.class.getResource("/yellowraggio.png").toExternalForm());
-                    ImageView raggioIV = new ImageView(raggio);
-                    return raggioIV;
-
-                case "tagback grenade":
-                    Image venom = new Image(AdrenalineView.class.getResource("/yellowvenom.png").toExternalForm());
-                    ImageView venomIV = new ImageView(venom);
-                    return venomIV;
-
-                case "targeting scope":
-                    Image mirino = new Image(AdrenalineView.class.getResource("/yellowmirino.png").toExternalForm());
-                    ImageView mirinoIV = new ImageView(mirino);
-                    return mirinoIV;
-            }
+        else{
+            Image empty = new Image(AdrenalineView.class.getResource("/power.png").toExternalForm());
+            ImageView emptyIV = new ImageView(empty);
+            return emptyIV;
         }
         return null;
+    }
+
+    public void updateLifeValue(){
+        lifeValue = me.getLife();
+        actualLife.setText(String.valueOf(lifeValue));
     }
 }
