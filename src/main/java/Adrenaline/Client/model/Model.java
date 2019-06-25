@@ -25,7 +25,6 @@ public class Model{
         return action;
     }
 
-
     public char chooseboard(){
         char board;
         Scanner keyboard=new Scanner(System.in);
@@ -46,7 +45,6 @@ public class Model{
         this.player=p;
         this.players=ps;
     }
-
 
     /**
      * created to avoid cloned code
