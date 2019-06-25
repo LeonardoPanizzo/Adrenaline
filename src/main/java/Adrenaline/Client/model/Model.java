@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class Model{
     private Board board;
-    Player player;
-    Player[] players;
+    private Player player;
+    private Player[] players;
 
     /**
      * Action is a char and not an integer so the system is more robust
