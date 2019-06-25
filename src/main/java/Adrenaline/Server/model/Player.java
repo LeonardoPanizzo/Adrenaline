@@ -953,6 +953,11 @@ public class Player {
         return control1;
     }
 
+
+    public void setWeapons(WeaponCard[] weapons) {
+        this.weapons = weapons;
+    }
+
     /**
      * The power up card is used and then, if this it's possible, it is removed from this.powerup.
      *

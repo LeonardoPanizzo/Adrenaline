@@ -37,7 +37,7 @@ public class Model{
 
     public void selectreload(){
         WeaponCard[] weapons=player.getWeapons();
-        PowerupCard[] useammo=
+  //      PowerupCard[] useammo=
     }
 
     public void updateInformation(Board b, Player p, Player[] ps){

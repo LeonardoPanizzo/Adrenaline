@@ -1,9 +1,6 @@
 package Adrenaline.Client.view;
 
-import Adrenaline.Server.model.Board;
-import Adrenaline.Server.model.Player;
-import Adrenaline.Server.model.PowerupCard;
-import Adrenaline.Server.model.PowerupDeck;
+import Adrenaline.Server.model.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,37 +20,92 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
-    public AdrenalineView(){
-        //todo fare costruttore per prendere parametri
+    private int moveCounter = 0;
+    private int moveAndGrabCounter = 0;
+    private int count = 0;
+    private StackPane xx0yy0 = new StackPane();
+    private StackPane xx0yy1 = new StackPane();
+    private StackPane xx0yy2 = new StackPane();
+    private StackPane xx0yy3 = new StackPane();
+
+    private StackPane xx1yy0 = new StackPane();
+    private StackPane xx1yy1 = new StackPane();
+    private StackPane xx1yy2 = new StackPane();
+    private StackPane xx1yy3 = new StackPane();
+
+    private StackPane xx2yy0 = new StackPane();
+    private StackPane xx2yy1 = new StackPane();
+    private StackPane xx2yy2 = new StackPane();
+    private StackPane xx2yy3 = new StackPane();
+
+    private Button bxx0yy0 = new Button("Move there");
+    private Button bxx0yy1 = new Button("Move there");
+    private Button bxx0yy2 = new Button("Move there");
+    private Button bxx0yy3 = new Button("Move there");
+    private Button bxx1yy0 = new Button("Move there");
+    private Button bxx1yy1 = new Button("Move there");
+    private Button bxx1yy2 = new Button("Move there");
+    private Button bxx1yy3 = new Button("Move there");
+    private Button bxx2yy0 = new Button("Move there");
+    private Button bxx2yy1 = new Button("Move there");
+    private Button bxx2yy2 = new Button("Move there");
+    private Button bxx2yy3 = new Button("Move there");
+
+    private Button gxx0yy0 = new Button("Grab");
+    private Button gxx0yy1 = new Button("Grab");
+    private Button gxx0yy2 = new Button("Grab");
+    private Button gxx0yy3 = new Button("Grab");
+    private Button gxx1yy0 = new Button("Grab");
+    private Button gxx1yy1 = new Button("Grab");
+    private Button gxx1yy2 = new Button("Grab");
+    private Button gxx1yy3 = new Button("Grab");
+    private Button gxx2yy0 = new Button("Grab");
+    private Button gxx2yy1 = new Button("Grab");
+    private Button gxx2yy2 = new Button("Grab");
+    private Button gxx2yy3 = new Button("Grab");
+
+
+    private int lifeValue = 0;
+    private Board board = new Board(1);
+    private int boardNumber;
+    private Player[] playersInGame = new Player[5];     //Players that play the game
+    private int yourID;                                 //Client Player's ID
+    private PowerupDeck pwd = new PowerupDeck();
+    private Player me = new Player(1, pwd);
+
+    private Label actualLife = new Label(String.valueOf(lifeValue));
+
+    private Label[][] playersButtons1 = new Label[3][4];
+    private Label[][] playersButtons2 = new Label[3][4];
+    private Label[][] playersButtons3 = new Label[3][4];
+    private Label[][] playersButtons4 = new Label[3][4];
+    private Label[][] playersButtons5 = new Label[3][4];
+
+    private Button power1 = new Button();
+    private Button power2 = new Button();
+    private Button power3 = new Button();
+
+    private Button weapon1 = new Button();
+    private Button weapon2 = new Button();
+    private Button weapon3 = new Button();
+
+    private Button[][] grabButtons = new Button[3][4];
+
+    public AdrenalineView(Board board, Player me, Player[] players){
+        this.me = me;
+        this.playersInGame = players;
+        this.board = board;
+        this.boardNumber = board.getVariation();
+        this.yourID = me.getNumber();
     }
 
-    int count = 0;
-    StackPane xx0yy0 = new StackPane();
-    StackPane xx0yy1 = new StackPane();
-    StackPane xx0yy2 = new StackPane();
-    StackPane xx0yy3 = new StackPane();
-
-    StackPane xx1yy0 = new StackPane();
-    StackPane xx1yy1 = new StackPane();
-    StackPane xx1yy2 = new StackPane();
-    StackPane xx1yy3 = new StackPane();
-
-    StackPane xx2yy0 = new StackPane();
-    StackPane xx2yy1 = new StackPane();
-    StackPane xx2yy2 = new StackPane();
-    StackPane xx2yy3 = new StackPane();
-
-    int lifeValue = 0;
-    Board board = new Board(1);
-    int boardNumber = board.getVariation(); //todo: prendere il valore della board scelta
-
-    Player[] playersInGame = new Player[5];     //Players that play the game
-    int yourID = 1;                             //Client Player's ID
-    //todo: da inizializzare con il numero vero e il vero powerup deck
-    PowerupDeck pwd = new PowerupDeck();
-    Player me = new Player(1, pwd);
-
-    Label actualLife = new Label(String.valueOf(lifeValue));
+    public AdrenalineView(){
+        this.me = new Player(1, pwd);
+        this.yourID = me.getNumber();
+        this.playersInGame[yourID] = me;
+        this.board = new Board(1);
+        this.boardNumber = board.getVariation();
+    };
 
     public static void main(String[] args) {
         launch(args);
@@ -646,16 +698,21 @@ public class AdrenalineView extends Application {
         Stage power = new Stage();
         power.setTitle("PowerUp Cards");
         power.setScene(powerup);
-        Button power1 = new Button();
-        Button power2 = new Button();
-        Button power3 = new Button();
         powerupCards.getChildren().addAll(power1, power2, power3);
 
-        PowerupCard one = new PowerupCard("teleporter", 'y');
+        PowerupCard one = new PowerupCard("teleporter", 'y');       //todo da eliminare
         PowerupCard two = new PowerupCard("Newton", 'b');
         PowerupCard three = new PowerupCard("tagback grenade", 'r');
         PowerupCard[] array = {one, null, three};
         me.setPowerup(array);
+
+        WeaponCard ones = new WeaponCard("T.H.O.R", null, null);       //todo da eliminare
+        WeaponCard twos = new WeaponCard("Newton", null, null);
+        WeaponCard threes = new WeaponCard("Power Glove", null, null);
+        WeaponCard[] arrays = {ones, null, threes};
+        me.setWeapons(arrays);
+
+        me.setAction(2);
 
         power1.setGraphic(showPowerUp(me.getPowerup()[0]));
         power1.setContentDisplay(ContentDisplay.TOP);
@@ -675,6 +732,32 @@ public class AdrenalineView extends Application {
         if (me.getPowerup()[2] == null)
             power3.setDisable(true);
 
+        weapon1.setGraphic(showWeapons(me.getWeapons()[0]));
+        weapon1.setContentDisplay(ContentDisplay.TOP);
+        weapon1.setText("Select");
+        if (me.getWeapons()[0] == null)
+            weapon1.setDisable(true);
+
+        weapon2.setGraphic(showWeapons(me.getWeapons()[1]));
+        weapon2.setContentDisplay(ContentDisplay.TOP);
+        weapon2.setText("Select");
+        if (me.getWeapons()[1] == null)
+            weapon2.setDisable(true);
+
+        weapon3.setGraphic(showWeapons(me.getWeapons()[2]));
+        weapon3.setContentDisplay(ContentDisplay.TOP);
+        weapon3.setText("Select");
+        if (me.getWeapons()[2] == null)
+            weapon3.setDisable(true);
+
+        HBox weaponCards = new HBox(10);   //root node
+        weaponCards.setAlignment(Pos.CENTER);
+        Scene weapon = new Scene(weaponCards, 400, 200);
+        Stage weap = new Stage();
+        weap.setTitle("Weapon Cards");
+        weap.setScene(weapon);
+        weaponCards.getChildren().addAll(weapon1, weapon2, weapon3);
+
         //Event effects
         respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -685,7 +768,7 @@ public class AdrenalineView extends Application {
             }
         });
 
-        //buttons to show player 1 position
+        //labels to show player 1 position
         Image p1 = new Image(AdrenalineView.class.getResource("/p1.png").toExternalForm());
         ImageView p100 = new ImageView(p1);
         Label p1x0y0 = new Label("", p100);
@@ -759,6 +842,19 @@ public class AdrenalineView extends Application {
         StackPane.setAlignment(p1x2y1, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(p1x2y2, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(p1x2y3, Pos.BOTTOM_LEFT);
+
+        playersButtons1[0][0] = p1x0y0;
+        playersButtons1[0][1] = p1x0y1;
+        playersButtons1[0][2] = p1x0y2;
+        playersButtons1[0][3] = p1x0y3;
+        playersButtons1[1][0] = p1x1y0;
+        playersButtons1[1][1] = p1x1y1;
+        playersButtons1[1][2] = p1x1y2;
+        playersButtons1[1][3] = p1x1y3;
+        playersButtons1[2][0] = p1x2y0;
+        playersButtons1[2][1] = p1x2y1;
+        playersButtons1[2][2] = p1x2y2;
+        playersButtons1[2][3] = p1x2y3;
 
         //buttons to show player 2 position
         Image p2 = new Image(AdrenalineView.class.getResource("/p2.png").toExternalForm());
@@ -835,6 +931,19 @@ public class AdrenalineView extends Application {
         StackPane.setAlignment(p2x2y2, Pos.BOTTOM_CENTER);
         StackPane.setAlignment(p2x2y3, Pos.BOTTOM_CENTER);
 
+        playersButtons2[0][0] = p2x0y0;
+        playersButtons2[0][1] = p2x0y1;
+        playersButtons2[0][2] = p2x0y2;
+        playersButtons2[0][3] = p2x0y3;
+        playersButtons2[1][0] = p2x1y0;
+        playersButtons2[1][1] = p2x1y1;
+        playersButtons2[1][2] = p2x1y2;
+        playersButtons2[1][3] = p2x1y3;
+        playersButtons2[2][0] = p2x2y0;
+        playersButtons2[2][1] = p2x2y1;
+        playersButtons2[2][2] = p2x2y2;
+        playersButtons2[2][3] = p2x2y3;
+
         //buttons to show player 3 position
         Image p3 = new Image(AdrenalineView.class.getResource("/p3.png").toExternalForm());
         ImageView p300 = new ImageView(p3);
@@ -909,6 +1018,19 @@ public class AdrenalineView extends Application {
         StackPane.setAlignment(p3x2y1, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(p3x2y2, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(p3x2y3, Pos.BOTTOM_RIGHT);
+
+        playersButtons3[0][0] = p3x0y0;
+        playersButtons3[0][1] = p3x0y1;
+        playersButtons3[0][2] = p3x0y2;
+        playersButtons3[0][3] = p3x0y3;
+        playersButtons3[1][0] = p3x1y0;
+        playersButtons3[1][1] = p3x1y1;
+        playersButtons3[1][2] = p3x1y2;
+        playersButtons3[1][3] = p3x1y3;
+        playersButtons3[2][0] = p3x2y0;
+        playersButtons3[2][1] = p3x2y1;
+        playersButtons3[2][2] = p3x2y2;
+        playersButtons3[2][3] = p3x2y3;
 
         //buttons to show player 4 position
         Image p4 = new Image(AdrenalineView.class.getResource("/p4.png").toExternalForm());
@@ -985,6 +1107,19 @@ public class AdrenalineView extends Application {
         StackPane.setAlignment(p4x2y2, Pos.CENTER_RIGHT);
         StackPane.setAlignment(p4x2y3, Pos.CENTER_RIGHT);
 
+        playersButtons4[0][0] = p4x0y0;
+        playersButtons4[0][1] = p4x0y1;
+        playersButtons4[0][2] = p4x0y2;
+        playersButtons4[0][3] = p4x0y3;
+        playersButtons4[1][0] = p4x1y0;
+        playersButtons4[1][1] = p4x1y1;
+        playersButtons4[1][2] = p4x1y2;
+        playersButtons4[1][3] = p4x1y3;
+        playersButtons4[2][0] = p4x2y0;
+        playersButtons4[2][1] = p4x2y1;
+        playersButtons4[2][2] = p4x2y2;
+        playersButtons4[2][3] = p4x2y3;
+
         //buttons to show player 5 position
         Image p5 = new Image(AdrenalineView.class.getResource("/p5.png").toExternalForm());
         ImageView p500 = new ImageView(p5);
@@ -1060,6 +1195,19 @@ public class AdrenalineView extends Application {
         StackPane.setAlignment(p5x2y2, Pos.CENTER_LEFT);
         StackPane.setAlignment(p5x2y3, Pos.CENTER_LEFT);
 
+        playersButtons5[0][0] = p5x0y0;
+        playersButtons5[0][1] = p5x0y1;
+        playersButtons5[0][2] = p5x0y2;
+        playersButtons5[0][3] = p5x0y3;
+        playersButtons5[1][0] = p5x1y0;
+        playersButtons5[1][1] = p5x1y1;
+        playersButtons5[1][2] = p5x1y2;
+        playersButtons5[1][3] = p5x1y3;
+        playersButtons5[2][0] = p5x2y0;
+        playersButtons5[2][1] = p5x2y1;
+        playersButtons5[2][2] = p5x2y2;
+        playersButtons5[2][3] = p5x2y3;
+
         //respawn buttons
         blueResBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -1068,15 +1216,18 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[0], board.getBoard()[0][2]);
+                        boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[0][2]);
                         power.close();
-                        p1x0y2.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            playersButtons1[0][2].setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1084,15 +1235,18 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[1], board.getBoard()[0][2]);
+                        boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[0][2]);
                         power.close();
-                        p1x0y2.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x0y2.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1100,15 +1254,18 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[2], board.getBoard()[0][2]);
+                        boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[0][2]);
                         power.close();
-                        p1x0y2.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x0y2.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1123,15 +1280,18 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[0], board.getBoard()[1][0]);
+                        boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[1][0]);
                         power.close();
-                        p1x1y0.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x1y0.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1139,15 +1299,18 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[1], board.getBoard()[1][0]);
+                        boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[1][0]);
                         power.close();
-                        p1x1y0.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x1y0.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1155,15 +1318,18 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[2], board.getBoard()[1][0]);
+                        boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[1][0]);
                         power.close();
-                        p1x1y0.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x1y0.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1177,15 +1343,18 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[0], board.getBoard()[2][3]);
+                        boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[2][3]);
                         power.close();
-                        p1x2y3.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x2y3.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1193,15 +1362,18 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[1], board.getBoard()[2][3]);
+                        boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[2][3]);
                         power.close();
-                        p1x2y3.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x2y3.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1209,15 +1381,18 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        me.respawn(me.getPowerup()[2], board.getBoard()[2][3]);
+                        boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[2][3]);
                         power.close();
-                        p1x2y3.setVisible(true);
-                        redResBtn.setVisible(false);
-                        yellowResBtn.setVisible(false);
-                        blueResBtn.setVisible(false);
-                        if(me.getLife()!=0) {
-                            respawnBtn.setDisable(true);
-                            updateLifeValue();
+                        if(res) {
+                            p1x2y3.setVisible(true);
+                            redResBtn.setVisible(false);
+                            yellowResBtn.setVisible(false);
+                            blueResBtn.setVisible(false);
+                            if (me.getLife() != 0) {
+                                respawnBtn.setDisable(true);
+                                updateLifeValue();
+                                updatePowerUpValue();
+                            }
                         }
                     }
                 });
@@ -1225,6 +1400,754 @@ public class AdrenalineView extends Application {
         });
 
         //weapon button
+        btnWeap.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                weap.show();
+            }
+        });
+
+        //powerup button
+        btnPower.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                power.show();
+            }
+        });
+
+        //move
+        bxx0yy0.setVisible(false);
+        bxx0yy1.setVisible(false);
+        bxx0yy2.setVisible(false);
+        bxx0yy3.setVisible(false);
+        bxx1yy0.setVisible(false);
+        bxx1yy1.setVisible(false);
+        bxx1yy2.setVisible(false);
+        bxx1yy3.setVisible(false);
+        bxx2yy0.setVisible(false);
+        bxx2yy1.setVisible(false);
+        bxx2yy2.setVisible(false);
+        bxx2yy3.setVisible(false);
+
+        xx0yy0.getChildren().add(bxx0yy0);
+        xx0yy1.getChildren().add(bxx0yy1);
+        xx0yy2.getChildren().add(bxx0yy2);
+        xx0yy3.getChildren().add(bxx0yy3);
+        xx1yy0.getChildren().add(bxx1yy0);
+        xx1yy1.getChildren().add(bxx1yy1);
+        xx1yy2.getChildren().add(bxx1yy2);
+        xx1yy3.getChildren().add(bxx1yy3);
+        xx2yy0.getChildren().add(bxx2yy0);
+        xx2yy1.getChildren().add(bxx2yy1);
+        xx2yy2.getChildren().add(bxx2yy2);
+        xx2yy3.getChildren().add(bxx2yy3);
+
+        moveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(boardNumber==1){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 2){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx0yy3.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 3){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy0.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 4){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx0yy3.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy0.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+                }
+                bxx0yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[0][0]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);System.out.println("end Move in 00 counter "+me.getAction());
+
+                        }
+                    }
+                });
+
+                bxx0yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[0][1]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);System.out.println("end Move in 00 counter "+me.getAction());
+
+                        }
+                    }
+                });
+
+                bxx0yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[0][2]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);System.out.println("end Move in 00 counter "+me.getAction());
+
+                        }
+                    }
+                });
+
+                bxx0yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[0][3]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);System.out.println("end Move in 00 counter "+me.getAction());
+
+                        }
+                    }
+                });
+
+                bxx1yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[1][0]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx1yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[1][1]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx1yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[1][2]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx1yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[1][3]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx2yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[2][0]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx2yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[2][1]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx2yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[2][2]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+                bxx2yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[2][3]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && moveCounter<2)||(ok && moveCounter<3 && board.isFinalRound())){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveCounter++;
+                            action++;
+                            me.setAction(action);
+                        }
+                        else if(ok){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                        }
+                    }
+                });
+
+            }
+        });
+
+        //move&grab
+
+        gxx0yy0.setVisible(false);
+        gxx0yy1.setVisible(false);
+        gxx0yy2.setVisible(false);
+        gxx0yy3.setVisible(false);
+        gxx1yy0.setVisible(false);
+        gxx1yy1.setVisible(false);
+        gxx1yy2.setVisible(false);
+        gxx1yy3.setVisible(false);
+        gxx2yy0.setVisible(false);
+        gxx2yy1.setVisible(false);
+        gxx2yy2.setVisible(false);
+        gxx2yy3.setVisible(false);
+
+        StackPane.setAlignment(gxx0yy0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx0yy1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx0yy2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx0yy3, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx1yy0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx1yy1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx1yy2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx1yy3, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx2yy0, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx2yy1, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx2yy2, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(gxx2yy3, Pos.BOTTOM_CENTER);
+
+        xx0yy0.getChildren().add(gxx0yy0);
+        xx0yy1.getChildren().add(gxx0yy1);
+        xx0yy2.getChildren().add(gxx0yy2);
+        xx0yy3.getChildren().add(gxx0yy3);
+        xx1yy0.getChildren().add(gxx1yy0);
+        xx1yy1.getChildren().add(gxx1yy1);
+        xx1yy2.getChildren().add(gxx1yy2);
+        xx1yy3.getChildren().add(gxx1yy3);
+        xx2yy0.getChildren().add(gxx2yy0);
+        xx2yy1.getChildren().add(gxx2yy1);
+        xx2yy2.getChildren().add(gxx2yy2);
+        xx2yy3.getChildren().add(gxx2yy3);
+
+        moveAndGrabBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(boardNumber==1){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+
+                    gxx0yy0.setVisible(true);
+                    gxx0yy1.setVisible(true);
+                    gxx0yy2.setVisible(true);
+                    gxx1yy0.setVisible(true);
+                    gxx1yy1.setVisible(true);
+                    gxx1yy2.setVisible(true);
+                    gxx1yy3.setVisible(true);
+                    gxx2yy1.setVisible(true);
+                    gxx2yy2.setVisible(true);
+                    gxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 2){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx0yy3.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+
+                    gxx0yy0.setVisible(true);
+                    gxx0yy1.setVisible(true);
+                    gxx0yy2.setVisible(true);
+                    gxx0yy3.setVisible(true);
+                    gxx1yy0.setVisible(true);
+                    gxx1yy1.setVisible(true);
+                    gxx1yy2.setVisible(true);
+                    gxx1yy3.setVisible(true);
+                    gxx2yy1.setVisible(true);
+                    gxx2yy2.setVisible(true);
+                    gxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 3){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy0.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+
+                    gxx0yy0.setVisible(true);
+                    gxx0yy1.setVisible(true);
+                    gxx0yy2.setVisible(true);
+                    gxx1yy0.setVisible(true);
+                    gxx1yy1.setVisible(true);
+                    gxx1yy2.setVisible(true);
+                    gxx1yy3.setVisible(true);
+                    gxx2yy0.setVisible(true);
+                    gxx2yy1.setVisible(true);
+                    gxx2yy2.setVisible(true);
+                    gxx2yy3.setVisible(true);
+                }
+                else if(boardNumber == 4){
+                    bxx0yy0.setVisible(true);
+                    bxx0yy1.setVisible(true);
+                    bxx0yy2.setVisible(true);
+                    bxx0yy3.setVisible(true);
+                    bxx1yy0.setVisible(true);
+                    bxx1yy1.setVisible(true);
+                    bxx1yy2.setVisible(true);
+                    bxx1yy3.setVisible(true);
+                    bxx2yy0.setVisible(true);
+                    bxx2yy1.setVisible(true);
+                    bxx2yy2.setVisible(true);
+                    bxx2yy3.setVisible(true);
+
+                    gxx0yy0.setVisible(true);
+                    gxx0yy1.setVisible(true);
+                    gxx0yy2.setVisible(true);
+                    gxx0yy3.setVisible(true);
+                    gxx1yy0.setVisible(true);
+                    gxx1yy1.setVisible(true);
+                    gxx1yy2.setVisible(true);
+                    gxx1yy3.setVisible(true);
+                    gxx2yy0.setVisible(true);
+                    gxx2yy1.setVisible(true);
+                    gxx2yy2.setVisible(true);
+                    gxx2yy3.setVisible(true);
+                }
+                bxx0yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Position[] move = new Position[]{board.getBoard()[0][0]};
+                        int[] coordinate = me.getPosition().getCoordinate();
+                        boolean ok = me.move(move);
+                        int action = me.getAction();
+                        if((ok && lifeValue<8)&&moveAndGrabCounter==0){
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);
+                            moveAndGrabCounter++;
+                            action++;
+                            me.setAction(action);
+
+                            //todo finire funzioni di grab
+                        }
+                        else if(ok && lifeValue>8){
+                            bxx0yy0.setVisible(false);
+                            bxx0yy1.setVisible(false);
+                            bxx0yy2.setVisible(false);
+                            bxx0yy3.setVisible(false);
+                            bxx1yy0.setVisible(false);
+                            bxx1yy1.setVisible(false);
+                            bxx1yy2.setVisible(false);
+                            bxx1yy3.setVisible(false);
+                            bxx2yy0.setVisible(false);
+                            bxx2yy1.setVisible(false);
+                            bxx2yy2.setVisible(false);
+                            bxx2yy3.setVisible(false);
+
+                            moveBtn.setDisable(true);
+
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(false);
+                            coordinate = me.getPosition().getCoordinate();
+                            playersButtons1[coordinate[0]][coordinate[1]].setVisible(true);System.out.println("end Move in 00 counter "+me.getAction());
+
+                        }
+                    }
+                });
+
+            }
+        });
+
 
     }
 
@@ -1314,5 +2237,145 @@ public class AdrenalineView extends Application {
     public void updateLifeValue(){
         lifeValue = me.getLife();
         actualLife.setText(String.valueOf(lifeValue));
+    }
+
+    public void updatePowerUpValue(){
+        power1.setGraphic(showPowerUp(me.getPowerup()[0]));
+        power1.setContentDisplay(ContentDisplay.TOP);
+        power1.setText("Select");
+        if (me.getPowerup()[0] == null)
+            power1.setDisable(true);
+
+        power2.setGraphic(showPowerUp(me.getPowerup()[1]));
+        power2.setContentDisplay(ContentDisplay.TOP);
+        power2.setText("Select");
+        if (me.getPowerup()[1] == null)
+            power2.setDisable(true);
+
+        power3.setGraphic(showPowerUp(me.getPowerup()[2]));
+        power3.setContentDisplay(ContentDisplay.TOP);
+        power3.setText("Select");
+        if (me.getPowerup()[2] == null)
+            power3.setDisable(true);
+    }
+
+    //a method to create ImageView for weapons
+    public ImageView showWeapons(WeaponCard weap) {
+
+        if(weap != null) {
+            String name = weap.getName();
+
+            switch (name) {
+                case "Cyberblade":
+                    Image cyb = new Image(AdrenalineView.class.getResource("/cyb.png").toExternalForm());
+                    ImageView cybIV = new ImageView(cyb);
+                    return cybIV;
+                case "ElectroScythe":
+                    Image es = new Image(AdrenalineView.class.getResource("/es.png").toExternalForm());
+                    ImageView esIV = new ImageView(es);
+                    return esIV;
+
+                case "Flamethrower":
+                    Image ft = new Image(AdrenalineView.class.getResource("/ft.png").toExternalForm());
+                    ImageView ftIV = new ImageView(ft);
+                    return ftIV;
+
+                case "Furnace":
+                    Image fur = new Image(AdrenalineView.class.getResource("/fur.png").toExternalForm());
+                    ImageView furIV = new ImageView(fur);
+                    return furIV;
+
+                case "Grenade Launcher":
+                    Image gl = new Image(AdrenalineView.class.getResource("/gl.png").toExternalForm());
+                    ImageView glIV = new ImageView(gl);
+                    return glIV;
+
+                case "HeatSeeker":
+                    Image hs = new Image(AdrenalineView.class.getResource("/hs.png").toExternalForm());
+                    ImageView hsIV = new ImageView(hs);
+                    return hsIV;
+
+                case "Hellion":
+                    Image hel = new Image(AdrenalineView.class.getResource("/hel.png").toExternalForm());
+                    ImageView helIV = new ImageView(hel);
+                    return helIV;
+
+                case "LockRifle":
+                    Image lr = new Image(AdrenalineView.class.getResource("/lr.png").toExternalForm());
+                    ImageView lrIV = new ImageView(lr);
+                    return lrIV;
+
+                case "Machine Gun":
+                    Image mg = new Image(AdrenalineView.class.getResource("/mg.png").toExternalForm());
+                    ImageView mgIV = new ImageView(mg);
+                    return mgIV;
+
+                case "PlasmaGun":
+                    Image pg = new Image(AdrenalineView.class.getResource("/pg.png").toExternalForm());
+                    ImageView pgIV = new ImageView(pg);
+                    return pgIV;
+
+                case "Power Glove":
+                    Image pow = new Image(AdrenalineView.class.getResource("/pow.png").toExternalForm());
+                    ImageView powIV = new ImageView(pow);
+                    return powIV;
+
+                case "Railgun":
+                    Image rail = new Image(AdrenalineView.class.getResource("/rail.png").toExternalForm());
+                    ImageView railIV = new ImageView(rail);
+                    return railIV;
+
+                case "Rocket Launcher":
+                    Image rl = new Image(AdrenalineView.class.getResource("/rl.png").toExternalForm());
+                    ImageView rlIV = new ImageView(rl);
+                    return rlIV;
+
+                case "Shock Wave":
+                    Image sw = new Image(AdrenalineView.class.getResource("/sw.png").toExternalForm());
+                    ImageView swIV = new ImageView(sw);
+                    return swIV;
+
+                case "Shotgun":
+                    Image sg = new Image(AdrenalineView.class.getResource("/sg.png").toExternalForm());
+                    ImageView sgIV = new ImageView(sg);
+                    return sgIV;
+
+                case "SledgeHammer":
+                    Image sh = new Image(AdrenalineView.class.getResource("/sh.png").toExternalForm());
+                    ImageView shIV = new ImageView(sh);
+                    return shIV;
+
+                case "T.H.O.R":
+                    Image th = new Image(AdrenalineView.class.getResource("/th.png").toExternalForm());
+                    ImageView thIV = new ImageView(th);
+                    return thIV;
+
+                case "Tractor Beam":
+                    Image tb = new Image(AdrenalineView.class.getResource("/tb.png").toExternalForm());
+                    ImageView tbIV = new ImageView(tb);
+                    return tbIV;
+
+                case "Vortex Cannon":
+                    Image vc = new Image(AdrenalineView.class.getResource("/vc.png").toExternalForm());
+                    ImageView vcIV = new ImageView(vc);
+                    return vcIV;
+
+                case "Whisper":
+                    Image whis = new Image(AdrenalineView.class.getResource("/whis.png").toExternalForm());
+                    ImageView whisIV = new ImageView(whis);
+                    return whisIV;
+
+                case "ZX-2":
+                    Image zx = new Image(AdrenalineView.class.getResource("/zx.png").toExternalForm());
+                    ImageView zxIV = new ImageView(zx);
+                    return zxIV;
+            }
+        }
+        else{
+            Image empty = new Image(AdrenalineView.class.getResource("/weap.png").toExternalForm());
+            ImageView emptyIV = new ImageView(empty);
+            return emptyIV;
+        }
+        return null;
     }
 }
