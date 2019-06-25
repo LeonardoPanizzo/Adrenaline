@@ -23,6 +23,9 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
+    public AdrenalineView(){
+        //todo fare costruttore per prendere parametri
+    }
 
     int count = 0;
     StackPane xx0yy0 = new StackPane();
