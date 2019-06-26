@@ -616,7 +616,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void shotTest() throws FileNotFoundException { 
+    public void shotTest() throws FileNotFoundException {
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         AmmoDeck ad = new AmmoDeck();
