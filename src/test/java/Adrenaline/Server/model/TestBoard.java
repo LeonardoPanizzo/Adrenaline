@@ -26,7 +26,7 @@ public class TestBoard{
 
         //IndexOutOfBoundsException
 
-        Board b0 = new Board(10);
+        //Board b0 = new Board(10);
 
         ExpectedException exception = ExpectedException.none();
 
