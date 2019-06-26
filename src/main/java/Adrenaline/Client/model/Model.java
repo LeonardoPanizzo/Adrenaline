@@ -15,24 +15,35 @@ public class Model{
      * Action is a char and not an integer so the system is more robust
      * @return
      */
-    public char chooseAction(){
+    public void chooseAction(){
         char action;
         Scanner keyboard=new Scanner(System.in);
         do {
             System.out.println("choose what action you want to do \n0. print information\n1.move\n2.pick up\n3.shoot\n4.use powerup");
             action=keyboard.next().charAt(0);
+
         }while(action<'0' || action>'4');
-        return action;
     }
 
-    public char chooseboard(){
-        char board;
-        Scanner keyboard=new Scanner(System.in);
-        do {
-            System.out.println("Which board do you want to use?");
-            board=keyboard.next().charAt(0);
-        }while(board<='0' || board>'4');
-        return board;
+    public void printInfo(){
+        //todo: print to CLI the information of the board and of the players
+    }
+
+    public void setmovement(){
+        //todo:obtain the positions and then send them to the server
+    }
+
+    public void pickup(){
+        //todo
+    }
+
+    public void shoot(){
+        //todo:obtain the information for the attack, per i parametri non passati impostare oggetti a null, se i comandi sono sbalgiati si torna nel metodo chooseaction
+    }
+
+    public void usePowerUp(){
+        //todo: selezionare il powerup da usare e fare il controllo se è un powerup che si può usare in quel momento
+        //todo: poi impostare i parametri non utilizzati da quel powerup con oggettti null
     }
 
     public void selectreload(){
