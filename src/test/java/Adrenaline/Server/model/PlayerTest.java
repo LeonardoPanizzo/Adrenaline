@@ -616,7 +616,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void shotTest() throws FileNotFoundException { //todo leonardo: il metodo shot non esiste
+    public void shotTest() throws FileNotFoundException { 
         Board b = new Board(1);
         PowerupDeck pd = new PowerupDeck();
         AmmoDeck ad = new AmmoDeck();
@@ -647,14 +647,14 @@ public class PlayerTest {
         p0.grabWeaponCard(wep0, selAmmo);
         Player[] playerAttacked = {p1};
         int[] mode2 = new int[] {-1};
-        p0.shot(wep0, playerAttacked, -1, mode2, null, null);//todo leonardo: il metodo shot non esiste
-        p0.shot(wep, playerAttacked, -1, mode2, null, null);//todo leonardo: il metodo shot non esiste
+        p0.shot(wep0, playerAttacked, -1, mode2, null, null);
+        p0.shot(wep, playerAttacked, -1, mode2, null, null);
 
         assertEquals(11, p1.getLife(), "P1 life isn't correct");
 
         pos1 = b.getBoard()[1][3];
         p1.setFirstPosition(pos1);
-        p0.shot(wep0, playerAttacked, -1, mode2, null, null);//todo leonardo: il metodo shot non esiste
+        p0.shot(wep0, playerAttacked, -1, mode2, null, null);
 
         assertEquals(8, p1.getLife(), "P1 life isn't correct");
 
