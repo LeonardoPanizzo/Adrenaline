@@ -21,6 +21,7 @@ public class Player {
     private int[] damagedPlayers;
     private PowerupDeck powerUpDeck;
     private boolean firstRound;
+    private boolean beforeFirstPlayer;
 
     /**
      * Is Player Class' constructor.
@@ -68,6 +69,14 @@ public class Player {
         return damagedPlayers;
     }
 */
+
+    public boolean isBeforeFirstPlayer() {
+        return beforeFirstPlayer;
+    }
+
+    public void setBeforeFirstPlayer(boolean beforeFirstPlayer) {
+        this.beforeFirstPlayer = beforeFirstPlayer;
+    }
 
     public void setName(String name) {
         this.name = name;
