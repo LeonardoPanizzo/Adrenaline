@@ -39,7 +39,7 @@ public class MultiServere {
     }
 
     public static void main(String[] args) {
-        MultiServere echoServer = new MultiServere(4445);
-        echoServer.startServer();
+        MultiServere multiServere = new MultiServere(4445);
+        multiServere.startServer();
     }
 }

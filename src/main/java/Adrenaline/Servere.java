@@ -36,6 +36,8 @@ public class Servere implements Runnable {
 
         try {
 
+            socket.getInputStream();
+
             outStream = new ObjectOutputStream(socket.getOutputStream());
             //Scanner scanner = new Scanner(System.in);
             //Integer boardVariation = scanner.nextInt();

@@ -91,6 +91,6 @@ public class Cliente {
     public static void main(String[] args) {
         Cliente client = new Cliente();
         //client.toServer();
-        client.fromServer();
+        client.fromServer(); //inizio - creazione board
     }
 }
