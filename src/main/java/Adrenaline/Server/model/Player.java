@@ -44,7 +44,7 @@ public class Player {
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
         this.score = 0;
-        this.weapons = new WeaponCard[]{null, null, null, null};
+        this.weapons = new WeaponCard[]{null, null, null};
         this.powerUpDeck = powerUpDeck;
         this.powerup = new PowerupCard[]{this.powerUpDeck.pickUpPowerup(), this.powerUpDeck.pickUpPowerup(), null};
         this.finalRound = false;
@@ -434,16 +434,15 @@ public class Player {
             }
             if (tempAmmo[0] >= 0 && tempAmmo[1] >= 0 && tempAmmo[2] >= 0) {        //if true, the player can afford the weapon
                 int cont = 0;
-                while (this.weapons[cont] != null && cont < 5) { //used to find a free slot
+                while (this.weapons[cont] != null && cont < 4) { //used to find a free slot
                     cont++;
                 }
-                if (cont < 5) { //if the player has a free slot
+                if (cont < 4) { //if the player has a free slot
                     if (this.position.pickUpWeapon(weapon)) {    //if true the wanted weapon is in the position where the player stands
                         this.weapons[cont] = weapon;
                         this.ammo = tempAmmo;       //tempAmmp contains the ammo that the player had minus the cost of the taked weapon
                         action--;
                         done = true;
-                        //todo: se il giovatore ha 4 armi chiamare il metodo che ne fa scartare una che poi gestiro da model
                     }
                 }
             }
@@ -451,24 +450,49 @@ public class Player {
         return done;
     }
 
-    /*public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
+    public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
-        /*if(this.action>0){
+        boolean correctinput=this.updatePowerup(payment.clone()); //checks if the user own the powerup passed
+        if(this.action>0 && correctinput){
             char[] cost=weapon.getCostTaking().clone();
             int[] mun=new int[]{0,0,0};     //munition created with the powerup
+            int costint[]=new int[]{0,0,0};    //cost express in int
             for(int i=0; i<payment.length; i++){
                 if(payment[i].getColour()=='b'){
-                    num[]
+                    mun[0]++;
                 }else if(payment[i].getColour()=='y'){
-
+                    mun[1]++;
                 }else if(payment[i].getColour()=='r'){
-
+                    mun[2]++;
                 }
             }
-
+            for(int i=0; i<cost.length; i++){
+                if(cost[i]=='b'){
+                    costint[0]--;
+                }else if(cost[i]=='y'){
+                    costint[1]--;
+                }else if(cost[i]=='r'){
+                    costint[2]--;
+                }
+            }
+            costint[0]=costint[0]-mun[0];
+            costint[1]=costint[1]-mun[1];
+            costint[2]=costint[2]-mun[2];
+            if(costint[0]>=0 && costint[1]>=0 && costint[2]>=0){
+                int cont=0;
+                while(this.weapons[cont]!=null && cont<4){
+                    cont++;
+                }
+                if(cont<4 && this.position.pickUpWeapon(weapon) && updateAmmo(costint)){
+                    this.weapons[cont]=weapon;
+                    this.updatePowerup(payment);
+                    action--;
+                    done=true;
+                }
+            }
         }
         return done;
-    }*/
+    }
 
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
@@ -480,6 +504,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
+    //todo:una volta tolta dalla view il parametro char[]ammo questo metodo non viene più chiamto
     public boolean grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
         if (this.action > 0) {
             char[] cost = weapon.getCostTaking();
@@ -545,6 +570,7 @@ public class Player {
      * @param ammo selected ammo to pay the cost
      * @see Player
      */
+    //todo:una volta tolta dalla view il parametro char[]ammo questo metodo non viene più chiamto
     public boolean grabWeaponCard (WeaponCard weapon, char[] ammo){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking().clone();
@@ -589,7 +615,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
-    public boolean grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
+    /*public boolean grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking();
             int counter = cost.length;
@@ -624,6 +650,7 @@ public class Player {
             System.out.println("Action completed");
         return false;
     }
+     */
 
 
     /**
