@@ -11,7 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Handlerj extends Thread{
+public class Handlerj extends Thread {
 
 
     DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd");
@@ -22,7 +22,7 @@ public class Handlerj extends Thread{
 
 
     // Constructor
-    public Handlerj(Socket s, DataInputStream dis, DataOutputStream dos){
+    public Handlerj(Socket s, DataInputStream dis, DataOutputStream dos) {
         this.s = s;
         this.dis = dis;
         this.dos = dos;
@@ -52,17 +52,22 @@ public class Handlerj extends Thread{
             outStream.writeObject(board);
             //}
             //outputStream.write(0);
+            //s.shutdownOutput();
             outStream.flush();
+            //outStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        } /*
+        finally {
             try {
                 outStream.close();
+
             } catch (IOException e){
                 e.printStackTrace();
-            }
-        }
+            }*/
+        //while (true){}
     }
+
 
 
     @Override
@@ -72,8 +77,10 @@ public class Handlerj extends Thread{
         String toreturn;
         while (true)
         {
+            //System.out.println("DENTRO WHILE");
             try {
 
+                //System.out.println("DENTRO TRY");
                 // Ask user what he wants
                 dos.writeUTF("What do you want?[Date | Time]..\n"+
                         "Type Exit to terminate connection.");
@@ -111,7 +118,16 @@ public class Handlerj extends Thread{
                     case "Board":
                         this.toClient();
                         //System.out.println("ciao");
-                        dos.writeUTF("AAAAA");
+                        //dos.writeUTF("AAAAA");
+
+                        /*
+                        for(int i = 0; i <20000000; i++) {
+                            //System.out.println("AAAA");
+                            dos.writeUTF("AAAAA");
+                        }*/
+                        //dos.writeUTF("What do you want?[Date | Time]..\n"+
+                        //        "Type Exit to terminate connection.");
+                        //System.out.println("PRIMA BREAK");
                         break;
 
                     default:

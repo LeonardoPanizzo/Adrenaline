@@ -16,7 +16,8 @@ public class Clientj {
             ObjectInputStream inStream = new ObjectInputStream(s.getInputStream());
             Board board = (Board) inStream.readObject();
             System.out.println("Object received = " + board);
-            inStream.close();
+            //s.shutdownInput();
+            //inStream.close();
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
@@ -42,27 +43,39 @@ public class Clientj {
             // the following loop performs the exchange of
             // information between client and client handler
             while (true) {
-                System.out.println(dis.readUTF());
-                String tosend = scn.nextLine();
-                dos.writeUTF(tosend);
-
-                if(tosend.equals("Exit"))
+                label:
                 {
-                    System.out.println("Closing this connection : " + s);
-                    s.close();
-                    System.out.println("Connection closed");
-                    break;
+                    //System.out.println("PRIMA READ");
+                    System.out.println(dis.readUTF());
+                    //System.out.println("PRIMA SCANNER");
+                    String tosend = scn.nextLine();
+                    //System.out.println("PRIMA WRITE");
+                    dos.writeUTF(tosend);
+
+                    if (tosend.equals("Exit")) {
+                        System.out.println("Closing this connection : " + s);
+                        s.close();
+                        System.out.println("Connection closed");
+                        break;
+
+                    }
+
+                    if (tosend.equals("Board")) {
+                        fromServer(s);
+                        //System.out.println(dis.readUTF());
+
+
+                        break label;
+
+                    }
+
+                    // printing date or time as requested by client
+
+                    else {
+                        String received = dis.readUTF();
+                        System.out.println(received);
+                    }
                 }
-
-                if (tosend.equals("Board")){
-                    fromServer(s);
-                }
-
-                // printing date or time as requested by client
-
-                else{
-                String received = dis.readUTF();
-                System.out.println(received);}
             }
 
 
