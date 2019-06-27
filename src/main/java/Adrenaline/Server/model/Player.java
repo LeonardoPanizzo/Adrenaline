@@ -44,7 +44,7 @@ public class Player {
         this.numberOfDeaths = 0;
         this.ammo = new int[]{1, 1, 1};                     //1 ammo for each type
         this.score = 0;
-        this.weapons = new WeaponCard[]{null, null, null};
+        this.weapons = new WeaponCard[]{null, null, null, null};
         this.powerUpDeck = powerUpDeck;
         this.powerup = new PowerupCard[]{this.powerUpDeck.pickUpPowerup(), this.powerUpDeck.pickUpPowerup(), null};
         this.finalRound = false;
@@ -379,7 +379,7 @@ public class Player {
                 System.out.println("You can't grab an AmmoCard");
             }
             else {
-                AmmoCard ammo = this.position.getAmmo();
+                AmmoCard ammo = this.position.pickUpAmmo();
                 if (ammo == null) {
                     System.out.println("No AmmoCard is present");
                 }
@@ -398,7 +398,6 @@ public class Player {
                             this.drawPowerup();
                     }
                     this.action--;
-                    this.position.setAmmo(null);
                     done=true;
                 }
             }
@@ -417,6 +416,39 @@ public class Player {
      */
     public boolean canSee(Player x){
         return this.getPosition().visible(x.getPosition());
+    }
+
+    public boolean grabWeaponCard(WeaponCard weapon) {
+        boolean done = false;
+        if (this.action > 0) {
+            char[] cost = weapon.getCostTaking().clone();
+            int[] tempAmmo = this.ammo.clone();
+            for (int i = 0; i < cost.length; i++) {
+                if (cost[i] == 'b') {
+                    tempAmmo[0]--;
+                } else if (cost[i] == 'y') {
+                    tempAmmo[1]--;
+                } else if (cost[i] == 'r') {
+                    tempAmmo[2]--;
+                }
+            }
+            if (tempAmmo[0] >= 0 && tempAmmo[1] >= 0 && tempAmmo[2] >= 0) {        //if true, the player can afford the weapon
+                int cont = 0;
+                while (this.weapons[cont] != null && cont < 5) { //used to find a free slot
+                    cont++;
+                }
+                if (cont < 5) { //if the player has a free slot
+                    if (this.position.pickUpWeapon(weapon)) {    //if true the wanted weapon is in the position where the player stands
+                        this.weapons[cont] = weapon;
+                        this.ammo = tempAmmo;       //tempAmmp contains the ammo that the player had minus the cost of the taked weapon
+                        action--;
+                        done = true;
+                        //todo: se il giovatore ha 4 armi chiamare il metodo che ne fa scartare una che poi gestiro da model
+                    }
+                }
+            }
+        }
+        return done;
     }
 
     /**
@@ -476,7 +508,7 @@ public class Player {
         return false;
     }
 
-    //to take a weapon tha has no cost to take
+    /*//to take a weapon tha has no cost to take
     public boolean grabWeaponCard (WeaponCard weapon){
         int cont = 0;
         while (this.weapons[cont] != null) {
@@ -485,7 +517,7 @@ public class Player {
         this.weapons[cont] = weapon;
         this.action--;
         return true;
-    }
+    }*/
 
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo only.
