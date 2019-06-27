@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Model{//todo: dovrebbero gli attributi essere static?
     private static Board board;
     private static PowerupDeck pud;
-    private static Player[] players[];
+    private static Player[] players;
 
     /**
      * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
@@ -31,6 +31,17 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         //todo: la gestione dei turni, alla fine del turno
         board.setFinalRound();
         board.isFinalRound();//usato per vedere la fine dei turni clasici quindi finisce il ciclo e poi si passa al turno finale
+    }
+
+    public void pickup(int playernumber){
+        //todo: mettere i giocatori con il numero che corrisponde con il numero nel vettore player
+        //qui viene fatta la distizione fra la posizione con ammo e quella con armi
+        Boolean respawn=players[playernumber].getPosition().isRespawnPoint();
+        if(respawn){
+            //todo: fare la modifica il grabWeaponCard e poi chiamare qui il metodo
+        }else{
+            players[playernumber].grabAmmoCard();
+        }
     }
         /*
         //todo stampe necessarie a inizio turno per il giocatore in CLI
