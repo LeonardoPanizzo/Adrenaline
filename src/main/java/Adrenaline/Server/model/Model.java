@@ -1,6 +1,24 @@
 package Adrenaline.Server.model;
 
+import Adrenaline.Server.control.BiController;
+
 import java.util.Scanner;
+import Adrenaline.Server.model.Response;
+import Adrenaline.ClientHandler;
+import Adrenaline.Server.model.Board;
+import Adrenaline.Server.model.PowerupDeck;
+import Adrenaline.Server.model.RequestHandler;
+import Adrenaline.Server.model.commands.BoardResponse;
+import Adrenaline.Server.model.commands.CreateBoardRequest;
+import Adrenaline.Server.model.commands.CreatePUDeckRequest;
+import Adrenaline.Server.model.commands.PUDeckResponse;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Vector;
+import java.rmi.RemoteException;
 
 public class Model{//todo: dovrebbero gli attributi essere static?
     private static Board board;
