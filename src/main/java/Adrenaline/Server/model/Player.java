@@ -451,7 +451,7 @@ public class Player {
         return done;
     }
 
-    public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
+    /*public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
         /*if(this.action>0){
             char[] cost=weapon.getCostTaking().clone();
@@ -466,9 +466,9 @@ public class Player {
                 }
             }
 
-        }*/
+        }
         return done;
-    }
+    }*/
 
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
@@ -480,7 +480,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
-    /*public boolean grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
+    public boolean grabWeaponCard (WeaponCard weapon, char[] ammo, PowerupCard[] powerUp) {
         if (this.action > 0) {
             char[] cost = weapon.getCostTaking();
             int counter = cost.length;
@@ -526,7 +526,6 @@ public class Player {
             System.out.println("Action completed");
         return false;
     }
-    */
 
     /*//to take a weapon tha has no cost to take
     public boolean grabWeaponCard (WeaponCard weapon){
@@ -546,7 +545,7 @@ public class Player {
      * @param ammo selected ammo to pay the cost
      * @see Player
      */
-    /*public boolean grabWeaponCard (WeaponCard weapon, char[] ammo){
+    public boolean grabWeaponCard (WeaponCard weapon, char[] ammo){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking().clone();
             int counter = cost.length;
@@ -580,7 +579,6 @@ public class Player {
             System.out.println("Action completed");
         return false;
     }
-     */
 
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by power up cards only.
@@ -591,7 +589,7 @@ public class Player {
      * @see PowerupDeck
      * @see Player
      */
-    /*public boolean grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
+    public boolean grabWeaponCard (WeaponCard weapon, PowerupCard[] powerUp){
         if(this.action > 0) {
             char[] cost = weapon.getCostTaking();
             int counter = cost.length;
@@ -627,7 +625,7 @@ public class Player {
         return false;
     }
 
-     */
+
     /**
      *Use a weapon card to shot at one or more player. To do that, fire mode, optional fire mode and Power up to pay
      * that, players to attack and movements to do need to be selected.
