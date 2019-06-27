@@ -476,6 +476,17 @@ public class Player {
         return false;
     }
 
+    //to take a weapon tha has no cost to take
+    public boolean grabWeaponCard (WeaponCard weapon){
+        int cont = 0;
+        while (this.weapons[cont] != null) {
+            cont++;
+        }
+        this.weapons[cont] = weapon;
+        this.action--;
+        return true;
+    }
+
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo only.
      *
