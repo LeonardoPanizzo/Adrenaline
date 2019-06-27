@@ -7,15 +7,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Handlerj extends Thread {
 
-
-    DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd");
-    DateFormat fortime = new SimpleDateFormat("hh:mm:ss");
     final DataInputStream dis;
     final DataOutputStream dos;
     final Socket s;
@@ -36,36 +31,21 @@ public class Handlerj extends Thread {
         try {
 
             outStream = new ObjectOutputStream(s.getOutputStream());
-            //s.getInputStream();
 
-            //Scanner scanner = new Scanner(System.in);
-            //Integer boardVariation = scanner.nextInt();
-
-            //for (int i=0; i<10; i++) {
             Board board = new Board(1);
 
                 /*Class class = new Class(param);
                 System.out.println("Object to be written = " + class);
                 outputStream.writeObject(class);
                 */
+
             System.out.println("Object to be written = " + board);
             outStream.writeObject(board);
-            //}
-            //outputStream.write(0);
-            //s.shutdownOutput();
+
             outStream.flush();
-            //outStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } /*
-        finally {
-            try {
-                outStream.close();
-
-            } catch (IOException e){
-                e.printStackTrace();
-            }*/
-        //while (true){}
+        }
     }
 
 
@@ -77,12 +57,10 @@ public class Handlerj extends Thread {
         String toreturn;
         while (true)
         {
-            //System.out.println("DENTRO WHILE");
             try {
 
-                //System.out.println("DENTRO TRY");
                 // Ask user what he wants
-                dos.writeUTF("What do you want?[Date | Time]..\n"+
+                dos.writeUTF("Select an action [StringBoard | Board]..\n"+
                         "Type Exit to terminate connection.");
 
                 // receive the answer from client
@@ -100,34 +78,19 @@ public class Handlerj extends Thread {
                 // creating Date object
                 Date date = new Date();
                 Board board = new Board(1);
+                // todo oggetti devono essere passati, non creati qui
 
                 // write on output stream based on the
                 // answer from the client
                 switch (received) {
 
-                    case "Date" :
+                    case "StringBoard" :
                         toreturn = board.myToString();//fordate.format(date); //RITORNA STRINGA DELLA BOARD, NON L'OGGETTO
-                        dos.writeUTF(toreturn);
-                        break;
-
-                    case "Time" :
-                        toreturn = fortime.format(date);
                         dos.writeUTF(toreturn);
                         break;
 
                     case "Board":
                         this.toClient();
-                        //System.out.println("ciao");
-                        //dos.writeUTF("AAAAA");
-
-                        /*
-                        for(int i = 0; i <20000000; i++) {
-                            //System.out.println("AAAA");
-                            dos.writeUTF("AAAAA");
-                        }*/
-                        //dos.writeUTF("What do you want?[Date | Time]..\n"+
-                        //        "Type Exit to terminate connection.");
-                        //System.out.println("PRIMA BREAK");
                         break;
 
                     default:

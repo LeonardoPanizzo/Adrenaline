@@ -16,8 +16,7 @@ public class Clientj {
             ObjectInputStream inStream = new ObjectInputStream(s.getInputStream());
             Board board = (Board) inStream.readObject();
             System.out.println("Object received = " + board);
-            //s.shutdownInput();
-            //inStream.close();
+
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException e){
@@ -45,11 +44,8 @@ public class Clientj {
             while (true) {
                 label:
                 {
-                    //System.out.println("PRIMA READ");
                     System.out.println(dis.readUTF());
-                    //System.out.println("PRIMA SCANNER");
                     String tosend = scn.nextLine();
-                    //System.out.println("PRIMA WRITE");
                     dos.writeUTF(tosend);
 
                     if (tosend.equals("Exit")) {
@@ -62,14 +58,11 @@ public class Clientj {
 
                     if (tosend.equals("Board")) {
                         fromServer(s);
-                        //System.out.println(dis.readUTF());
-
-
                         break label;
 
                     }
 
-                    // printing date or time as requested by client
+                    // printing action as requested by client
 
                     else {
                         String received = dis.readUTF();
@@ -77,53 +70,6 @@ public class Clientj {
                     }
                 }
             }
-
-
-                // If client sends exit,close this connection
-                // and then break from the while loop
-
-                /*switch (tosend) {
-
-                    case "Exit":
-                        System.out.println("Closing this connection : " + s);
-                        s.close();
-                        System.out.println("Connection closed");
-                        break;
-
-
-                    case "Board":
-                        ObjectInputStream inStream = new ObjectInputStream(s.getInputStream());
-                        Board board = (Board) inStream.readObject();
-                        System.out.println("Object received = " + board);
-                        inStream.close();
-                        break;
-
-                    default:
-                        String received = dis.readUTF();
-                        System.out.println(received);
-                        break;
-                }*/
-
-                /*
-                if(tosend.equals("Exit"))
-                {
-                    System.out.println("Closing this connection : " + s);
-                    s.close();
-                    System.out.println("Connection closed");
-                    break;
-                }
-
-                if (tosend.equals("Board")){
-                    ObjectInputStream inStream = new ObjectInputStream(s.getInputStream());
-                    Board board = (Board) inStream.readObject();
-                    System.out.println("Object received = " + board);
-                    inStream.close();
-                }
-
-                // printing date or time as requested by client
-                String received = dis.readUTF();
-                System.out.println(received);
-            }*/
 
                 // closing resources
                 scn.close();

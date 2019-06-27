@@ -40,7 +40,7 @@ public class Serverj {
 
             }
             catch (Exception e){
-                //s.close();
+                s.close();
                 e.printStackTrace();
             }
         }
