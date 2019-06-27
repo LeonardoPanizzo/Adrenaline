@@ -1,6 +1,8 @@
 package Adrenaline;
 
 import Adrenaline.Server.model.Board;
+import Adrenaline.Server.model.Info;
+import Adrenaline.Server.model.Model;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,13 +16,15 @@ public class Handlerj extends Thread {
     final DataInputStream dis;
     final DataOutputStream dos;
     final Socket s;
+    final Model model;
 
 
     // Constructor
-    public Handlerj(Socket s, DataInputStream dis, DataOutputStream dos) {
+    public Handlerj(Socket s, DataInputStream dis, DataOutputStream dos, Model m) {
         this.s = s;
         this.dis = dis;
         this.dos = dos;
+        this.model=m;
     }
 
 
@@ -48,7 +52,17 @@ public class Handlerj extends Thread {
         }
     }
 
-
+    public void informationToClient(){
+        ObjectOutputStream out=null;
+        try{
+            out=new ObjectOutputStream(s.getOutputStream());
+            Info info=new Info(model.getBoard(), model.getPlayers());
+            out.writeObject(info);
+            out.flush();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run()
