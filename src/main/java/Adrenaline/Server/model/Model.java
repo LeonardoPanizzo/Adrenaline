@@ -25,14 +25,47 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }while(c<'1'||c>'4');
     }
 
+    public void pickweapon(Player player){
+        //todo:aggiungere il controllo su quante armi il giocatore già possiede perchè se sono 3 prima bisogna scartarne una
+        char c;
+        int i=0;
+        int[] positionpowerup=new int[3];
+        PowerupCard[] payment=new PowerupCard[]{null, null, null};
+        PowerupCard[] poweruptouse=player.getPowerup().clone();
+        Scanner keyboard=new Scanner(System.in);
+        do{
+            System.out.println("Do you want to use powerups to pay?y/n");
+            c=keyboard.next().charAt(0);
+        }while(c!='n'||c!='y');
+        if(c=='n'){
+            //todo:aggiungere la stampa delle armi e prendere la scelta del giocatore
+        }else if(c=='y'){
+            System.out.println("select what powerup you want to use");
+            for(int j=0;j<3;j++){
+                if(poweruptouse[j]!=null){
+                    System.out.println(j+"."+poweruptouse[j].getName()+"\n");
+                }
+            }
+            System.out.println("Insert the number of the powerup you want to use\n");
+            c=keyboard.next().charAt(0);
+            //todo:finire la letture dei powerup da usare
+        }
+    }
+
     public void pickup(int playernumber){
-        //todo: mettere i giocatori con il numero che corrisponde con il numero nel vettore player
-        //qui viene fatta la distizione fra la posizione con ammo e quella con armi
-        Boolean respawn=players[playernumber].getPosition().isRespawnPoint();
-        if(respawn){
-            //todo: fare la modifica il grabWeaponCard e poi chiamare qui il metodo
-        }else{
-            players[playernumber].grabAmmoCard();
+        boolean respawn=players[playernumber].getPosition().isRespawnPoint();   //checks if it is respawn point
+        Player actualPlayer=null;
+        for(int i=0; i<players.length; i++){
+            if(playernumber==players[i].getNumber()){
+                actualPlayer=players[i];
+            }
+        }
+        if(actualPlayer!=null) {
+            if (respawn) {
+                pickweapon(actualPlayer);   //This function checks if the user wants to play with ammos or not
+            } else {
+                actualPlayer.grabAmmoCard();
+            }
         }
     }
 
