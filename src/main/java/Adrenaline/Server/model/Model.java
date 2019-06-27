@@ -25,14 +25,6 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }while(c<'1'||c>'4');
     }
 
-
-    public static void main (String args[]) {
-        //todo parte in cui viene stabilita la connessione
-        //todo: la gestione dei turni, alla fine del turno
-        board.setFinalRound();
-        board.isFinalRound();//usato per vedere la fine dei turni clasici quindi finisce il ciclo e poi si passa al turno finale
-    }
-
     public void pickup(int playernumber){
         //todo: mettere i giocatori con il numero che corrisponde con il numero nel vettore player
         //qui viene fatta la distizione fra la posizione con ammo e quella con armi
@@ -43,6 +35,16 @@ public class Model{//todo: dovrebbero gli attributi essere static?
             players[playernumber].grabAmmoCard();
         }
     }
+
+
+    public static void main (String args[]) {
+        //todo parte in cui viene stabilita la connessione
+        //todo: la gestione dei turni, alla fine del turno
+        board.setFinalRound();
+        board.isFinalRound();//usato per vedere la fine dei turni clasici quindi finisce il ciclo e poi si passa al turno finale
+    }
+
+
         /*
         //todo stampe necessarie a inizio turno per il giocatore in CLI
         stampa(board.getround());
