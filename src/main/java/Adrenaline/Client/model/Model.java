@@ -56,7 +56,8 @@ public class Model{
     }
 
     public void pickup(){
-        //todo:prendere i movimenti e poi fare il pick up
+        //todo:prendere i movimenti
+        //server.pickup(player.getnumber());
     }
 
     public void shoot(){
@@ -81,6 +82,7 @@ public class Model{
 
     /**
      * created to avoid cloned code
+     * Used to see if a player has a specific powerup, the one used before attaccking and the one after you received an attack
      * @return
      */
     private boolean hasThisPowerup(String x){
