@@ -1,5 +1,7 @@
 package Adrenaline;
 
+import Adrenaline.Server.model.Model;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,7 +14,7 @@ public class Serverj {
     {
         // server is listening on port 5056
         ServerSocket ss = new ServerSocket(5056);
-
+        Model model=new Model ();
         // running infinite loop for getting
         // client request
         while (true)
@@ -33,7 +35,7 @@ public class Serverj {
                 System.out.println("Assigning new thread for this client");
 
                 // create a new thread object
-                Thread t = new Handlerj(s, dis, dos);
+                Thread t = new Handlerj(s, dis, dos, model);
 
                 // Invoking the start() method
                 t.start();
