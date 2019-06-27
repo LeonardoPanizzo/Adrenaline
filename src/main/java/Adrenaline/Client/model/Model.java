@@ -21,20 +21,42 @@ public class Model{
         do {
             System.out.println("choose what action you want to do \n0. print information\n1.move\n2.pick up\n3.shoot\n4.use powerup");
             action=keyboard.next().charAt(0);
-
-        }while(action<'0' || action>'4');
+            if(action>='0' && action<='4'){
+                switch (action){
+                    case '0':
+                        printInfo();
+                        break;
+                    case '1':
+                        setmovement();
+                        break;
+                    case '2':
+                        pickup();
+                        break;
+                    case '3':
+                        shoot();
+                        break;
+                    case '4':
+                        usePowerUp();
+                        break;
+                }
+            }
+        }while(action<'0' || action>'4');//todo:aggiungere anche il controllo sul numero player.action
     }
 
     public void printInfo(){
-        //todo: print to CLI the information of the board and of the players
+        System.out.println(board.getRound());
+        System.out.println(player.completeString());//information about themselves
+        for(int i=0; i<players.length; i++){        //information about other players
+            System.out.println(players[i].toString());
+        }
     }
 
-    public void setmovement(){
+    public void setmovement(){//todo: vedere se passare come parametro il numero di passi che è possibile fare
         //todo:obtain the positions and then send them to the server
     }
 
     public void pickup(){
-        //todo
+        //todo:prendere i movimenti e poi fare il pick up
     }
 
     public void shoot(){
