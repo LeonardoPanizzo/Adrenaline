@@ -52,6 +52,7 @@ public class Handlerj extends Thread {
         }
     }
 
+    //todo: da chiamare dopo ogni azione e inviare a tutti i giocatori
     public void informationToClient(){
         ObjectOutputStream out=null;
         try{
