@@ -457,7 +457,7 @@ public class Player {
             char[] cost=weapon.getCostTaking().clone();
             int[] mun=new int[]{0,0,0};     //munition created with the powerup
             int costint[]=new int[]{0,0,0};    //cost express in int
-            for(int i=0; i<payment.length; i++){
+            for(int i=0; i<payment.length && payment[i]!=null; i++){
                 if(payment[i].getColour()=='b'){
                     mun[0]++;
                 }else if(payment[i].getColour()=='y'){
