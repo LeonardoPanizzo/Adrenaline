@@ -451,6 +451,14 @@ public class Player {
         return done;
     }
 
+    public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] powers){
+        boolean done=false;
+        if(this.action>0){
+            char[] cost=weapon.getCostTaking().clone();
+        }
+        return done;
+    }
+
     /**
      * Take a weapon card when player is in a respawn point. The taking cost is payed by ammo and power up cards.
      *
