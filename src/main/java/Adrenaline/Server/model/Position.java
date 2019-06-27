@@ -171,6 +171,19 @@ public class Position {
         return x;
     }
 
+    public boolean pickUpWeapon(WeaponCard weapon){
+        boolean done=false;
+        String name=weapon.getName();
+        int x=0;
+        for(;x<weapons.length && !done; x++){
+            done=weapons[x].equals(name);
+        }
+        if(done){
+            weapons[x]=null;
+        }
+        return done;
+    }
+
     /**
      * return true if there was an empty space for the given weapon
      * @param x
