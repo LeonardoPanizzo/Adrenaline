@@ -387,8 +387,8 @@ public class Player {
                     System.out.println("No AmmoCard is present");
                 }
                 else {
-                    for (int i = 0; i < 4; i++) {
-                        if (ammo.getValue()[i] == 'b') {
+                    for (int i = 0; i < ammo.getValue().length; i++) {
+                        if (ammo.getValue()[i] != 'b') {
                             if (this.ammo[0] < 3)
                                 this.ammo[0]++;
                         } else if (ammo.getValue()[i] == 'y') {

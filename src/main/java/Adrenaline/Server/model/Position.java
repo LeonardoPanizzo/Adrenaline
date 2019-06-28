@@ -176,7 +176,8 @@ public class Position {
         String name=weapon.getName();
         int x;
         for( x=0;x<weapons.length && !done; x++){
-            done=weapons[x].getName().equals(name);
+            if(weapons[x]!= null)
+                done=weapons[x].getName().equals(name);
         }
         if(done){
             weapons[x-1]=null; //x viene incrementato alla fine del ciclo, quindi il valore giusto, è l'ultimo per cui il ciclo viene eseguito
