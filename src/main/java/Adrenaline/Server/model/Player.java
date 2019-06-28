@@ -811,7 +811,7 @@ public class Player {
      * @see PowerupCard
      * @see WeaponCard
      */
-    public void reload (WeaponCard weapon, PowerupCard[] powerUp){
+    /*public void reload (WeaponCard weapon, PowerupCard[] powerUp){
         char[] cost = weapon.getCostReloading();
         int counter = cost.length;
         PowerupCard[] tempPowerUp = powerUp.clone();
@@ -833,6 +833,51 @@ public class Player {
         }
         else
             System.out.println("Selected power up cards are incorrect");
+    }*/
+
+    /**
+     * Used tto realod a weapon using only ammo
+     * @param weapon
+     */
+    public void reload(WeaponCard weapon){
+        char[]cost=weapon.getCostReloading();
+        if(this.updateAmmo(cost)){
+            weapon.reload();
+        }else{
+            System.out.println("\nNot enough munitions\n");
+        }
+    }
+
+    public void reload(WeaponCard weapon, PowerupCard[] payment){
+        PowerupCard[] pay=payment.clone();
+        char[] cost=weapon.getCostReloading();
+        int[] costInt=new int[3];       //contains the cost in int
+        int[] powerupvalue=new int[3];  //contains the value of the powerup in int
+        for(int i=0; i<cost.length;i++){
+            if(cost[i]=='b'){
+                costInt[0]++;
+            }else if(cost[i]=='b'){
+                costInt[1]++;
+            }else if(cost[i]=='b'){
+                costInt[2]++;
+            }
+        }
+        for(int i=0; i<payment.length;i++){
+            if(payment[i].getColour()=='b'){
+                powerupvalue[0]++;
+            }else if(payment[i].getColour()=='b'){
+                powerupvalue[1]++;
+            }else if(payment[i].getColour()=='b'){
+                powerupvalue[2]++;
+            }
+        }
+        if(costInt[0]>=0 && costInt[1]>=0 && costInt[2]>=0){
+            if(updateAmmo(costInt) && updatePowerup(payment)){
+                weapon.reload();
+            }
+        }else{
+            System.out.println("\nIncorrect input\n");
+        }
     }
 
     /**
