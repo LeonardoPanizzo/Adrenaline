@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Model{//todo: dovrebbero gli attributi essere static?
+public class Model{
     private static Board board;
     private static PowerupDeck pud;
     private static Player[] players;
