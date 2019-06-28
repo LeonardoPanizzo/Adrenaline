@@ -7,6 +7,46 @@ public class Model{//todo: dovrebbero gli attributi essere static?
     private static PowerupDeck pud;
     private static Player[] players;
 
+
+    private Player getPlayerByNumber(int nplayer){
+        Player actualPlayer=null;
+        for(int i=0; i<players.length; i++){
+            if(nplayer==players[i].getNumber()){
+                actualPlayer=players[i];
+            }
+        }
+        return actualPlayer;
+    }
+
+    /**
+     * return the powerups the player wants to use in a payment
+     * @param p
+     * @return
+     */
+    private PowerupCard[] playerpowerup(Player p){
+        PowerupCard[] selected=new PowerupCard[3];
+        PowerupCard[] owned=p.getPowerup();
+        Scanner keyboard=new Scanner(System.in);
+        for(int j=0; j<3; j++){
+            System.out.println(j+". "+owned[j].getName()+"\n");
+        }
+        int i=0;
+        char c;
+        int[] choosen=new int[3];
+        do{
+            System.out.println("Select the powerup you want to use, n to stop\n");
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<='2'){
+                choosen[i]=Character.getNumericValue(c);
+                i++;
+            }
+        }while(c!='n');
+        for(int j=0; j<i; j++){
+            selected[j]=owned[choosen[j]];
+        }
+        return selected;
+    }
+
     /**
      * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
      */
@@ -15,12 +55,12 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         int x;
         Scanner keyboard=new Scanner(System.in);
         do {
-            System.out.println("Choose a number between 1 and 4 to select the board");
+            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
             c=keyboard.next().charAt(0);
             if(c>='1'&& c<='4'){
                 x=Character.getNumericValue(c);
                 board = new Board(x);
-                System.out.println("Board created\n");
+                System.out.println("\nBoard created\n");
             }
         }while(c<'1'||c>'4');
     }
@@ -35,13 +75,17 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         return emptyspace;
     }
 
+    public void reload(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        int i=0;
+    }
+
     public void pickweapon(Player player){
         char c;
         int i = 0;
         int weaponposition;     //position of the wanted weapon
         int[] positionpowerup = new int[3];
         PowerupCard[] payment = new PowerupCard[]{null, null, null};
-        PowerupCard[] poweruptouse = player.getPowerup().clone();
         WeaponCard[] weapons = player.getPosition().showWeapons();
         Scanner keyboard = new Scanner(System.in);
         WeaponCard tempWeapon=null;
@@ -49,7 +93,7 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         boolean changeweapon=hasNoSpaceweapon(player);  //used to see if the player has the space to pickup a weapon
         boolean done=false;     //true when the player pickup a weapon
         if(changeweapon){       //if the player has no space a weapon is saved in tempWeapon
-            System.out.println("Which weapon you want to discard?\n");
+            System.out.println("\nWhich weapon you want to discard?\n");
             for(int j=0; j<player.getWeapons().length; j++){
                 System.out.println(j+". "+player.getWeapons()[j].getName()+"\n");
             }
@@ -83,42 +127,21 @@ public class Model{//todo: dovrebbero gli attributi essere static?
             }else{
                 System.out.println("\nWeapon not taken\n");
                 if(changeweapon){
-                    player.addWeapon(tempWeapon);   //discarded weapon given back to the auhtor
+                    player.addWeapon(tempWeapon);   //discarded weapon given back to the player
                 }
             }
         } else if (c == 'y') {
-            System.out.println("select what powerup you want to use");
-            for (int j = 0; j < 3; j++) {
-                if (poweruptouse[j] != null) {
-                    System.out.println(j + "." + poweruptouse[j].getName() + "\n");
-                }
-            }
-            do {
-                System.out.println("Insert the idnumber of the powerup you want to use, 9 to stop\n");
-                c = keyboard.next().charAt(0);
-                if (c >= '0' && c <= '2') {
-                    positionpowerup[i] = Character.getNumericValue(c);
-                    i++;
-                }
-            } while (c != '9');
-            boolean correctinput = true;
-            for (int j = 0; j < i - 1 && correctinput; j++) {     //checks that a single powerup isn't used twice
-                correctinput = positionpowerup[j] != positionpowerup[j + 1];
-            }
-            if (correctinput) {
-                for (int j = 0; j < i; j++) {
-                    payment[j] = poweruptouse[positionpowerup[j]];
-                }
-                if(player.grabWeaponCard(weapons[weaponposition], payment)){
-                    if(changeweapon){
-                        tempWeapon.reload();
-                        player.getPosition().giveWeapon(tempWeapon);
-                    }
-                }
-            } else {
-                System.out.println("Powerup input isn't correct\n");
+            payment=playerpowerup(player);
+            if(player.grabWeaponCard(weapons[weaponposition], payment)){
+                System.out.println("\n Weapon added\n");
                 if(changeweapon){
-                    player.addWeapon(tempWeapon);   //discarded weapon given back to the auhtor
+                    tempWeapon.reload();
+                    player.getPosition().giveWeapon(tempWeapon);
+                }
+            }else{
+                System.out.println("\nWeapon not taken\n");
+                if(changeweapon){
+                    player.addWeapon(tempWeapon);   //discarded weapon given back to the player
                 }
             }
         }
@@ -126,12 +149,7 @@ public class Model{//todo: dovrebbero gli attributi essere static?
 
     public void pickup(int playernumber){
         boolean respawn=players[playernumber].getPosition().isRespawnPoint();   //checks if it is respawn point
-        Player actualPlayer=null;
-        for(int i=0; i<players.length; i++){
-            if(playernumber==players[i].getNumber()){
-                actualPlayer=players[i];
-            }
-        }
+        Player actualPlayer=getPlayerByNumber(playernumber);
         if(actualPlayer!=null) {
             if (respawn) {
                 pickweapon(actualPlayer);   //This function checks if the user wants to play with ammos or not
