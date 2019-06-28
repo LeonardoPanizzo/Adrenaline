@@ -17,6 +17,7 @@ public class Serverj {
         Model model=new Model ();
         // running infinite loop for getting
         // client request
+        //todo:il server ha un contatore che è il numero del giocatore che passerà quando crea il rispettivo thread
         while (true)
         {
             Socket s = null;
