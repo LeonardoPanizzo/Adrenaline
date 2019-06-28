@@ -118,6 +118,26 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         return emptyspace;
     }
 
+    private boolean hasTargettingScope(Player p){
+        boolean found=false;
+        for(int i=0; i<p.getPowerup().length && !found;i++){
+            if(p.getPowerup()[i].getName().equals("targeting scope")){
+                found=true;
+            }
+        }
+        return found;
+    }
+
+    private boolean hasTagbackGrenade(Player p){
+        boolean found=false;
+        for(int i=0; i<p.getPowerup().length && !found;i++){
+            if(p.getPowerup()[i].getName().equals("tagback grenade")){
+                found=true;
+            }
+        }
+        return found;
+    }
+
     private void pickweapon(Player player){
         char c;
         int i = 0;
@@ -226,6 +246,65 @@ public class Model{//todo: dovrebbero gli attributi essere static?
             }
     }
 
+    private int getMode1(){
+        int mode1=-1;
+        char c;
+        Scanner keyboard=new Scanner(System.in);
+        System.out.println("\nSelect the effect that you want to use\n");
+        do{
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<'3'){
+                mode1=Character.getNumericValue(c);
+            }
+        }while(mode1!=-1);
+        return mode1;
+    }
+
+    private int[] getMode2(){
+        int[] mode2=new int[5];
+        int i=0;
+        Scanner keyboard=new Scanner(System.in);
+        char c;
+        System.out.println("\nInsert the effects in the order that you want to use them, n to stop\n");
+        do{
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<'3'){
+                mode2[i]=Character.getNumericValue(c);
+                i++;
+            }
+        }while(c!='n' && i<5);
+        int[] mode= new int[i];
+        for(int j=0; j<i; j++){
+            mode[j]=mode2[j];
+        }
+        return mode;
+    }
+
+    private Player[] playerstoattack(Player p){
+        Player[] toattack=new Player[5];
+        Scanner keyboard=new Scanner(System.in);
+        char c;
+        int i=0;
+        System.out.println("\nWhat players you want to attack\n");
+        for(int j=0; j<players.length; j++){
+            if(p.getNumber()!=players[j].getNumber()) {
+                System.out.println(j + ". " + players[j].getName() + "\n");
+            }
+        }
+        do{
+            System.out.println("Select the number, n tostop\n");
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<'5'){
+                toattack[i]=players[Character.getNumericValue(c)];
+            }
+        }while(c!='n' && i<5);
+        Player [] playertoreturn=new Player[i];
+        for(int j=0; j<i; j++){
+            playertoreturn[j]=toattack[j];
+        }
+        return playertoreturn;
+    }
+
     /**
      * Used to ask the movements to the player, used to get the positions before the action move and the action grab
      * @param p
@@ -292,6 +371,15 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         Player p=getPlayerByNumber(playernumber);
         WeaponCard weapon =playerSelectWeapons(p);
         PowerupCard[] payment=playerpowerup(p);
+        Position[] position=getplayermovement();
+        Player[] toattack=playerstoattack(p);
+        if(weapon.hasoptional()){   //true when theres optional effect
+            int[] mode2=getMode2();
+            p.shot(weapon,toattack,0,mode2,position, payment);
+        }else{                      //false when there is only one effect used
+            int mode1=getMode1();
+            p.shot(weapon,toattack,mode1,null,position,payment);
+        }
     }
 
     public Board getBoard(){
