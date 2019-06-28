@@ -25,30 +25,102 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }while(c<'1'||c>'4');
     }
 
-    public void pickweapon(Player player){
-        //todo:aggiungere il controllo su quante armi il giocatore già possiede perchè se sono 3 prima bisogna scartarne una
-        char c;
+    private boolean hasNoSpaceweapon(Player p){     //if true the player doesnt have the space to pickup a weapon
+        WeaponCard[] weapons=p.getWeapons();
         int i=0;
-        int[] positionpowerup=new int[3];
-        PowerupCard[] payment=new PowerupCard[]{null, null, null};
-        PowerupCard[] poweruptouse=player.getPowerup().clone();
-        Scanner keyboard=new Scanner(System.in);
-        do{
-            System.out.println("Do you want to use powerups to pay?y/n");
-            c=keyboard.next().charAt(0);
-        }while(c!='n'||c!='y');
-        if(c=='n'){
-            //todo:aggiungere la stampa delle armi e prendere la scelta del giocatore
-        }else if(c=='y'){
-            System.out.println("select what powerup you want to use");
-            for(int j=0;j<3;j++){
-                if(poweruptouse[j]!=null){
-                    System.out.println(j+"."+poweruptouse[j].getName()+"\n");
+        boolean emptyspace=false;
+        for(;i<weapons.length & !emptyspace;i++){
+            emptyspace=weapons[i]==null;
+        }
+        return emptyspace;
+    }
+
+    public void pickweapon(Player player){
+        char c;
+        int i = 0;
+        int weaponposition;     //position of the wanted weapon
+        int[] positionpowerup = new int[3];
+        PowerupCard[] payment = new PowerupCard[]{null, null, null};
+        PowerupCard[] poweruptouse = player.getPowerup().clone();
+        WeaponCard[] weapons = player.getPosition().showWeapons();
+        Scanner keyboard = new Scanner(System.in);
+        WeaponCard tempWeapon=null;
+        char wposition;     //the position of the weapon that the player wants to discard
+        boolean changeweapon=hasNoSpaceweapon(player);  //used to see if the player has the space to pickup a weapon
+        boolean done=false;     //true when the player pickup a weapon
+        if(changeweapon){       //if the player has no space a weapon is saved in tempWeapon
+            System.out.println("Which weapon you want to discard?\n");
+            for(int j=0; j<player.getWeapons().length; j++){
+                System.out.println(j+". "+player.getWeapons()[j].getName()+"\n");
+            }
+            do{
+                wposition=keyboard.next().charAt(0);
+            }while(wposition<'0'||wposition>'2');
+            tempWeapon=player.getWeapons()[Character.getNumericValue(wposition)];
+            player.discardWeapon(tempWeapon);
+        }
+        do {
+            System.out.println("Choose the weapon you want to pick\n");
+            for (int j = 0; j < weapons.length; j++) {
+                if (weapons[j] != null) {
+                    System.out.println(j + ". " + weapons[j].getName() + "\n");
                 }
             }
-            System.out.println("Insert the number of the powerup you want to use\n");
-            c=keyboard.next().charAt(0);
-            //todo:finire la letture dei powerup da usare
+            c = keyboard.next().charAt(0);
+        } while (c < '0' || c > '3');
+        weaponposition = Character.getNumericValue(c);
+        do {
+            System.out.println("Do you want to use powerups to pay?y/n");
+            c = keyboard.next().charAt(0);
+        } while (c != 'n' || c != 'y');
+        if (c == 'n') {
+            if(player.grabWeaponCard(weapons[weaponposition])){
+                System.out.println("\n Weapon added\n");
+                if(changeweapon){
+                    tempWeapon.reload();
+                    player.getPosition().giveWeapon(tempWeapon);
+                }
+            }else{
+                System.out.println("\nWeapon not taken\n");
+                if(changeweapon){
+                    player.addWeapon(tempWeapon);   //discarded weapon given back to the auhtor
+                }
+            }
+        } else if (c == 'y') {
+            System.out.println("select what powerup you want to use");
+            for (int j = 0; j < 3; j++) {
+                if (poweruptouse[j] != null) {
+                    System.out.println(j + "." + poweruptouse[j].getName() + "\n");
+                }
+            }
+            do {
+                System.out.println("Insert the idnumber of the powerup you want to use, 9 to stop\n");
+                c = keyboard.next().charAt(0);
+                if (c >= '0' && c <= '2') {
+                    positionpowerup[i] = Character.getNumericValue(c);
+                    i++;
+                }
+            } while (c != '9');
+            boolean correctinput = true;
+            for (int j = 0; j < i - 1 && correctinput; j++) {     //checks that a single powerup isn't used twice
+                correctinput = positionpowerup[j] != positionpowerup[j + 1];
+            }
+            if (correctinput) {
+                for (int j = 0; j < i; j++) {
+                    payment[j] = poweruptouse[positionpowerup[j]];
+                }
+                if(player.grabWeaponCard(weapons[weaponposition], payment)){
+                    if(changeweapon){
+                        tempWeapon.reload();
+                        player.getPosition().giveWeapon(tempWeapon);
+                    }
+                }
+            } else {
+                System.out.println("Powerup input isn't correct\n");
+                if(changeweapon){
+                    player.addWeapon(tempWeapon);   //discarded weapon given back to the auhtor
+                }
+            }
         }
     }
 
