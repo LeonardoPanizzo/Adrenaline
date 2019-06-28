@@ -19,7 +19,7 @@ package Adrenaline.Server.model;
 public class WCPowerGlove extends WeaponCard{
 
     public WCPowerGlove(){
-        super("Power Glove", new char[]{'y','b'}, new char[]{'b'});
+        super("Power Glove", new char[]{'y','b'}, new char[]{'b'},false);
     }
 
     @Override

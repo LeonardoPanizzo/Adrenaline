@@ -11,7 +11,7 @@ package Adrenaline.Server.model;
 public class WCShockwave extends WeaponCard{
 
     public WCShockwave(){
-        super("Shock Wave", new char[]{'y'}, new char[]{'y'});
+        super("Shock Wave", new char[]{'y'}, new char[]{'y'},false);
     }
 
     /*

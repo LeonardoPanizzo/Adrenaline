@@ -11,7 +11,7 @@ package Adrenaline.Server.model;
 public class WCHellion extends WeaponCard{
 
     public WCHellion() {
-        super("Hellion", new char[]{'r','y'}, new char[]{'r'});
+        super("Hellion", new char[]{'r','y'}, new char[]{'r'},false);
     }
 
     @Override

@@ -13,7 +13,7 @@ package Adrenaline.Server.model;
 public class WCCyberblade extends WeaponCard{
 
     public WCCyberblade(){
-        super("Cyberblade", new char[]{'y','r'}, new char[]{'0','0','y'});
+        super("Cyberblade", new char[]{'y','r'}, new char[]{'0','0','y'},true);
     }
 
     @Override

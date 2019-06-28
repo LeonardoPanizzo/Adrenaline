@@ -15,7 +15,7 @@ package Adrenaline.Server.model;
 public class WCTractorBeam extends WeaponCard{
 
     public WCTractorBeam(){
-        super("Tractor Beam", new char[]{'b'}, new char[]{'r','y'});
+        super("Tractor Beam", new char[]{'b'}, new char[]{'r','y'},false);
     }
 
     @Override

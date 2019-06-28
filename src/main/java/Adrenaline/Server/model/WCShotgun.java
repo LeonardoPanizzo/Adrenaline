@@ -12,7 +12,7 @@ package Adrenaline.Server.model;
 public class WCShotgun extends WeaponCard{
 
     public WCShotgun(){
-        super("Shotgun", new char[]{'y','y'}, new char[]{});
+        super("Shotgun", new char[]{'y','y'}, new char[]{},false);
     }
 
     @Override

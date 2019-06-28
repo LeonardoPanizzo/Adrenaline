@@ -4,13 +4,15 @@ public class WeaponCard {
     protected String name;
     protected char[] costs;
     protected char[] costEffects;
+    protected boolean hasoptionaleffect;
     protected boolean loaded;
 
 
-    public WeaponCard(String name, char[] costs, char[] costEffects) {
+    public WeaponCard(String name, char[] costs, char[] costEffects, boolean has) {
         this.name = name;
         this.costs = costs;
         this.costEffects=costEffects;
+        this.hasoptionaleffect=has;
         loaded = true;
     }
 
@@ -27,6 +29,10 @@ public class WeaponCard {
         for(int i=1; i<costs.length; i++)
             temp[i-1]=costs[i];
         return temp;
+    }
+
+    public boolean hasoptional(){
+        return hasoptionaleffect;
     }
 
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){

@@ -13,7 +13,7 @@ package Adrenaline.Server.model;
 public class WCWhisper extends WeaponCard{
 
     public WCWhisper() {
-        super("Whisper", new char[]{'b', 'b','y'}, new char[]{});
+        super("Whisper", new char[]{'b', 'b','y'}, new char[]{},false);
     }
 
     @Override

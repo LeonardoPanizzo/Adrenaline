@@ -17,7 +17,7 @@ package Adrenaline.Server.model;
 public class WCVortexcannon extends WeaponCard{
 
     public  WCVortexcannon(){
-        super("Vortex Cannon", new char[]{'r','b'}, new char[]{'r'});
+        super("Vortex Cannon", new char[]{'r','b'}, new char[]{'r'},true);
     }
 
     /*

@@ -15,7 +15,7 @@ package Adrenaline.Server.model;
 
 public class WCPlasmaGun extends WeaponCard{
     public WCPlasmaGun(){
-        super("PlasmaGun",new char[]{'b','y'},new char[]{'0','0','b'});
+        super("PlasmaGun",new char[]{'b','y'},new char[]{'0','0','b'},true);
     }
 
     private void damage(Player attacker, Player attacked, int x){

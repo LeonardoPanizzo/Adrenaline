@@ -88,6 +88,26 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         return positions;
     }
 
+    private WeaponCard playerSelectWeapons(Player p){
+        WeaponCard[] weapons=p.getWeapons().clone();
+        WeaponCard weapon=null;
+        Scanner keyboard=new Scanner(System.in);
+        char c;
+        for(int i=0;i<weapons.length;i++){
+            System.out.println(i+". "+weapons[i].getName()+"\n");
+        }
+        do{
+            System.out.println("Select the weapon you want to use\n");
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<='3'){
+                if(weapons[Character.getNumericValue(c)]!=null){
+                    weapon=weapons[Character.getNumericValue(c)];
+                }
+            }
+        }while(weapon==null);
+        return weapon;
+    }
+
     private boolean hasNoSpaceweapon(Player p){     //if true the player doesnt have the space to pickup a weapon
         WeaponCard[] weapons=p.getWeapons();
         int i=0;
@@ -213,7 +233,6 @@ public class Model{//todo: dovrebbero gli attributi essere static?
      */
     private void moveplayer(Player p, int maxp){
         Position[] positions=getplayermovement();
-        System.out.println("\nYou can choose "+maxp+" positions\n");
         if(positions.length<=maxp){
             p.move(positions);
         }
@@ -267,6 +286,12 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         //todo:impostare il numero di spostamenti possibili
         int max=5;
         moveplayer(p,max);
+    }
+
+    public void attack(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        WeaponCard weapon =playerSelectWeapons(p);
+        PowerupCard[] payment=playerpowerup(p);
     }
 
     public Board getBoard(){

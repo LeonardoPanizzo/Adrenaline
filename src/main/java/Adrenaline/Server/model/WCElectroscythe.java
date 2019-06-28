@@ -10,7 +10,7 @@ package Adrenaline.Server.model;
 public class WCElectroscythe extends WeaponCard{
 
     public WCElectroscythe(){
-        super("ElectroScythe", new char[]{'b'}, new char[]{'b','r'});
+        super("ElectroScythe", new char[]{'b'}, new char[]{'b','r'},false);
     }
 
     @Override

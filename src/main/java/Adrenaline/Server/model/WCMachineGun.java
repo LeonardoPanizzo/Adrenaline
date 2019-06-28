@@ -18,7 +18,7 @@ package Adrenaline.Server.model;
 public class WCMachineGun extends WeaponCard{
 
     public WCMachineGun(){
-        super("Machine Gun", new char[]{'b','r'}, new char[]{'0','y','b'});
+        super("Machine Gun", new char[]{'b','r'}, new char[]{'0','y','b'},true);
     }
 
     @Override

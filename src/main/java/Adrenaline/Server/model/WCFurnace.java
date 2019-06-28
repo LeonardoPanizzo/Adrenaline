@@ -11,7 +11,7 @@ package Adrenaline.Server.model;
 public class WCFurnace extends WeaponCard{
 
     public WCFurnace(){
-        super("Furnace", new char[]{'r','b'}, new char[]{});
+        super("Furnace", new char[]{'r','b'}, new char[]{},false);
     }
 
     /*

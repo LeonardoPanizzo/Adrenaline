@@ -18,7 +18,7 @@ package Adrenaline.Server.model;
 public class WCRocketLauncher extends WeaponCard{
 
     public WCRocketLauncher() {
-        super("Rocket Launcher", new char[]{'r', 'r'}, new char[]{'0', 'b', 'y'});
+        super("Rocket Launcher", new char[]{'r', 'r'}, new char[]{'0', 'b', 'y'},true);
     }
 
     @Override

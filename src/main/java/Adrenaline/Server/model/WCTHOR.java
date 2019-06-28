@@ -15,7 +15,7 @@ package Adrenaline.Server.model;
 public class WCTHOR extends WeaponCard{
 
     public WCTHOR(){
-        super("T.H.O.R",new char[]{'b','r'},new char[]{'0','b','b'});
+        super("T.H.O.R",new char[]{'b','r'},new char[]{'0','b','b'},true);
     }
 
     @Override

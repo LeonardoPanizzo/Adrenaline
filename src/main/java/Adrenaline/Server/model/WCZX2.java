@@ -11,7 +11,7 @@ package Adrenaline.Server.model;
 public class WCZX2 extends WeaponCard{
 
     public WCZX2(){
-        super("ZX-2", new char[]{'y','r'}, new char[]{});
+        super("ZX-2", new char[]{'y','r'}, new char[]{},false);
     }
 
     @Override

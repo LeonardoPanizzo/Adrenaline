@@ -13,7 +13,7 @@ package Adrenaline.Server.model;
 public class WCSledgehammer extends WeaponCard{
 
     public WCSledgehammer(){
-        super("SledgeHammer", new char[]{'y'}, new char[]{'r'});
+        super("SledgeHammer", new char[]{'y'}, new char[]{'r'},false);
     }
 
     @Override

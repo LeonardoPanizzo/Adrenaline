@@ -16,7 +16,7 @@ package Adrenaline.Server.model;
 public class WCFlamethrower extends WeaponCard{
 
     public WCFlamethrower(){
-        super("Flamethrower", new char[]{'r'}, new char[]{'y','y'});
+        super("Flamethrower", new char[]{'r'}, new char[]{'y','y'},false);
     }
 
     @Override
