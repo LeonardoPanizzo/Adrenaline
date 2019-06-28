@@ -1,5 +1,8 @@
 package Adrenaline.Server.model;
 
+//leonardo:commentato perchè quando faccio la build mi dice che questo import non esiste
+//import sun.awt.windows.WEmbeddedFrame;
+
 public class Player {
     private String name;
     private int number;
@@ -418,7 +421,40 @@ public class Player {
         return this.getPosition().visible(x.getPosition());
     }
 
-    public boolean grabWeaponCard(WeaponCard weapon) {
+    /**
+     * When a player wanted to discard a weapon but can't afford the new weapon, addWeapon is used to take back in his
+     * hand the weapon that the user wanted to discard but wasnt able to, this method adds that weapon to his hans without
+     * making him pay for that weapon
+     * @param weapon
+     * @return
+     */
+    public void addWeapon(WeaponCard weapon){
+        int position=0;
+        while(this.weapons[position]!=null && position<4){
+            position++;
+        }
+        if(position<4){
+            this.weapons[position]=weapon;
+        }
+    }
+
+    /**
+     * Used when a player wants to discard a weapon
+     * @param weapon
+     */
+    public void discardWeapon(WeaponCard weapon){
+        boolean done=false;
+        for(int i=0; i<weapons.length && !done; i++){
+            if(weapons[i]!=null){
+                if(weapons[i].getName().equals(weapon.getName())){
+                    weapons[i]=null;
+                    done=true;
+                }
+            }
+        }
+    }
+
+    public boolean grabWeaponCard(WeaponCard weapon){
         boolean done = false;
         if (this.action > 0) {
             char[] cost = weapon.getCostTaking().clone();
