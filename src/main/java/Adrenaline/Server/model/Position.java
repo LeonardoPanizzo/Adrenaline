@@ -174,12 +174,12 @@ public class Position {
     public boolean pickUpWeapon(WeaponCard weapon){
         boolean done=false;
         String name=weapon.getName();
-        int x=0;
-        for(;x<weapons.length && !done; x++){
-            done=weapons[x].equals(name);
+        int x;
+        for( x=0;x<weapons.length && !done; x++){
+            done=weapons[x].getName().equals(name);
         }
         if(done){
-            weapons[x]=null;
+            weapons[x-1]=null; //x viene incrementato alla fine del ciclo, quindi il valore giusto, è l'ultimo per cui il ciclo viene eseguito
         }
         return done;
     }
