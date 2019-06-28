@@ -1,5 +1,8 @@
 package Adrenaline.Server.model;
 
+import javafx.geometry.Pos;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Model{//todo: dovrebbero gli attributi essere static?
@@ -26,6 +29,7 @@ public class Model{//todo: dovrebbero gli attributi essere static?
     private PowerupCard[] playerpowerup(Player p){
         PowerupCard[] selected=new PowerupCard[3];
         PowerupCard[] owned=p.getPowerup();
+        boolean correctinput=true;      //used to checks if the user insert the same powerup twice
         Scanner keyboard=new Scanner(System.in);
         for(int j=0; j<3; j++){
             System.out.println(j+". "+owned[j].getName()+"\n");
@@ -33,6 +37,9 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         int i=0;
         char c;
         int[] choosen=new int[3];
+        for(int j=0;j<3;j++){
+            choosen[j]=-1;
+        }
         do{
             System.out.println("Select the powerup you want to use, n to stop\n");
             c=keyboard.next().charAt(0);
@@ -40,11 +47,45 @@ public class Model{//todo: dovrebbero gli attributi essere static?
                 choosen[i]=Character.getNumericValue(c);
                 i++;
             }
-        }while(c!='n');
-        for(int j=0; j<i; j++){
+        }while(c!='n' || i!=3);
+        for(int j=0; j<i-1 && correctinput; j++){
+            if(choosen[j]!=-1) {
+                correctinput = choosen[j] != choosen[j + 1];
+            }
+        }
+        for(int j=0; j<i && correctinput; j++){
             selected[j]=owned[choosen[j]];
         }
         return selected;
+    }
+
+    private Position[] getplayermovement(){
+        Scanner keyboard=new Scanner(System.in);
+        Position temp;
+        ArrayList<Position> moves=new ArrayList<Position>();
+        int x,y;
+        char c,k;
+        do{
+           System.out.println("\nDo you want to insert x,y coordinate?y/n\n");
+           k=keyboard.next().charAt(0);
+           if(k=='y'){
+               System.out.println("Insert x coordinate\n");
+               k=keyboard.next().charAt(0);
+               x=Character.getNumericValue(k);
+               System.out.println("Insert y coordinate\n");
+               k=keyboard.next().charAt(0);
+               y=Character.getNumericValue(k);
+               if(x>=0 && x<=2 && y>=0 && y<=3){
+                   temp=board.getBoard()[x][y];
+                   moves.add(temp);
+               }
+           }
+        }while(k!='n');
+        Position[] positions = new Position[moves.size()];
+        for(int i=0; i<positions.length; i++){
+            positions[i]=moves.get(i);
+        }
+        return positions;
     }
 
     /**
@@ -74,13 +115,8 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }
         return emptyspace;
     }
-
-    public void reload(int playernumber){
-        Player p=getPlayerByNumber(playernumber);
-        int i=0;
-    }
-
-    public void pickweapon(Player player){
+    
+    private void pickweapon(Player player){
         char c;
         int i = 0;
         int weaponposition;     //position of the wanted weapon
@@ -145,6 +181,51 @@ public class Model{//todo: dovrebbero gli attributi essere static?
                 }
             }
         }
+    }
+
+    private void reloadWeapon(Player p){
+        PowerupCard[] payment;
+        WeaponCard weaponToReload;
+        boolean correct=false;
+        char c;
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("\nWhat weapons you want to reaload?\n");
+        for(int i=0; i<p.getWeapons().length; i++){
+            if(p.getWeapons()[i]!=null) {
+                System.out.println(i + ". " + p.getWeapons()[i].getName()+"\n");
+            }
+        }
+        do{
+            System.out.println("Insert weapon number\n");
+            c=keyboard.next().charAt(0);
+            if(c>='0' && c<'3'){
+                if(p.getWeapons()[Character.getNumericValue(c)]!=null){
+                    correct=true;
+                }
+            }
+        }while(!correct);
+        weaponToReload=p.getWeapons()[Character.getNumericValue(c)];
+        System.out.println("\nDo you want to use powerups in the payment?y/n\n");
+        c=keyboard.next().charAt(0);
+        if(c=='y'){
+            payment=playerpowerup(p);
+            p.reload(weaponToReload, payment);
+        }else{
+            p.reload(weaponToReload);
+        }
+    }
+
+    public void reload(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        char c;
+        Scanner keyboard = new Scanner(System.in);
+        do{
+            System.out.println("\nDo you want to charge a weapon?y/n\n");
+            c=keyboard.next().charAt(0);
+            if(c=='y'){
+                reloadWeapon(p);
+            }
+        }while(c!='n');
     }
 
     public void pickup(int playernumber){
