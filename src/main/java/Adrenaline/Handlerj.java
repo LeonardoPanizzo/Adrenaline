@@ -17,6 +17,7 @@ public class Handlerj extends Thread {
     final DataOutputStream dos;
     final Socket s;
     final Model model;
+    final int nplayer;//todo:per usare questa classe è necessario avere salvato il valore del player con cui dialoga
 
 
     // Constructor
@@ -25,6 +26,7 @@ public class Handlerj extends Thread {
         this.dis = dis;
         this.dos = dos;
         this.model=m;
+        nplayer=0;
     }
 
 
