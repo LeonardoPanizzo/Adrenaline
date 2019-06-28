@@ -485,14 +485,14 @@ public class Player {
         }
         return done;
     }
-
+    //todo sistemare metodo
     public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
-        boolean correctinput=this.updatePowerup(payment.clone()); //checks if the user own the powerup passed
-        if(this.action>0 && correctinput){
+        //boolean correctinput=this.updatePowerup(payment.clone()); //checks if the user own the powerup passed
+        if(this.action>0 /*&& correctinput*/){
             char[] cost=weapon.getCostTaking().clone();
             int[] mun=new int[]{0,0,0};     //munition created with the powerup
-            int costint[]=new int[]{0,0,0};    //cost express in int
+            int[] costint=new int[]{0, 0, 0};    //cost express in int
             for(int i=0; i<payment.length && payment[i]!=null; i++){
                 if(payment[i].getColour()=='b'){
                     mun[0]++;
@@ -500,6 +500,15 @@ public class Player {
                     mun[1]++;
                 }else if(payment[i].getColour()=='r'){
                     mun[2]++;
+                }
+            }
+            for(int i=0; i<weapon.getCostTaking().length; i++){
+                if(weapon.getCostTaking()[i]=='b'){
+                    costint[0]++;
+                }else if(weapon.getCostTaking()[i]=='y'){
+                    costint[1]++;
+                }else if(weapon.getCostTaking()[i]=='r'){
+                    costint[2]++;
                 }
             }
             for(int i=0; i<cost.length; i++){
