@@ -88,24 +88,6 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         return positions;
     }
 
-    /**
-     * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
-     */
-    public void setBoard(){
-        char c;
-        int x;
-        Scanner keyboard=new Scanner(System.in);
-        do {
-            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
-            c=keyboard.next().charAt(0);
-            if(c>='1'&& c<='4'){
-                x=Character.getNumericValue(c);
-                board = new Board(x);
-                System.out.println("\nBoard created\n");
-            }
-        }while(c<'1'||c>'4');
-    }
-
     private boolean hasNoSpaceweapon(Player p){     //if true the player doesnt have the space to pickup a weapon
         WeaponCard[] weapons=p.getWeapons();
         int i=0;
@@ -115,7 +97,7 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }
         return emptyspace;
     }
-    
+
     private void pickweapon(Player player){
         char c;
         int i = 0;
@@ -215,6 +197,46 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }
     }
 
+    private void pickup(Player player){
+        boolean respawn=player.getPosition().isRespawnPoint();   //checks if it is respawn point
+            if (respawn) {
+                pickweapon(player);   //This function checks if the user wants to play with ammos or not
+            } else {
+                player.grabAmmoCard();
+            }
+    }
+
+    /**
+     * Used to ask the movements to the player, used to get the positions before the action move and the action grab
+     * @param p
+     * @param maxp
+     */
+    private void moveplayer(Player p, int maxp){
+        Position[] positions=getplayermovement();
+        System.out.println("\nYou can choose "+maxp+" positions\n");
+        if(positions.length<=maxp){
+            p.move(positions);
+        }
+    }
+
+    /**
+     * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
+     */
+    public void setBoard(){
+        char c;
+        int x;
+        Scanner keyboard=new Scanner(System.in);
+        do {
+            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
+            c=keyboard.next().charAt(0);
+            if(c>='1'&& c<='4'){
+                x=Character.getNumericValue(c);
+                board = new Board(x);
+                System.out.println("\nBoard created\n");
+            }
+        }while(c<'1'||c>'4');
+    }
+
     public void reload(int playernumber){
         Player p=getPlayerByNumber(playernumber);
         char c;
@@ -228,16 +250,23 @@ public class Model{//todo: dovrebbero gli attributi essere static?
         }while(c!='n');
     }
 
-    public void pickup(int playernumber){
-        boolean respawn=players[playernumber].getPosition().isRespawnPoint();   //checks if it is respawn point
-        Player actualPlayer=getPlayerByNumber(playernumber);
-        if(actualPlayer!=null) {
-            if (respawn) {
-                pickweapon(actualPlayer);   //This function checks if the user wants to play with ammos or not
-            } else {
-                actualPlayer.grabAmmoCard();
-            }
-        }
+    public void moveandgrab(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        //todo:impostare il numero di spostamenti possibili
+        int max=1;
+        moveplayer(p,max);
+        pickup(p);
+    }
+
+    /**
+     * Used when the player just wants to move, without picking up
+     * @param playernumber
+     */
+    public void move(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        //todo:impostare il numero di spostamenti possibili
+        int max=5;
+        moveplayer(p,max);
     }
 
     public Board getBoard(){
