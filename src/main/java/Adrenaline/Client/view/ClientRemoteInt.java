@@ -7,5 +7,7 @@ public interface ClientRemoteInt extends Remote {
 
     void messageFromServer(String message) throws RemoteException;
 
+    void updateUserList(String[] currentUsers) throws RemoteException;
+
 
 }

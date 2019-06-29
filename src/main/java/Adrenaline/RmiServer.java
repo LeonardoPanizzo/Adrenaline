@@ -1,7 +1,10 @@
 package Adrenaline;
 
+import Adrenaline.Client.view.ClientRemoteInt;
+import Adrenaline.Client.view.ViewTunnelB;
 import Adrenaline.Server.control.BiController;
 import Adrenaline.Server.control.Controller;
+import Adrenaline.Server.control.RemoteBiCon;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
@@ -10,7 +13,45 @@ import java.rmi.registry.*;
 
 public class RmiServer {
 
-    public void execute() throws RemoteException, MalformedURLException {
+    public void execute() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException {
+
+        BiController remoteBiCon = new BiController();
+
+
+        //Registry registry = LocateRegistry.getRegistry();//"127.0.0.1", 1099);
+
+        Registry registry = LocateRegistry.createRegistry(1099);
+
+        System.out.println("Registry created");
+
+        Naming.rebind("rmi://localhost/controller", remoteBiCon);
+
+        //registry.bind("controller", remoteBiCon);
+
+        System.out.println("Binding done");
+
+
+
+/*
+        System.out.println("view start");
+
+
+        ClientRemoteInt view = (ClientRemoteInt) Naming.lookup("rmi://localhost/view");//registry.lookup("controller");
+
+        System.out.println("view done");
+        */
+
+
+/*
+        ViewTunnelB viewTunnelB = (ViewTunnelB) registry.lookup("view");
+
+        String[] name = {"luca", "dada"};
+
+        viewTunnelB.registerWithServer(name);//, "id"));
+*/
+
+
+        /*
         Registry reg;
         try {
             reg = LocateRegistry.createRegistry(1099);
@@ -27,6 +68,7 @@ public class RmiServer {
 
         reg.rebind("controller", obj);
         System.out.println("PeerServer bound in registry");
+        */
     }
 
     /*

@@ -2,6 +2,8 @@ package Adrenaline;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class FinalServer {
@@ -17,6 +19,10 @@ public class FinalServer {
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
             e.printStackTrace();
         }
 
