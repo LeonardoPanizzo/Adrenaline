@@ -485,7 +485,7 @@ public class Player {
         }
         return done;
     }
-    
+
     public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
         if(this.action>0){
