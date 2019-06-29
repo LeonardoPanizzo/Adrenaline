@@ -207,7 +207,7 @@ public class Position {
 
     public AmmoCard pickUpAmmo(){
         AmmoCard a=ammo;
-        ammo=ammoDeck.pickUpAmmo();
+        ammo=null;
         return a;
     }
 
