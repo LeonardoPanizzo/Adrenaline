@@ -8,8 +8,8 @@ public class PositionTest {
     @Test
     public void visibleTest() {
         //b blue r red y yellow w white
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
         Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
@@ -45,10 +45,10 @@ public class PositionTest {
     }
 
     @Test
-    public void reachableTest(){
+    public void reachableTest() {
         //b blue r red y yellow w white
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
         Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
@@ -83,29 +83,29 @@ public class PositionTest {
     }
 
     @Test
-    public void getCoordinateTest(){
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
+    public void getCoordinateTest() {
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
-        int[] c11= new int[2];
-        int[] c12= new int[2];
-        c11[0]=1;
-        c11[1]=1;
-        c12[0]=1;
-        c12[1]=2;
+        int[] c11 = new int[2];
+        int[] c12 = new int[2];
+        c11[0] = 1;
+        c11[1] = 1;
+        c12[0] = 1;
+        c12[1] = 2;
 
         //ho fatto assertEquals fra interi perchè non so come farlo fra array
-        assertEquals(p11.getCoordinate()[0],c11[0]);
-        assertEquals(p11.getCoordinate()[1],c11[1]);
-        assertEquals(p12.getCoordinate()[0],c12[0]);
-        assertEquals(p12.getCoordinate()[1],c12[1]);
+        assertEquals(p11.getCoordinate()[0], c11[0]);
+        assertEquals(p11.getCoordinate()[1], c11[1]);
+        assertEquals(p12.getCoordinate()[0], c12[0]);
+        assertEquals(p12.getCoordinate()[1], c12[1]);
     }
 
     @Test
-    public void isDoorTest(){
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
+    public void isDoorTest() {
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
 
@@ -113,24 +113,25 @@ public class PositionTest {
         assertEquals(p12.isDoor(), false);
     }
 
-    @Test void getRoomTest(){
+    @Test
+    void getRoomTest() {
         //b blue r red y yellow w white
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p21 = new Position(2, 1, 'r', true, true, deck1, deck2);
         Position p34 = new Position(3, 4, 'y', true, true, deck1, deck2);
 
-        assertEquals(p11.getRoom(),'b');
-        assertEquals(p21.getRoom(),'r');
-        assertEquals(p34.getRoom(),'y');
+        assertEquals(p11.getRoom(), 'b');
+        assertEquals(p21.getRoom(), 'r');
+        assertEquals(p34.getRoom(), 'y');
     }
 
     @Test
-    public void setPosition(){
-        AmmoDeck deck1=new AmmoDeck();
-        WeaponDeck deck2=new WeaponDeck();
-        PowerupDeck deck3=new PowerupDeck();
+    public void setPosition() {
+        AmmoDeck deck1 = new AmmoDeck();
+        WeaponDeck deck2 = new WeaponDeck();
+        PowerupDeck deck3 = new PowerupDeck();
         Position p11 = new Position(1, 1, 'b', true, true, deck1, deck2);
         Position p12 = new Position(1, 2, 'b', false, false, deck1, deck2);
         Position p13 = new Position(1, 3, 'b', true, true, deck1, deck2);
@@ -152,27 +153,33 @@ public class PositionTest {
         p32.setLinks(p22);
         p33.setLinks(p34);
 
-        Player pla1=new Player(1, deck3);
-        Player pla2=new Player(2, deck3);
-        Player pla3=new Player(3, deck3);
-        Player pla4=new Player(4, deck3);
-        Player[] pla=new Player[]{pla1, pla2, pla3, pla4};
+        Player pla1 = new Player(1, deck3);
+        Player pla2 = new Player(2, deck3);
+        Player pla3 = new Player(3, deck3);
+        Player pla4 = new Player(4, deck3);
+        Player[] pla = new Player[]{pla1, pla2, pla3, pla4};
 
         pla1.setFirstPosition(p11);
         pla2.setFirstPosition(p11);
         pla3.setFirstPosition(p11);
         pla4.setFirstPosition(p11);
 
-        assertEquals(p11.getPlayers()[0],pla1);
-        assertEquals(p11.getPlayers()[1],pla2);
-        assertEquals(p11.getPlayers()[2],pla3);
-        assertEquals(p11.getPlayers()[3],pla4);
+        assertEquals(p11.getPlayers()[0], pla1);
+        assertEquals(p11.getPlayers()[1], pla2);
+        assertEquals(p11.getPlayers()[2], pla3);
+        assertEquals(p11.getPlayers()[3], pla4);
 
         pla4.setPosition(p33);
-        assertEquals(p33.getPlayers()[0],pla4);
-        assertEquals(p11.getPlayers().length==3, true);
-        assertEquals(p11.getPlayers()[0],pla1);
-        assertEquals(p11.getPlayers()[1],pla2);
-        assertEquals(p11.getPlayers()[2],pla3);
+        assertEquals(p33.getPlayers()[0], pla4);
+        assertEquals(p11.getPlayers().length == 3, true);
+        assertEquals(p11.getPlayers()[0], pla1);
+        assertEquals(p11.getPlayers()[1], pla2);
+        assertEquals(p11.getPlayers()[2], pla3);
+    }
+
+    @Test
+    public void printBoard() {
+        Board b = new Board(1);
+        System.out.println(b.myToString());
     }
 }
