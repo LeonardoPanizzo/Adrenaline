@@ -21,7 +21,8 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
-    boolean goOn;
+    private int courentPlayer = 1;
+
     private boolean test;
     private int moveCounter = 0;
     private int moveAndGrabCounter = 0;
@@ -116,22 +117,33 @@ public class AdrenalineView extends Application {
     private Button weaponRes2 = new Button();
     private Button weaponRes3 = new Button();
 
-    private Label axx0yy0;
-    private Label axx0yy1;
-    private Label axx0yy2;
-    private Label axx0yy3;
-    private Label axx1yy0;
-    private Label axx1yy1;
-    private Label axx1yy2;
-    private Label axx1yy3;
-    private Label axx2yy0;
-    private Label axx2yy1;
-    private Label axx2yy2;
-    private Label axx2yy3;
+    private Label axx0yy0 = new Label();
+    private Label axx0yy1 = new Label();
+    private Label axx0yy2 = new Label();
+    private Label axx0yy3 = new Label();
+    private Label axx1yy0 = new Label();
+    private Label axx1yy1 = new Label();
+    private Label axx1yy2 = new Label();
+    private Label axx1yy3 = new Label();
+    private Label axx2yy0 = new Label();
+    private Label axx2yy1 = new Label();
+    private Label axx2yy2 = new Label();
+    private Label axx2yy3 = new Label();
 
     private Button[][] grabButtons = new Button[3][4];
 
     private int moveAndGrabButtonCounter = 0;
+
+    private Label player1 = new Label("You");
+    private Label player2 = new Label("Player 2");
+    private Label player3 = new Label("Player 3");
+    private Label player4 = new Label("Player 4");
+    private Label player5 = new Label("Player 5");
+
+    private Label[] playArray = new Label[]{player2, player3, player4, player5};
+
+    private String play = null;
+    private Label player = new Label();
 
     public AdrenalineView(Board board, Player me, Player[] players){
         this.me = me;
@@ -143,8 +155,20 @@ public class AdrenalineView extends Application {
 
     public AdrenalineView(){
         this.me = new Player(1, pwd);
+        Player p2 = new Player(0, pwd);
+        Player p3 = new Player(2, pwd);
+        Player p4 = new Player(3, pwd);
+        Player p5 = new Player(4, pwd);
+        p2.setName("Miriam");
+        p3.setName("Ranieri");
+        p4.setName("Leonardo");
+        p5.setName("Paolo");
         this.yourID = me.getNumber();
         this.playersInGame[yourID] = me;
+        this.playersInGame[0] = p2;
+        this.playersInGame[2] = p3;
+        this.playersInGame[3] = p4;
+        this.playersInGame[4] = p5;
         this.board = new Board(1);
         this.boardNumber = board.getVariation();
     };
@@ -160,7 +184,7 @@ public class AdrenalineView extends Application {
 
         playersInGame[yourID] = me; //todo: alla fine è da rimuovere
 
-        me.setPlayersDamage(0, 2); //todo da eliminare
+        //me.setPlayersDamage(0, 2); //todo da eliminare
         me.setRound(true);
         me.setName("Andre");
 
@@ -172,17 +196,6 @@ public class AdrenalineView extends Application {
                 k++;
             }
         }
-
-        String play = null;
-        for (int i = 0; i < 5; i++) {
-            if (playersInGame[i] != null && playersInGame[i].isRound()) {
-                if (i == yourID) {
-                    play = new String("It's your Turn");
-                } else
-                    play = new String("It's " + playersInGame[i].getName() + " Round");
-            }
-        }
-
 
         primaryStage.setTitle("Adrenaline");
         StackPane rootNode = new StackPane();
@@ -218,13 +231,11 @@ public class AdrenalineView extends Application {
         rootNode = new StackPane();
         Scene secondScene = new Scene(rootNode, 1000, 600);
 
-        Label player1 = new Label("You");
-
         user.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
                 playerName = user.getText();
-                //System.out.println("The name is: "+name);
+                me.setName(playerName);
                 primaryStage.setScene(secondScene);
                 player1.setText(playerName);
             }
@@ -234,33 +245,31 @@ public class AdrenalineView extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 playerName = user.getText();
-                //System.out.println("The name is: "+name);
                 primaryStage.setScene(secondScene);
                 player1.setText(playerName);
             }
         });
 
-        //todo:creare sala d'attesa: impostare che il nome dei giocatori compare
         VBox lobby = new VBox(10);
         player1.setTextFill(Color.YELLOW);
         player1.setFont(Font.font("", FontWeight.BOLD, 20));
-        Label player2 = new Label("Player 2");
+
         player2.setTextFill(Color.GRAY);
         player2.setFont(Font.font("", FontWeight.BOLD, 20));
-        Label player3 = new Label("Player 3");
+
         player3.setTextFill(Color.GREEN);
         player3.setFont(Font.font("", FontWeight.BOLD, 20));
-        Label player4 = new Label("Player 4");
+
         player4.setTextFill(Color.VIOLET);
         player4.setFont(Font.font("", FontWeight.BOLD, 20));
-        Label player5 = new Label("Player 5");
+
         player5.setTextFill(Color.BLUE);
         player5.setFont(Font.font("", FontWeight.BOLD, 20));
         lobby.setAlignment(Pos.CENTER);
         lobby.getChildren().addAll(player1, player2, player3, player4, player5);
         Image lobbyBack = new Image(AdrenalineView.class.getResource("/lobbyback.jpg").toExternalForm());
         ImageView lobbybackground = new ImageView(lobbyBack);
-        Label wait = new Label("Waiting for other players...");
+        Label wait = new Label("Press a Click to continue...");
         wait.setFont(Font.font("", FontWeight.BOLD, 20));
         wait.setTextFill(Color.WHITE);
         FlowPane waiting = new FlowPane(10, 10);
@@ -269,18 +278,25 @@ public class AdrenalineView extends Application {
         rootNode.getChildren().add(lobbybackground);
         rootNode.getChildren().addAll(lobby, waiting);
 
+
+
         rootNode = new StackPane();
         Scene boardScene = new Scene(rootNode, 1000, 600);
 
-        //Todo: quando il timer scade si passa alla schermata di gioco
         //si va avanti temporaneamente con click del mouse
         secondScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
                 count += me.getClickCount();
-                //   System.out.println("Count is "+count);
+                int k=0;
+                for(int i =0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && yourID != playersInGame[i].getNumber()) {
+                        playArray[k].setText(playersInGame[i].getName());
+                        k++;
+                    }
+                }
                 if (count == 1)
-                    wait.setText("Click to Play");
+                    wait.setText("Al players are ready. Click to Play");
                 else if (count > 1)
                     primaryStage.setScene(boardScene);
             }
@@ -585,6 +601,8 @@ public class AdrenalineView extends Application {
         you.getColumnConstraints().add(new ColumnConstraints(185));
         you.getColumnConstraints().add(new ColumnConstraints(240));
 
+        updatePlayString();
+
         Image your = new Image(AdrenalineView.class.getResource("/player1.png").toExternalForm());
         ImageView yourp = new ImageView(your);
         you.add(yourp, 0, 0);
@@ -685,7 +703,7 @@ public class AdrenalineView extends Application {
         VBox events = new VBox(10);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
-        Label player = new Label(play);
+        player.setText(play);
         Label actions = new Label("Action/s:");
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
         Label event = new Label("Action: " + action);
@@ -755,7 +773,13 @@ public class AdrenalineView extends Application {
         WeaponCard[] arrays = {ones, twos, threes};
         me.setWeapons(arrays);
 
-        me.setAction(2);
+        me.setAction(2);    //todo controllare se è da lasciare
+        if(me.getLife()<1){
+            moveBtn.setDisable(true);
+            moveAndGrabBtn.setDisable(true);
+            shotBtn.setDisable(true);
+            endRoundBtn.setDisable(true);
+        }
 
         power1.setGraphic(showPowerUp(me.getPowerup()[0]));
         power1.setContentDisplay(ContentDisplay.TOP);
@@ -1267,6 +1291,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1286,6 +1314,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1305,6 +1337,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1331,6 +1367,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1350,6 +1390,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1369,6 +1413,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1394,6 +1442,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1413,6 +1465,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -1432,6 +1488,10 @@ public class AdrenalineView extends Application {
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
                             if (me.getLife() != 0) {
+                                moveBtn.setDisable(false);
+                                moveAndGrabBtn.setDisable(false);
+                                shotBtn.setDisable(false);
+                                endRoundBtn.setDisable(false);
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
@@ -2181,6 +2241,21 @@ public class AdrenalineView extends Application {
 
         ammoShow.getChildren().addAll(usePW, done);
 
+        updateAmmoCardValue();
+
+        StackPane.setAlignment(axx0yy0, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx0yy1, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx0yy2, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx0yy3, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx1yy0, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx1yy1, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx1yy2, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx1yy3, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx2yy0, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx2yy1, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx2yy2, Pos.TOP_RIGHT);
+        StackPane.setAlignment(axx2yy3, Pos.TOP_RIGHT);
+
         xx0yy0.getChildren().add(axx0yy0);
         xx0yy1.getChildren().add(axx0yy1);
         xx0yy2.getChildren().add(axx0yy2);
@@ -2197,9 +2272,6 @@ public class AdrenalineView extends Application {
         //todo da eliminare
         me.setFinalRound(false);
         me.setBeforeFirstPlayer(false);
-        me.setAmmo('b', 0);
-        me.setAmmo('y', 0);
-        me.setAmmo('r', 0);
 
 
         moveAndGrabBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -2875,6 +2947,12 @@ public class AdrenalineView extends Application {
                         updatePowerUpValue();
                         updateAmmoValue();
                         gxx0yy0.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -2882,7 +2960,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx0yy1.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -3725,7 +3811,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx0yy3.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4568,7 +4662,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx1yy1.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4576,7 +4678,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx1yy2.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4584,7 +4694,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx1yy3.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4592,7 +4710,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx2yy0.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4600,7 +4726,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx2yy1.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -4608,7 +4742,15 @@ public class AdrenalineView extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         me.grabAmmoCard();
+                        updatePowerUpValue();
                         updateAmmoValue();
+                        gxx2yy2.setVisible(false);
+                        updateAmmoCardValue();
+                        if(me.getAction()<1){
+                            moveBtn.setDisable(true);
+                            moveAndGrabBtn.setDisable(true);
+                            shotBtn.setDisable(true);
+                        }
                     }
                 });
 
@@ -5448,6 +5590,22 @@ public class AdrenalineView extends Application {
                 });
             }
         });
+
+        //end round button
+        endRoundBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                me.setRound(false);
+                courentPlayer = playersInGame[yourID+1].getNumber();
+                updatePlayString();
+                System.out.println(play);
+                moveBtn.setDisable(true);
+                moveAndGrabBtn.setDisable(true);
+                shotBtn.setDisable(true);
+                endRoundBtn.setDisable(true);
+                //todo impostare ciclo per riprendere il turno
+            }
+        });
     }
 
     //A method to create ImageView for powerup
@@ -5531,6 +5689,14 @@ public class AdrenalineView extends Application {
             return emptyIV;
         }
         return null;
+    }
+
+    public void updatePlayString(){
+        if (courentPlayer == yourID) {
+            play = new String("It's your Turn");
+        } else
+            play = new String("It's " + playersInGame[courentPlayer].getName() + " Round");
+        player.setText(play);
     }
 
     public void updateAmmoValue(){
@@ -5627,20 +5793,54 @@ public class AdrenalineView extends Application {
     }
 
     public void updateAmmoCardValue(){
-        axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
-        axx0yy1.setGraphic(showAmmoCards(board.getBoard()[0][1].getAmmo()));
-        axx0yy2.setGraphic(showAmmoCards(board.getBoard()[0][2].getAmmo()));
-        axx0yy3.setGraphic(showAmmoCards(board.getBoard()[0][3].getAmmo()));
+        if(boardNumber == 4) {
+            axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
+            axx0yy1.setGraphic(showAmmoCards(board.getBoard()[0][1].getAmmo()));
+            axx0yy3.setGraphic(showAmmoCards(board.getBoard()[0][3].getAmmo()));
 
-        axx1yy0.setGraphic(showAmmoCards(board.getBoard()[1][0].getAmmo()));
-        axx1yy1.setGraphic(showAmmoCards(board.getBoard()[1][1].getAmmo()));
-        axx1yy2.setGraphic(showAmmoCards(board.getBoard()[1][2].getAmmo()));
-        axx1yy3.setGraphic(showAmmoCards(board.getBoard()[1][3].getAmmo()));
+            axx1yy1.setGraphic(showAmmoCards(board.getBoard()[1][1].getAmmo()));
+            axx1yy2.setGraphic(showAmmoCards(board.getBoard()[1][2].getAmmo()));
+            axx1yy3.setGraphic(showAmmoCards(board.getBoard()[1][3].getAmmo()));
 
-        axx2yy0.setGraphic(showAmmoCards(board.getBoard()[2][0].getAmmo()));
-        axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
-        axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
-        axx2yy3.setGraphic(showAmmoCards(board.getBoard()[2][3].getAmmo()));
+            axx2yy0.setGraphic(showAmmoCards(board.getBoard()[2][0].getAmmo()));
+            axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
+            axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
+        }
+        if(boardNumber == 3) {
+            axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
+            axx0yy1.setGraphic(showAmmoCards(board.getBoard()[0][1].getAmmo()));
+
+            axx1yy1.setGraphic(showAmmoCards(board.getBoard()[1][1].getAmmo()));
+            axx1yy2.setGraphic(showAmmoCards(board.getBoard()[1][2].getAmmo()));
+            axx1yy3.setGraphic(showAmmoCards(board.getBoard()[1][3].getAmmo()));
+
+            axx2yy0.setGraphic(showAmmoCards(board.getBoard()[2][0].getAmmo()));
+            axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
+            axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
+        }
+        if(boardNumber == 2) {
+            axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
+            axx0yy1.setGraphic(showAmmoCards(board.getBoard()[0][1].getAmmo()));
+            axx0yy3.setGraphic(showAmmoCards(board.getBoard()[0][3].getAmmo()));
+
+            axx1yy1.setGraphic(showAmmoCards(board.getBoard()[1][1].getAmmo()));
+            axx1yy2.setGraphic(showAmmoCards(board.getBoard()[1][2].getAmmo()));
+            axx1yy3.setGraphic(showAmmoCards(board.getBoard()[1][3].getAmmo()));
+
+            axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
+            axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
+        }
+        if(boardNumber == 1) {
+            axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
+            axx0yy1.setGraphic(showAmmoCards(board.getBoard()[0][1].getAmmo()));
+
+            axx1yy1.setGraphic(showAmmoCards(board.getBoard()[1][1].getAmmo()));
+            axx1yy2.setGraphic(showAmmoCards(board.getBoard()[1][2].getAmmo()));
+            axx1yy3.setGraphic(showAmmoCards(board.getBoard()[1][3].getAmmo()));
+
+            axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
+            axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
+        }
     }
 
     //a method to create ImageView for weapons
@@ -5772,82 +5972,81 @@ public class AdrenalineView extends Application {
             char[] value1 = {'p','y','r'};
             char[] value2 = {'p','r','b'};
             char[] value3 = {'p','y','b'};
-            char[] value4 = {};
-            char[] value5 = {};
-            char[] value6 = {};
-            char[] value7 = {};
-            char[] value8 = {};
-            char[] value9 = {};
-            char[] value10 = {};
-            char[] value11 = {};
-            char[] value12 = {};
+            char[] value4 = {'b','y','y'};
+            char[] value5 = {'y','b','b'};
+            char[] value6 = {'y','r','r'};
+            char[] value7 = {'r','y','y'};
+            char[] value8 = {'r','b','b'};
+            char[] value9 = {'b','r','r'};
+            char[] value10 = {'p','b','b'};
+            char[] value11 = {'p','r','r'};
+            char[] value12 = {'p','y','y'};
 
-            //value.toString();
-            //switch (value[0], value[1], value[2]) {
-            //    case value1:
-            //        Image pyr = new Image(AdrenalineView.class.getResource("/pyr.png").toExternalForm());
-            //        ImageView pyrIV = new ImageView(pyr);
-            //        return pyrIV;
-            //    case value2:
-            //        Image prb = new Image(AdrenalineView.class.getResource("/prb.png").toExternalForm());
-            //        ImageView prbIV = new ImageView(prb);
-            //        return prbIV;
-//
-            //    case "Flamethrower":
-            //        Image ft = new Image(AdrenalineView.class.getResource("/ft.png").toExternalForm());
-            //        ImageView ftIV = new ImageView(ft);
-            //        return ftIV;
-//
-            //    case "Furnace":
-            //        Image fur = new Image(AdrenalineView.class.getResource("/fur.png").toExternalForm());
-            //        ImageView furIV = new ImageView(fur);
-            //        return furIV;
-//
-            //    case "Grenade Launcher":
-            //        Image gl = new Image(AdrenalineView.class.getResource("/gl.png").toExternalForm());
-            //        ImageView glIV = new ImageView(gl);
-            //        return glIV;
-//
-            //    case "HeatSeeker":
-            //        Image hs = new Image(AdrenalineView.class.getResource("/hs.png").toExternalForm());
-            //        ImageView hsIV = new ImageView(hs);
-            //        return hsIV;
-//
-            //    case "Hellion":
-            //        Image hel = new Image(AdrenalineView.class.getResource("/hel.png").toExternalForm());
-            //        ImageView helIV = new ImageView(hel);
-            //        return helIV;
-//
-            //    case "LockRifle":
-            //        Image lr = new Image(AdrenalineView.class.getResource("/lr.png").toExternalForm());
-            //        ImageView lrIV = new ImageView(lr);
-            //        return lrIV;
-//
-            //    case "Machine Gun":
-            //        Image mg = new Image(AdrenalineView.class.getResource("/mg.png").toExternalForm());
-            //        ImageView mgIV = new ImageView(mg);
-            //        return mgIV;
-//
-            //    case "PlasmaGun":
-            //        Image pg = new Image(AdrenalineView.class.getResource("/pg.png").toExternalForm());
-            //        ImageView pgIV = new ImageView(pg);
-            //        return pgIV;
-//
-            //    case "Power Glove":
-            //        Image pow = new Image(AdrenalineView.class.getResource("/pow.png").toExternalForm());
-            //        ImageView powIV = new ImageView(pow);
-            //        return powIV;
-//
-            //    case "Railgun":
-            //        Image rail = new Image(AdrenalineView.class.getResource("/rail.png").toExternalForm());
-            //        ImageView railIV = new ImageView(rail);
-            //        return railIV;
-            //}
+            if(value[0]==value1[0] && value[1]==value1[1] && value[2]==value1[2]) {
+                Image pyr = new Image(AdrenalineView.class.getResource("/pyr.png").toExternalForm());
+                ImageView pyrIV = new ImageView(pyr);
+                return pyrIV;
+            }
+            else if (value[0]==value2[0] && value[1]==value2[1] && value[2]==value2[2]) {
+                Image prb = new Image(AdrenalineView.class.getResource("/prb.png").toExternalForm());
+                ImageView prbIV = new ImageView(prb);
+                return prbIV;
+            }
+            else if (value[0]==value3[0] && value[1]==value3[1] && value[2]==value3[2]) {
+                Image pyb = new Image(AdrenalineView.class.getResource("/pyb.png").toExternalForm());
+                ImageView pybIV = new ImageView(pyb);
+                return pybIV;
+            }
+            else if (value[0]==value4[0] && value[1]==value4[1] && value[2]==value4[2]) {
+                Image byy = new Image(AdrenalineView.class.getResource("/byy.png").toExternalForm());
+                ImageView byyIV = new ImageView(byy);
+                return byyIV;
+            }
+            else if (value[0]==value5[0] && value[1]==value5[1] && value[2]==value5[2]) {
+                Image ybb = new Image(AdrenalineView.class.getResource("/ybb.png").toExternalForm());
+                ImageView ybbIV = new ImageView(ybb);
+                return ybbIV;
+            }
+            else if (value[0]==value6[0] && value[1]==value6[1] && value[2]==value6[2]) {
+                Image yrr = new Image(AdrenalineView.class.getResource("/yrr.png").toExternalForm());
+                ImageView yrrIV = new ImageView(yrr);
+                return yrrIV;
+            }
+            else if (value[0]==value7[0] && value[1]==value7[1] && value[2]==value7[2]) {
+                Image ryy = new Image(AdrenalineView.class.getResource("/ryy.png").toExternalForm());
+                ImageView ryyIV = new ImageView(ryy);
+                return ryyIV;
+            }
+            else if (value[0]==value8[0] && value[1]==value8[1] && value[2]==value8[2]) {
+                Image rbb = new Image(AdrenalineView.class.getResource("/rbb.png").toExternalForm());
+                ImageView rbbIV = new ImageView(rbb);
+                return rbbIV;
+            }
+            else if (value[0]==value9[0] && value[1]==value9[1] && value[2]==value9[2]) {
+                Image brr = new Image(AdrenalineView.class.getResource("/brr.png").toExternalForm());
+                ImageView brrIV = new ImageView(brr);
+                return brrIV;
+            }
+            else if (value[0]==value10[0] && value[1]==value10[1] && value[2]==value10[2]) {
+                Image pbb = new Image(AdrenalineView.class.getResource("/pbb.png").toExternalForm());
+                ImageView pbbIV = new ImageView(pbb);
+                return pbbIV;
+            }
+            else if (value[0]==value11[0] && value[1]==value11[1] && value[2]==value11[2]) {
+                Image prr = new Image(AdrenalineView.class.getResource("/prr.png").toExternalForm());
+                ImageView prrIV = new ImageView(prr);
+                return prrIV;
+            }
+            else if(value[0]==value12[0] && value[1]==value12[1] && value[2]==value12[2]){
+                Image pyy = new Image(AdrenalineView.class.getResource("/pyy.png").toExternalForm());
+                ImageView pyyIV = new ImageView(pyy);
+                return pyyIV;
+            }
         }
         else{
-            Image empty = new Image(AdrenalineView.class.getResource("/weap.png").toExternalForm());
-            ImageView emptyIV = new ImageView(empty);
-            return emptyIV;
+            Image ammoBack = new Image(AdrenalineView.class.getResource("/ammoBack.png").toExternalForm());
+            ImageView ammoBackIV = new ImageView(ammoBack);
+            return ammoBackIV;
         }
         return null;
     }
