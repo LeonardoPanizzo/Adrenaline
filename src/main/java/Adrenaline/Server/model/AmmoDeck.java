@@ -31,7 +31,7 @@ public class AmmoDeck {
             ammoDeck.add(new AmmoCard(new char[]{'p','r','r'}));
             ammoDeck.add(new AmmoCard(new char[]{'p','y','y'}));
         }
-
+        shuffle();
     }
 
     public void shuffle(){
