@@ -1433,6 +1433,7 @@ public class AdrenalineView extends Application {
         btnWeap.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                updateWeaponValue();
                 weap.show();
             }
         });
@@ -1441,6 +1442,7 @@ public class AdrenalineView extends Application {
         btnPower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                updatePowerUpValue();
                 power.show();
             }
         });
@@ -2859,8 +2861,835 @@ public class AdrenalineView extends Application {
                 gxx0yy2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        bxx0yy0.setVisible(false);
+                        bxx0yy1.setVisible(false);
+                        bxx0yy2.setVisible(false);
+                        bxx0yy3.setVisible(false);
+                        bxx1yy0.setVisible(false);
+                        bxx1yy1.setVisible(false);
+                        bxx1yy2.setVisible(false);
+                        bxx1yy3.setVisible(false);
+                        bxx2yy0.setVisible(false);
+                        bxx2yy1.setVisible(false);
+                        bxx2yy2.setVisible(false);
+                        bxx2yy3.setVisible(false);
+                        pToTake = 0;
+                        pwToTake=new PowerupCard[3];
+                        showWeaponRes(me.getPosition());
+                        weapRes.show();
 
-                        updateWeaponValue();
+                        weaponRes1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[0][2].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx0yy2.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
 
@@ -2875,8 +3704,835 @@ public class AdrenalineView extends Application {
                 gxx1yy0.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        bxx0yy0.setVisible(false);
+                        bxx0yy1.setVisible(false);
+                        bxx0yy2.setVisible(false);
+                        bxx0yy3.setVisible(false);
+                        bxx1yy0.setVisible(false);
+                        bxx1yy1.setVisible(false);
+                        bxx1yy2.setVisible(false);
+                        bxx1yy3.setVisible(false);
+                        bxx2yy0.setVisible(false);
+                        bxx2yy1.setVisible(false);
+                        bxx2yy2.setVisible(false);
+                        bxx2yy3.setVisible(false);
+                        pToTake = 0;
+                        pwToTake=new PowerupCard[3];
+                        showWeaponRes(me.getPosition());
+                        weapRes.show();
 
-                        updateWeaponValue();
+                        weaponRes1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[1][0].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx1yy0.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
 
@@ -2991,7 +4647,6 @@ public class AdrenalineView extends Application {
                                             if(me.getWeapons()[i]==null)
                                                 weapCounter++;
                                         }
-                                        System.out.println("pwToTake: "+pwToTake[0].getName());
                                         if(pwToTake[0] == null){
                                             if(weapCounter>0) {
                                                 me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
@@ -3006,123 +4661,6 @@ public class AdrenalineView extends Application {
                                                         me.discardWeapon(temp);
 
                                                         test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
-
-                                                        if(test){
-                                                            me.getPosition().chooseArm(0);
-                                                            me.getPosition().giveWeapon(temp);
-
-                                                            if(me.getAction()<1){
-                                                                moveBtn.setDisable(true);
-                                                                moveAndGrabBtn.setDisable(true);
-                                                                shotBtn.setDisable(true);
-                                                            }
-
-                                                        }
-                                                        else{
-                                                            me.addWeapon(temp);
-                                                        }
-                                                        updateWeaponValue();
-                                                        updateAmmoValue();
-                                                        gxx2yy3.setVisible(false);
-                                                        weap.close();
-                                                        amm.close();
-                                                        weapRes.close();
-                                                    }
-                                                });
-
-                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
-                                                    @Override
-                                                    public void handle(ActionEvent actionEvent) {
-                                                        WeaponCard[] tempArray = me.getWeapons().clone();
-                                                        WeaponCard temp = tempArray[1];
-                                                        me.discardWeapon(temp);
-
-                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
-
-                                                        if(test){
-                                                            me.getPosition().chooseArm(0);
-                                                            me.getPosition().giveWeapon(temp);
-
-                                                            if(me.getAction()<1){
-                                                                moveBtn.setDisable(true);
-                                                                moveAndGrabBtn.setDisable(true);
-                                                                shotBtn.setDisable(true);
-                                                            }
-
-                                                        }
-                                                        else{
-                                                            me.addWeapon(temp);
-                                                        }
-                                                        updateWeaponValue();
-                                                        updateAmmoValue();
-                                                        gxx2yy3.setVisible(false);
-                                                        weap.close();
-                                                        amm.close();
-                                                        weapRes.close();
-                                                    }
-                                                });
-
-                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
-                                                    @Override
-                                                    public void handle(ActionEvent actionEvent) {
-                                                        WeaponCard[] tempArray = me.getWeapons().clone();
-                                                        WeaponCard temp = tempArray[2];
-                                                        me.discardWeapon(temp);
-
-                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
-
-                                                        if(test){
-                                                            me.getPosition().chooseArm(0);
-                                                            me.getPosition().giveWeapon(temp);
-
-                                                            if(me.getAction()<1){
-                                                                moveBtn.setDisable(true);
-                                                                moveAndGrabBtn.setDisable(true);
-                                                                shotBtn.setDisable(true);
-                                                            }
-
-                                                        }
-                                                        else{
-                                                            me.addWeapon(temp);
-                                                        }
-                                                        updateWeaponValue();
-                                                        updateAmmoValue();
-                                                        gxx2yy3.setVisible(false);
-                                                        weap.close();
-                                                        amm.close();
-                                                        weapRes.close();
-                                                    }
-                                                });
-
-                                            }
-                                        }
-                                        else{
-                                            int numberOfPW = 0;
-                                            for (int i = 0; i < pwToTake.length; i++) {
-                                                if (pwToTake[i] != null)
-                                                    numberOfPW++;
-                                            }
-                                            powerToUse = new PowerupCard[numberOfPW];
-                                            for (int i = 0; i < powerToUse.length; i++)
-                                                powerToUse[i] = pwToTake[i];
-
-                                            System.out.println("Power to use: "+powerToUse[0].getName());
-
-                                            if (weapCounter>0) {
-                                                ok = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
-                                                System.out.println("Ok value: "+ok);
-                                            }
-                                            else{
-                                                weap.show();
-                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
-                                                    @Override
-                                                    public void handle(ActionEvent actionEvent) {
-                                                        WeaponCard[] tempArray = me.getWeapons().clone();
-                                                        WeaponCard temp = tempArray[0];
-                                                        me.discardWeapon(temp);
-
-                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
-                                                        System.out.println("Test value: "+test);
 
                                                         if(test){
                                                             me.getPosition().chooseArm(0);
@@ -3155,7 +4693,7 @@ public class AdrenalineView extends Application {
                                                         WeaponCard temp = tempArray[1];
                                                         me.discardWeapon(temp);
 
-                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
 
                                                         if(test){
                                                             me.getPosition().chooseArm(0);
@@ -3171,6 +4709,665 @@ public class AdrenalineView extends Application {
                                                         else{
                                                             me.addWeapon(temp);
                                                         }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[0], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(1);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        weaponRes3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                amm.show();
+                                usePW.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[0];
+                                                power1.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[1];
+                                                power2.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                pwToTake[pToTake] = me.getPowerup()[2];
+                                                power3.setDisable(true);
+                                                pToTake++;
+                                            }
+                                        });
+                                    }
+                                });
+                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        boolean ok;
+                                        int weapCounter =0;
+                                        for(int i=0; i<3;i++){
+                                            if(me.getWeapons()[i]==null)
+                                                weapCounter++;
+                                        }
+                                        if(pwToTake[0] == null){
+                                            if(weapCounter>0) {
+                                                me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2]);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[2];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2]);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+                                            int numberOfPW = 0;
+                                            for (int i = 0; i < pwToTake.length; i++) {
+                                                if (pwToTake[i] != null)
+                                                    numberOfPW++;
+                                            }
+                                            powerToUse = new PowerupCard[numberOfPW];
+                                            for (int i = 0; i < powerToUse.length; i++)
+                                                powerToUse[i] = pwToTake[i];
+
+                                            if (weapCounter>0) {
+                                                ok = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[1], powerToUse);
+                                            }
+                                            else{
+                                                weap.show();
+                                                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[0];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updateWeaponValue();
+                                                        updateAmmoValue();
+                                                        updatePowerUpValue();
+                                                        gxx2yy3.setVisible(false);
+                                                        weap.close();
+                                                        amm.close();
+                                                        weapRes.close();
+                                                    }
+                                                });
+
+                                                weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        WeaponCard[] tempArray = me.getWeapons().clone();
+                                                        WeaponCard temp = tempArray[1];
+                                                        me.discardWeapon(temp);
+
+                                                        test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2], powerToUse);
+
+                                                        if(test){
+                                                            me.getPosition().chooseArm(2);
+                                                            me.getPosition().giveWeapon(temp);
+
+                                                            if(me.getAction()<1){
+                                                                moveBtn.setDisable(true);
+                                                                moveAndGrabBtn.setDisable(true);
+                                                                shotBtn.setDisable(true);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            me.addWeapon(temp);
+                                                        }
+                                                        updatePowerUpValue();
                                                         updateWeaponValue();
                                                         updateAmmoValue();
                                                         gxx2yy3.setVisible(false);
@@ -3190,7 +5387,7 @@ public class AdrenalineView extends Application {
                                                         test = me.grabWeaponCard(board.getBoard()[2][3].showWeapons()[2], powerToUse);
 
                                                         if(test){
-                                                            me.getPosition().chooseArm(0);
+                                                            me.getPosition().chooseArm(2);
                                                             me.getPosition().giveWeapon(temp);
 
                                                             if(me.getAction()<1){
@@ -3203,6 +5400,7 @@ public class AdrenalineView extends Application {
                                                         else{
                                                             me.addWeapon(temp);
                                                         }
+                                                        updatePowerUpValue();
                                                         updateWeaponValue();
                                                         updateAmmoValue();
                                                         gxx2yy3.setVisible(false);
@@ -3214,23 +5412,14 @@ public class AdrenalineView extends Application {
 
                                             }
                                         }
-
-                                        System.out.println("Actions: "+me.getAction());
                                     }
                                 });
                             }
                         });
-
-                        //fine weapRes1
-
-
                     }
                 });
-
             }
         });
-
-
     }
 
     //A method to create ImageView for powerup
