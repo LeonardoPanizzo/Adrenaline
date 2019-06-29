@@ -485,11 +485,10 @@ public class Player {
         }
         return done;
     }
-    //todo sistemare metodo
+    
     public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
-        //boolean correctinput=this.updatePowerup(payment.clone()); //checks if the user own the powerup passed
-        if(this.action>0 /*&& correctinput*/){
+        if(this.action>0){
             char[] cost=weapon.getCostTaking().clone();
             int[] mun=new int[]{0,0,0};     //munition created with the powerup
             int[] costint=new int[]{0, 0, 0};    //cost express in int
@@ -502,22 +501,13 @@ public class Player {
                     mun[2]++;
                 }
             }
-            for(int i=0; i<weapon.getCostTaking().length; i++){
-                if(weapon.getCostTaking()[i]=='b'){
-                    costint[0]++;
-                }else if(weapon.getCostTaking()[i]=='y'){
-                    costint[1]++;
-                }else if(weapon.getCostTaking()[i]=='r'){
-                    costint[2]++;
-                }
-            }
             for(int i=0; i<cost.length; i++){
                 if(cost[i]=='b'){
-                    costint[0]--;
+                    costint[0]++;
                 }else if(cost[i]=='y'){
-                    costint[1]--;
+                    costint[1]++;
                 }else if(cost[i]=='r'){
-                    costint[2]--;
+                    costint[2]++;
                 }
             }
             costint[0]=costint[0]-mun[0];
@@ -528,9 +518,8 @@ public class Player {
                 while(this.weapons[cont]!=null && cont<4){
                     cont++;
                 }
-                if(cont<4 && this.position.pickUpWeapon(weapon) && updateAmmo(costint)){
+                if(cont<4 && this.position.pickUpWeapon(weapon) && updateAmmo(costint) && this.updatePowerup(payment)){
                     this.weapons[cont]=weapon;
-                    this.updatePowerup(payment);
                     action--;
                     done=true;
                 }
