@@ -28,6 +28,8 @@ public class AdrenalineView extends Application {
     private int moveAndGrabCounter = 0;
     private int count = 0;
 
+    private Button reloadButton = new Button("Reload");
+
     private char[] ammoToUse;
     private PowerupCard[] powerToUse;
 
@@ -89,6 +91,19 @@ public class AdrenalineView extends Application {
     private Label yAmmo;
     private Label rAmmo;
 
+    private int p2blueAmmo;
+    private int p2yellowAmmo;
+    private int p2redAmmo;
+
+    private Label p2bAmmo;
+    private Label p2yAmmo;
+    private Label p2rAmmo;
+
+    private Label p2ActualLife = new Label();
+    private Label p3ActualLife = new Label();
+    private Label p4ActualLife = new Label();
+    private Label p5ActualLife = new Label();
+
     private int lifeValue = 0;
     private Board board = new Board(1);
     private int boardNumber;
@@ -145,6 +160,11 @@ public class AdrenalineView extends Application {
     private String play = null;
     private Label player = new Label();
 
+    private Button btn2 = new Button();
+    private Button btn3 = new Button();
+    private Button btn4 = new Button();
+    private Button btn5 = new Button();
+
     public AdrenalineView(Board board, Player me, Player[] players){
         this.me = me;
         this.playersInGame = players;
@@ -182,17 +202,20 @@ public class AdrenalineView extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        playersInGame[yourID] = me; //todo: alla fine è da rimuovere
 
         //me.setPlayersDamage(0, 2); //todo da eliminare
         me.setRound(true);
-        me.setName("Andre");
+        //me.setMarksReceived(playersInGame[0], 2);
+        //me.setMarksReceived(playersInGame[2], 3);
+        //me.setMarksReceived(playersInGame[3], 1);
+        //me.setMarksReceived(playersInGame[4], 0);
+
 
         int[] damagesBy = new int[4];
         int k = 0;
         for (int i = 0; i < 5; i++) {
             if (i != yourID) {
-                damagesBy[k] = me.getPlayersDamage()[i][1];
+                damagesBy[k] = me.getMarksReceived()[i];
                 k++;
             }
         }
@@ -574,19 +597,19 @@ public class AdrenalineView extends Application {
         final String SEE = new String("See Details");
         Image play2 = new Image(AdrenalineView.class.getResource("/player2.png").toExternalForm());
         ImageView plays2 = new ImageView(play2);
-        Button btn2 = new Button(SEE, plays2);
+        btn2 = new Button(SEE, plays2);
         btn2.setContentDisplay(ContentDisplay.RIGHT);
         Image play3 = new Image(AdrenalineView.class.getResource("/player3.png").toExternalForm());
         ImageView plays3 = new ImageView(play3);
-        Button btn3 = new Button(SEE, plays3);
+        btn3 = new Button(SEE, plays3);
         btn3.setContentDisplay(ContentDisplay.RIGHT);
         Image play4 = new Image(AdrenalineView.class.getResource("/player4.png").toExternalForm());
         ImageView plays4 = new ImageView(play4);
-        Button btn4 = new Button(SEE, plays4);
+        btn4 = new Button(SEE, plays4);
         btn4.setContentDisplay(ContentDisplay.RIGHT);
         Image play5 = new Image(AdrenalineView.class.getResource("/player5.png").toExternalForm());
         ImageView plays5 = new ImageView(play5);
-        Button btn5 = new Button("See Details", plays5);
+        btn5 = new Button("See Details", plays5);
         btn5.setContentDisplay(ContentDisplay.RIGHT);
 
         GridPane you = new GridPane();
@@ -649,16 +672,21 @@ public class AdrenalineView extends Application {
         Image respI = new Image(AdrenalineView.class.getResource("/respawn.png").toExternalForm());
         ImageView respIV = new ImageView(respI);
         Button respawnBtn = new Button("Respawn", respIV);
-        life.getChildren().addAll(lifeL, actualLife, respawnBtn);
+        life.getChildren().addAll(lifeL, actualLife, respawnBtn, reloadButton);
+
         you.add(life, 3, 0);
 
+        //number of marks received
         int damagesValue2 = damagesBy[0];
         int damagesValue3 = damagesBy[1];
         int damagesValue4 = damagesBy[2];
         int damagesValue5 = damagesBy[3];
 
-        VBox damages1 = new VBox(40);
+        VBox damages1 = new VBox(20);
         damages1.setAlignment(Pos.CENTER);
+
+        Label marks1 = new Label("Marks Received:");
+        damages1.getChildren().add(marks1);
 
         Image dam2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
         ImageView dam2IV = new ImageView(dam2);
@@ -670,8 +698,11 @@ public class AdrenalineView extends Application {
         Label damagesByP3 = new Label("X " + damagesValue3, dam3IV);
         damages1.getChildren().add(damagesByP3);
 
-        VBox damages2 = new VBox(40);
+        VBox damages2 = new VBox(20);
         damages2.setAlignment(Pos.CENTER);
+
+        Label marks2 = new Label(" ");
+        damages2.getChildren().add(marks2);
 
         Image dam4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
         ImageView dam4IV = new ImageView(dam4);
@@ -826,6 +857,777 @@ public class AdrenalineView extends Application {
         weaponCards.getChildren().addAll(weapon1, weapon2, weapon3);
 
         //Event effects
+        //todo settare pulsanti giocatori
+
+        //todo da eliminare
+        WeaponCard[] proviamo = new WeaponCard[]{new WeaponCard("HeatSeeker", null, null, true), new WeaponCard("HeatSeeker", null, null, true), new WeaponCard("HeatSeeker", null, null, true)};
+        proviamo[0].setLoaded(false);
+        proviamo[1].setLoaded(false);
+        proviamo[2].setLoaded(false);
+        playersInGame[4].setWeapons(proviamo);
+        playersInGame[4].setMarksReceived(playersInGame[0], 3);
+        playersInGame[4].setMarksReceived(playersInGame[1], 2);
+        playersInGame[4].setMarksReceived(playersInGame[2], 1);
+        playersInGame[4].setMarksReceived(playersInGame[3], 1);
+
+        playersInGame[4].setPlayersDamage(0, 4);
+        playersInGame[4].setPlayersDamage(1, 3);
+        playersInGame[4].setPlayersDamage(2, 2);
+        playersInGame[4].setPlayersDamage(3, 1);
+        
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Player[] allPlayer = new Player[4];
+                int y=0;
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                        allPlayer[y] = playersInGame[i];
+                        y++;
+                    }
+                }
+
+                int[] p2damagesBy = new int[4];
+                int z = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2damagesBy[0] = allPlayer[0].getPlayersDamage()[i][1];
+                    else if (i != allPlayer[0].getNumber()) {
+                        p2damagesBy[z] = allPlayer[0].getPlayersDamage()[i][1];
+                        z++;
+                    }
+                }
+
+                int p2damagesValue1 = p2damagesBy[0];
+                int p2damagesValue3 = p2damagesBy[1];
+                int p2damagesValue4 = p2damagesBy[2];
+                int p2damagesValue5 = p2damagesBy[3];
+
+                int[] p2MarksBy = new int[4];
+                int w = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2MarksBy[0] = allPlayer[0].getMarksReceived()[i];
+                    else if (i != allPlayer[0].getNumber()) {
+                        p2MarksBy[w] = allPlayer[0].getMarksReceived()[i];
+                        w++;
+                    }
+                }
+
+                int p2MarksValue1 = p2MarksBy[0];
+                int p2MarksValue3 = p2MarksBy[1];
+                int p2MarksValue4 = p2MarksBy[2];
+                int p2MarksValue5 = p2MarksBy[3];
+
+
+                GridPane p2Details = new GridPane();
+                p2Details.setHgap(10);
+                p2Details.getColumnConstraints().add(new ColumnConstraints(0));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(120));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+
+                VBox p2ammo1 = new VBox(20);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV = new ImageView(p2blueI);
+                Label p2blue = new Label("Blue Ammo:", p2blueIV);
+                Image p2yellowI = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV = new ImageView(p2yellowI);
+                Label p2yellow = new Label("Yellow Ammo:", p2yellowIV);
+                Image p2redI = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV = new ImageView(p2redI);
+                Label p2red = new Label("Blue Ammo:", p2redIV);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                p2ammo1.getChildren().addAll(p2blue, p2yellow, p2red);
+                p2Details.add(p2ammo1, 1, 0);
+
+                p2blueAmmo = allPlayer[0].getAmmo('b');
+                p2yellowAmmo = allPlayer[0].getAmmo('y');
+                p2redAmmo = allPlayer[0].getAmmo('r');
+
+                VBox p2ammo2 = new VBox(20);
+                p2ammo2.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV2 = new ImageView(p2blueI2);
+                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV2 = new ImageView(p2yellowI2);
+                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV2 = new ImageView(p2redI2);
+                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
+                p2Details.add(p2ammo2, 2, 0);
+
+                FlowPane p2life = new FlowPane(10, 10);
+                p2life.setAlignment(Pos.CENTER);
+                Label p2lifeL = new Label("Player 2 life is: ");
+                p2life.getChildren().addAll(p2lifeL, p2ActualLife);
+
+                p2Details.add(p2life, 3, 0);
+
+                VBox p2damages1 = new VBox(40);
+                p2damages1.setAlignment(Pos.CENTER);
+
+                Image p2dam1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2dam1IV = new ImageView(p2dam1);
+                Label p2damagesByP1 = new Label("X " + p2damagesValue1, p2dam1IV);
+                p2damages1.getChildren().add(p2damagesByP1);
+
+                Image p2dam3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2dam3IV = new ImageView(p2dam3);
+                Label p2damagesByP3 = new Label("X " + p2damagesValue3, p2dam3IV);
+                p2damages1.getChildren().add(p2damagesByP3);
+
+                VBox p2damages2 = new VBox(40);
+                p2damages2.setAlignment(Pos.CENTER);
+
+                Image p2dam4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2dam4IV = new ImageView(p2dam4);
+                Label p2damagesByP4 = new Label("X " + p2damagesValue4, p2dam4IV);
+                p2damages2.getChildren().add(p2damagesByP4);
+
+                Image p2dam5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2dam5IV = new ImageView(p2dam5);
+                Label p2damagesByP5 = new Label("X " + p2damagesValue5, p2dam5IV);
+                p2damages2.getChildren().add(p2damagesByP5);
+
+                p2Details.add(p2damages1, 4, 0);
+                p2Details.add(p2damages2, 5, 0);
+
+                VBox p2marks1 = new VBox(40);
+                p2marks1.setAlignment(Pos.CENTER);
+
+                Label p2mark1 = new Label("Marks Received:");
+
+                Image p2mar1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2mar1IV = new ImageView(p2mar1);
+                Label p2marksByP1 = new Label("X " + p2MarksValue1, p2mar1IV);
+                p2marks1.getChildren().add(p2marksByP1);
+
+                Image p2mar3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2mar3IV = new ImageView(p2mar3);
+                Label p2marksByP3 = new Label("X " + p2MarksValue3, p2mar3IV);
+                p2marks1.getChildren().add(p2marksByP3);
+
+                VBox p2marks2 = new VBox(40);
+                p2marks2.setAlignment(Pos.CENTER);
+
+                Image p2mar4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2mar4IV = new ImageView(p2mar4);
+                Label p2marksByP4 = new Label("X " + p2MarksValue4, p2mar4IV);
+                p2marks2.getChildren().add(p2marksByP4);
+
+                Image p2mar5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2mar5IV = new ImageView(p2mar5);
+                Label p2marksByP5 = new Label("X " + p2MarksValue5, p2mar5IV);
+                p2marks2.getChildren().add(p2marksByP5);
+
+                HBox wepUnloaded = new HBox(10);
+                wepUnloaded.setAlignment(Pos.CENTER);
+                Label weps1 = new Label();
+                Label weps2 = new Label();
+                Label weps3 = new Label();
+
+                Label text = new Label("Weapons unloaded:");
+
+                if(allPlayer[0].getWeapons()[0] != null && !allPlayer[0].getWeapons()[0].isLoaded())
+                    weps1.setGraphic(showWeapons(allPlayer[0].getWeapons()[0]));
+                if(allPlayer[0].getWeapons()[1] != null && !allPlayer[0].getWeapons()[1].isLoaded())
+                    weps2.setGraphic(showWeapons(allPlayer[0].getWeapons()[1]));
+                if(allPlayer[0].getWeapons()[2] != null && !allPlayer[0].getWeapons()[2].isLoaded())
+                    weps3.setGraphic(showWeapons(allPlayer[0].getWeapons()[2]));
+                wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
+                p2Details.add(wepUnloaded, 9, 0);
+
+                p2Details.add(p2mark1, 6, 0);
+                p2Details.add(p2marks1, 7, 0);
+                p2Details.add(p2marks2, 8, 0);
+
+                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Stage p2Stage = new Stage();
+                p2Stage.setTitle(allPlayer[0].getName());
+                p2Stage.setScene(p2Detail);
+
+                p2ActualLife.setText(String.valueOf(allPlayer[0].getLife()));
+                p2Stage.show();
+            }
+        });
+
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Player[] allPlayer = new Player[4];
+                int y=0;
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                        allPlayer[y] = playersInGame[i];
+                        y++;
+                    }
+                }
+
+                int[] p2damagesBy = new int[4];
+                int z = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2damagesBy[0] = allPlayer[1].getPlayersDamage()[i][1];
+                    else if (i != allPlayer[1].getNumber()) {
+                        p2damagesBy[z] = allPlayer[1].getPlayersDamage()[i][1];
+                        z++;
+                    }
+                }
+
+                int p2damagesValue1 = p2damagesBy[0];
+                int p2damagesValue2 = p2damagesBy[1];
+                int p2damagesValue4 = p2damagesBy[2];
+                int p2damagesValue5 = p2damagesBy[3];
+
+                int[] p2MarksBy = new int[4];
+                int w = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2MarksBy[0] = allPlayer[1].getMarksReceived()[i];
+                    else if (i != allPlayer[1].getNumber()) {
+                        p2MarksBy[w] = allPlayer[1].getMarksReceived()[i];
+                        w++;
+                    }
+                }
+
+                int p2MarksValue1 = p2MarksBy[0];
+                int p2MarksValue2 = p2MarksBy[1];
+                int p2MarksValue4 = p2MarksBy[2];
+                int p2MarksValue5 = p2MarksBy[3];
+
+
+                GridPane p2Details = new GridPane();
+                p2Details.setHgap(10);
+                p2Details.getColumnConstraints().add(new ColumnConstraints(0));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(120));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+
+                VBox p2ammo1 = new VBox(20);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV = new ImageView(p2blueI);
+                Label p2blue = new Label("Blue Ammo:", p2blueIV);
+                Image p2yellowI = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV = new ImageView(p2yellowI);
+                Label p2yellow = new Label("Yellow Ammo:", p2yellowIV);
+                Image p2redI = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV = new ImageView(p2redI);
+                Label p2red = new Label("Blue Ammo:", p2redIV);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                p2ammo1.getChildren().addAll(p2blue, p2yellow, p2red);
+                p2Details.add(p2ammo1, 1, 0);
+
+                p2blueAmmo = allPlayer[0].getAmmo('b');
+                p2yellowAmmo = allPlayer[0].getAmmo('y');
+                p2redAmmo = allPlayer[0].getAmmo('r');
+
+                VBox p2ammo2 = new VBox(20);
+                p2ammo2.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV2 = new ImageView(p2blueI2);
+                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV2 = new ImageView(p2yellowI2);
+                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV2 = new ImageView(p2redI2);
+                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
+                p2Details.add(p2ammo2, 2, 0);
+
+                FlowPane p2life = new FlowPane(10, 10);
+                p2life.setAlignment(Pos.CENTER);
+                Label p2lifeL = new Label("Player 3 life is: ");
+                p2life.getChildren().addAll(p2lifeL, p3ActualLife);
+
+                p2Details.add(p2life, 3, 0);
+
+                VBox p2damages1 = new VBox(40);
+                p2damages1.setAlignment(Pos.CENTER);
+
+                Image p2dam1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2dam1IV = new ImageView(p2dam1);
+                Label p2damagesByP1 = new Label("X " + p2damagesValue1, p2dam1IV);
+                p2damages1.getChildren().add(p2damagesByP1);
+
+                Image p2dam2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2dam2IV = new ImageView(p2dam2);
+                Label p2damagesByP2 = new Label("X " + p2damagesValue2, p2dam2IV);
+                p2damages1.getChildren().add(p2damagesByP2);
+
+                VBox p2damages2 = new VBox(40);
+                p2damages2.setAlignment(Pos.CENTER);
+
+                Image p2dam4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2dam4IV = new ImageView(p2dam4);
+                Label p2damagesByP4 = new Label("X " + p2damagesValue4, p2dam4IV);
+                p2damages2.getChildren().add(p2damagesByP4);
+
+                Image p2dam5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2dam5IV = new ImageView(p2dam5);
+                Label p2damagesByP5 = new Label("X " + p2damagesValue5, p2dam5IV);
+                p2damages2.getChildren().add(p2damagesByP5);
+
+                p2Details.add(p2damages1, 4, 0);
+                p2Details.add(p2damages2, 5, 0);
+
+                VBox p2marks1 = new VBox(40);
+                p2marks1.setAlignment(Pos.CENTER);
+
+                Label p2mark1 = new Label("Marks Received:");
+
+                Image p2mar1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2mar1IV = new ImageView(p2dam1);
+                Label p2marksByP1 = new Label("X " + p2MarksValue1, p2mar1IV);
+                p2marks1.getChildren().add(p2marksByP1);
+
+                Image p2mar2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2mar2IV = new ImageView(p2mar2);
+                Label p2marksByP2 = new Label("X " + p2MarksValue2, p2mar2IV);
+                p2marks1.getChildren().add(p2marksByP2);
+
+                VBox p2marks2 = new VBox(40);
+                p2marks2.setAlignment(Pos.CENTER);
+
+                Image p2mar4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2mar4IV = new ImageView(p2mar4);
+                Label p2marksByP4 = new Label("X " + p2MarksValue4, p2mar4IV);
+                p2marks2.getChildren().add(p2marksByP4);
+
+                Image p2mar5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2mar5IV = new ImageView(p2mar5);
+                Label p2marksByP5 = new Label("X " + p2MarksValue5, p2mar5IV);
+                p2marks2.getChildren().add(p2marksByP5);
+
+                HBox wepUnloaded = new HBox(10);
+                wepUnloaded.setAlignment(Pos.CENTER);
+                Label weps1 = new Label();
+                Label weps2 = new Label();
+                Label weps3 = new Label();
+
+                Label text = new Label("Weapons unloaded:");
+
+                if(allPlayer[1].getWeapons()[0] != null && !allPlayer[1].getWeapons()[0].isLoaded())
+                    weps1.setGraphic(showWeapons(allPlayer[1].getWeapons()[0]));
+                if(allPlayer[1].getWeapons()[1] != null && !allPlayer[1].getWeapons()[1].isLoaded())
+                    weps2.setGraphic(showWeapons(allPlayer[1].getWeapons()[1]));
+                if(allPlayer[1].getWeapons()[2] != null && !allPlayer[1].getWeapons()[2].isLoaded())
+                    weps3.setGraphic(showWeapons(allPlayer[1].getWeapons()[2]));
+                wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
+                p2Details.add(wepUnloaded, 9, 0);
+
+                p2Details.add(p2mark1, 6, 0);
+                p2Details.add(p2marks1, 7, 0);
+                p2Details.add(p2marks2, 8, 0);
+
+                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Stage p2Stage = new Stage();
+                p2Stage.setTitle(allPlayer[1].getName());
+                p2Stage.setScene(p2Detail);
+
+                p3ActualLife.setText(String.valueOf(allPlayer[1].getLife()));
+                p2Stage.show();
+            }
+        });
+
+        btn4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Player[] allPlayer = new Player[4];
+                int y=0;
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                        allPlayer[y] = playersInGame[i];
+                        y++;
+                    }
+                }
+
+                int[] p2damagesBy = new int[4];
+                int z = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2damagesBy[0] = allPlayer[2].getPlayersDamage()[i][1];
+                    else if (i != allPlayer[2].getNumber()) {
+                        p2damagesBy[z] = allPlayer[2].getPlayersDamage()[i][1];
+                        z++;
+                    }
+                }
+
+                int p2damagesValue1 = p2damagesBy[0];
+                int p2damagesValue2 = p2damagesBy[1];
+                int p2damagesValue3 = p2damagesBy[2];
+                int p2damagesValue5 = p2damagesBy[3];
+
+                int[] p2MarksBy = new int[4];
+                int w = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2MarksBy[0] = allPlayer[2].getMarksReceived()[i];
+                    else if (i != allPlayer[2].getNumber()) {
+                        p2MarksBy[w] = allPlayer[2].getMarksReceived()[i];
+                        w++;
+                    }
+                }
+
+                int p2MarksValue1 = p2MarksBy[0];
+                int p2MarksValue2 = p2MarksBy[1];
+                int p2MarksValue3 = p2MarksBy[2];
+                int p2MarksValue5 = p2MarksBy[3];
+
+
+                GridPane p2Details = new GridPane();
+                p2Details.setHgap(10);
+                p2Details.getColumnConstraints().add(new ColumnConstraints(0));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(120));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+
+                VBox p2ammo1 = new VBox(20);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV = new ImageView(p2blueI);
+                Label p2blue = new Label("Blue Ammo:", p2blueIV);
+                Image p2yellowI = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV = new ImageView(p2yellowI);
+                Label p2yellow = new Label("Yellow Ammo:", p2yellowIV);
+                Image p2redI = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV = new ImageView(p2redI);
+                Label p2red = new Label("Blue Ammo:", p2redIV);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                p2ammo1.getChildren().addAll(p2blue, p2yellow, p2red);
+                p2Details.add(p2ammo1, 1, 0);
+
+                p2blueAmmo = allPlayer[0].getAmmo('b');
+                p2yellowAmmo = allPlayer[0].getAmmo('y');
+                p2redAmmo = allPlayer[0].getAmmo('r');
+
+                VBox p2ammo2 = new VBox(20);
+                p2ammo2.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV2 = new ImageView(p2blueI2);
+                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV2 = new ImageView(p2yellowI2);
+                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV2 = new ImageView(p2redI2);
+                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
+                p2Details.add(p2ammo2, 2, 0);
+
+                FlowPane p2life = new FlowPane(10, 10);
+                p2life.setAlignment(Pos.CENTER);
+                Label p2lifeL = new Label("Player 4 life is: ");
+                p2life.getChildren().addAll(p2lifeL, p4ActualLife);
+
+                p2Details.add(p2life, 3, 0);
+
+                VBox p2damages1 = new VBox(40);
+                p2damages1.setAlignment(Pos.CENTER);
+
+                Image p2dam1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2dam1IV = new ImageView(p2dam1);
+                Label p2damagesByP1 = new Label("X " + p2damagesValue1, p2dam1IV);
+                p2damages1.getChildren().add(p2damagesByP1);
+
+                Image p2dam2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2dam2IV = new ImageView(p2dam2);
+                Label p2damagesByP2 = new Label("X " + p2damagesValue2, p2dam2IV);
+                p2damages1.getChildren().add(p2damagesByP2);
+
+                VBox p2damages2 = new VBox(40);
+                p2damages2.setAlignment(Pos.CENTER);
+
+                Image p2dam3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2dam3IV = new ImageView(p2dam3);
+                Label p2damagesByP3 = new Label("X " + p2damagesValue3, p2dam3IV);
+                p2damages2.getChildren().add(p2damagesByP3);
+
+                Image p2dam5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2dam5IV = new ImageView(p2dam5);
+                Label p2damagesByP5 = new Label("X " + p2damagesValue5, p2dam5IV);
+                p2damages2.getChildren().add(p2damagesByP5);
+
+                p2Details.add(p2damages1, 4, 0);
+                p2Details.add(p2damages2, 5, 0);
+
+                VBox p2marks1 = new VBox(40);
+                p2marks1.setAlignment(Pos.CENTER);
+
+                Label p2mark1 = new Label("Marks Received:");
+
+                Image p2mar1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2mar1IV = new ImageView(p2dam1);
+                Label p2marksByP1 = new Label("X " + p2MarksValue1, p2mar1IV);
+                p2marks1.getChildren().add(p2marksByP1);
+
+                Image p2mar2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2mar2IV = new ImageView(p2mar2);
+                Label p2marksByP2 = new Label("X " + p2MarksValue2, p2mar2IV);
+                p2marks1.getChildren().add(p2marksByP2);
+
+                VBox p2marks2 = new VBox(40);
+                p2marks2.setAlignment(Pos.CENTER);
+
+                Image p2mar3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2mar3IV = new ImageView(p2mar3);
+                Label p2marksByP3 = new Label("X " + p2MarksValue3, p2mar3IV);
+                p2marks2.getChildren().add(p2marksByP3);
+
+                Image p2mar5 = new Image(AdrenalineView.class.getResource("/damage5.png").toExternalForm());
+                ImageView p2mar5IV = new ImageView(p2mar5);
+                Label p2marksByP5 = new Label("X " + p2MarksValue5, p2mar5IV);
+                p2marks2.getChildren().add(p2marksByP5);
+
+                HBox wepUnloaded = new HBox(10);
+                wepUnloaded.setAlignment(Pos.CENTER);
+                Label weps1 = new Label();
+                Label weps2 = new Label();
+                Label weps3 = new Label();
+
+                Label text = new Label("Weapons unloaded:");
+
+                if(allPlayer[2].getWeapons()[0] != null && !allPlayer[2].getWeapons()[0].isLoaded())
+                    weps1.setGraphic(showWeapons(allPlayer[2].getWeapons()[0]));
+                if(allPlayer[2].getWeapons()[1] != null && !allPlayer[2].getWeapons()[1].isLoaded())
+                    weps2.setGraphic(showWeapons(allPlayer[2].getWeapons()[1]));
+                if(allPlayer[2].getWeapons()[2] != null && !allPlayer[2].getWeapons()[2].isLoaded())
+                    weps3.setGraphic(showWeapons(allPlayer[2].getWeapons()[2]));
+                wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
+                p2Details.add(wepUnloaded, 9, 0);
+
+                p2Details.add(p2mark1, 6, 0);
+                p2Details.add(p2marks1, 7, 0);
+                p2Details.add(p2marks2, 8, 0);
+
+                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Stage p2Stage = new Stage();
+                p2Stage.setTitle(allPlayer[2].getName());
+                p2Stage.setScene(p2Detail);
+
+                p4ActualLife.setText(String.valueOf(allPlayer[2].getLife()));
+                p2Stage.show();
+            }
+        });
+
+        btn5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Player[] allPlayer = new Player[4];
+                int y=0;
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                        allPlayer[y] = playersInGame[i];
+                        y++;
+                    }
+                }
+
+                int[] p2damagesBy = new int[4];
+                int z = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2damagesBy[0] = allPlayer[3].getPlayersDamage()[i][1];
+                    else if (i != allPlayer[3].getNumber()) {
+                        p2damagesBy[z] = allPlayer[3].getPlayersDamage()[i][1];
+                        z++;
+                    }
+                }
+
+                int p2damagesValue1 = p2damagesBy[0];
+                int p2damagesValue2 = p2damagesBy[1];
+                int p2damagesValue3 = p2damagesBy[2];
+                int p2damagesValue4 = p2damagesBy[3];
+
+                int[] p2MarksBy = new int[4];
+                int w = 1;
+                for (int i = 0; i < 5; i++) {
+                    if(i==yourID)
+                        p2MarksBy[0] = allPlayer[3].getMarksReceived()[i];
+                    else if (i != allPlayer[3].getNumber()) {
+                        p2MarksBy[w] = allPlayer[3].getMarksReceived()[i];
+                        w++;
+                    }
+                }
+
+                int p2MarksValue1 = p2MarksBy[0];
+                int p2MarksValue2 = p2MarksBy[1];
+                int p2MarksValue3 = p2MarksBy[2];
+                int p2MarksValue4 = p2MarksBy[3];
+
+
+                GridPane p2Details = new GridPane();
+                p2Details.setHgap(10);
+                p2Details.getColumnConstraints().add(new ColumnConstraints(0));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(120));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(100));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+                p2Details.getColumnConstraints().add(new ColumnConstraints(80));
+
+                VBox p2ammo1 = new VBox(20);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV = new ImageView(p2blueI);
+                Label p2blue = new Label("Blue Ammo:", p2blueIV);
+                Image p2yellowI = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV = new ImageView(p2yellowI);
+                Label p2yellow = new Label("Yellow Ammo:", p2yellowIV);
+                Image p2redI = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV = new ImageView(p2redI);
+                Label p2red = new Label("Blue Ammo:", p2redIV);
+                p2ammo1.setAlignment(Pos.CENTER_LEFT);
+                p2ammo1.getChildren().addAll(p2blue, p2yellow, p2red);
+                p2Details.add(p2ammo1, 1, 0);
+
+                p2blueAmmo = allPlayer[0].getAmmo('b');
+                p2yellowAmmo = allPlayer[0].getAmmo('y');
+                p2redAmmo = allPlayer[0].getAmmo('r');
+
+                VBox p2ammo2 = new VBox(20);
+                p2ammo2.setAlignment(Pos.CENTER_LEFT);
+                Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
+                ImageView p2blueIV2 = new ImageView(p2blueI2);
+                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
+                ImageView p2yellowIV2 = new ImageView(p2yellowI2);
+                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
+                ImageView p2redIV2 = new ImageView(p2redI2);
+                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
+                p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
+                p2Details.add(p2ammo2, 2, 0);
+
+                FlowPane p2life = new FlowPane(10, 10);
+                p2life.setAlignment(Pos.CENTER);
+                Label p2lifeL = new Label("Player 5 life is: ");
+                p2life.getChildren().addAll(p2lifeL, p5ActualLife);
+
+                p2Details.add(p2life, 3, 0);
+
+                VBox p2damages1 = new VBox(40);
+                p2damages1.setAlignment(Pos.CENTER);
+
+                Image p2dam1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2dam1IV = new ImageView(p2dam1);
+                Label p2damagesByP1 = new Label("X " + p2damagesValue1, p2dam1IV);
+                p2damages1.getChildren().add(p2damagesByP1);
+
+                Image p2dam2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2dam2IV = new ImageView(p2dam2);
+                Label p2damagesByP2 = new Label("X " + p2damagesValue2, p2dam2IV);
+                p2damages1.getChildren().add(p2damagesByP2);
+
+                VBox p2damages2 = new VBox(40);
+                p2damages2.setAlignment(Pos.CENTER);
+
+                Image p2dam3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2dam3IV = new ImageView(p2dam3);
+                Label p2damagesByP3 = new Label("X " + p2damagesValue3, p2dam3IV);
+                p2damages2.getChildren().add(p2damagesByP3);
+
+                Image p2dam4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2dam4IV = new ImageView(p2dam4);
+                Label p2damagesByP4 = new Label("X " + p2damagesValue4, p2dam4IV);
+                p2damages2.getChildren().add(p2damagesByP4);
+
+                p2Details.add(p2damages1, 4, 0);
+                p2Details.add(p2damages2, 5, 0);
+
+                VBox p2marks1 = new VBox(40);
+                p2marks1.setAlignment(Pos.CENTER);
+
+                Label p2mark1 = new Label("Marks Received:");
+
+                Image p2mar1 = new Image(AdrenalineView.class.getResource("/damage1.png").toExternalForm());
+                ImageView p2mar1IV = new ImageView(p2dam1);
+                Label p2marksByP1 = new Label("X " + p2MarksValue1, p2mar1IV);
+                p2marks1.getChildren().add(p2marksByP1);
+
+                Image p2mar2 = new Image(AdrenalineView.class.getResource("/damage2.png").toExternalForm());
+                ImageView p2mar2IV = new ImageView(p2mar2);
+                Label p2marksByP2 = new Label("X " + p2MarksValue2, p2mar2IV);
+                p2marks1.getChildren().add(p2marksByP2);
+
+                VBox p2marks2 = new VBox(40);
+                p2marks2.setAlignment(Pos.CENTER);
+
+                Image p2mar3 = new Image(AdrenalineView.class.getResource("/damage3.png").toExternalForm());
+                ImageView p2mar3IV = new ImageView(p2mar3);
+                Label p2marksByP3 = new Label("X " + p2MarksValue3, p2mar3IV);
+                p2marks2.getChildren().add(p2marksByP3);
+
+                Image p2mar4 = new Image(AdrenalineView.class.getResource("/damage4.png").toExternalForm());
+                ImageView p2mar4IV = new ImageView(p2mar4);
+                Label p2marksByP4 = new Label("X " + p2MarksValue4, p2mar4IV);
+                p2marks2.getChildren().add(p2marksByP4);
+
+                HBox wepUnloaded = new HBox(10);
+                wepUnloaded.setAlignment(Pos.CENTER);
+                Label weps1 = new Label();
+                Label weps2 = new Label();
+                Label weps3 = new Label();
+
+                Label text = new Label("Weapons unloaded:");
+
+                if(allPlayer[3].getWeapons()[0] != null && !allPlayer[3].getWeapons()[0].isLoaded())
+                    weps1.setGraphic(showWeapons(allPlayer[3].getWeapons()[0]));
+                if(allPlayer[3].getWeapons()[1] != null && !allPlayer[3].getWeapons()[1].isLoaded())
+                    weps2.setGraphic(showWeapons(allPlayer[3].getWeapons()[1]));
+                if(allPlayer[3].getWeapons()[2] != null && !allPlayer[3].getWeapons()[2].isLoaded())
+                    weps3.setGraphic(showWeapons(allPlayer[3].getWeapons()[2]));
+                wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
+                p2Details.add(wepUnloaded, 9, 0);
+
+                p2Details.add(p2mark1, 6, 0);
+                p2Details.add(p2marks1, 7, 0);
+                p2Details.add(p2marks2, 8, 0);
+
+                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Stage p2Stage = new Stage();
+                p2Stage.setTitle(allPlayer[3].getName());
+                p2Stage.setScene(p2Detail);
+
+                p5ActualLife.setText(String.valueOf(allPlayer[3].getLife()));
+                p2Stage.show();
+            }
+        });
+
+
         respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
