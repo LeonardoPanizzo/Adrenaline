@@ -791,12 +791,6 @@ public class AdrenalineView extends Application {
         power.setScene(powerup);
         powerupCards.getChildren().addAll(power1, power2, power3);
 
-        PowerupCard one = new PowerupCard("teleporter", 'y');       //todo da eliminare
-        PowerupCard two = new PowerupCard("Newton", 'b');
-        PowerupCard three = new PowerupCard("tagback grenade", 'r');
-        PowerupCard[] array = {one, two, three};
-        me.setPowerup(array);
-
         char[] costo = {'b', 'b'};
         WeaponCard ones = new WeaponCard("T.H.O.R", costo, null, true);       //todo da eliminare
         WeaponCard twos = new WeaponCard("Furnace", null, null,true);
@@ -865,6 +859,15 @@ public class AdrenalineView extends Application {
         proviamo[1].setLoaded(false);
         proviamo[2].setLoaded(false);
         playersInGame[4].setWeapons(proviamo);
+
+        playersInGame[0].setLife(11);
+        playersInGame[1].setLife(10);
+        playersInGame[2].setLife(9);
+        playersInGame[3].setLife(8);
+        playersInGame[4].setLife(7);
+
+        updateLifeValue();
+
         playersInGame[4].setMarksReceived(playersInGame[0], 3);
         playersInGame[4].setMarksReceived(playersInGame[1], 2);
         playersInGame[4].setMarksReceived(playersInGame[2], 1);
@@ -874,7 +877,10 @@ public class AdrenalineView extends Application {
         playersInGame[4].setPlayersDamage(1, 3);
         playersInGame[4].setPlayersDamage(2, 2);
         playersInGame[4].setPlayersDamage(3, 1);
-        
+
+
+
+
         btn2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -955,15 +961,15 @@ public class AdrenalineView extends Application {
                 p2ammo2.setAlignment(Pos.CENTER_LEFT);
                 Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
                 ImageView p2blueIV2 = new ImageView(p2blueI2);
-                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo = new Label(String.valueOf(p2blueAmmo), p2blueIV2);
                 p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
                 ImageView p2yellowIV2 = new ImageView(p2yellowI2);
-                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo = new Label(String.valueOf(p2yellowAmmo), p2yellowIV2);
                 p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
                 ImageView p2redIV2 = new ImageView(p2redI2);
-                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo = new Label(String.valueOf(p2redAmmo), p2redIV2);
                 p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
                 p2Details.add(p2ammo2, 2, 0);
@@ -1143,15 +1149,15 @@ public class AdrenalineView extends Application {
                 p2ammo2.setAlignment(Pos.CENTER_LEFT);
                 Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
                 ImageView p2blueIV2 = new ImageView(p2blueI2);
-                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo = new Label(String.valueOf(p2blueAmmo), p2blueIV2);
                 p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
                 ImageView p2yellowIV2 = new ImageView(p2yellowI2);
-                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo = new Label(String.valueOf(p2yellowAmmo), p2yellowIV2);
                 p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
                 ImageView p2redIV2 = new ImageView(p2redI2);
-                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo = new Label(String.valueOf(p2redAmmo), p2redIV2);
                 p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
                 p2Details.add(p2ammo2, 2, 0);
@@ -1331,15 +1337,15 @@ public class AdrenalineView extends Application {
                 p2ammo2.setAlignment(Pos.CENTER_LEFT);
                 Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
                 ImageView p2blueIV2 = new ImageView(p2blueI2);
-                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo = new Label(String.valueOf(p2blueAmmo), p2blueIV2);
                 p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
                 ImageView p2yellowIV2 = new ImageView(p2yellowI2);
-                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo = new Label(String.valueOf(p2yellowAmmo), p2yellowIV2);
                 p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
                 ImageView p2redIV2 = new ImageView(p2redI2);
-                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo = new Label(String.valueOf(p2redAmmo), p2redIV2);
                 p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
                 p2Details.add(p2ammo2, 2, 0);
@@ -1519,15 +1525,15 @@ public class AdrenalineView extends Application {
                 p2ammo2.setAlignment(Pos.CENTER_LEFT);
                 Image p2blueI2 = new Image(AdrenalineView.class.getResource("/blue.png").toExternalForm());
                 ImageView p2blueIV2 = new ImageView(p2blueI2);
-                p2bAmmo = new Label(String.valueOf(blueAmmo), p2blueIV2);
+                p2bAmmo = new Label(String.valueOf(p2blueAmmo), p2blueIV2);
                 p2bAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2yellowI2 = new Image(AdrenalineView.class.getResource("/yellow.png").toExternalForm());
                 ImageView p2yellowIV2 = new ImageView(p2yellowI2);
-                p2yAmmo = new Label(String.valueOf(yellowAmmo), p2yellowIV2);
+                p2yAmmo = new Label(String.valueOf(p2yellowAmmo), p2yellowIV2);
                 p2yAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 Image p2redI2 = new Image(AdrenalineView.class.getResource("/red.png").toExternalForm());
                 ImageView p2redIV2 = new ImageView(p2redI2);
-                p2rAmmo = new Label(String.valueOf(redAmmo), p2redIV2);
+                p2rAmmo = new Label(String.valueOf(p2redAmmo), p2redIV2);
                 p2rAmmo.setContentDisplay(ContentDisplay.RIGHT);
                 p2ammo2.getChildren().addAll(p2bAmmo, p2yAmmo, p2rAmmo);
                 p2Details.add(p2ammo2, 2, 0);
@@ -1631,6 +1637,10 @@ public class AdrenalineView extends Application {
         respawnBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if(!me.isFirstRound()) {
+                    me.drawPowerup();
+                    updatePowerUpValue();
+                }
                 redResBtn.setVisible(true);
                 yellowResBtn.setVisible(true);
                 blueResBtn.setVisible(true);
@@ -6406,6 +6416,17 @@ public class AdrenalineView extends Application {
                 shotBtn.setDisable(true);
                 endRoundBtn.setDisable(true);
                 //todo impostare ciclo per riprendere il turno
+            }
+        });
+
+        //todo implementare shot
+
+        //todo implementare reload
+
+        reloadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
             }
         });
     }
