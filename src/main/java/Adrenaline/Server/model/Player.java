@@ -101,10 +101,6 @@ public class Player {
         this.playersDamage[player][1] = damage;
     }
 
-    public PowerupDeck getPowerUpDeck() {
-        return powerUpDeck;
-    }
-
     public void setLife(int life) {
         this.life = life;
     }
