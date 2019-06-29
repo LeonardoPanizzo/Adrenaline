@@ -41,9 +41,10 @@ public class AmmoDeck {
     public AmmoCard pickUpAmmo(){
         AmmoCard x=ammoDeck.elementAt(size);
         size++;
-        if(size>=36)       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
+        if(size>=36) {      //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
             shuffle();
-            size=0;
+            size = 0;
+        }
         return x;
     }
 }
