@@ -21,6 +21,12 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
+    private Label actualDeath = new Label();
+    private Label actualDeath2 = new Label();
+    private Label actualDeath3 = new Label();
+    private Label actualDeath4 = new Label();
+    private Label actualDeath5 = new Label();
+
     private int courentPlayer = 1;
 
     private char ammos;
@@ -238,7 +244,6 @@ public class AdrenalineView extends Application {
         //me.setMarksReceived(playersInGame[3], 1);
         //me.setMarksReceived(playersInGame[4], 0);
 
-
         int[] damagesBy = new int[4];
         int k = 0;
         for (int i = 0; i < 5; i++) {
@@ -247,6 +252,8 @@ public class AdrenalineView extends Application {
                 k++;
             }
         }
+
+        updateNumberOfDeath();
 
         primaryStage.setTitle("Adrenaline");
         StackPane rootNode = new StackPane();
@@ -657,6 +664,7 @@ public class AdrenalineView extends Application {
         Image your = new Image(AdrenalineView.class.getResource("/player1.png").toExternalForm());
         ImageView yourp = new ImageView(your);
         you.add(yourp, 0, 0);
+        you.add(actualDeath, 0, 0);
 
         VBox ammo1 = new VBox(20);
         ammo1.setAlignment(Pos.CENTER_LEFT);
@@ -756,18 +764,16 @@ public class AdrenalineView extends Application {
         Button btnPower = new Button("See Power Up", powerUpIV);
         btnPower.setContentDisplay(ContentDisplay.RIGHT);
         you.add(btnPower, 7, 0);
-
-        //todo: inserire il nome vero dell'azione
-        String action = "action that is done. prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi prova acratteri lunghi";
-        VBox events = new VBox(10);
+        
+        VBox events = new VBox(30);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
         player.setText(play);
-        Label actions = new Label("Action/s:");
+        Label actions = new Label("Times you're dead:");
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
-        Label event = new Label("Action: " + action);
+        Label event = actualDeath;
         event.setWrapText(true);
-        events.getChildren().addAll(round, player, actions, event);
+        events.getChildren().addAll(round, player, event);
         you.add(events, 8, 0);
 
         VBox movements = new VBox(5);
@@ -1074,6 +1080,8 @@ public class AdrenalineView extends Application {
                 wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
                 p2Details.add(wepUnloaded, 9, 0);
 
+                p2Details.add(actualDeath2, 10,0);
+
                 p2Details.add(p2mark1, 6, 0);
                 p2Details.add(p2marks1, 7, 0);
                 p2Details.add(p2marks2, 8, 0);
@@ -1261,6 +1269,8 @@ public class AdrenalineView extends Application {
                     weps3.setGraphic(showWeapons(allPlayer[1].getWeapons()[2]));
                 wepUnloaded.getChildren().addAll(text, weps1, weps2, weps3);
                 p2Details.add(wepUnloaded, 9, 0);
+
+                p2Details.add(actualDeath3, 10,0);
 
                 p2Details.add(p2mark1, 6, 0);
                 p2Details.add(p2marks1, 7, 0);
@@ -1454,6 +1464,8 @@ public class AdrenalineView extends Application {
                 p2Details.add(p2marks1, 7, 0);
                 p2Details.add(p2marks2, 8, 0);
 
+                p2Details.add(actualDeath4, 10,0);
+
                 Scene p2Detail = new Scene(p2Details, 1300, 165);
                 Stage p2Stage = new Stage();
                 p2Stage.setTitle(allPlayer[2].getName());
@@ -1641,6 +1653,8 @@ public class AdrenalineView extends Application {
                 p2Details.add(p2mark1, 6, 0);
                 p2Details.add(p2marks1, 7, 0);
                 p2Details.add(p2marks2, 8, 0);
+
+                p2Details.add(actualDeath5, 10,0);
 
                 Scene p2Detail = new Scene(p2Details, 1300, 165);
                 Stage p2Stage = new Stage();
@@ -19607,12 +19621,104 @@ public class AdrenalineView extends Application {
 
         //todo implementare reload
 
+        HBox ammoShow2 = new HBox(10);   //root node
+        ammoShow2.setAlignment(Pos.CENTER);
+        Scene ammShow2 = new Scene(ammoShow2, 650, 200);
+        Stage amm2 = new Stage();
+        amm2.setTitle("Select Ammo");
+        amm2.setScene(ammShow2);
+        Button usePW2 = new Button("Use PowerUp");
+        Button done2 = new Button("Done");
 
+        ammoShow2.getChildren().addAll(usePW2, done2);
 
         reloadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                pwToTake=new PowerupCard[3];
+                pToTake = 0;
 
+                weap.show();
+                if(me.getWeapons()[0] != null && !me.getWeapons()[0].isLoaded())
+                    weapon1.setDisable(false);
+                if(me.getWeapons()[1] != null && !me.getWeapons()[1].isLoaded())
+                    weapon2.setDisable(false);
+                if(me.getWeapons()[2] != null && !me.getWeapons()[2].isLoaded())
+                    weapon3.setDisable(false);
+
+                weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        amm2.show();
+
+                        usePW2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                power.show();
+
+                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pwToTake[pToTake] = me.getPowerup()[0];
+                                        power1.setDisable(true);
+                                        pToTake++;
+                                    }
+                                });
+                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pwToTake[pToTake] = me.getPowerup()[1];
+                                        power2.setDisable(true);
+                                        pToTake++;
+                                    }
+                                });
+                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pwToTake[pToTake] = me.getPowerup()[2];
+                                        power3.setDisable(true);
+                                        pToTake++;
+                                    }
+                                });
+
+                            }
+                        });
+
+                        done2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                if(pwToTake[0]==null){
+                                    me.reload(me.getWeapons()[0]);
+                                    updatePowerUpValue();
+                                    updateWeaponValue();
+                                    updateAmmoValue();
+                                    amm2.close();
+                                    weap.close();
+                                }
+                                else {
+                                    int numberOfPW = 0;
+                                    for (int i = 0; i < pwToTake.length; i++) {
+                                        if (pwToTake[i] != null)
+                                            numberOfPW++;
+                                    }
+                                    powerToUse = new PowerupCard[numberOfPW];
+                                    for (int i = 0; i < powerToUse.length; i++)
+                                        powerToUse[i] = pwToTake[i];
+
+                                    me.reload(me.getWeapons()[0], powerToUse);
+                                    updatePowerUpValue();
+                                    updateWeaponValue();
+                                    updateAmmoValue();
+                                    amm2.close();
+                                    weap.close();
+                                }
+
+                            }
+                        });
+
+
+                    }
+                });
             }
         });
     }
@@ -19723,6 +19829,23 @@ public class AdrenalineView extends Application {
         p3ActualLife.setText(String.valueOf(allPlayer[1].getLife()));
         p4ActualLife.setText(String.valueOf(allPlayer[2].getLife()));
         p5ActualLife.setText(String.valueOf(allPlayer[3].getLife()));
+    }
+
+    public void updateNumberOfDeath(){
+        Player[] allPlayer = new Player[4];
+        int y=0;
+        for(int i=0; i<playersInGame.length; i++){
+            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                allPlayer[y] = playersInGame[i];
+                y++;
+            }
+        }
+
+        actualDeath.setText("Number of death: "+String.valueOf(me.getNumberOfDeaths()));
+        actualDeath2.setText("Number of death: "+String.valueOf(allPlayer[0].getNumberOfDeaths()));
+        actualDeath3.setText("Number of death: "+String.valueOf(allPlayer[1].getNumberOfDeaths()));
+        actualDeath4.setText("Number of death: "+String.valueOf(allPlayer[2].getNumberOfDeaths()));
+        actualDeath5.setText("Number of death: "+String.valueOf(allPlayer[3].getNumberOfDeaths()));
     }
 
     public void updateAmmoValue(){
