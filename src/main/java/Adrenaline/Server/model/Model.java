@@ -463,6 +463,15 @@ public class Model {
         shoot(p);
     }
 
+    public void usePoerup(int playernumber){
+        Player p=getPlayerByNumber(playernumber);
+        PowerupCard[] pwd;
+        do{
+            System.out.println("\nSelect one powerup\n");
+            pwd=playerpowerup(p);
+        }while(pwd.length==1);
+    }
+
     public void respawn(int playernumber){
         Player p=getPlayerByNumber(playernumber);
         p.drawPowerup();
