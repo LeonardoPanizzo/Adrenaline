@@ -1,6 +1,8 @@
 package Adrenaline.Client.view;
 
 import Adrenaline.Server.control.RemoteBiCon;
+import Adrenaline.Server.model.Board;
+import Adrenaline.Server.model.Player;
 
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -15,13 +17,16 @@ import java.util.Scanner;
 
 public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt {
 
-
     private String hostName = "localhost";
     //private String serviceName = "GroupChatService";
     //private String clientServiceName;
     private String name;
     protected RemoteBiCon serverIF;
     protected boolean connectionProblem = false;
+    private Board board;
+    private Player p;           //the player of the user
+    private Player[] players;   //all the others players
+    private int number;         //number of the user, indicates his turn and which player he is
 
 
     /**
@@ -72,18 +77,67 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
     public void updateUserList(String[] currentUsers) throws RemoteException {
 
         if (currentUsers.length < 2) {
-System.out.println("current user length < 2");        }
+            System.out.println("current user length < 2");
+        }
     }
 
-    public void createBoard(Integer boardNumber) throws RemoteException{
+    public void createBoard(Integer boardNumber) throws RemoteException {
         try {
             serverIF.createBoard(boardNumber);
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("[Error] Index out of bounds"); //printato sul server
         }
     }
 
+    public void updateInfo(Board b, Player[] users){
+        this.board=b;
+        Player[] ps= new Player[5];    //support for variable players
+        for(int i=0;i<users.length;i++){
+            if(users[i].getNumber()!=number){
+                ps[i]=users[i];
+            }else{
+                p=users[i];
+            }
+        }
+    }
 
+    public void mmain(){
+        //ricevere i dati dal  server con il metodo update info
+        if(p.getNumber()==0){
+            serverIF.setBoard();
+        }
+        Scanner keyboard= new Scanner(System.in);
+        char c;
+        do{
+            if(p.isRound()){
+                System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
+                c=keyboard.next().charAt(0);
+                switch(c){
+                    case '0':
+                        System.out.println(board.myToString());
+                        break;
+                    case '1':
+                        serverIF.move(p.getNumber());
+                        break;
+                    case '2':
+                        serverIF.moveandgrab(p.getNumber());
+                        break;
+                    case '3':
+                        serverIF.attack(p.getNumber());
+                        break;
+                    case '4':
+
+                        break;
+                    default:
+                        System.out.println("\nInsert a number between 0 and 4\n");
+                }
+                if(p.getAction()==0){
+                    System.out.println("\nDo you want to reload any weapon?\n");
+                }
+            }
+        }while(board.isFinalRound());
+    }
+}
 
     /*
     private Scanner fromKeyBoard;
@@ -145,5 +199,3 @@ System.out.println("current user length < 2");        }
     }
 
     */
-
-}
