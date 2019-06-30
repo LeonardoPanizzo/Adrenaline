@@ -126,7 +126,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                         serverIF.attack(p.getNumber());
                         break;
                     case '4':
-
+                        serverIF.usePowerup(p.getNumber());
                         break;
                     default:
                         System.out.println("\nInsert a number between 0 and 4\n");
