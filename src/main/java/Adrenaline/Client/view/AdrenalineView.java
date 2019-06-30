@@ -764,8 +764,8 @@ public class AdrenalineView extends Application {
         Button btnPower = new Button("See Power Up", powerUpIV);
         btnPower.setContentDisplay(ContentDisplay.RIGHT);
         you.add(btnPower, 7, 0);
-        
-        VBox events = new VBox(30);
+
+        VBox events = new VBox(20);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
         player.setText(play);
@@ -773,7 +773,7 @@ public class AdrenalineView extends Application {
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
         Label event = actualDeath;
         event.setWrapText(true);
-        events.getChildren().addAll(round, player, event);
+        events.getChildren().addAll(round, player, actions, event);
         you.add(events, 8, 0);
 
         VBox movements = new VBox(5);
@@ -1086,7 +1086,7 @@ public class AdrenalineView extends Application {
                 p2Details.add(p2marks1, 7, 0);
                 p2Details.add(p2marks2, 8, 0);
 
-                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Scene p2Detail = new Scene(p2Details, 1370, 165);
                 Stage p2Stage = new Stage();
                 p2Stage.setTitle(allPlayer[0].getName());
                 p2Stage.setScene(p2Detail);
@@ -1276,7 +1276,7 @@ public class AdrenalineView extends Application {
                 p2Details.add(p2marks1, 7, 0);
                 p2Details.add(p2marks2, 8, 0);
 
-                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Scene p2Detail = new Scene(p2Details, 1370, 165);
                 Stage p2Stage = new Stage();
                 p2Stage.setTitle(allPlayer[1].getName());
                 p2Stage.setScene(p2Detail);
@@ -1466,7 +1466,7 @@ public class AdrenalineView extends Application {
 
                 p2Details.add(actualDeath4, 10,0);
 
-                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Scene p2Detail = new Scene(p2Details, 1370, 165);
                 Stage p2Stage = new Stage();
                 p2Stage.setTitle(allPlayer[2].getName());
                 p2Stage.setScene(p2Detail);
@@ -1656,7 +1656,7 @@ public class AdrenalineView extends Application {
 
                 p2Details.add(actualDeath5, 10,0);
 
-                Scene p2Detail = new Scene(p2Details, 1300, 165);
+                Scene p2Detail = new Scene(p2Details, 1370, 165);
                 Stage p2Stage = new Stage();
                 p2Stage.setTitle(allPlayer[3].getName());
                 p2Stage.setScene(p2Detail);
