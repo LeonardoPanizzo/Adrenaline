@@ -29,8 +29,9 @@ public class AdrenalineView extends Application {
     private int posTo = 0;
     Position[] posToAttack = new Position[5];
     private int mode2Count = 0;
-    private int[] mode2 = new int[3];
+    private int[] mode2 = new int[]{-1, -1, -1};
     private int mode1 = 0;
+    private PowerupCard[]powerupsToAttack = new PowerupCard[3];
 
     private boolean test;
     private int moveCounter = 0;
@@ -819,7 +820,10 @@ public class AdrenalineView extends Application {
         WeaponCard twos = new WeaponCard("Furnace", null, null,true);
         WeaponCard threes = new WeaponCard("Power Glove", null, null,true);
         WeaponCard[] arrays = {ones, null, null};
-        me.setWeapons(arrays);
+        //me.setWeapons(arrays);
+        PowerupCard one = new PowerupCard("Newton", 'r');
+        PowerupCard[] poweArraysTest = new PowerupCard[]{one, null, null};
+        me.setPowerup(poweArraysTest);
 
         me.setAction(2);    //todo controllare se è da lasciare
         if(me.getLife()<1){
@@ -884,10 +888,10 @@ public class AdrenalineView extends Application {
         playersInGame[4].setWeapons(proviamo);
 
         playersInGame[0].setLife(11);
-        playersInGame[1].setLife(10);
-        playersInGame[2].setLife(9);
-        playersInGame[3].setLife(8);
-        playersInGame[4].setLife(7);
+        playersInGame[1].setLife(11);
+        playersInGame[2].setLife(11);
+        playersInGame[3].setLife(11);
+        playersInGame[4].setLife(11);
 
         updateLifeValue();
 
@@ -2484,6 +2488,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2526,6 +2531,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2570,6 +2576,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2615,6 +2622,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2658,6 +2666,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2700,6 +2709,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2744,6 +2754,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2786,6 +2797,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2828,6 +2840,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2870,6 +2883,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2912,6 +2926,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -2955,6 +2970,7 @@ public class AdrenalineView extends Application {
                                 moveBtn.setDisable(true);
                                 moveAndGrabBtn.setDisable(true);
                                 shotBtn.setDisable(true);
+                                reloadButton.setDisable(false);
                             }
                         }
                     }
@@ -3944,6 +3960,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -3972,6 +3989,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4012,6 +4030,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4052,6 +4071,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4102,6 +4122,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -4130,6 +4151,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4170,6 +4192,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4210,6 +4233,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4299,6 +4323,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -4367,6 +4392,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4407,6 +4433,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4457,6 +4484,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -4485,6 +4513,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4525,6 +4554,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4565,6 +4595,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4654,6 +4685,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -4682,6 +4714,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4722,6 +4755,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4762,6 +4796,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4812,6 +4847,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -4840,6 +4876,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4880,6 +4917,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4920,6 +4958,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -4964,6 +5003,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -5054,6 +5094,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5082,6 +5123,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5122,6 +5164,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5162,6 +5205,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5212,6 +5256,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5240,6 +5285,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5280,6 +5326,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5320,6 +5367,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5409,6 +5457,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5437,6 +5486,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5477,6 +5527,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5517,6 +5568,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5567,6 +5619,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5595,6 +5648,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5635,6 +5689,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5675,6 +5730,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5764,6 +5820,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5792,6 +5849,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5832,6 +5890,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5872,6 +5931,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5922,6 +5982,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -5950,6 +6011,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -5990,6 +6052,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6030,6 +6093,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6097,6 +6161,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -6120,6 +6185,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -6143,6 +6209,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -6166,6 +6233,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -6189,6 +6257,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -6279,6 +6348,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -6307,6 +6377,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6347,6 +6418,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6387,6 +6459,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6437,6 +6510,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -6465,6 +6539,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6505,6 +6580,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6545,6 +6621,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6634,6 +6711,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -6662,6 +6740,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6702,6 +6781,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6742,6 +6822,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6792,6 +6873,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -6820,6 +6902,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6860,6 +6943,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6900,6 +6984,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -6989,6 +7074,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -7017,6 +7103,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7057,6 +7144,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7097,6 +7185,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7147,6 +7236,7 @@ public class AdrenalineView extends Application {
                                                     moveAndGrabBtn.setDisable(true);
                                                     shotBtn.setDisable(true);
                                                     endRoundBtn.setDisable(false);
+                                                    reloadButton.setDisable(false);
                                                 }
                                                 else{
                                                     moveAndGrabBtn.setDisable(false);
@@ -7175,6 +7265,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7215,6 +7306,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7255,6 +7347,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7428,6 +7521,16 @@ public class AdrenalineView extends Application {
         positionsShow.add(posx2y3, 3, 2);
 
         //shotpunto
+
+        //todo da eliminare
+        playersInGame[0].setFirstPosition(board.getBoard()[0][1]);
+        playersInGame[2].setFirstPosition(board.getBoard()[0][2]);
+        playersInGame[3].setFirstPosition(board.getBoard()[1][1]);
+        playersInGame[4].setFirstPosition(board.getBoard()[1][1]);
+
+        updatePlayersPositions();
+
+
 
         shotBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -8312,7 +8415,7 @@ public class AdrenalineView extends Application {
                 else
                     shotButtons[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(true);
                 //fine del caso in cui servano azioni adrenaliniche o frenesia finale
-                shotxx0yy0.setOnAction(new EventHandler<ActionEvent>() {
+                shotxx1yy0.setOnAction(new EventHandler<ActionEvent>() { //todo to set to ahotxx0yy0
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         Player[] allPlayer = new Player[4];
@@ -8331,7 +8434,7 @@ public class AdrenalineView extends Application {
                         posToAttack = new Position[5];
 
                         mode2Count = 0;
-                        mode2 = new int[3];
+                        mode2 = new int[]{-1, -1, -1};
 
                         weap.show();
                         weapon1.setOnAction(new EventHandler<ActionEvent>() {
@@ -8504,10 +8607,81 @@ public class AdrenalineView extends Application {
                                     }
                                 });
 
-                                done.setOnAction(new EventHandler<ActionEvent>() {
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent actionEvent) {
-                                        //creare array giusti e poi sparare
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                mode2Count++;
+                                        }
+
+                                        int[] mode2ToUse = new int[mode2Count];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        sh.close();
+                                        shotxx1yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
                                     }
                                 });
 
@@ -8618,6 +8792,23 @@ public class AdrenalineView extends Application {
         } else
             play = new String("It's " + playersInGame[courentPlayer].getName() + " Round");
         player.setText(play);
+    }
+
+    public void updatePlayersLife(){
+        Player[] allPlayer = new Player[4];
+        int y=0;
+        for(int i=0; i<playersInGame.length; i++){
+            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                allPlayer[y] = playersInGame[i];
+                y++;
+            }
+        }
+
+        actualLife.setText(String.valueOf(me.getLife()));
+        p2ActualLife.setText(String.valueOf(allPlayer[0].getLife()));
+        p3ActualLife.setText(String.valueOf(allPlayer[1].getLife()));
+        p4ActualLife.setText(String.valueOf(allPlayer[2].getLife()));
+        p5ActualLife.setText(String.valueOf(allPlayer[3].getLife()));
     }
 
     public void updateAmmoValue(){
@@ -8762,6 +8953,98 @@ public class AdrenalineView extends Application {
             axx2yy1.setGraphic(showAmmoCards(board.getBoard()[2][1].getAmmo()));
             axx2yy2.setGraphic(showAmmoCards(board.getBoard()[2][2].getAmmo()));
         }
+    }
+
+    public void updatePlayersPositions(){
+        Player[] allPlayer = new Player[4];
+        int y=0;
+        for(int i=0; i<playersInGame.length; i++){
+            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                allPlayer[y] = playersInGame[i];
+                y++;
+            }
+        }
+
+        //player 1
+        playersButtons1[0][0].setVisible(false);
+        playersButtons1[0][1].setVisible(false);
+        playersButtons1[0][2].setVisible(false);
+        playersButtons1[0][3].setVisible(false);
+        playersButtons1[1][0].setVisible(false);
+        playersButtons1[1][1].setVisible(false);
+        playersButtons1[1][2].setVisible(false);
+        playersButtons1[1][3].setVisible(false);
+        playersButtons1[2][0].setVisible(false);
+        playersButtons1[2][1].setVisible(false);
+        playersButtons1[2][2].setVisible(false);
+        playersButtons1[2][3].setVisible(false);
+        if(me.getPosition()!=null)
+            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(true);
+
+        //player 2
+        playersButtons2[0][0].setVisible(false);
+        playersButtons2[0][1].setVisible(false);
+        playersButtons2[0][2].setVisible(false);
+        playersButtons2[0][3].setVisible(false);
+        playersButtons2[1][0].setVisible(false);
+        playersButtons2[1][1].setVisible(false);
+        playersButtons2[1][2].setVisible(false);
+        playersButtons2[1][3].setVisible(false);
+        playersButtons2[2][0].setVisible(false);
+        playersButtons2[2][1].setVisible(false);
+        playersButtons2[2][2].setVisible(false);
+        playersButtons2[2][3].setVisible(false);
+        if(allPlayer[0].getPosition()!=null)
+            playersButtons2[allPlayer[0].getPosition().getCoordinate()[0]][allPlayer[0].getPosition().getCoordinate()[1]].setVisible(true);
+
+        //player 3
+        playersButtons3[0][0].setVisible(false);
+        playersButtons3[0][1].setVisible(false);
+        playersButtons3[0][2].setVisible(false);
+        playersButtons3[0][3].setVisible(false);
+        playersButtons3[1][0].setVisible(false);
+        playersButtons3[1][1].setVisible(false);
+        playersButtons3[1][2].setVisible(false);
+        playersButtons3[1][3].setVisible(false);
+        playersButtons3[2][0].setVisible(false);
+        playersButtons3[2][1].setVisible(false);
+        playersButtons3[2][2].setVisible(false);
+        playersButtons3[2][3].setVisible(false);
+        if(allPlayer[1].getPosition()!=null)
+            playersButtons3[allPlayer[1].getPosition().getCoordinate()[0]][allPlayer[1].getPosition().getCoordinate()[1]].setVisible(true);
+
+        //player 4
+        playersButtons4[0][0].setVisible(false);
+        playersButtons4[0][1].setVisible(false);
+        playersButtons4[0][2].setVisible(false);
+        playersButtons4[0][3].setVisible(false);
+        playersButtons4[1][0].setVisible(false);
+        playersButtons4[1][1].setVisible(false);
+        playersButtons4[1][2].setVisible(false);
+        playersButtons4[1][3].setVisible(false);
+        playersButtons4[2][0].setVisible(false);
+        playersButtons4[2][1].setVisible(false);
+        playersButtons4[2][2].setVisible(false);
+        playersButtons4[2][3].setVisible(false);
+        if(allPlayer[2].getPosition()!=null)
+            playersButtons4[allPlayer[2].getPosition().getCoordinate()[0]][allPlayer[2].getPosition().getCoordinate()[1]].setVisible(true);
+
+        //player 5
+        playersButtons5[0][0].setVisible(false);
+        playersButtons5[0][1].setVisible(false);
+        playersButtons5[0][2].setVisible(false);
+        playersButtons5[0][3].setVisible(false);
+        playersButtons5[1][0].setVisible(false);
+        playersButtons5[1][1].setVisible(false);
+        playersButtons5[1][2].setVisible(false);
+        playersButtons5[1][3].setVisible(false);
+        playersButtons5[2][0].setVisible(false);
+        playersButtons5[2][1].setVisible(false);
+        playersButtons5[2][2].setVisible(false);
+        playersButtons5[2][3].setVisible(false);
+        if(allPlayer[3].getPosition()!=null)
+            playersButtons5[allPlayer[3].getPosition().getCoordinate()[0]][allPlayer[3].getPosition().getCoordinate()[1]].setVisible(true);
+
     }
 
     //a method to create ImageView for weapons
