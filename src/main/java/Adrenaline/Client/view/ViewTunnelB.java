@@ -132,7 +132,11 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                         System.out.println("\nInsert a number between 0 and 4\n");
                 }
                 if(p.getAction()==0){
-                    System.out.println("\nDo you want to reload any weapon?\n");
+                    System.out.println("\nDo you want to reload any weapon?y to yes, any other button as no\n");
+                    if(c=='y'){
+                        serverIF.reload(p.getNumber());
+                    }
+                    serverIF.endturn(p.getNumber());
                 }
             }
         }while(board.isFinalRound());
