@@ -581,6 +581,16 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
     }
 
+    /**
+     * After each action the model checks if the player has still action to make, if not set his round has false
+     * @param p
+     */
+    private void checkround(Player p){
+        if(p.getAction()<=0){
+            p.setRound(false);
+        }
+    }
+
     public void reload(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         char c;
