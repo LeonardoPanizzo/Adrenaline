@@ -23,6 +23,9 @@ public class AdrenalineView extends Application {
 
     private int courentPlayer = 1;
 
+    private char ammos;
+    private Player attaks;
+
     private int toHit = 0;
     private Button two2 = new Button();
     Player[] toAttack = new Player[4];
@@ -2339,12 +2342,636 @@ public class AdrenalineView extends Application {
             }
         });
 
+        HBox powersuShow = new HBox(20);   //root node
+        powersuShow.setAlignment(Pos.CENTER);
+        Scene powersShow1 = new Scene(powersuShow, 650, 200);
+        Stage powers = new Stage();
+        powers.setTitle("Select Power Up Mode");
+        powers.setScene(powersShow1);
+        Button selPlayers1 = new Button("Select Players");
+        Button selPositions1 = new Button("Select Positions");
+        Button dones1 = new Button("Done!");
+        ImageView blueIV1 = new ImageView(blueI);
+        Button blues = new Button("", blueIV1);
+        ImageView yellowIV1 = new ImageView(yellowI);
+        Button yellows = new Button("", yellowIV1);
+        ImageView redIV1 = new ImageView(redI);
+        Button reds = new Button("", redIV1);
+        powersuShow.getChildren().addAll(selPlayers1, selPositions1, blues, yellows, reds, dones1);
+
+        HBox playersShow1 = new HBox(10);   //root node
+        playersShow1.setAlignment(Pos.CENTER);
+        Scene playShow1 = new Scene(playersShow1, 650, 200);
+        Stage play1 = new Stage();
+        play1.setTitle("Select Players");
+        play1.setScene(playShow1);
+        ImageView p2selIV1 = new ImageView(p2);
+        Button p2sel1 = new Button("Player 2", p2selIV1);
+        ImageView p3selIV1 = new ImageView(p3);
+        Button p3sel1 = new Button("Player 3", p3selIV1);
+        ImageView p4selIV1 = new ImageView(p4);
+        Button p4sel1 = new Button("Player 4", p4selIV1);
+        ImageView p5selIV1 = new ImageView(p5);
+        Button p5sel1 = new Button("Player 5", p5selIV1);
+        playersShow1.getChildren().addAll(p2sel1, p3sel1, p4sel1, p5sel1);
+
+        GridPane positionsShow1 = new GridPane();   //root node
+        positionsShow1.setAlignment(Pos.CENTER);
+        Scene posShow1 = new Scene(positionsShow1, 650, 200);
+        Stage pos1 = new Stage();
+        pos1.setTitle("Select Positions");
+        pos1.setScene(posShow1);
+
+        Button posx0y01 = new Button("Position X = 0; Y =0");
+        Button posx0y11 = new Button("Position X = 0; Y =1");
+        Button posx0y21 = new Button("Position X = 0; Y =2");
+        Button posx0y31 = new Button("Position X = 0; Y =3");
+        Button posx1y01 = new Button("Position X = 1; Y =0");
+        Button posx1y11 = new Button("Position X = 1; Y =1");
+        Button posx1y21 = new Button("Position X = 1; Y =2");
+        Button posx1y31 = new Button("Position X = 1; Y =3");
+        Button posx2y01 = new Button("Position X = 2; Y =0");
+        Button posx2y11 = new Button("Position X = 2; Y =1");
+        Button posx2y21 = new Button("Position X = 2; Y =2");
+        Button posx2y31 = new Button("Position X = 2; Y =3");
+
+        positionsShow1.add(posx0y01, 0, 0);
+        positionsShow1.add(posx0y11, 1, 0);
+        positionsShow1.add(posx0y21, 2, 0);
+        positionsShow1.add(posx0y31, 3, 0);
+        positionsShow1.add(posx1y01, 0, 1);
+        positionsShow1.add(posx1y11, 1, 1);
+        positionsShow1.add(posx1y21, 2, 1);
+        positionsShow1.add(posx1y31, 3, 1);
+        positionsShow1.add(posx2y01, 0, 2);
+        positionsShow1.add(posx2y11, 1, 2);
+        positionsShow1.add(posx2y21, 2, 2);
+        positionsShow1.add(posx2y31, 3, 2);
+
         //powerup button
         btnPower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 updatePowerUpValue();
                 power.show();
+
+                Player[] allPlayer = new Player[4];
+                int y=0;
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                        allPlayer[y] = playersInGame[i];
+                        y++;
+                    }
+                }
+
+                posTo = 0;
+                posToAttack = new Position[5];
+
+                power1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        //setpower
+                        powers.show();
+
+                        selPlayers1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                play1.show();
+                                p2sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[0];
+                                    }
+                                });
+
+                                p3sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[1];
+                                    }
+                                });
+
+                                p4sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[2];
+                                    }
+                                });
+
+                                p5sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[3];
+                                    }
+                                });
+
+                            }
+                        });
+
+                        selPositions1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                pos1.show();
+                                posx0y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][3];
+                                        posTo++;
+                                    }
+                                });
+                            }
+                        });
+
+                        blues.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'b';
+                            }
+                        });
+
+                        yellows.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'y';
+                            }
+                        });
+
+                        reds.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'r';
+                            }
+                        });
+
+                        dones1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+
+                                //positions array
+                                int positionsToUseCounter = 0;
+                                for(int i=0; i<posToAttack.length; i++){
+                                    if(posToAttack[i] != null)
+                                        positionsToUseCounter++;
+                                }
+
+                                Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                for(int i=0; i<positionsToUseCounter; i++){
+                                    positionsToUse[i] = posToAttack[i];
+                                }
+
+                                me.usePowerup(me.getPowerup()[0], attaks, positionsToUse, ammos);
+                                updatePlayersPositions();
+                                updatePlayersLife();
+                                updateAmmoValue();
+                                updatePowerUpValue();
+                                powers.close();
+                                power.close();
+                            }
+                        });
+                    }
+                });
+
+                power2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        //setpower
+                        powers.show();
+
+                        selPlayers1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                play1.show();
+                                p2sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[0];
+                                    }
+                                });
+
+                                p3sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[1];
+                                    }
+                                });
+
+                                p4sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[2];
+                                    }
+                                });
+
+                                p5sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[3];
+                                    }
+                                });
+
+                            }
+                        });
+
+                        selPositions1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                pos1.show();
+                                posx0y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][3];
+                                        posTo++;
+                                    }
+                                });
+                            }
+                        });
+
+                        blues.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'b';
+                            }
+                        });
+
+                        yellows.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'y';
+                            }
+                        });
+
+                        reds.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'r';
+                            }
+                        });
+
+                        dones1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+
+                                //positions array
+                                int positionsToUseCounter = 0;
+                                for(int i=0; i<posToAttack.length; i++){
+                                    if(posToAttack[i] != null)
+                                        positionsToUseCounter++;
+                                }
+
+                                Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                for(int i=0; i<positionsToUseCounter; i++){
+                                    positionsToUse[i] = posToAttack[i];
+                                }
+
+                                me.usePowerup(me.getPowerup()[1], attaks, positionsToUse, ammos);
+                                updatePlayersPositions();
+                                updatePlayersLife();
+                                updateAmmoValue();
+                                updatePowerUpValue();
+                                powers.close();
+                                power.close();
+                            }
+                        });
+                    }
+                });
+
+                power3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        powers.show();
+
+                        selPlayers1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                play1.show();
+                                p2sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[0];
+                                    }
+                                });
+
+                                p3sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[1];
+                                    }
+                                });
+
+                                p4sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[2];
+                                    }
+                                });
+
+                                p5sel1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        attaks = allPlayer[3];
+                                    }
+                                });
+
+                            }
+                        });
+
+                        selPositions1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                pos1.show();
+                                posx0y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx0y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[0][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx1y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[1][3];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y01.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][0];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y11.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][1];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y21.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][2];
+                                        posTo++;
+                                    }
+                                });
+                                posx2y31.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        posToAttack[posTo] = board.getBoard()[2][3];
+                                        posTo++;
+                                    }
+                                });
+                            }
+                        });
+
+                        blues.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'b';
+                            }
+                        });
+
+                        yellows.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'y';
+                            }
+                        });
+
+                        reds.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                ammos = 'r';
+                            }
+                        });
+
+                        dones1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+
+                                //positions array
+                                int positionsToUseCounter = 0;
+                                for(int i=0; i<posToAttack.length; i++){
+                                    if(posToAttack[i] != null)
+                                        positionsToUseCounter++;
+                                }
+
+                                Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                for(int i=0; i<positionsToUseCounter; i++){
+                                    positionsToUse[i] = posToAttack[i];
+                                }
+
+                                me.usePowerup(me.getPowerup()[2], attaks, positionsToUse, ammos);
+                                updatePlayersPositions();
+                                updatePlayersLife();
+                                updateAmmoValue();
+                                updatePowerUpValue();
+                                powers.close();
+                                power.close();
+                            }
+                        });
+                    }
+                });
+
             }
         });
 
@@ -2385,6 +3012,7 @@ public class AdrenalineView extends Application {
                     moveBtn.setDisable(true);
                     shotBtn.setDisable(true);
                     moveAndGrabBtn.setDisable(true);
+                    reloadButton.setDisable(false);
                 }
                 moveCounter=0;
                 if(boardNumber==1){
@@ -3859,6 +4487,7 @@ public class AdrenalineView extends Application {
                             moveAndGrabBtn.setDisable(true);
                             shotBtn.setDisable(true);
                             endRoundBtn.setDisable(false);
+                            reloadButton.setDisable(false);
                         }
                         else{
                             moveAndGrabBtn.setDisable(false);
@@ -4341,6 +4970,7 @@ public class AdrenalineView extends Application {
                                                                 moveAndGrabBtn.setDisable(true);
                                                                 shotBtn.setDisable(true);
                                                                 endRoundBtn.setDisable(false);
+                                                                reloadButton.setDisable(false);
                                                             }
                                                             else{
                                                                 moveAndGrabBtn.setDisable(false);
@@ -7510,8 +8140,6 @@ public class AdrenalineView extends Application {
         positionsShow.add(posx2y2, 2, 2);
         positionsShow.add(posx2y3, 3, 2);
 
-        //shotpunto
-
         //todo da eliminare
         playersInGame[0].setFirstPosition(board.getBoard()[0][1]);
         playersInGame[2].setFirstPosition(board.getBoard()[0][2]);
@@ -8701,6 +9329,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -8985,6 +9614,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -9269,6 +9899,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -9579,6 +10210,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -9863,6 +10495,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -10147,6 +10780,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -10457,6 +11091,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -11025,6 +11660,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -11335,6 +11971,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -11619,6 +12256,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -11903,6 +12541,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -12213,6 +12852,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -12497,6 +13137,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -12781,6 +13422,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -13091,6 +13733,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -13375,6 +14018,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -13659,6 +14303,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -13969,6 +14614,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -14253,6 +14899,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -14537,6 +15184,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -14847,6 +15495,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -15131,6 +15780,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -15415,6 +16065,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -15725,6 +16376,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -16009,6 +16661,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -16293,6 +16946,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -16603,6 +17257,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -16887,6 +17542,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -17171,6 +17827,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -17481,6 +18138,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -17765,6 +18423,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -18049,6 +18708,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -18359,6 +19019,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -18643,6 +19304,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -18926,6 +19588,7 @@ public class AdrenalineView extends Application {
                                             moveAndGrabBtn.setDisable(true);
                                             shotBtn.setDisable(true);
                                             endRoundBtn.setDisable(false);
+                                            reloadButton.setDisable(false);
                                         }
                                         else{
                                             moveAndGrabBtn.setDisable(false);
@@ -18943,6 +19606,8 @@ public class AdrenalineView extends Application {
         });
 
         //todo implementare reload
+
+
 
         reloadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
