@@ -65,6 +65,17 @@ public class Model {
         return selected;
     }
 
+    private char chooseammo(Player p){
+        Scanner keyboard=new Scanner(System.in);
+        char ammo;
+        int[] owned=p.getAmmo();
+        do{
+            System.out.println("Select a ammunition\nb.blue, quantity:"+owned[0]+"\ny.yellow, quantity:"+owned[1]+"\nr.red, quantity:"+owned[2]+"\n");
+            ammo=keyboard.next().charAt(0);
+        }while(ammo!='b' && ammo!='y' && ammo!='r');
+        return ammo;
+    }
+
     private Position[] getplayermovement() {
         Scanner keyboard = new Scanner(System.in);
         Position temp;
@@ -463,13 +474,36 @@ public class Model {
         shoot(p);
     }
 
-    public void usePoerup(int playernumber){
+    public void usePowerup(int playernumber){
         Player p=getPlayerByNumber(playernumber);
+        Player[] m;
         PowerupCard[] pwd;
+        Position[] pos;
+        char a;
         do{
             System.out.println("\nSelect one powerup\n");
             pwd=playerpowerup(p);
-        }while(pwd.length==1);
+        }while(pwd.length!=1);
+        if(pwd[0].getName().equals("Newton")){
+            do{                         //used to select the player that the user wants to move
+                m=playerstoattack(p);
+            }while(m.length!=1);
+            do{                         //used to select the steps the the players will do
+                System.out.println("Select the positions");
+                pos=getplayermovement();
+            }while(pos.length>=3);
+            a=chooseammo(p);            //used for the user to choose which ammo to use
+            p.usePowerup(pwd[0],m[0],pos,a);
+        }else if(pwd[0].getName().equals("teleporter")){
+            do{
+                System.out.println("Select one position");
+                pos=getplayermovement();
+            }while(pos.length!=1);
+            a=chooseammo(p);
+            p.usePowerup(pwd[0],null,pos,a);
+        }else{
+            System.out.println("You can't use this powerup now");
+        }
     }
 
     public void respawn(int playernumber){
