@@ -20,6 +20,14 @@ public interface RemoteBiCon extends Remote {
 
     void createBoard(Integer boardNumber) throws RemoteException;
 
+    void setBoard();
+
+    void move(int playernumber);
+
+    void moveandgrab(int playernumber);
+
+    void attack(int playernumber);
+
 
     /*
     void createBoard(Integer boardNumber) throws RemoteException;
