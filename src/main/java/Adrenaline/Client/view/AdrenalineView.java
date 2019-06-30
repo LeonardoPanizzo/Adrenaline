@@ -31,6 +31,7 @@ public class AdrenalineView extends Application {
     private int mode2Count = 0;
     private int[] mode2 = new int[]{-1, -1, -1};
     private int mode1 = 0;
+    private int powerupsToAttackCounter = 0;
     private PowerupCard[]powerupsToAttack = new PowerupCard[3];
 
     private boolean test;
@@ -823,7 +824,7 @@ public class AdrenalineView extends Application {
         //me.setWeapons(arrays);
         PowerupCard one = new PowerupCard("Newton", 'r');
         PowerupCard[] poweArraysTest = new PowerupCard[]{one, null, null};
-        me.setPowerup(poweArraysTest);
+        //me.setPowerup(poweArraysTest);
 
         me.setAction(2);    //todo controllare se è da lasciare
         if(me.getLife()<1){
@@ -892,19 +893,7 @@ public class AdrenalineView extends Application {
         playersInGame[2].setLife(11);
         playersInGame[3].setLife(11);
         playersInGame[4].setLife(11);
-
         updateLifeValue();
-
-        playersInGame[4].setMarksReceived(playersInGame[0], 3);
-        playersInGame[4].setMarksReceived(playersInGame[1], 2);
-        playersInGame[4].setMarksReceived(playersInGame[2], 1);
-        playersInGame[4].setMarksReceived(playersInGame[3], 1);
-
-        playersInGame[4].setPlayersDamage(0, 4);
-        playersInGame[4].setPlayersDamage(1, 3);
-        playersInGame[4].setPlayersDamage(2, 2);
-        playersInGame[4].setPlayersDamage(3, 1);
-
 
 
 
@@ -7468,8 +7457,9 @@ public class AdrenalineView extends Application {
         Button one1 = new Button("1");
         two2 = new Button("2");
         mode.getChildren().addAll(zero0, one1, two2);
+        Button selPowerUp = new Button("Select Power Up");
         Button dones = new Button("Done!");
-        shotShow.getChildren().addAll(selPlayers, selPositions, sel, mode, dones);
+        shotShow.getChildren().addAll(selPlayers, selPositions, sel, mode, selPowerUp, dones);
 
         HBox playersShow = new HBox(10);   //root node
         playersShow.setAlignment(Pos.CENTER);
@@ -7537,7 +7527,6 @@ public class AdrenalineView extends Application {
             public void handle(ActionEvent actionEvent) {
 
                 //todo da eliminare
-                me.setLife(6);
                 me.setFinalRound(false);
                 me.setBeforeFirstPlayer(false);
 
@@ -8415,7 +8404,8 @@ public class AdrenalineView extends Application {
                 else
                     shotButtons[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(true);
                 //fine del caso in cui servano azioni adrenaliniche o frenesia finale
-                shotxx1yy0.setOnAction(new EventHandler<ActionEvent>() { //todo to set to ahotxx0yy0
+
+                shotxx0yy0.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         Player[] allPlayer = new Player[4];
@@ -8436,7 +8426,11 @@ public class AdrenalineView extends Application {
                         mode2Count = 0;
                         mode2 = new int[]{-1, -1, -1};
 
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
                         weap.show();
+
                         weapon1.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent actionEvent) {
@@ -8444,6 +8438,37 @@ public class AdrenalineView extends Application {
                                 sh.show();
                                 if(!me.getWeapons()[0].hasoptional())
                                     two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
 
                                 selPlayers.setOnAction(new EventHandler<ActionEvent>() {
                                     @Override
@@ -8641,10 +8666,10 @@ public class AdrenalineView extends Application {
                                         int modeToUseCounter = 0;
                                         for(int i=0; i<mode2.length; i++){
                                             if(mode2[i] != -1)
-                                                mode2Count++;
+                                                modeToUseCounter++;
                                         }
 
-                                        int[] mode2ToUse = new int[mode2Count];
+                                        int[] mode2ToUse = new int[modeToUseCounter];
 
                                         for(int i=0; i<mode2ToUse.length; i++){
                                             mode2ToUse[i] = mode2[i];
@@ -8667,6 +8692,3519 @@ public class AdrenalineView extends Application {
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx0yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx0yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx0yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx0yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx1yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
                                         sh.close();
                                         shotxx1yy0.setVisible(false);
 
@@ -8686,6 +12224,6717 @@ public class AdrenalineView extends Application {
                                 });
 
 
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx1yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx1yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx1yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx1yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx2yy0.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy0.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx2yy1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy1.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx2yy2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy2.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                shotxx2yy3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Player[] allPlayer = new Player[4];
+                        int y=0;
+                        for(int i=0; i<playersInGame.length; i++){
+                            if(playersInGame[i] != null && playersInGame[i].getNumber() != yourID) {
+                                allPlayer[y] = playersInGame[i];
+                                y++;
+                            }
+                        }
+
+                        toAttack = new Player[4];
+                        toHit = 0;
+
+                        posTo = 0;
+                        posToAttack = new Position[5];
+
+                        mode2Count = 0;
+                        mode2 = new int[]{-1, -1, -1};
+
+                        powerupsToAttackCounter=0;
+                        powerupsToAttack = new PowerupCard[]{null, null, null};
+
+                        weap.show();
+
+                        weapon1.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[0].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[0].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon2.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[1].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[1].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        weapon3.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                weap.close();
+                                sh.show();
+                                if(!me.getWeapons()[2].hasoptional())
+                                    two2.setVisible(false);
+
+                                selPowerUp.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        power.show();
+
+                                        power1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[0];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[1];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+
+                                        power3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                powerupsToAttack[powerupsToAttackCounter]=me.getPowerup()[2];
+                                                powerupsToAttackCounter++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                selPlayers.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        play.show();
+                                        p2sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[0];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p3sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[1];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p4sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[2];
+                                                toHit++;
+                                            }
+                                        });
+
+                                        p5sel.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                toAttack[toHit] = allPlayer[3];
+                                                toHit++;
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                selPositions.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        pos.show();
+                                        posx0y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx0y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[0][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx1y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[1][3];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y0.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][0];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y1.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][1];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y2.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][2];
+                                                posTo++;
+                                            }
+                                        });
+                                        posx2y3.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                posToAttack[posTo] = board.getBoard()[2][3];
+                                                posTo++;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                zero0.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 0;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 0;
+                                    }
+                                });
+
+                                one1.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        if(me.getWeapons()[2].hasoptional()){
+                                            mode2[mode2Count] = 1;
+                                            mode2Count++;
+                                        }
+                                        else
+                                            mode1 = 1;
+                                    }
+                                });
+
+                                two2.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        mode2[mode2Count] = 2;
+                                        mode2Count++;
+                                    }
+                                });
+
+                                dones.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+
+                                        //players array
+                                        int playersToUseCounter = 0;
+                                        for(int i=0; i<toAttack.length; i++){
+                                            if(toAttack[i] != null)
+                                                playersToUseCounter++;
+                                        }
+
+                                        Player[] playerstoUse = new Player[playersToUseCounter];
+
+                                        for(int i=0; i<playersToUseCounter; i++){
+                                            playerstoUse[i] = toAttack[i];
+                                        }
+
+                                        //positions array
+                                        int positionsToUseCounter = 0;
+                                        for(int i=0; i<posToAttack.length; i++){
+                                            if(posToAttack[i] != null)
+                                                positionsToUseCounter++;
+                                        }
+
+                                        Position[] positionsToUse = new Position[positionsToUseCounter];
+
+                                        for(int i=0; i<positionsToUseCounter; i++){
+                                            positionsToUse[i] = posToAttack[i];
+                                        }
+
+                                        //mode2 array
+                                        int modeToUseCounter = 0;
+                                        for(int i=0; i<mode2.length; i++){
+                                            if(mode2[i] != -1)
+                                                modeToUseCounter++;
+                                        }
+
+                                        int[] mode2ToUse = new int[modeToUseCounter];
+
+                                        for(int i=0; i<mode2ToUse.length; i++){
+                                            mode2ToUse[i] = mode2[i];
+                                        }
+                                        //powerup array
+                                        int powerupsToUseCounter = 0;
+                                        for(int i=0; i<powerupsToAttack.length; i++){
+                                            if(powerupsToAttack[i] != null)
+                                                powerupsToUseCounter++;
+                                        }
+
+                                        PowerupCard[] powerupsToUse = new PowerupCard[powerupsToUseCounter];
+
+                                        for(int i=0; i<powerupsToUse.length; i++){
+                                            powerupsToUse[i] = powerupsToAttack[i];
+                                        }
+
+                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        updatePlayersPositions();
+                                        updatePlayersLife();
+                                        updateAmmoValue();
+                                        updateWeaponValue();
+                                        sh.close();
+                                        shotxx2yy3.setVisible(false);
+
+                                        if(me.getAction()<1){
+                                            moveBtn.setDisable(true);
+                                            moveAndGrabBtn.setDisable(true);
+                                            shotBtn.setDisable(true);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                        else{
+                                            moveAndGrabBtn.setDisable(false);
+                                            moveBtn.setDisable(false);
+                                            shotBtn.setDisable(false);
+                                            endRoundBtn.setDisable(false);
+                                        }
+                                    }
+                                });
                             }
                         });
                     }
@@ -8860,6 +19109,10 @@ public class AdrenalineView extends Application {
             weapon1.setDisable(true);
         else
             weapon1.setDisable(false);
+        if(me.getWeapons()[0] != null && me.getWeapons()[0].isLoaded())
+            weapon1.setDisable(false);
+        else
+            weapon1.setDisable(true);
 
         weapon2.setGraphic(showWeapons(me.getWeapons()[1]));
         weapon2.setContentDisplay(ContentDisplay.TOP);
@@ -8868,6 +19121,10 @@ public class AdrenalineView extends Application {
             weapon2.setDisable(true);
         else
             weapon2.setDisable(false);
+        if(me.getWeapons()[1] != null && me.getWeapons()[1].isLoaded())
+            weapon2.setDisable(false);
+        else
+            weapon2.setDisable(true);
 
         weapon3.setGraphic(showWeapons(me.getWeapons()[2]));
         weapon3.setContentDisplay(ContentDisplay.TOP);
@@ -8876,6 +19133,10 @@ public class AdrenalineView extends Application {
             weapon3.setDisable(true);
         else
             weapon3.setDisable(false);
+        if(me.getWeapons()[2] != null && me.getWeapons()[2].isLoaded())
+            weapon3.setDisable(false);
+        else
+            weapon3.setDisable(true);
     }
 
     public void showWeaponRes(Position pos){
