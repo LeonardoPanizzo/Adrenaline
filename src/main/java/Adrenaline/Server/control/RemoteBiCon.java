@@ -30,6 +30,10 @@ public interface RemoteBiCon extends Remote {
 
     void usePowerup(int playernumber);
 
+    void reload(int playernumber);
+
+    void endturn(int playernumber);
+
     /*
     void createBoard(Integer boardNumber) throws RemoteException;
 
