@@ -122,7 +122,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         Scanner keyboard= new Scanner(System.in);
         char c;
         do{
-            if(serverIF.isMyturn(number)){
+            if(serverIF.isMyturn(number) && !serverIF.getSpecialturn(number)){  //tipical turn
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
                 c=keyboard.next().charAt(0);
                 switch(c){
@@ -146,11 +146,29 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                 }
                 if(p.getAction()==0){
                     System.out.println("\nDo you want to reload any weapon?y to yes, any other button as no\n");
+                    c=keyboard.next().charAt(0);
                     if(c=='y'){
                         serverIF.reload(number);
                     }
                     serverIF.endturn(number);
                 }
+                serverIF.spreadinfo();  //after each action all the players get the information
+            }
+            if(serverIF.getDefense(number)){    //when this player can use tagback grenade
+                System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
+                c=keyboard.next().charAt(0);
+                if(c=='y'){
+                    serverIF.useTagbackGrenade(number);
+                }
+                serverIF.setDefense(number);
+            }
+            if(serverIF.getSpecialturn(number)){    //it's time to get info
+                this.updateInfo();
+                serverIF.setSpecialturn(number);
+            }
+            if(serverIF.getRespawnturn(number)){
+                serverIF.respawn(number);
+                serverIF.setRespawnturn(number);
             }
         }while(!board.isFinalRound());
     }
