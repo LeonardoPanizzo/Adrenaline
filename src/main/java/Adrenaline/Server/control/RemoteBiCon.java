@@ -30,6 +30,10 @@ public interface RemoteBiCon extends Remote {
 
     Player[] getPlayers();
 
+    int getOnetogo();
+
+    int finalplayernumber();
+
     boolean isMyturn(int specificuser);
 
     boolean getSpecialturn(int specificuser);
