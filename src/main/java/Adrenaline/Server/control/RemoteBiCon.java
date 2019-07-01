@@ -1,5 +1,7 @@
 package Adrenaline.Server.control;
 
+import Adrenaline.Server.model.Board;
+import Adrenaline.Server.model.Player;
 import Adrenaline.Server.model.Response;
 
 import java.rmi.Remote;
@@ -22,6 +24,12 @@ public interface RemoteBiCon extends Remote {
 
     void setBoard();
 
+    Board getBoard();
+
+    Player[] getPlayers();
+
+    boolean getChoosenBoard();
+
     void move(int playernumber);
 
     void moveandgrab(int playernumber);
@@ -33,6 +41,8 @@ public interface RemoteBiCon extends Remote {
     void reload(int playernumber);
 
     void endturn(int playernumber);
+
+    int getNumber();
 
     /*
     void createBoard(Integer boardNumber) throws RemoteException;
