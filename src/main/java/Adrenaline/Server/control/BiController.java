@@ -31,7 +31,6 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private Vector<RmiClient> clients;
     String line = "---------------------------------------------\n";
     private static Board board;
-    private static PowerupDeck pud;
     private static Player[] players;
     private int specificuser;
     private boolean boardchoosen;
@@ -42,11 +41,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         clients = new Vector<RmiClient>();
         //parte del costruttore del model
         this.board = null;
-        this.pud = null;
         this.players = null;
         this.specificuser=spec;
         boardchoosen=false;
-        pud=new PowerupDeck();
         /*
         try {
             this.handler = new ClientHandler();
@@ -786,10 +783,6 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public void setPlayers(Player[] p) {
         this.players = p;
-    }
-
-    public void setDeck(PowerupDeck pd) {
-        this.pud = pd;
     }
 
     /**
