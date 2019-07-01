@@ -864,12 +864,27 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         board.setFinalRound();
         if(board.isFinalRound()){
             this.finalplayer=getPlayerByNumber(playernumber);
-            this.onetogo=(playernumber+1)%players.length;
+            int next=(playernumber+1)%players.length;
+            this.onetogo=next;
+            if(next==0){
+                players[(playernumber+1)%players.length].setAction(2);
+            }else {
+                players[(playernumber + 1) % players.length].setAction(2);
+            }
         }else {
             board.setRound(board.getRound() + 1);
             int turn=board.getRound()%players.length;
             playersturn[turn]=true;
             players[turn].setAction(2);
+        }
+    }
+
+    public void endfinalturn(int playernumber){
+        this.onetogo=(this.onetogo+1)%players.length;
+        if(onetogo>finalplayer.getNumber()){
+            players[onetogo].setAction(2);
+        }else{
+            players[onetogo].setAction(1);
         }
     }
 
@@ -929,6 +944,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public int getNumber(){
         return specificuser;
+    }
+
+    public void endall(){
+        //todo:???
     }
 }
 
