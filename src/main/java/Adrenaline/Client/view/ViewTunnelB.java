@@ -89,9 +89,10 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         }
     }
 
-    public void updateInfo(Board b, Player[] users){
-        this.board=b;
+    public void updateInfo(){
+        this.board=serverIF.getBoard();
         Player[] ps= new Player[5];    //support for variable players
+        Player[] users=serverIF.getPlayers();   //all the players
         for(int i=0;i<users.length;i++){
             if(users[i].getNumber()!=number){
                 ps[i]=users[i];
@@ -99,13 +100,23 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                 p=users[i];
             }
         }
+        players=ps;
     }
 
     public void mmain(){
-        //ricevere i dati dal  server con il metodo update info
-        if(p.getNumber()==0){
+        boolean gotInfo=false;
+        this.number=serverIF.getNumber();
+        if(number==0){
             serverIF.setBoard();
         }
+        do{
+            if(serverIF.getChoosenBoard()){
+                this.updateInfo();
+            }
+            if(this.board!=null && this.players!=null){
+                gotInfo=true;
+            }
+        }while(!gotInfo);
         Scanner keyboard= new Scanner(System.in);
         char c;
         do{
