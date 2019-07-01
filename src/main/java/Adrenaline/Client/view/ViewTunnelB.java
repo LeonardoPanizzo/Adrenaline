@@ -128,6 +128,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                 switch(c){
                     case '0':
                         System.out.println(board.myToString());
+                        //todo:add the print of the players
                         break;
                     case '1':
                         serverIF.move(number);
@@ -174,9 +175,51 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         do{
             if(serverIF.getOnetogo()==number){
                 if(number>serverIF.finalplayernumber()){
-                    //todo:il giocatore ha la scelta fra due azioni frenetiche
+                    System.out.println("\nWhat final actions you want to make?\n0.print info\n1.move\n2.move and grab\n3.move, reload and shoot\n4.use powerup\n");
+                    c=keyboard.next().charAt(0);
+                    switch(c) {
+                        case '0':
+                            System.out.println(board.myToString());
+                            //todo:add the print of the players
+                            break;
+                        case '1':
+                            serverIF.movefinal2(number);
+                            break;
+                        case '2':
+                            serverIF.moveandgrabfinal2(number);
+                            break;
+                        case '3':
+                            serverIF.attackfinal2(number);
+                            break;
+                        case '4':
+                            serverIF.usePowerup(number);
+                            break;
+                    }
                 }else{
-                    //todo: il giocatore ha la scelta fra un'azione frenetica
+                    System.out.println("\nWhat final action you want to make?\n0.print info\n1.move and grab\n2.move, reload and shoot\n3.use powerup\n");
+                    c=keyboard.next().charAt(0);
+                    switch(c) {
+                        case '0':
+                            System.out.println(board.myToString());
+                            //todo:add the print of the players
+                            break;
+                        case '1':
+                            serverIF.moveandgrabfinal1(number);
+                            break;
+                        case '2':
+                            serverIF.attackfinal1(number);
+                            break;
+                        case '3':
+                            serverIF.usePowerup(number);
+                            break;
+                    }
+                }
+                if(p.getAction()==0){
+                    if (number == serverIF.finalplayernumber()) {
+                        //serverIF.endall();
+                    }else{
+                        serverIF.endfinalturn(number);
+                    }
                 }
             }
             if(serverIF.getSpecialturn(number)){    //it's time to get info
