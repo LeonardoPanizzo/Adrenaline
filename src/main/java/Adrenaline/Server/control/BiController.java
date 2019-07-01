@@ -33,7 +33,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private static Board board;
     private static Player[] players;
     private int specificuser;
-    private boolean boardchoosen;
+    private boolean[] playersturn;
+    private boolean[] specialturn;
 
     //todo:qui è la parte di gestione del server più chatter
     public BiController(int spec) throws RemoteException {
@@ -43,7 +44,6 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         this.board = null;
         this.players = null;
         this.specificuser=spec;
-        boardchoosen=false;
         /*
         try {
             this.handler = new ClientHandler();
@@ -229,8 +229,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     //todo:qui è la parte del server del gioco
 
-    public boolean getChoosenBoard(){
-        return boardchoosen;
+    public boolean getChoosenBoard(int specificuser){
+        return specialturn[specificuser];
+    }
+
+    public void setSpecialturn(int specificuser){
+        specialturn[specificuser]=false;
     }
 
     private Player getPlayerByNumber(int nplayer) {
@@ -785,26 +789,33 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         this.players = p;
     }
 
+    public void setPlayersTurn(int t){
+        this.playersturn=new boolean[t];
+        this.specialturn=new boolean[t];
+        for(int i=0; i<t; i++){
+            playersturn[i]=false;
+            specialturn[i]=false;
+        }
+    }
+
     /**
      * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
      */
     public void setBoard() {
-        if(!boardchoosen) {
-            char c;
-            int x;
-            Scanner keyboard = new Scanner(System.in);
-            do {
-                System.out.println("\nChoose a number between 1 and 4 to select the board\n");
-                c = keyboard.next().charAt(0);
-                if (c >= '1' && c <= '4') {
-                    x = Character.getNumericValue(c);
-                    board = new Board(x);
-                    System.out.println("\nBoard created\n");
-                }
-            } while (c < '1' || c > '4');
-            boardchoosen=true;
-        }
+        char c;
+        int x;
+        Scanner keyboard = new Scanner(System.in);
+        do {
+            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
+            c = keyboard.next().charAt(0);
+            if (c >= '1' && c <= '4') {
+                x = Character.getNumericValue(c);
+                board = new Board(x);
+                System.out.println("\nBoard created\n");
+            }
+        } while (c < '1' || c > '4');
     }
+
 
     public Board getBoard() {
         return board;
