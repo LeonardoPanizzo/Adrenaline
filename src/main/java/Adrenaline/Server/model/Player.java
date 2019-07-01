@@ -1072,20 +1072,17 @@ public class Player {
     public int[] givePoints(){
         int[] points = new int[]{0, 0, 0, 0, 0};
         final int MAX = 8;                              //MAX shows max points assigned to the first player in sortedPlayer[]
-
-        int point = MAX - 2*this.numberOfDeaths;        //Each player's death decrease max points about 2 points
-
+        int point = MAX - 2 * this.numberOfDeaths;        //Each player's death decrease max points about 2 points
         int[] sortedPlayer = this.sortingPlayers();
-
-        for (int i=0; i<5; i++){
+        for (int i = 0; i < 5; i++) {
             if (point <= 0)
                 point = 1;
-            if(playersDamage[sortedPlayer[i]][1] != 0) {
+            if (playersDamage[sortedPlayer[i]][1] != 0) {
                 points[sortedPlayer[i]] = point;
-                if(playersDamage[sortedPlayer[i]][0] == 1)
+                if (playersDamage[sortedPlayer[i]][0] == 1)
                     points[sortedPlayer[i]]++;
             }
-            point-=2;
+            point -= 2;
         }
         return points;
     }
