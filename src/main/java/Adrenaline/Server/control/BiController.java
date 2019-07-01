@@ -45,7 +45,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         this.pud = null;
         this.players = null;
         this.specificuser=spec;
-        this.boardchoosen=false;
+        boardchoosen=false;
+        pud=new PowerupDeck();
         /*
         try {
             this.handler = new ClientHandler();
