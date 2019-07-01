@@ -576,16 +576,27 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      * @param p
      */
     private void shoot(Player p) {
+        boolean attacked=false;
         WeaponCard weapon = playerSelectWeapons(p);
         PowerupCard[] payment = playerpowerup(p);
         Position[] position = getplayermovement();
         Player[] toattack = playerstoattack(p);
+        char c;
+        Scanner keyboard=new Scanner(System.in);
         if (weapon.hasoptional()) {   //true when theres optional effect
             int[] mode2 = getMode2();
-            p.shot(weapon, toattack, 0, mode2, position, payment);
+            attacked=p.shot(weapon, toattack, 0, mode2, position, payment);
         } else {                      //false when there is only one effect used
             int mode1 = getMode1();
-            p.shot(weapon, toattack, mode1, null, position, payment);
+            attacked=p.shot(weapon, toattack, mode1, null, position, payment);
+        }
+        if(attacked && hasTargettingScope(p)){  //if the attack is successful and the user has targettingscope the player has the opportunity of using that powerup
+            System.out.println("Do you want to use targetting scope? y to yes");
+            c=keyboard.next().charAt(0);
+            if(c=='y'){
+                c=chooseammo(p);
+
+            }
         }
     }
 
