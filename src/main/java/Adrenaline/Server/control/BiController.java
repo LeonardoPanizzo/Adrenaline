@@ -33,15 +33,19 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private static Board board;
     private static PowerupDeck pud;
     private static Player[] players;
+    private int specificuser;
+    private boolean boardchoosen;
 
     //todo:qui è la parte di gestione del server più chatter
-    public BiController() throws RemoteException {
+    public BiController(int spec) throws RemoteException {
         super();
         clients = new Vector<RmiClient>();
         //parte del costruttore del model
-        board = null;
-        pud = null;
-        players = null;
+        this.board = null;
+        this.pud = null;
+        this.players = null;
+        this.specificuser=spec;
+        this.boardchoosen=false;
         /*
         try {
             this.handler = new ClientHandler();
@@ -226,6 +230,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }//this.controller.createBoard(boardNumber);}
 
     //todo:qui è la parte del server del gioco
+
+    public boolean getChoosenBoard(){
+        return boardchoosen;
+    }
 
     private Player getPlayerByNumber(int nplayer) {
         Player actualPlayer = null;
@@ -772,18 +780,21 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
      */
     public void setBoard() {
-        char c;
-        int x;
-        Scanner keyboard = new Scanner(System.in);
-        do {
-            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
-            c = keyboard.next().charAt(0);
-            if (c >= '1' && c <= '4') {
-                x = Character.getNumericValue(c);
-                board = new Board(x);
-                System.out.println("\nBoard created\n");
-            }
-        } while (c < '1' || c > '4');
+        if(!boardchoosen) {
+            char c;
+            int x;
+            Scanner keyboard = new Scanner(System.in);
+            do {
+                System.out.println("\nChoose a number between 1 and 4 to select the board\n");
+                c = keyboard.next().charAt(0);
+                if (c >= '1' && c <= '4') {
+                    x = Character.getNumericValue(c);
+                    board = new Board(x);
+                    System.out.println("\nBoard created\n");
+                }
+            } while (c < '1' || c > '4');
+            boardchoosen=true;
+        }
     }
 
     public Board getBoard() {
@@ -792,6 +803,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public Player[] getPlayers() {
         return players;
+    }
+
+    public int getNumber(){
+        return specificuser;
     }
 }
 
