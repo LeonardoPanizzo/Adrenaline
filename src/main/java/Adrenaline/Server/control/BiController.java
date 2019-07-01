@@ -34,8 +34,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private static Player[] players;
     private int specificuser;
     private boolean[] playersturn;
-    private boolean[] specialturn;  //used is getinfo and respawn
+    private boolean[] specialturn;  //used in gettinfo
     private boolean[] defense;
+    private boolean[] respawnturn;
+    private Player attacker=null;
 
     //todo:qui è la parte di gestione del server più chatter
     public BiController(int spec) throws RemoteException {
@@ -236,6 +238,22 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public void setSpecialturn(int specificuser){
         specialturn[specificuser]=false;
+    }
+
+    public boolean getDefense(int specificuser){
+        return defense[specificuser];
+    }
+
+    public void setDefense(int specificuser){
+        defense[specificuser]=false;
+    }
+
+    public boolean getRespawnturn(int specificuser){
+        return respawnturn[specificuser];
+    }
+
+    public void setRespawnturn(int specificuser){
+        respawnturn[specificuser]=false;
     }
 
     public boolean isMyturn(int specificuser){
@@ -534,6 +552,15 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return mode;
     }
 
+    public void spreadinfo(){
+        for(int i=0;i<players.length;i++) {
+            specialturn[i] = true;
+            do {
+                //waits until the user i got his information
+            } while (specialturn[i] == true);
+        }
+    }
+
     private Player[] playerstoattack(Player p) {
         Player[] toattack = new Player[5];
         Scanner keyboard = new Scanner(System.in);
@@ -584,6 +611,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      */
     private void shoot(Player p) {
         boolean attacked=false;
+        this.attacker=p;
         WeaponCard weapon = playerSelectWeapons(p);
         PowerupCard[] payment = playerpowerup(p);
         Position[] position = getplayermovement();
@@ -601,7 +629,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             System.out.println("Do you want to use targetting scope? y to yes");
             c=keyboard.next().charAt(0);
             if(c=='y'){
-                System.out.println("Select the powerup");
+                System.out.println("Select one targeting scope");
                 do {
                     payment=playerpowerup(p);
                 }while(payment.length!=1 || !payment[0].getName().equals("targeting scope"));
@@ -609,6 +637,28 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 p.usePowerup(payment[0],toattack[0],null,c);
             }
         }
+        if(attacked){
+            for(int i=0;i<toattack.length; i++){
+                if(this.hasTagbackGrenade(toattack[i])){
+                    this.defense[toattack[i].getNumber()]=true;
+                    do{
+                        //wait for the player to use or not tagaback grenade
+                    }while(this.defense[toattack[i].getNumber()]==true);
+                }
+            }
+        }
+        this.attacker=null;
+    }
+
+    public void useTagbackGrenade(int specificuser){
+        Player p=getPlayerByNumber(specificuser);
+        System.out.println("Select one tagback grenade");
+        PowerupCard[] pwr;
+        do {
+            pwr=playerpowerup(p);
+        }while(pwr.length!=1 || !pwr[0].getName().equals("tagback grenade"));
+        char c=chooseammo(p);
+        p.usePowerup(pwr[0],attacker,null,c);
     }
 
     public void reload(int playernumber) {
@@ -768,7 +818,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     public void respawn(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         p.drawPowerup();
-        if (p.isFinalRound()) {  //If it is the first turn the player needs to pickup two card, only one it is a normal respawn
+        if (p.isFirstRound()) {  //If it is the first turn the player needs to pickup two card, only one it is a normal respawn
             p.drawPowerup();
         }
         PowerupCard[] pwr;
@@ -800,10 +850,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         this.playersturn=new boolean[t];
         this.specialturn=new boolean[t];
         this.defense=new boolean[t];
+        this.respawnturn=new boolean[t];
         for(int i=0; i<t; i++){
             this.playersturn[i]=false;
             this.specialturn[i]=false;
             this.defense[i]=false;
+            this.respawnturn[i]=false;
         }
     }
 
@@ -823,14 +875,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 System.out.println("\nBoard created\n");
             }
         } while (c < '1' || c > '4');
-        for(int i=0;i<players.length;i++) {
-            specialturn[i] = true;
-            do {
-                //waits until the user i got his information
-            } while (specialturn[i] == true);
-        }
         playersturn[0]=true;
         players[0].setRound(true);
+        this.spreadinfo();
     }
 
 
