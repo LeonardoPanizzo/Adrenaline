@@ -701,7 +701,8 @@ public class Player {
      * @see WeaponCard
      * @see PowerupCard
      */
-    public void shot(WeaponCard weapChosen, Player[] playersAttacked, int mode1, int[] mode2, Position[] movements,  PowerupCard[] payment){
+    public boolean shot(WeaponCard weapChosen, Player[] playersAttacked, int mode1, int[] mode2, Position[] movements,  PowerupCard[] payment){
+        boolean success=false;
         if (this.action > 0) {
             boolean control = false;
             for(int i=0; i<3; i++){
@@ -710,17 +711,19 @@ public class Player {
                 }
             }
             if(control){
-                boolean success = weapChosen.attack(this, mode1, mode2, playersAttacked, movements, payment);
-                if(success)
+                success = weapChosen.attack(this, mode1, mode2, playersAttacked, movements, payment);
+                if(success) {
                     action--;
-                else
+                }else {
                     System.out.println("impossible to attack");
+                }
             }
             else
                 System.out.println("You don't have this weapon");
         }
         else
-            System.out.println("Actions completed");
+            System.out.println("You don't have any actions left");
+        return success;
     }
 
     /**
