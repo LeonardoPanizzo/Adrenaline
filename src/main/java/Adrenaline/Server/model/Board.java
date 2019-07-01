@@ -49,6 +49,7 @@ public class Board implements Serializable {
             WeaponDeck deck2 = new WeaponDeck();
             board = new Position[3][4];
             String path = "src/main/resources/room" + num + ".json";
+            System.out.println("Variation: "+variation);
             try {
                 JsonReader reader = new JsonReader(new FileReader(path));
                 support = new Gson().fromJson(reader, SupportPosition[].class);

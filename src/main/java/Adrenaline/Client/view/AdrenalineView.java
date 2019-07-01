@@ -21,11 +21,19 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
-    private Label actualDeath = new Label();
-    private Label actualDeath2 = new Label();
-    private Label actualDeath3 = new Label();
-    private Label actualDeath4 = new Label();
-    private Label actualDeath5 = new Label();
+    //public AdrenalineView(Board board, Player me, Player[] players){
+    //    this.me = me;
+    //    this.playersInGame = players;
+    //    this.board = board;
+    //    this.boardNumber = board.getVariation();
+    //    this.yourID = me.getNumber();
+    //}
+
+    private Label actualDeath;
+    private Label actualDeath2;
+    private Label actualDeath3;
+    private Label actualDeath4;
+    private Label actualDeath5;
 
     private int courentPlayer = 1;
 
@@ -33,7 +41,7 @@ public class AdrenalineView extends Application {
     private Player attaks;
 
     private int toHit = 0;
-    private Button two2 = new Button();
+    private Button two2;
     Player[] toAttack = new Player[4];
     private int posTo = 0;
     Position[] posToAttack = new Position[5];
@@ -48,7 +56,7 @@ public class AdrenalineView extends Application {
     private int moveAndGrabCounter = 0;
     private int count = 0;
 
-    private Button reloadButton = new Button("Reload");
+    private Button reloadButton;
 
     private char[] ammoToUse;
     private PowerupCard[] powerToUse;
@@ -58,50 +66,50 @@ public class AdrenalineView extends Application {
     private int toTake = 0;
     private int pToTake = 0;
 
-    private StackPane xx0yy0 = new StackPane();
-    private StackPane xx0yy1 = new StackPane();
-    private StackPane xx0yy2 = new StackPane();
-    private StackPane xx0yy3 = new StackPane();
+    private StackPane xx0yy0;
+    private StackPane xx0yy1;
+    private StackPane xx0yy2;
+    private StackPane xx0yy3;
 
-    private StackPane xx1yy0 = new StackPane();
-    private StackPane xx1yy1 = new StackPane();
-    private StackPane xx1yy2 = new StackPane();
-    private StackPane xx1yy3 = new StackPane();
+    private StackPane xx1yy0;
+    private StackPane xx1yy1;
+    private StackPane xx1yy2;
+    private StackPane xx1yy3;
 
-    private StackPane xx2yy0 = new StackPane();
-    private StackPane xx2yy1 = new StackPane();
-    private StackPane xx2yy2 = new StackPane();
-    private StackPane xx2yy3 = new StackPane();
+    private StackPane xx2yy0;
+    private StackPane xx2yy1;
+    private StackPane xx2yy2;
+    private StackPane xx2yy3;
 
-    private Button bxx0yy0 = new Button("Move there");
-    private Button bxx0yy1 = new Button("Move there");
-    private Button bxx0yy2 = new Button("Move there");
-    private Button bxx0yy3 = new Button("Move there");
-    private Button bxx1yy0 = new Button("Move there");
-    private Button bxx1yy1 = new Button("Move there");
-    private Button bxx1yy2 = new Button("Move there");
-    private Button bxx1yy3 = new Button("Move there");
-    private Button bxx2yy0 = new Button("Move there");
-    private Button bxx2yy1 = new Button("Move there");
-    private Button bxx2yy2 = new Button("Move there");
-    private Button bxx2yy3 = new Button("Move there");
+    private Button bxx0yy0;
+    private Button bxx0yy1;
+    private Button bxx0yy2;
+    private Button bxx0yy3;
+    private Button bxx1yy0;
+    private Button bxx1yy1;
+    private Button bxx1yy2;
+    private Button bxx1yy3;
+    private Button bxx2yy0;
+    private Button bxx2yy1;
+    private Button bxx2yy2;
+    private Button bxx2yy3;
 
-    private Button gxx0yy0 = new Button("Grab");
-    private Button gxx0yy1 = new Button("Grab");
-    private Button gxx0yy2 = new Button("Grab Weapons");
-    private Button gxx0yy3 = new Button("Grab");
-    private Button gxx1yy0 = new Button("Grab Weapons");
-    private Button gxx1yy1 = new Button("Grab");
-    private Button gxx1yy2 = new Button("Grab");
-    private Button gxx1yy3 = new Button("Grab");
-    private Button gxx2yy0 = new Button("Grab");
-    private Button gxx2yy1 = new Button("Grab");
-    private Button gxx2yy2 = new Button("Grab");
-    private Button gxx2yy3 = new Button("Grab Weapons");
+    private Button gxx0yy0;
+    private Button gxx0yy1;
+    private Button gxx0yy2;
+    private Button gxx0yy3;
+    private Button gxx1yy0;
+    private Button gxx1yy1;
+    private Button gxx1yy2;
+    private Button gxx1yy3;
+    private Button gxx2yy0;
+    private Button gxx2yy1;
+    private Button gxx2yy2;
+    private Button gxx2yy3;
 
-    private Button sxx0yy2 = new Button("Show Weapons");
-    private Button sxx1yy0 = new Button("Show Weapons");
-    private Button sxx2yy3 = new Button("Show Weapons");
+    private Button sxx0yy2;
+    private Button sxx1yy0;
+    private Button sxx2yy3;
 
     private int blueAmmo;
     private int yellowAmmo;
@@ -119,113 +127,99 @@ public class AdrenalineView extends Application {
     private Label p2yAmmo;
     private Label p2rAmmo;
 
-    private Label p2ActualLife = new Label();
-    private Label p3ActualLife = new Label();
-    private Label p4ActualLife = new Label();
-    private Label p5ActualLife = new Label();
+    private Label p2ActualLife;
+    private Label p3ActualLife;
+    private Label p4ActualLife;
+    private Label p5ActualLife;
 
     private int lifeValue = 0;
-    private Board board = new Board(1);
+    private Board board;
     private int boardNumber;
     private Player[] playersInGame = new Player[5];     //Players that play the game
     private int yourID;                                 //Client Player's ID
     private PowerupDeck pwd = new PowerupDeck();
     private Player me = new Player(1, pwd);
 
-    private Label actualLife = new Label(String.valueOf(lifeValue));
+    private Label actualLife;
 
-    private Button[][] playersButtons1 = new Button[3][4];
-    private Button[][] playersButtons2 = new Button[3][4];
-    private Button[][] playersButtons3 = new Button[3][4];
-    private Button[][] playersButtons4 = new Button[3][4];
-    private Button[][] playersButtons5 = new Button[3][4];
+    private Button[][] playersButtons1;
+    private Button[][] playersButtons2;
+    private Button[][] playersButtons3;
+    private Button[][] playersButtons4;
+    private Button[][] playersButtons5;
 
-    private Button power1 = new Button();
-    private Button power2 = new Button();
-    private Button power3 = new Button();
+    private Button power1;
+    private Button power2;
+    private Button power3;
 
-    private Button weapon1 = new Button();
-    private Button weapon2 = new Button();
-    private Button weapon3 = new Button();
+    private Button weapon1;
+    private Button weapon2;
+    private Button weapon3;
 
-    private Button weaponRes1 = new Button();
-    private Button weaponRes2 = new Button();
-    private Button weaponRes3 = new Button();
+    private Button weaponRes1;
+    private Button weaponRes2;
+    private Button weaponRes3;
 
-    private Label axx0yy0 = new Label();
-    private Label axx0yy1 = new Label();
-    private Label axx0yy2 = new Label();
-    private Label axx0yy3 = new Label();
-    private Label axx1yy0 = new Label();
-    private Label axx1yy1 = new Label();
-    private Label axx1yy2 = new Label();
-    private Label axx1yy3 = new Label();
-    private Label axx2yy0 = new Label();
-    private Label axx2yy1 = new Label();
-    private Label axx2yy2 = new Label();
-    private Label axx2yy3 = new Label();
+    private Label axx0yy0;
+    private Label axx0yy1;
+    private Label axx0yy2;
+    private Label axx0yy3;
+    private Label axx1yy0;
+    private Label axx1yy1;
+    private Label axx1yy2;
+    private Label axx1yy3;
+    private Label axx2yy0;
+    private Label axx2yy1;
+    private Label axx2yy2;
+    private Label axx2yy3;
 
-    private Button[][] grabButtons = new Button[3][4];
-    private Button[][] shotButtons = new Button[3][4];
+    private Button[][] grabButtons;
+    private Button[][] shotButtons;
 
     private int moveAndGrabButtonCounter = 0;
 
-    private Label player1 = new Label("You");
-    private Label player2 = new Label("Player 2");
-    private Label player3 = new Label("Player 3");
-    private Label player4 = new Label("Player 4");
-    private Label player5 = new Label("Player 5");
+    private Label player1;
+    private Label player2;
+    private Label player3;
+    private Label player4;
+    private Label player5;
 
-    private Label[] playArray = new Label[]{player2, player3, player4, player5};
+    private Label[] playArray;
 
     private String play = null;
-    private Label player = new Label();
+    private Label player;
 
-    private Button btn2 = new Button();
-    private Button btn3 = new Button();
-    private Button btn4 = new Button();
-    private Button btn5 = new Button();
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
+    private Button btn5;
 
-    private Button shotxx0yy0 = new Button("Shot");
-    private Button shotxx0yy1 = new Button("Shot");
-    private Button shotxx0yy2 = new Button("Shot");
-    private Button shotxx0yy3 = new Button("Shot");
-    private Button shotxx1yy0 = new Button("Shot");
-    private Button shotxx1yy1 = new Button("Shot");
-    private Button shotxx1yy2 = new Button("Shot");
-    private Button shotxx1yy3 = new Button("Shot");
-    private Button shotxx2yy0 = new Button("Shot");
-    private Button shotxx2yy1 = new Button("Shot");
-    private Button shotxx2yy2 = new Button("Shot");
-    private Button shotxx2yy3 = new Button("Shot");
-
-    public AdrenalineView(Board board, Player me, Player[] players){
-        this.me = me;
-        this.playersInGame = players;
-        this.board = board;
-        this.boardNumber = board.getVariation();
-        this.yourID = me.getNumber();
-    }
+    private Button shotxx0yy0;
+    private Button shotxx0yy1;
+    private Button shotxx0yy2;
+    private Button shotxx0yy3;
+    private Button shotxx1yy0;
+    private Button shotxx1yy1;
+    private Button shotxx1yy2;
+    private Button shotxx1yy3;
+    private Button shotxx2yy0;
+    private Button shotxx2yy1;
+    private Button shotxx2yy2;
+    private Button shotxx2yy3;
 
     public AdrenalineView(){
-        this.me = new Player(1, pwd);
-        Player p2 = new Player(0, pwd);
-        Player p3 = new Player(2, pwd);
-        Player p4 = new Player(3, pwd);
-        Player p5 = new Player(4, pwd);
-        p2.setName("Miriam");
-        p3.setName("Ranieri");
-        p4.setName("Leonardo");
-        p5.setName("Paolo");
+        this.me = Prova2.me;
+        playersInGame = Prova2.players;
+        Player p2 = Prova2.players[0];
+        Player p3 = Prova2.players[2];
+        Player p4 = Prova2.players[3];
+        Player p5 = Prova2.players[4];
+        Prova2.setName();
         this.yourID = me.getNumber();
-        this.playersInGame[yourID] = me;
-        this.playersInGame[0] = p2;
-        this.playersInGame[2] = p3;
-        this.playersInGame[3] = p4;
-        this.playersInGame[4] = p5;
-        this.board = new Board(1);
+
+        this.board = Prova2.board;
         this.boardNumber = board.getVariation();
-    };
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -239,10 +233,7 @@ public class AdrenalineView extends Application {
 
         //me.setPlayersDamage(0, 2); //todo da eliminare
         me.setRound(true);
-        //me.setMarksReceived(playersInGame[0], 2);
-        //me.setMarksReceived(playersInGame[2], 3);
-        //me.setMarksReceived(playersInGame[3], 1);
-        //me.setMarksReceived(playersInGame[4], 0);
+
 
         int[] damagesBy = new int[4];
         int k = 0;
@@ -253,6 +244,123 @@ public class AdrenalineView extends Application {
             }
         }
 
+        axx0yy0 = new Label();
+        axx0yy1 = new Label();
+        axx0yy2 = new Label();
+        axx0yy3 = new Label();
+        axx1yy0 = new Label();
+        axx1yy1 = new Label();
+        axx1yy2 = new Label();
+        axx1yy3 = new Label();
+        axx2yy0 = new Label();
+        axx2yy1 = new Label();
+        axx2yy2 = new Label();
+        axx2yy3 = new Label();
+
+        weaponRes1 = new Button();
+        weaponRes2 = new Button();
+        weaponRes3 = new Button();
+
+        power1 = new Button();
+        power2 = new Button();
+        power3 = new Button();
+
+        weapon1 = new Button();
+        weapon2 = new Button();
+        weapon3 = new Button();
+
+        weaponRes1 = new Button();
+        weaponRes2 = new Button();
+        weaponRes3 = new Button();
+
+        playersButtons1 = new Button[3][4];
+        playersButtons2 = new Button[3][4];
+        playersButtons3 = new Button[3][4];
+        playersButtons4 = new Button[3][4];
+        playersButtons5 = new Button[3][4];
+
+        actualLife = new Label(String.valueOf(lifeValue));
+
+        p2ActualLife = new Label();
+        p3ActualLife = new Label();
+        p4ActualLife = new Label();
+        p5ActualLife = new Label();
+
+        shotxx0yy0 = new Button("Shot");
+        shotxx0yy1 = new Button("Shot");
+        shotxx0yy2 = new Button("Shot");
+        shotxx0yy3 = new Button("Shot");
+        shotxx1yy0 = new Button("Shot");
+        shotxx1yy1 = new Button("Shot");
+        shotxx1yy2 = new Button("Shot");
+        shotxx1yy3 = new Button("Shot");
+        shotxx2yy0 = new Button("Shot");
+        shotxx2yy1 = new Button("Shot");
+        shotxx2yy2 = new Button("Shot");
+        shotxx2yy3 = new Button("Shot");
+
+        btn2 = new Button();
+        btn3 = new Button();
+        btn4 = new Button();
+        btn5 = new Button();
+
+        player = new Label();
+
+        player1 = new Label("You");
+        player2 = new Label("Player 2");
+        player3 = new Label("Player 3");
+        player4 = new Label("Player 4");
+        player5 = new Label("Player 5");
+
+        playArray = new Label[]{player2, player3, player4, player5};
+
+        sxx0yy2 = new Button("Show Weapons");
+        sxx1yy0 = new Button("Show Weapons");
+        sxx2yy3 = new Button("Show Weapons");
+
+        grabButtons = new Button[3][4];
+        shotButtons = new Button[3][4];
+
+        xx0yy0 = new StackPane();
+        xx0yy1 = new StackPane();
+        xx0yy2 = new StackPane();
+        xx0yy3 = new StackPane();
+        xx1yy0 = new StackPane();
+        xx1yy1 = new StackPane();
+        xx1yy2 = new StackPane();
+        xx1yy3 = new StackPane();
+        xx2yy0 = new StackPane();
+        xx2yy1 = new StackPane();
+        xx2yy2 = new StackPane();
+        xx2yy3 = new StackPane();
+
+        bxx0yy0 = new Button("Move there");
+        bxx0yy1 = new Button("Move there");
+        bxx0yy2 = new Button("Move there");
+        bxx0yy3 = new Button("Move there");
+        bxx1yy0 = new Button("Move there");
+        bxx1yy1 = new Button("Move there");
+        bxx1yy2 = new Button("Move there");
+        bxx1yy3 = new Button("Move there");
+        bxx2yy0 = new Button("Move there");
+        bxx2yy1 = new Button("Move there");
+        bxx2yy2 = new Button("Move there");
+        bxx2yy3 = new Button("Move there");
+
+        gxx0yy0 = new Button("Grab");
+        gxx0yy1 = new Button("Grab");
+        gxx0yy2 = new Button("Grab Weapons");
+        gxx0yy3 = new Button("Grab");
+        gxx1yy0 = new Button("Grab Weapons");
+        gxx1yy1 = new Button("Grab");
+        gxx1yy2 = new Button("Grab");
+        gxx1yy3 = new Button("Grab");
+        gxx2yy0 = new Button("Grab");
+        gxx2yy1 = new Button("Grab");
+        gxx2yy2 = new Button("Grab");
+        gxx2yy3 = new Button("Grab Weapons");
+
+        reloadButton = new Button("Reload");
         updateNumberOfDeath();
 
         primaryStage.setTitle("Adrenaline");
@@ -825,15 +933,6 @@ public class AdrenalineView extends Application {
         power.setScene(powerup);
         powerupCards.getChildren().addAll(power1, power2, power3);
 
-        char[] costo = {'b', 'b'};
-        WeaponCard ones = new WeaponCard("T.H.O.R", costo, null, false);       //todo da eliminare
-        WeaponCard twos = new WeaponCard("Furnace", null, null,true);
-        WeaponCard threes = new WeaponCard("Power Glove", null, null,true);
-        WeaponCard[] arrays = {ones, null, null};
-        //me.setWeapons(arrays);
-        PowerupCard one = new PowerupCard("Newton", 'r');
-        PowerupCard[] poweArraysTest = new PowerupCard[]{one, null, null};
-        //me.setPowerup(poweArraysTest);
 
         me.setAction(2);    //todo controllare se è da lasciare
         if(me.getLife()<1){
@@ -888,24 +987,6 @@ public class AdrenalineView extends Application {
         weaponCards.getChildren().addAll(weapon1, weapon2, weapon3);
 
         //Event effects
-        //todo settare pulsanti giocatori
-
-        //todo da eliminare
-        WeaponCard[] proviamo = new WeaponCard[]{new WeaponCard("HeatSeeker", null, null, true), new WeaponCard("HeatSeeker", null, null, true), new WeaponCard("HeatSeeker", null, null, true)};
-        proviamo[0].setLoaded(false);
-        proviamo[1].setLoaded(false);
-        proviamo[2].setLoaded(false);
-        playersInGame[4].setWeapons(proviamo);
-
-        playersInGame[0].setLife(11);
-        playersInGame[1].setLife(11);
-        playersInGame[2].setLife(11);
-        playersInGame[3].setLife(11);
-        playersInGame[4].setLife(11);
-        updateLifeValue();
-
-
-
         btn2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -3744,10 +3825,6 @@ public class AdrenalineView extends Application {
         xx2yy1.getChildren().add(axx2yy1);
         xx2yy2.getChildren().add(axx2yy2);
         xx2yy3.getChildren().add(axx2yy3);
-
-        //todo da eliminare
-        me.setFinalRound(false);
-        me.setBeforeFirstPlayer(false);
 
 
 
@@ -8030,8 +8107,6 @@ public class AdrenalineView extends Application {
             }
         });
 
-        //todo implementare shot
-
         shotxx0yy0.setVisible(false);
         shotxx0yy1.setVisible(false);
         shotxx0yy2.setVisible(false);
@@ -8154,23 +8229,10 @@ public class AdrenalineView extends Application {
         positionsShow.add(posx2y2, 2, 2);
         positionsShow.add(posx2y3, 3, 2);
 
-        //todo da eliminare
-        playersInGame[0].setFirstPosition(board.getBoard()[0][1]);
-        playersInGame[2].setFirstPosition(board.getBoard()[0][2]);
-        playersInGame[3].setFirstPosition(board.getBoard()[1][1]);
-        playersInGame[4].setFirstPosition(board.getBoard()[1][1]);
-
-        updatePlayersPositions();
-
-
 
         shotBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
-                //todo da eliminare
-                me.setFinalRound(false);
-                me.setBeforeFirstPlayer(false);
 
                 if(me.getLife()<=5 || me.isFinalRound()){
                     moveAndGrabCounter = 0;
@@ -19619,8 +19681,6 @@ public class AdrenalineView extends Application {
             }
         });
 
-        //todo implementare reload
-
         HBox ammoShow2 = new HBox(10);   //root node
         ammoShow2.setAlignment(Pos.CENTER);
         Scene ammShow2 = new Scene(ammoShow2, 650, 200);
@@ -19840,6 +19900,11 @@ public class AdrenalineView extends Application {
                 y++;
             }
         }
+        actualDeath = new Label();
+        actualDeath2 = new Label();
+        actualDeath3 = new Label();
+        actualDeath4 = new Label();
+        actualDeath5 = new Label();
 
         actualDeath.setText("Number of death: "+String.valueOf(me.getNumberOfDeaths()));
         actualDeath2.setText("Number of death: "+String.valueOf(allPlayer[0].getNumberOfDeaths()));
