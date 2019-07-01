@@ -32,7 +32,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     String line = "---------------------------------------------\n";
     private static Board board;
     private static Player[] players;
-    private int specificuser;
+    private int specificuser;   //number of the player that is linked to this thread
+    private int onetogo;        //contains the number of the player that is doing his final frenesy
     private boolean[] playersturn;
     private boolean[] specialturn;  //used in gettinfo
     private boolean[] defense;
@@ -232,6 +233,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }//this.controller.createBoard(boardNumber);}
 
     //todo:qui è la parte del server del gioco
+
+    public int finalplayernumber(){
+        return this.finalplayer.getNumber();
+    }
 
     public boolean getSpecialturn(int specificuser){
         return specialturn[specificuser];
@@ -859,6 +864,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         board.setFinalRound();
         if(board.isFinalRound()){
             this.finalplayer=getPlayerByNumber(playernumber);
+            this.onetogo=(playernumber+1)%players.length;
         }else {
             board.setRound(board.getRound() + 1);
             int turn=board.getRound()%players.length;
@@ -883,6 +889,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             this.defense[i]=false;
             this.respawnturn[i]=false;
         }
+    }
+
+    public int getOnetogo(){
+        return onetogo;
     }
 
     /**
