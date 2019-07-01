@@ -48,6 +48,7 @@ public class RmiServer {
         }
 
 
+
 /*
         System.out.println("view start");
 
