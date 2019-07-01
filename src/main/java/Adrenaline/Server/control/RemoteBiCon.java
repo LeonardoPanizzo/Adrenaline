@@ -28,7 +28,9 @@ public interface RemoteBiCon extends Remote {
 
     Player[] getPlayers();
 
-    boolean getChoosenBoard();
+    boolean getChoosenBoard(int specificuser);
+
+    void setSpecialturn(int specificuser);
 
     void move(int playernumber);
 
