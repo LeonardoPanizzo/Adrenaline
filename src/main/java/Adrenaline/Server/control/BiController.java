@@ -595,8 +595,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             System.out.println("Do you want to use targetting scope? y to yes");
             c=keyboard.next().charAt(0);
             if(c=='y'){
+                System.out.println("Select the powerup");
+                do {
+                    payment=playerpowerup(p);
+                }while(payment.length!=1 || !payment[0].getName().equals("targeting scope"));
                 c=chooseammo(p);
-
+                p.usePowerup(payment[0],toattack[0],null,c);
             }
         }
     }
