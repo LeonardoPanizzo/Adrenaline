@@ -34,7 +34,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private static Player[] players;
     private int specificuser;
     private boolean[] playersturn;
-    private boolean[] specialturn;
+    private boolean[] specialturn;  //used is getinfo and respawn
+    private boolean[] defense;
 
     //todo:qui è la parte di gestione del server più chatter
     public BiController(int spec) throws RemoteException {
@@ -229,12 +230,16 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     //todo:qui è la parte del server del gioco
 
-    public boolean getChoosenBoard(int specificuser){
+    public boolean getSpecialturn(int specificuser){
         return specialturn[specificuser];
     }
 
     public void setSpecialturn(int specificuser){
         specialturn[specificuser]=false;
+    }
+
+    public boolean isMyturn(int specificuser){
+        return playersturn[specificuser];
     }
 
     private Player getPlayerByNumber(int nplayer) {
@@ -779,7 +784,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         p.respawn(pwr[0], position[0]);
     }
 
-    public void endturn(int playernumber) {
+    public void endturn(int playernumber){
+        playersturn[playernumber]=false;
         Player p = getPlayerByNumber(playernumber);
         p.endOfRound();
         //todo: controllari quanti giocatori sono morti, per quelli morti chiamare il respawn e la distribuzione punti
@@ -787,14 +793,17 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public void setPlayers(Player[] p) {
         this.players = p;
+        this.setPlayersTurn(p.length);
     }
 
-    public void setPlayersTurn(int t){
+    private void setPlayersTurn(int t){
         this.playersturn=new boolean[t];
         this.specialturn=new boolean[t];
+        this.defense=new boolean[t];
         for(int i=0; i<t; i++){
-            playersturn[i]=false;
-            specialturn[i]=false;
+            this.playersturn[i]=false;
+            this.specialturn[i]=false;
+            this.defense[i]=false;
         }
     }
 
@@ -814,6 +823,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 System.out.println("\nBoard created\n");
             }
         } while (c < '1' || c > '4');
+        for(int i=0;i<players.length;i++) {
+            specialturn[i] = true;
+            do {
+                //waits until the user i got his information
+            } while (specialturn[i] == true);
+        }
+        playersturn[0]=true;
+        players[0].setRound(true);
     }
 
 
