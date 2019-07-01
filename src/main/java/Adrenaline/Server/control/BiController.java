@@ -836,15 +836,19 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public void endturn(int playernumber){
+        int[] points;
         playersturn[playernumber]=false;
         Player p = getPlayerByNumber(playernumber);
         p.endOfRound();
         for(int i=0; i<players.length;i++){
             if(players[i].getLife()<=0){
-                players[i].givePoints();
+                points=players[i].givePoints();
+                for(int j=0; j<points.length; j++){
+                    players[j].setScore(points[j]);
+                }
             }
         }
-        for(int i=0; i<5; i++){
+        for(int i=0; i<players.length; i++){
             if(players[i].getLife()<=0){
                 this.respawnturn[players[i].getNumber()]=true;
                 do{
@@ -852,10 +856,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 }while(this.respawnturn[players[i].getNumber()]==true);
             }
         }
-        //todo: controllari quanti giocatori sono morti, per quelli morti chiamare il respawn e la distribuzione punti
         board.setFinalRound();
         if(board.isFinalRound()){
             this.finalplayer=getPlayerByNumber(playernumber);
+        }else {
+            board.setRound(board.getRound() + 1);
+            int turn=board.getRound()%players.length;
+            playersturn[turn]=true;
+            players[turn].setAction(2);
         }
     }
 
@@ -895,6 +903,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         } while (c < '1' || c > '4');
         playersturn[0]=true;
         players[0].setRound(true);
+        players[0].setAction(2);
+        board.setRound(0);
         this.spreadinfo();
     }
 
