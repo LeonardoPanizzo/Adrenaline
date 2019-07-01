@@ -5,6 +5,9 @@ import Adrenaline.Client.view.ViewTunnelB;
 import Adrenaline.Server.control.BiController;
 import Adrenaline.Server.control.Controller;
 import Adrenaline.Server.control.RemoteBiCon;
+import Adrenaline.Server.model.Player;
+import Adrenaline.Server.model.PowerupCard;
+import Adrenaline.Server.model.PowerupDeck;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
@@ -16,8 +19,11 @@ public class RmiServer {
     public void execute() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException {
 
         int player =0;
+        BiController[] remoteBiCon= new BiController[5];
+        Player[] players=new Player[5];
+        PowerupDeck pwrd=new PowerupDeck();
 
-        BiController remoteBiCon = new BiController(player);
+        //BiController remoteBiCon = new BiController(player);
 
 
         //Registry registry = LocateRegistry.getRegistry();//"127.0.0.1", 1099);
@@ -26,12 +32,20 @@ public class RmiServer {
 
         System.out.println("Registry created");
 
-        Naming.rebind("rmi://localhost/controller", remoteBiCon);
+        for(;player<5; player++) {
 
-        //registry.bind("controller", remoteBiCon);
+            remoteBiCon[player]= new BiController(player);
+            players[player]=new Player(player,pwrd);
 
-        System.out.println("Binding done");
+            Naming.rebind("rmi://localhost/controller", remoteBiCon[player]);
 
+            //registry.bind("controller", remoteBiCon);
+
+            System.out.println("Binding done");
+        }
+        for(int i=0; i<5; i++){
+            remoteBiCon[i].setPlayers(players);
+        }
 
 
 /*
