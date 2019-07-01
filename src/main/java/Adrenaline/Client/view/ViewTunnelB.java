@@ -171,6 +171,9 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                 serverIF.setRespawnturn(number);
             }
         }while(!board.isFinalRound());
+        do{
+            //todo:questo è il round con la frenesia finale
+        }while(false/*inserire metodo per vedere se il gioco è finito*/);
     }
 }
 
