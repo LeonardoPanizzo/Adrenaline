@@ -110,7 +110,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
             serverIF.setBoard();
         }
         do{
-            if(serverIF.getChoosenBoard(number)){
+            if(serverIF.getSpecialturn(number)){
                 this.updateInfo();
             }
             if(this.board!=null && this.players!=null){
@@ -122,7 +122,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         Scanner keyboard= new Scanner(System.in);
         char c;
         do{
-            if(p.isRound()){
+            if(serverIF.isMyturn(number)){
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
                 c=keyboard.next().charAt(0);
                 switch(c){
@@ -130,16 +130,16 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                         System.out.println(board.myToString());
                         break;
                     case '1':
-                        serverIF.move(p.getNumber());
+                        serverIF.move(number);
                         break;
                     case '2':
-                        serverIF.moveandgrab(p.getNumber());
+                        serverIF.moveandgrab(number);
                         break;
                     case '3':
-                        serverIF.attack(p.getNumber());
+                        serverIF.attack(number);
                         break;
                     case '4':
-                        serverIF.usePowerup(p.getNumber());
+                        serverIF.usePowerup(number);
                         break;
                     default:
                         System.out.println("\nInsert a number between 0 and 4\n");
@@ -147,12 +147,12 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                 if(p.getAction()==0){
                     System.out.println("\nDo you want to reload any weapon?y to yes, any other button as no\n");
                     if(c=='y'){
-                        serverIF.reload(p.getNumber());
+                        serverIF.reload(number);
                     }
-                    serverIF.endturn(p.getNumber());
+                    serverIF.endturn(number);
                 }
             }
-        }while(board.isFinalRound());
+        }while(!board.isFinalRound());
     }
 }
 
