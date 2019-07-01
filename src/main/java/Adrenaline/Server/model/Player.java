@@ -1148,26 +1148,22 @@ public class Player {
      * @param ammoColor ammo we want to use to pay the cost
      */
     public void usePowerup(PowerupCard powerup, Player attacked, Position[] position, char ammoColor){
-        if(powerup.getName().equals("tagback grenade") ||powerup.getName().equals("targeting scope")){
-            System.out.println("You can't use this powerup now");
-        }else {
-            boolean isPresent = false;
-            int counter = 0;
-            for (int i = 0; i < this.powerup.length && !isPresent; i++) {
-                if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
-                    counter = i;
-                    isPresent = true;
-                }
+        boolean isPresent = false;
+        int counter = 0;
+        for (int i = 0; i < this.powerup.length && !isPresent; i++) {
+            if (this.powerup[i] != null && this.powerup[i].getName().equals(powerup.getName()) && this.powerup[i].getColour() == powerup.getColour()) {
+                counter = i;
+                isPresent = true;
             }
-            if (isPresent) {
-                boolean control = powerup.use(this, attacked, position, ammoColor);
-                if (control) {
-                    this.powerup[counter] = null;
-                } else
-                    System.out.println("Impossible to use this power up card");
-            } else
-                System.out.println("You don't have this power up");
         }
+        if (isPresent) {
+            boolean control = powerup.use(this, attacked, position, ammoColor);
+            if (control) {
+                this.powerup[counter] = null;
+            } else
+                System.out.println("Impossible to use this power up card");
+        } else
+            System.out.println("You don't have this power up");
     }
 
 
