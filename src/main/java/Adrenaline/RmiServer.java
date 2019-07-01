@@ -15,7 +15,9 @@ public class RmiServer {
 
     public void execute() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException {
 
-        BiController remoteBiCon = new BiController();
+        int player =0;
+
+        BiController remoteBiCon = new BiController(player);
 
 
         //Registry registry = LocateRegistry.getRegistry();//"127.0.0.1", 1099);
