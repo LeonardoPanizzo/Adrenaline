@@ -24,6 +24,8 @@ public interface RemoteBiCon extends Remote {
 
     void setBoard();
 
+    void spreadinfo();
+
     Board getBoard();
 
     Player[] getPlayers();
@@ -32,7 +34,17 @@ public interface RemoteBiCon extends Remote {
 
     boolean getSpecialturn(int specificuser);
 
+    boolean getDefense(int specificuser);
+
+    boolean getRespawnturn(int specificuser);
+
+    void setDefense(int specifcuser);
+
     void setSpecialturn(int specificuser);
+
+    void setRespawnturn(int specificuser);
+
+    void useTagbackGrenade(int specificuser);
 
     void move(int playernumber);
 
@@ -47,6 +59,8 @@ public interface RemoteBiCon extends Remote {
     void endturn(int playernumber);
 
     int getNumber();
+
+    void respawn(int playernumber);
 
     /*
     void createBoard(Integer boardNumber) throws RemoteException;
