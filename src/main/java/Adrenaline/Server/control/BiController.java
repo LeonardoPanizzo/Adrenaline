@@ -568,7 +568,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         int i = 0;
         System.out.println("\nWhat players you want to attack\n");
         for (int j = 0; j < players.length; j++) {
-            if (p.getNumber() != players[j].getNumber()) {
+            if (p.getNumber() != players[j].getNumber() && players[j].getLife()>0) {
                 System.out.println(j + ". " + players[j].getName() + "\n");
             }
         }
@@ -838,6 +838,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         playersturn[playernumber]=false;
         Player p = getPlayerByNumber(playernumber);
         p.endOfRound();
+        for(int i=0; i<players.length;i++){
+
+        }
         //todo: controllari quanti giocatori sono morti, per quelli morti chiamare il respawn e la distribuzione punti
     }
 
