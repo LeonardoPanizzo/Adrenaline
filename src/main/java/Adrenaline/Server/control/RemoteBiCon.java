@@ -30,7 +30,19 @@ public interface RemoteBiCon extends Remote {
 
     Player[] getPlayers();
 
+    void endfinalturn(int playernumber);
+
     int getOnetogo();
+
+    void movefinal2(int playernumber);
+
+    void moveandgrabfinal1(int playernumber);
+
+    void moveandgrabfinal2(int playernumber);
+
+    void attackfinal2(int playernumber);
+
+    void attackfinal1(int playernumber);
 
     int finalplayernumber();
 
