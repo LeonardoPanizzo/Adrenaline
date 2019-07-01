@@ -38,6 +38,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private boolean[] defense;
     private boolean[] respawnturn;
     private Player attacker=null;
+    private Player finalplayer=null;
 
     //todo:qui è la parte di gestione del server più chatter
     public BiController(int spec) throws RemoteException {
@@ -839,9 +840,23 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         Player p = getPlayerByNumber(playernumber);
         p.endOfRound();
         for(int i=0; i<players.length;i++){
-
+            if(players[i].getLife()<=0){
+                players[i].givePoints();
+            }
+        }
+        for(int i=0; i<5; i++){
+            if(players[i].getLife()<=0){
+                this.respawnturn[players[i].getNumber()]=true;
+                do{
+                    //wait for the player to use or not tagaback grenade
+                }while(this.respawnturn[players[i].getNumber()]==true);
+            }
         }
         //todo: controllari quanti giocatori sono morti, per quelli morti chiamare il respawn e la distribuzione punti
+        board.setFinalRound();
+        if(board.isFinalRound()){
+            this.finalplayer=getPlayerByNumber(playernumber);
+        }
     }
 
     public void setPlayers(Player[] p) {
