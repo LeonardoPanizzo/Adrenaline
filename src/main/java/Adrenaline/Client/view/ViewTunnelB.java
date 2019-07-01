@@ -172,8 +172,30 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
             }
         }while(!board.isFinalRound());
         do{
-            //todo:questo è il round con la frenesia finale
-        }while(false/*inserire metodo per vedere se il gioco è finito*/);
+            if(serverIF.getOnetogo()==number){
+                if(number>serverIF.finalplayernumber()){
+                    //todo:il giocatore ha la scelta fra due azioni frenetiche
+                }else{
+                    //todo: il giocatore ha la scelta fra un'azione frenetica
+                }
+            }
+            if(serverIF.getSpecialturn(number)){    //it's time to get info
+                this.updateInfo();
+                serverIF.setSpecialturn(number);
+            }
+            if(serverIF.getDefense(number)){    //when this player can use tagback grenade
+                System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
+                c=keyboard.next().charAt(0);
+                if(c=='y'){
+                    serverIF.useTagbackGrenade(number);
+                }
+                serverIF.setDefense(number);
+            }
+            if(serverIF.getRespawnturn(number)){
+                serverIF.respawn(number);
+                serverIF.setRespawnturn(number);
+            }
+        }while(true);
     }
 }
 
