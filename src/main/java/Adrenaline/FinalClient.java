@@ -33,8 +33,9 @@ public class FinalClient {
         //RemoteBiCon remoteBiCon = (RemoteBiCon) registry.lookup("controller");
 
 
-        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("rmi://localhost/controller");//registry.lookup("controller");
+        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("//169.254.86.44:1099/controller");//registry.lookup("controller");
 
+        // rmi://localhost/controller
         // //ip:port/controller
 
         System.out.println("Lookup done");
@@ -48,7 +49,7 @@ public class FinalClient {
         String name = scanner.nextLine();
 
         ViewTunnelB viewTunnelB = new ViewTunnelB(name, remoteBiCon);
-        Naming.rebind("rmi://localhost/view", viewTunnelB);
+        Naming.rebind("//169.254.86.44:1099/view", viewTunnelB);
 
         String[] details = {name, "controller"};
 
