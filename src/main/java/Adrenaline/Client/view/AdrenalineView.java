@@ -1034,6 +1034,8 @@ public class AdrenalineView extends Application {
                 updateNumberOfDeath();
                 updateLifeValue();
                 updateMarks();
+                updateAmmoCardValue();
+                updateWeaponValue();
                 System.out.println("Reloading screen");
                 if(me.isRound()){
                     if(me.getLife()>0) {
@@ -1055,7 +1057,7 @@ public class AdrenalineView extends Application {
                 //control to use grenade Power Up
                 useGrenade.setVisible(false);
                 for(int i=0; i<3; i++){
-                    if(me.getPowerup()[i].getName().equals("tagback grenade")){
+                    if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("tagback grenade")){
                         grenadeCount = i;
                         for(int k=0; k<4; k++){
                             if(me.getPlayersDamage()[i][1]!=damages[i][1]){
@@ -2325,7 +2327,8 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2351,7 +2354,8 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2377,7 +2381,8 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2410,7 +2415,8 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2436,7 +2442,8 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2462,7 +2469,8 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2494,7 +2502,8 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -2520,7 +2529,8 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        //todo da settare playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -2546,7 +2556,8 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
+                        if (me.getPosition()!= null)
+                            playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -8264,8 +8275,8 @@ public class AdrenalineView extends Application {
                 }
 
                 //replace ammoCards
-                for(int i=0; i<4; i++) {
-                    for(int j =0; j<3; j++){
+                for(int i=0; i<3; i++) {
+                    for(int j =0; j<4; j++){
                         if (board.getBoard()[i][j]!= null && (board.getBoard()[i][j]!=board.getBoard()[0][2] &&board.getBoard()[i][j]!= board.getBoard()[1][0]&&board.getBoard()[i][j]!= board.getBoard()[2][3])){
                             for(int w=0; w<3; w++){
                                 if(board.getBoard()[i][j].getAmmo()==null)

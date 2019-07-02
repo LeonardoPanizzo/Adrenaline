@@ -137,6 +137,8 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
             }
         }while(!gotInfo);
         gotInfo=false;
+
+        //todo chiedere GUI o CLI
         Scanner keyboard= new Scanner(System.in);
         char c;
         do{

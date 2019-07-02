@@ -5,7 +5,7 @@ import Adrenaline.Server.model.Player;
 import Adrenaline.Server.model.PowerupDeck;
 
 public class Prova2 {
-    public final static Board board = new Board(2);
+    public static Board board = new Board(2);
     public static PowerupDeck pw = new PowerupDeck();
     public static Player me = new Player(1, pw);
     public static Player[] players = new Player[]{new Player(0, pw), me, new Player(2, pw), new Player(3, pw), new Player(4, pw)};
