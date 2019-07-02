@@ -1116,7 +1116,6 @@ public class Player {
                     if(this.firstRound) {
                         this.numberOfDeaths--;
                         this.setFirstPosition(position);
-                        this.firstRound = false;
                     }
                     else
                         this.setPosition(position);
