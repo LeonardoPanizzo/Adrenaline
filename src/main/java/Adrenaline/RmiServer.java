@@ -39,6 +39,8 @@ public class RmiServer {
 
             Naming.rebind("rmi://localhost/controller", remoteBiCon[player]);
 
+            // //0.0.0.0:port/controller
+
             //registry.bind("controller", remoteBiCon);
 
             System.out.println("Binding done");

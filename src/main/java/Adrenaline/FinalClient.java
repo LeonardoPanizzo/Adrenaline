@@ -35,6 +35,7 @@ public class FinalClient {
 
         RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("rmi://localhost/controller");//registry.lookup("controller");
 
+        // //ip:port/controller
 
         System.out.println("Lookup done");
 

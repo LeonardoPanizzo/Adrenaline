@@ -22,61 +22,61 @@ public interface RemoteBiCon extends Remote {
 
     void createBoard(Integer boardNumber) throws RemoteException;
 
-    void setBoard();
+    void setBoard()throws RemoteException;
 
-    void spreadinfo();
+    void spreadinfo()throws RemoteException;
 
-    Board getBoard();
+    Board getBoard()throws RemoteException;
 
-    Player[] getPlayers();
+    Player[] getPlayers()throws RemoteException;
 
-    void endfinalturn(int playernumber);
+    void endfinalturn(int playernumber)throws RemoteException;
 
-    int getOnetogo();
+    int getOnetogo()throws RemoteException;
 
-    void movefinal2(int playernumber);
+    void movefinal2(int playernumber)throws RemoteException;
 
-    void moveandgrabfinal1(int playernumber);
+    void moveandgrabfinal1(int playernumber)throws RemoteException;
 
-    void moveandgrabfinal2(int playernumber);
+    void moveandgrabfinal2(int playernumber)throws RemoteException;
 
-    void attackfinal2(int playernumber);
+    void attackfinal2(int playernumber)throws RemoteException;
 
-    void attackfinal1(int playernumber);
+    void attackfinal1(int playernumber)throws RemoteException;
 
-    int finalplayernumber();
+    int finalplayernumber()throws RemoteException;
 
-    boolean isMyturn(int specificuser);
+    boolean isMyturn(int specificuser)throws RemoteException;
 
-    boolean getSpecialturn(int specificuser);
+    boolean getSpecialturn(int specificuser)throws RemoteException;
 
-    boolean getDefense(int specificuser);
+    boolean getDefense(int specificuser)throws RemoteException;
 
-    boolean getRespawnturn(int specificuser);
+    boolean getRespawnturn(int specificuser)throws RemoteException;
 
-    void setDefense(int specifcuser);
+    void setDefense(int specifcuser)throws RemoteException;
 
-    void setSpecialturn(int specificuser);
+    void setSpecialturn(int specificuser)throws RemoteException;
 
-    void setRespawnturn(int specificuser);
+    void setRespawnturn(int specificuser)throws RemoteException;
 
-    void useTagbackGrenade(int specificuser);
+    void useTagbackGrenade(int specificuser)throws RemoteException;
 
-    void move(int playernumber);
+    void move(int playernumber)throws RemoteException;
 
-    void moveandgrab(int playernumber);
+    void moveandgrab(int playernumber)throws RemoteException;
 
-    void attack(int playernumber);
+    void attack(int playernumber)throws RemoteException;
 
-    void usePowerup(int playernumber);
+    void usePowerup(int playernumber)throws RemoteException;
 
-    void reload(int playernumber);
+    void reload(int playernumber)throws RemoteException;
 
-    void endturn(int playernumber);
+    void endturn(int playernumber)throws RemoteException;
 
-    int getNumber();
+    int getNumber()throws RemoteException;
 
-    void respawn(int playernumber);
+    void respawn(int playernumber)throws RemoteException;
 
     /*
     void createBoard(Integer boardNumber) throws RemoteException;

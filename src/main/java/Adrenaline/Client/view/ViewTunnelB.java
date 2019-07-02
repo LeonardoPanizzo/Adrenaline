@@ -89,7 +89,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         }
     }
 
-    public void updateInfo(){
+    public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
         Player[] ps= new Player[5];    //support for variable players
         Player[] users=serverIF.getPlayers();   //all the players
@@ -103,7 +103,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         players=ps;
     }
 
-    public void mmain(){
+    public void mmain() throws RemoteException{
         boolean gotInfo=false;
         this.number=serverIF.getNumber();
         if(number==0){
