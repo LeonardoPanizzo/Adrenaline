@@ -35,6 +35,10 @@ public class AdrenalineView extends Application {
     private Label actualDeath4;
     private Label actualDeath5;
 
+    private int lastCount = 0;
+
+    private int[] totalScore;
+
     private int courentPlayer = 0;
 
     private int[][] damages;
@@ -97,6 +101,8 @@ public class AdrenalineView extends Application {
     private Button bxx2yy1;
     private Button bxx2yy2;
     private Button bxx2yy3;
+
+    private int[][] playersDamage;
 
     private Button gxx0yy0;
     private Button gxx0yy1;
@@ -197,6 +203,8 @@ public class AdrenalineView extends Application {
     private Button btn3;
     private Button btn4;
     private Button btn5;
+
+    private int finalRoundCounter = 0;
 
     private Button shotxx0yy0;
     private Button shotxx0yy1;
@@ -1086,6 +1094,11 @@ public class AdrenalineView extends Application {
 
                 //respawn
                 if(me.getLife() <1){
+                    board.setSkulls(whoDamage.getNumber());
+                    if(me.getLife()==-1){
+                        me.setMarksGiven(whoDamage, 1);
+                        whoDamage.setMarksReceived(me, 1);
+                    }
                     playersInGame[courentPlayer].setRound(false);
                     respawnBtn.setDisable(false);
 
@@ -1094,6 +1107,23 @@ public class AdrenalineView extends Application {
                             playersInGame[i].setScore(me.givePoints()[i]);
                         }
                     }
+                }
+                //set final screen
+                for(int i=0; i<playersInGame.length; i++){
+                    if(playersInGame[i]!=null) {
+                        lastCount++;
+                        if(playersInGame[i].isFinalRoundDone())
+                            finalRoundCounter++;
+                    }
+                }
+                if(lastCount==finalRoundCounter){
+                    //todo calcolare i punteggi finali.
+                    int[] points = givePoints();
+                    for(int i = 0; i<playersInGame.length; i++){
+                        playersInGame[i].setScore(points[i]);
+                    }
+                    //todo ordinare per punteggio maggiore
+                    //lanciare schermata finale
                 }
 
             }
@@ -20598,5 +20628,78 @@ public class AdrenalineView extends Application {
             return ammoBackIV;
         }
         return null;
+    }
+
+    public int[] givePoints(){
+        int[] points = new int[]{0, 0, 0, 0, 0};
+        final int MAX = 8;                              //MAX shows max points assigned to the first player in sortedPlayer[]
+        int point = MAX;
+        int[] sortedPlayer = this.sortingPlayers();
+        for (int i = 0; i < 5; i++) {
+            if (point <= 0)
+                point = 1;
+            if (playersDamage[sortedPlayer[i]][1] != 0) {
+                points[sortedPlayer[i]] = point;
+                if (playersDamage[sortedPlayer[i]][0] == 1)
+                    points[sortedPlayer[i]]++;
+            }
+            point -= 2;
+        }
+        return points;
+    }
+
+    public int[] sortingPlayers(){
+        int[] sortedPlayers = new int[] {-1, -1, -1, -1, -1};
+        int[][] damagesOnBoard = new int[][]{{-1,0},{-1,0},{-1,0},{-1,0},{-1,0}};
+        for(int i = 0; i<board.getSkulls().size(); i++){
+            if(board.getSkulls().get(i)==0)
+                damagesOnBoard[0][1]++;
+            else if(board.getSkulls().get(i)==1)
+                damagesOnBoard[1][1]++;
+            else if(board.getSkulls().get(i)==2)
+                damagesOnBoard[2][1]++;
+            else if(board.getSkulls().get(i)==3)
+                damagesOnBoard[3][1]++;
+            else if(board.getSkulls().get(i)==4)
+                damagesOnBoard[4][1]++;
+        }
+        damagesOnBoard[0][0] = board.getSkulls().get(0);
+        for(int i = 1; i<board.getSkulls().size(); i++){
+            for(int j=0; j<i; j++){
+                if(damagesOnBoard[j][0]==board.getSkulls().get(i))
+                    break;
+                else
+                    damagesOnBoard[i][0]=board.getSkulls().get(i);
+            }
+        }
+
+        playersDamage = damagesOnBoard;
+        sortedPlayers[0] = 0;
+        int memScan;
+        for(int i=1; i<5; i++){
+            int tempScan = i;
+            for(int j=0; j<i; j++) {
+                if (sortedPlayers[j] != -1){
+                    if (playersDamage[tempScan][1] > playersDamage[sortedPlayers[j]][1]){
+                        memScan = sortedPlayers[j];
+                        sortedPlayers[j] = tempScan;
+                        tempScan = memScan;
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
+                    }
+                    else if (playersDamage[tempScan][1] == playersDamage[sortedPlayers[j]][1]){
+                        if (playersDamage[sortedPlayers[j]][0] > playersDamage[i][0]){
+                            memScan = sortedPlayers[j];
+                            sortedPlayers[j] = tempScan;
+                            tempScan = memScan;
+
+                        }
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
+                    }
+                }
+            }
+        }
+        return sortedPlayers;
     }
 }
