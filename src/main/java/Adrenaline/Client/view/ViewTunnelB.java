@@ -89,6 +89,20 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         }
     }
 
+    private void setBoard(){
+        char c;
+        int x;
+        Scanner keyboard=new Scanner(System.in);
+        do{
+            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
+            c=keyboard.next().charAt(0);
+            if(c>='1' && c<='4'){
+                x=Character.getNumericValue(c);
+                serverIF.setBoard(x);
+            }
+        }while(c<'1' || c>'4');
+    }
+
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
         Player[] ps= new Player[5];    //support for variable players
@@ -107,10 +121,13 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         boolean gotInfo=false;
         this.number=serverIF.getNumber();
         if(number==0){
-            serverIF.setBoard();
+            this.setBoard();
         }
-        serverIF.spreadinfo();
+        serverIF.spreadinfo(number);
         do{
+            if(number==0){
+                this.updateInfo();
+            }
             if(serverIF.getSpecialturn(number)){
                 this.updateInfo();
             }
@@ -154,7 +171,8 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
                     }
                     serverIF.endturn(number);
                 }
-                serverIF.spreadinfo();  //after each action all the players get the information
+                serverIF.spreadinfo(number);  //after each action all the players get the information
+                this.updateInfo();
             }
             if(serverIF.getDefense(number)){    //when this player can use tagback grenade
                 System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
