@@ -55,7 +55,7 @@ public class Handlerj extends Thread {
     }
 
     //todo: da chiamare dopo ogni azione e inviare a tutti i giocatori
-    public void informationToClient(){
+    /*public void informationToClient(){
         ObjectOutputStream out=null;
         try{
             out=new ObjectOutputStream(s.getOutputStream());
@@ -65,7 +65,7 @@ public class Handlerj extends Thread {
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void run()
