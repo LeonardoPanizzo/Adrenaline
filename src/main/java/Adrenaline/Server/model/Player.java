@@ -25,6 +25,7 @@ public class Player {
     private PowerupDeck powerUpDeck;
     private boolean firstRound;
     private boolean beforeFirstPlayer;
+    private boolean finalRoundDone;
 
     /**
      * Is Player Class' constructor.
@@ -55,6 +56,7 @@ public class Player {
         this.madeDamage = 0;
         this.damagedPlayers = new int[] {-1, -1, -1, -1};
         this.firstRound = true;
+        this.finalRoundDone = false;
     }
 
     public Position getPosition(){
@@ -72,6 +74,14 @@ public class Player {
         return damagedPlayers;
     }
 */
+
+    public boolean isFinalRoundDone() {
+        return finalRoundDone;
+    }
+
+    public void setFinalRoundDone(boolean finalRoundDone) {
+        this.finalRoundDone = finalRoundDone;
+    }
 
     public boolean isBeforeFirstPlayer() {
         return beforeFirstPlayer;
