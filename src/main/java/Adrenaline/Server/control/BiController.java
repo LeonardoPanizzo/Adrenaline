@@ -110,7 +110,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         System.out.println(details[0] + " has joined the chat session");
         System.out.println(details[0] + "'s hostname : " + details[1]);
         //System.out.println(details[0] + "'sRMI service : " + details[2]);
-        registerChatter(details);
+        //registerChatter(details);
     }
 
     /**
@@ -124,6 +124,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         try {
 
             String client = getClientHost();
+
             ClientRemoteInt nextClient = (ClientRemoteInt) Naming.lookup("//" + client + "/view");
 
             clients.addElement(new RmiClient(details[0], nextClient));
