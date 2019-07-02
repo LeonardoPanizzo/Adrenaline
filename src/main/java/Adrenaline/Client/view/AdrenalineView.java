@@ -35,7 +35,11 @@ public class AdrenalineView extends Application {
     private Label actualDeath4;
     private Label actualDeath5;
 
-    private int courentPlayer = 1;
+    private int courentPlayer = 0;
+
+    private int[][] damages;
+
+    private Player whoDamage;
 
     private char ammos;
     private Player attaks;
@@ -212,6 +216,9 @@ public class AdrenalineView extends Application {
     private Label damagesByP4;
     private Label damagesByP5;
 
+    private Button useGrenade;
+    private int grenadeCount = 0;
+
     public AdrenalineView(){
         this.me = Prova2.me;
         playersInGame = Prova2.players;
@@ -235,8 +242,7 @@ public class AdrenalineView extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
-        //me.setPlayersDamage(0, 2); //todo da eliminare
+        ///todo da eliminare
         me.setRound(true);
 
 
@@ -261,6 +267,11 @@ public class AdrenalineView extends Application {
         axx2yy1 = new Label();
         axx2yy2 = new Label();
         axx2yy3 = new Label();
+
+        damages= me.getPlayersDamage().clone();
+
+        useGrenade = new Button("Use Tagback Grenade");
+        useGrenade.setVisible(false);
 
         weaponRes1 = new Button();
         weaponRes2 = new Button();
@@ -880,7 +891,7 @@ public class AdrenalineView extends Application {
         btnPower.setContentDisplay(ContentDisplay.RIGHT);
         you.add(btnPower, 7, 0);
 
-        VBox events = new VBox(20);
+        VBox events = new VBox(15);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
         player.setText(play);
@@ -888,7 +899,7 @@ public class AdrenalineView extends Application {
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
         Label event = actualDeath;
         event.setWrapText(true);
-        events.getChildren().addAll(round, player, actions, event);
+        events.getChildren().addAll(round, player, actions, event,useGrenade);
         you.add(events, 8, 0);
 
         VBox movements = new VBox(5);
@@ -1040,6 +1051,49 @@ public class AdrenalineView extends Application {
                             me.setAction(1);
                     }
                 }
+
+                //control to use grenade Power Up
+                useGrenade.setVisible(false);
+                for(int i=0; i<3; i++){
+                    if(me.getPowerup()[i].getName().equals("tagback grenade")){
+                        grenadeCount = i;
+                        for(int k=0; k<4; k++){
+                            if(me.getPlayersDamage()[i][1]!=damages[i][1]){
+                                whoDamage = playersInGame[i];
+                                damages = me.getPlayersDamage();
+
+                                useGrenade.setVisible(true);
+                                useGrenade.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        me.setMarksGiven(whoDamage, 1);
+                                        whoDamage.setMarksReceived(me, 1);
+                                        me.getPowerup()[grenadeCount] = null;
+                                        useGrenade.setVisible(false);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+                //update courent Player
+                for(int i=0; i<5; i++){
+                    if(playersInGame[i] != null && playersInGame[i].isRound())
+                        courentPlayer = playersInGame[i].getNumber();
+                }
+
+                //respawn
+                if(me.getLife() <1){
+                    playersInGame[courentPlayer].setRound(false);
+                    respawnBtn.setDisable(false);
+
+                    for(int i=0; i<5; i++){
+                        if(playersInGame[i]!=null){
+                            playersInGame[i].setScore(me.givePoints()[i]);
+                        }
+                    }
+                }
+
             }
         });
 
@@ -2271,6 +2325,7 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2278,7 +2333,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2286,6 +2342,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2294,6 +2351,7 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2301,7 +2359,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2309,6 +2368,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2317,6 +2377,7 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[0][2]);
                         power.close();
                         if(res) {
@@ -2324,7 +2385,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2332,6 +2394,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2347,6 +2410,7 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2354,7 +2418,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2362,6 +2427,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2370,6 +2436,7 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2377,7 +2444,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2385,6 +2453,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2393,6 +2462,7 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[1][0]);
                         power.close();
                         if(res) {
@@ -2400,7 +2470,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2408,6 +2479,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2422,6 +2494,7 @@ public class AdrenalineView extends Application {
                 power1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[0], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -2429,7 +2502,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2437,6 +2511,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2445,6 +2520,7 @@ public class AdrenalineView extends Application {
                 power2.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        //todo da settare playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[1], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -2452,7 +2528,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2460,6 +2537,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -2468,6 +2546,7 @@ public class AdrenalineView extends Application {
                 power3.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        playersButtons1[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(false);
                         boolean res = me.respawn(me.getPowerup()[2], board.getBoard()[2][3]);
                         power.close();
                         if(res) {
@@ -2475,7 +2554,8 @@ public class AdrenalineView extends Application {
                             redResBtn.setVisible(false);
                             yellowResBtn.setVisible(false);
                             blueResBtn.setVisible(false);
-                            if (me.getLife() != 0) {
+                            endRoundBtn.setDisable(false);
+                            if (me.isFirstRound()) {
                                 moveBtn.setDisable(false);
                                 moveAndGrabBtn.setDisable(false);
                                 shotBtn.setDisable(false);
@@ -2483,6 +2563,7 @@ public class AdrenalineView extends Application {
                                 respawnBtn.setDisable(true);
                                 updateLifeValue();
                                 updatePowerUpValue();
+                                me.setFirstRound(false);
                             }
                         }
                     }
@@ -8158,7 +8239,12 @@ public class AdrenalineView extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 me.setRound(false);
-                courentPlayer = playersInGame[yourID+1].getNumber();
+                playersInGame[yourID+1].setRound(true);
+                for(int i=0; i<5; i++){
+                    if(playersInGame[i] != null && playersInGame[i].isRound())
+                        courentPlayer = playersInGame[i].getNumber();
+                }
+
                 updatePlayString();
                 System.out.println(play);
                 moveBtn.setDisable(true);
@@ -8167,10 +8253,29 @@ public class AdrenalineView extends Application {
                 endRoundBtn.setDisable(true);
                 reloadScreen.setDisable(false);
 
-                //For()
-                //if(board.getBoard()[0][2].showWeapons()[i] == null)
-                //    board.getBoard()[0][2].getWeapon
-                //todo settare il riempimento a fine turno
+                //replace weaponCards
+                for(int i=0; i<3; i++){
+                    if (board.getBoard()[0][2].showWeapons()[i] == null)
+                        board.getBoard()[0][2].getWeaponDeck().pickUpWeapon();
+                    if (board.getBoard()[1][0].showWeapons()[i] == null)
+                        board.getBoard()[1][0].getWeaponDeck().pickUpWeapon();
+                    if (board.getBoard()[2][3].showWeapons()[i] == null)
+                        board.getBoard()[2][3].getWeaponDeck().pickUpWeapon();
+                }
+
+                //replace ammoCards
+                for(int i=0; i<4; i++) {
+                    for(int j =0; j<3; j++){
+                        if (board.getBoard()[i][j]!= null && (board.getBoard()[i][j]!=board.getBoard()[0][2] &&board.getBoard()[i][j]!= board.getBoard()[1][0]&&board.getBoard()[i][j]!= board.getBoard()[2][3])){
+                            for(int w=0; w<3; w++){
+                                if(board.getBoard()[i][j].getAmmo()==null)
+                                    board.getBoard()[i][j].getAmmoDeck().pickUpAmmo();
+                            }
+                        }
+
+                    }
+                }
+
             }
         });
 
@@ -8300,6 +8405,22 @@ public class AdrenalineView extends Application {
         shotBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
+                if(me.getWeapons()[0] != null && me.getWeapons()[0].isLoaded())
+                    weapon1.setDisable(false);
+                else
+                    weapon1.setDisable(true);
+
+                if(me.getWeapons()[1] != null && me.getWeapons()[1].isLoaded())
+                    weapon2.setDisable(false);
+                else
+                    weapon2.setDisable(true);
+
+                if(me.getWeapons()[2] != null && me.getWeapons()[2].isLoaded())
+                    weapon3.setDisable(false);
+                else
+                    weapon3.setDisable(true);
+
 
                 if(me.getLife()<=5 || me.isFinalRound()){
                     moveAndGrabCounter = 0;
@@ -19768,10 +19889,16 @@ public class AdrenalineView extends Application {
                 weap.show();
                 if(me.getWeapons()[0] != null && !me.getWeapons()[0].isLoaded())
                     weapon1.setDisable(false);
+                else
+                    weapon1.setDisable(true);
                 if(me.getWeapons()[1] != null && !me.getWeapons()[1].isLoaded())
                     weapon2.setDisable(false);
+                else
+                    weapon2.setDisable(true);
                 if(me.getWeapons()[2] != null && !me.getWeapons()[2].isLoaded())
                     weapon3.setDisable(false);
+                else
+                    weapon3.setDisable(true);
 
                 weapon1.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
