@@ -24,7 +24,9 @@ public interface RemoteBiCon extends Remote {
 
     void setBoard()throws RemoteException;
 
-    void spreadinfo()throws RemoteException;
+    void setBoard(int b);
+
+    void spreadinfo(int specificuser)throws RemoteException;
 
     Board getBoard()throws RemoteException;
 
