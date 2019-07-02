@@ -109,6 +109,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         if(number==0){
             serverIF.setBoard();
         }
+        serverIF.spreadinfo();
         do{
             if(serverIF.getSpecialturn(number)){
                 this.updateInfo();

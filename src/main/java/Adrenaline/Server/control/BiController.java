@@ -936,7 +936,6 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         players[0].setRound(true);
         players[0].setAction(2);
         board.setRound(0);
-        this.spreadinfo();
     }
 
 
