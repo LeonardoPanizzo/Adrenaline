@@ -23,7 +23,7 @@ public class FinalClient {
 
         Scanner sc = new Scanner(System.in);
         String ip = sc.nextLine();
-        sc.close();
+        //sc.close();
 
         String port = "1099";
 
@@ -64,6 +64,8 @@ public class FinalClient {
         String[] details = {name, "controller"};
 
         viewTunnelB.registerWithServer(details);
+
+        viewTunnelB.mmain();
 
         viewTunnelB.createBoard(4);
 

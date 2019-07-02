@@ -14,6 +14,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(0, pd);
+        p1.setLife(11);
         Position pos = b.getBoard()[0][2];
         WeaponCard weapon = new WCCyberblade();
         pos.chooseArm(0);
@@ -65,6 +66,7 @@ public class WeaponsTest {
 
         //mode2 = {0,2}
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         p2.setFirstPosition(b.getBoard()[0][2]);
         p0.setPosition(b.getBoard()[0][2]);
         p1.setPosition(b.getBoard()[0][2]);
@@ -97,6 +99,7 @@ public class WeaponsTest {
         assertEquals(7, p2.getLife(), "Shot goes wrong");
 
         p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setPosition(b.getBoard()[1][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         p2.setPosition(b.getBoard()[0][2]);
@@ -144,9 +147,12 @@ public class WeaponsTest {
         p0.setAction(2);
         Player p1 = new Player(1, pd);
         p1.setAction(2);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
         p2.setAction(2);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         p2.setFirstPosition(b.getBoard()[1][2]);
@@ -194,8 +200,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][1]);
         p2.setFirstPosition(b.getBoard()[0][0]);
@@ -285,12 +294,16 @@ public class WeaponsTest {
         Board b = new Board(2);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
+        p0.setLife(11);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p1.setAction(2);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         p2.setAction(2);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -340,9 +353,12 @@ public class WeaponsTest {
         p0.setAction(2);
         Player p1 = new Player(1, pd);
         p1.setAction(2);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
         p2.setAction(2);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][3]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -441,6 +457,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p1.setAction(2);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][0]);
@@ -468,8 +485,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][3]);
         p2.setFirstPosition(b.getBoard()[0][3]);
@@ -520,7 +540,9 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][3]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -564,8 +586,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][3]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -732,6 +757,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         Position pos = b.getBoard()[0][2];
@@ -897,8 +923,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         p2.setFirstPosition(b.getBoard()[2][2]);
@@ -1004,8 +1033,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -1123,8 +1155,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -1412,8 +1447,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         p2.setFirstPosition(b.getBoard()[1][3]);
@@ -1498,6 +1536,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         Position pos = b.getBoard()[0][2];
@@ -1545,8 +1584,10 @@ public class WeaponsTest {
         Board b = new Board(4);
         PowerupDeck pd = new PowerupDeck();
         Player p0 = new Player(0, pd);
+        p0.setLife(11);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         Position pos = b.getBoard()[0][2];
@@ -1610,8 +1651,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][2]);
         p2.setFirstPosition(b.getBoard()[2][0]);
@@ -1669,6 +1713,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][1]);
         Position pos = b.getBoard()[0][2];
@@ -1775,8 +1820,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[0][2]);
         p2.setFirstPosition(b.getBoard()[0][2]);
@@ -1884,6 +1932,7 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[2][3]);
         Position pos = b.getBoard()[0][2];
@@ -1971,8 +2020,11 @@ public class WeaponsTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
         p0.setFirstPosition(b.getBoard()[0][2]);
         p1.setFirstPosition(b.getBoard()[1][2]);
         p2.setFirstPosition(b.getBoard()[2][2]);
