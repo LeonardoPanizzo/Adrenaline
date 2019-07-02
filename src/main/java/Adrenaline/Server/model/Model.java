@@ -32,7 +32,7 @@ public class Model {
      * @param p
      * @return
      */
-    private PowerupCard[] playerpowerup(Player p) {
+    /*private PowerupCard[] playerpowerup(Player p) {
         PowerupCard[] selected = new PowerupCard[3];
         PowerupCard[] owned = p.getPowerup();
         boolean correctinput = true;      //used to checks if the user insert the same powerup twice
@@ -320,7 +320,7 @@ public class Model {
             playertoreturn[j] = toattack[j];
         }
         return playertoreturn;
-    }
+    }*/
 
     /**
      * Used to ask the movements to the player, used to get the positions before the action move and the action grab
@@ -328,7 +328,7 @@ public class Model {
      * @param p
      * @param maxp
      */
-    private void moveplayer(Player p, int maxp, boolean after){
+    /*private void moveplayer(Player p, int maxp, boolean after){
         Position[] positions = getplayermovement();
         if (positions.length <= maxp){
             if(after){
@@ -337,13 +337,13 @@ public class Model {
                 p.move(positions);
             }
         }
-    }
+    }*/
 
     /**
      * Used for the action of shooting, used after the request of movement of attacker ecc
      * @param p
      */
-    private void shoot(Player p){
+    /*private void shoot(Player p){
         WeaponCard weapon = playerSelectWeapons(p);
         PowerupCard[] payment = playerpowerup(p);
         Position[] position = getplayermovement();
@@ -378,49 +378,49 @@ public class Model {
         }
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for one action
      * @param playernumber
      */
-    public void moveandgrabfinal1(int playernumber){
+    /*public void moveandgrabfinal1(int playernumber){
         Player p = getPlayerByNumber(playernumber);
         int max=3;
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      * @param playernumber
      */
-    public void moveandgrabfinal2(int playernumber){
+    /*public void moveandgrabfinal2(int playernumber){
         Player p = getPlayerByNumber(playernumber);
         int max=2;
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used when the player just wants to move, without picking up
      *
      * @param playernumber
      */
-    public void move(int playernumber) {
+    /*public void move(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 3;
         if(p.getLife()<=8){
             max=3;
         }
         moveplayer(p, max,false);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      * @param playernumber
      */
-    public void movefinal2(int playernumber){
+    /*public void movefinal2(int playernumber){
         Player p = getPlayerByNumber(playernumber);
         int max=4;
         moveplayer(p, max,false);
@@ -438,13 +438,13 @@ public class Model {
             }
         }
         shoot(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      * @param playernumber
      */
-    public void attackfinal2(int playernumber){
+    /*public void attackfinal2(int playernumber){
         Scanner keyboard=new Scanner(System.in);
         char c;
         Player p = getPlayerByNumber(playernumber);
@@ -455,13 +455,13 @@ public class Model {
         }
         reload(playernumber);
         shoot(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for one action
      * @param playernumber
      */
-    public void attackfinal1(int playernumber){
+    /*public void attackfinal1(int playernumber){
         Scanner keyboard=new Scanner(System.in);
         char c;
         Player p = getPlayerByNumber(playernumber);
@@ -537,12 +537,12 @@ public class Model {
 
     public void setDeck(PowerupDeck pd){
         this.pud=pd;
-    }
+    }*/
 
     /**
      * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
      */
-    public void setBoard() {
+   /*public void setBoard() {
         char c;
         int x;
         Scanner keyboard = new Scanner(System.in);
@@ -563,7 +563,7 @@ public class Model {
 
     public Player[] getPlayers() {
         return players;
-    }
+    }*/
 
 }
 
