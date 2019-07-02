@@ -15,7 +15,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt {
+public class ViewTunnelB {
 
     private String hostName = "localhost";
     //private String serviceName = "GroupChatService";
@@ -64,22 +64,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
      * this is the clients RMI method, which will be used by the server
      * to send messages to us
      */
-    @Override
-    public void messageFromServer(String message) throws RemoteException {
-        System.out.println(message);
-    }
 
-    /**
-     * A method to update the display of users
-     * currently connected to the server
-     */
-    @Override
-    public void updateUserList(String[] currentUsers) throws RemoteException {
-
-        if (currentUsers.length < 2) {
-            System.out.println("current user length < 2");
-        }
-    }
 
     public void createBoard(Integer boardNumber) throws RemoteException {
         try {
