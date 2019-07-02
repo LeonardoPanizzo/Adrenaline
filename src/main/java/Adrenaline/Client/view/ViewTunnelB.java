@@ -134,10 +134,9 @@ public class ViewTunnelB {
             }
         }while(!gotInfo);
         gotInfo=false;
-
-        //todo chiedere GUI o CLI
         Scanner keyboard= new Scanner(System.in);
         char c;
+        //todo chiedere GUI o CLI
         do{
             if(serverIF.isMyturn(number) && !serverIF.getSpecialturn(number)){  //tipical turn
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
