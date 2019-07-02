@@ -33,7 +33,7 @@ public class FinalClient {
         //RemoteBiCon remoteBiCon = (RemoteBiCon) registry.lookup("controller");
 
 
-        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("//169.254.86.44:1099/controller");//registry.lookup("controller");
+        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("rmi://169.254.86.44:1099/controller");//registry.lookup("controller");
 
         // rmi://localhost/controller
         // //ip:port/controller
@@ -49,13 +49,15 @@ public class FinalClient {
         String name = scanner.nextLine();
 
         ViewTunnelB viewTunnelB = new ViewTunnelB(name, remoteBiCon);
-        Naming.rebind("//169.254.86.44:1099/view", viewTunnelB);
+        Registry registry2 = LocateRegistry.createRegistry(1099);
+        Naming.rebind("//0.0.0.0:1099/view", viewTunnelB);
 
         String[] details = {name, "controller"};
 
         viewTunnelB.registerWithServer(details);
 
         viewTunnelB.createBoard(4);
+
         remoteBiCon.createBoard(1);
         remoteBiCon.leaveChat(name);
 

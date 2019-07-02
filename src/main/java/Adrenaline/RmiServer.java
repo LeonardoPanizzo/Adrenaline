@@ -37,7 +37,7 @@ public class RmiServer {
             remoteBiCon[player]= new BiController(player);
             players[player]=new Player(player,pwrd);
 
-            Naming.rebind("//0.0.0.0:1099/controller", remoteBiCon[player]);
+            Naming.rebind("rmi://0.0.0.0:1099/controller", remoteBiCon[player]);
 
             // rmi://localhost/controller
             // //0.0.0.0:port/controller
