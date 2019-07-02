@@ -18,7 +18,7 @@ public class PlayerTest {
         int[] ammo = new int[] {1, 1, 1};
 
         assertNull(p.getPosition(), "Position not null");
-        assertTrue(p.getLife()==11, "Life isn't correct");
+        assertTrue(p.getLife()==0, "Life isn't correct");
         assertEquals(-1, playersDamage[0][0], "Order of player 1 isn't correct");
         assertEquals(0, playersDamage[0][1], "Total player 1 damage isn't correct");
         assertEquals(-1, playersDamage[1][0], "Order of player 2 isn't correct");
@@ -51,9 +51,13 @@ public class PlayerTest {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
+        p.setLife(11);
         Player player3 = new Player(3, pwd);
+        player3.setLife(11);
         Player player2 = new Player(2, pwd);
+        player2.setLife(11);
         Player player1 = new Player(1, pwd);
+        player1.setLife(11);
         p.receivedDamages(player3);
         int life = p.getLife();
         int[][] playersDamage = p.getPlayersDamage();
@@ -92,6 +96,7 @@ public class PlayerTest {
         assertEquals(0, playersDamage[4][1], "Total player 5 damage isn't correct");
 
         Player player = new Player(2, pwd);
+        player.setLife(11);
         int [] marksReceived = new int[]{0, 0, 0, 2, 0};
         player.setMarksReceived(player3, 2);
         player.receivedDamages(player3);
@@ -157,6 +162,7 @@ public class PlayerTest {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player p = new Player(1, pwd);
+        p.setLife(11);
         Player p2 = new Player(2, pwd);
         Player p3 = new Player(3, pwd);
         p.receivedDamages(p3);
@@ -178,6 +184,7 @@ public class PlayerTest {
         Board b = new Board(1);
         PowerupDeck pwd = new PowerupDeck();
         Player player = new Player(0, pwd);
+        player.setLife(11);
         Player p4 = new Player(4, pwd);
         Player p1 = new Player(1, pwd);
         for(int i=0; i<12; i++)
@@ -207,6 +214,7 @@ public class PlayerTest {
 
         //no damage were made
         Player play = new Player(1, pwd);
+        play.setLife(11);
         points = play.givePoints();
         life = play.getLife();
         playersDamage = play.getPlayersDamage();
@@ -340,15 +348,6 @@ public class PlayerTest {
 
         assertEquals(play.getWeapons()[0], weapon1);
         assertEquals(play.getWeapons()[1], weapon);
-
-        //pay with only powerup cards
-        play.setAction(2);
-        power = new PowerupCard[]{new PowerupCard("pw1", 'y')};
-        play.grabWeaponCard(pos.chooseArm(0), power);
-
-        assertEquals(play.getWeapons()[0], weapon1);
-        assertEquals(play.getWeapons()[1], weapon);
-        assertEquals(play.getWeapons()[2], weapon2);
     }
 
     @Test
@@ -624,8 +623,11 @@ public class PlayerTest {
         Player p0 = new Player(0, pd);
         p0.setAction(2);
         Player p1 = new Player(1, pd);
+        p1.setLife(11);
         Player p2 = new Player(2, pd);
+        p2.setLife(11);
         Player p3 = new Player(3, pd);
+        p3.setLife(11);
 
         //Test shot with weapon with just one mode
         WeaponCard wep0 = new WCHeatseeker();
