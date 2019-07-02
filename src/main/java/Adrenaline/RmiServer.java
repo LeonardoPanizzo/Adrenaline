@@ -32,7 +32,7 @@ public class RmiServer {
 
         System.out.println("Registry created");
 
-        for(;player<5; player++) {
+        for(;player<1; player++) {
 
             remoteBiCon[player]= new BiController(player);
             players[player]=new Player(player,pwrd);
@@ -46,7 +46,7 @@ public class RmiServer {
 
             System.out.println("Binding done");
         }
-        for(int i=0; i<5; i++){
+        for(int i=0; i<1; i++){
             remoteBiCon[i].setPlayers(players);
         }
 

@@ -19,6 +19,13 @@ public class FinalClient {
 
     public static void useRmi() throws RemoteException, NotBoundException, MalformedURLException, AlreadyBoundException {
 
+        System.out.println("Enter server's ip:\n");
+
+        Scanner sc = new Scanner(System.in);
+        String ip = sc.nextLine();
+        sc.close();
+
+        String port = "1099";
 
         Registry registry = LocateRegistry.getRegistry();
 
@@ -33,9 +40,9 @@ public class FinalClient {
         //RemoteBiCon remoteBiCon = (RemoteBiCon) registry.lookup("controller");
 
 
-        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("rmi://169.254.86.44:1099/controller");//registry.lookup("controller");
+        RemoteBiCon remoteBiCon = (RemoteBiCon) Naming.lookup("rmi://" + ip + ":" + port + "/controller");//registry.lookup("controller");
 
-        // rmi://localhost/controller
+        // rmi://localhost/controller 169.254.86.44
         // //ip:port/controller
 
         System.out.println("Lookup done");

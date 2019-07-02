@@ -89,7 +89,7 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         }
     }
 
-    private void setBoard(){
+    private void setBoard() throws RemoteException{
         char c;
         int x;
         Scanner keyboard=new Scanner(System.in);
