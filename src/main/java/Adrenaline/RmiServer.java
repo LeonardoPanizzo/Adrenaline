@@ -39,6 +39,8 @@ public class RmiServer {
 
             Naming.rebind("rmi://0.0.0.0:1099/controller", remoteBiCon[player]);
 
+            //TODO timer
+
             // rmi://localhost/controller
             // //0.0.0.0:port/controller
 

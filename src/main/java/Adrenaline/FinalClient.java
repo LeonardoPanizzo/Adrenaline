@@ -56,9 +56,11 @@ public class FinalClient {
         String name = scanner.nextLine();
 
         ViewTunnelB viewTunnelB = new ViewTunnelB(name, remoteBiCon);
+        /*
         Registry registry2 = LocateRegistry.createRegistry(1099);
         Naming.rebind("//0.0.0.0:1099/view", viewTunnelB);
 
+*/
         String[] details = {name, "controller"};
 
         viewTunnelB.registerWithServer(details);
