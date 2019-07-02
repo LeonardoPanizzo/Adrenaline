@@ -103,6 +103,18 @@ public class ViewTunnelB extends UnicastRemoteObject implements ClientRemoteInt 
         }while(c<'1' || c>'4');
     }
 
+    private void moveplayer(int max, boolean after){
+        //todoAAAA
+    }
+
+    private void move(){
+        int max=3;
+        if(p.getLife()<=8){
+            max=3; //todo: controllare
+        }
+        moveplayer(max,false);
+    }
+
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
         Player[] ps= new Player[5];    //support for variable players
