@@ -63,6 +63,14 @@ public class Position {
         }
     }
 
+    public WeaponDeck getWeaponDeck() {
+        return weaponDeck;
+    }
+
+    public AmmoDeck getAmmoDeck() {
+        return ammoDeck;
+    }
+
     //todo this metod should be removed (only test use)
     public void setAmmo(AmmoCard ammo) {
         this.ammo = ammo;
