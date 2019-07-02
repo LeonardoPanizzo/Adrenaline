@@ -932,6 +932,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 System.out.println("\nBoard created\n");
             }
         } while (c < '1' || c > '4');
+        System.out.println("now in spread info");
         players[0].setRound(true);
         players[0].setAction(2);
         board.setRound(0);
