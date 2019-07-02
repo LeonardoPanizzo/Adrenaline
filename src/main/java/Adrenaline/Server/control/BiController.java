@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RemoteRef;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,7 +122,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      */
     private void registerChatter(String[] details) {
         try {
-            ClientRemoteInt nextClient = (ClientRemoteInt) Naming.lookup("rmi://localhost/view");
+
+            String client = getClientHost();
+            ClientRemoteInt nextClient = (ClientRemoteInt) Naming.lookup("//" + client + "/view");
 
             clients.addElement(new RmiClient(details[0], nextClient));
 
@@ -133,7 +136,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
             //nextClient.messageFromServer("ciao");
 
-        } catch (RemoteException | MalformedURLException | NotBoundException e) {
+        } catch (RemoteException | MalformedURLException | NotBoundException | ServerNotActiveException e) {
             e.printStackTrace();
         }
     }
