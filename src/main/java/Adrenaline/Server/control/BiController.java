@@ -286,7 +286,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      * @param p
      * @return
      */
-    private PowerupCard[] playerpowerup(Player p) {
+    /*private PowerupCard[] playerpowerup(Player p) {
         PowerupCard[] selected = new PowerupCard[3];
         PowerupCard[] owned = p.getPowerup();
         boolean correctinput = true;      //used to checks if the user insert the same powerup twice
@@ -317,14 +317,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             selected[j] = owned[choosen[j]];
         }
         return selected;
-    }
+    }*/
 
     /**
      * Asks the user to insert some positions that can be used in movement, attack, respawn...
      *
      * @return
      */
-    private Position[] getplayermovement() {
+    /*private Position[] getplayermovement() {
         Scanner keyboard = new Scanner(System.in);
         Position temp;
         ArrayList<Position> moves = new ArrayList<Position>();
@@ -351,12 +351,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             positions[i] = moves.get(i);
         }
         return positions;
-    }
+    }*/
 
     /**
      * The user choose which weapon to use
      **/
-    private WeaponCard playerSelectWeapons(Player p) {
+    /*private WeaponCard playerSelectWeapons(Player p) {
         WeaponCard[] weapons = p.getWeapons().clone();
         WeaponCard weapon = null;
         Scanner keyboard = new Scanner(System.in);
@@ -374,12 +374,12 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             }
         } while (weapon == null);
         return weapon;
-    }
+    }*/
 
     /**
      * if true the player doesnt have the space to pickup a weapon
      */
-    private boolean hasNoSpaceweapon(Player p) {     //if true the player doesnt have the space to pickup a weapon
+    /*private boolean hasNoSpaceweapon(Player p) {     //if true the player doesnt have the space to pickup a weapon
         WeaponCard[] weapons = p.getWeapons();
         int i = 0;
         boolean emptyspace = false;
@@ -387,9 +387,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             emptyspace = weapons[i] == null;
         }
         return emptyspace;
-    }
+    }*/
 
-    private boolean hasTargettingScope(Player p) {
+    /*private boolean hasTargettingScope(Player p) {
         boolean found = false;
         for (int i = 0; i < p.getPowerup().length && !found; i++) {
             if (p.getPowerup()[i].getName().equals("targeting scope")) {
@@ -397,7 +397,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             }
         }
         return found;
-    }
+    }*/
 
     private boolean hasTagbackGrenade(Player p) {
         boolean found = false;
@@ -409,7 +409,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return found;
     }
 
-    private char chooseammo(Player p){
+    /*private char chooseammo(Player p){
         Scanner keyboard=new Scanner(System.in);
         char ammo;
         int[] owned=p.getAmmo();
@@ -418,9 +418,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             ammo=keyboard.next().charAt(0);
         }while(ammo!='b' && ammo!='y' && ammo!='r');
         return ammo;
-    }
+    }*/
 
-    private void pickweapon(Player player) {
+    /*private void pickweapon(Player player) {
         char c;
         int i = 0;
         int weaponposition;     //position of the wanted weapon
@@ -485,9 +485,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 }
             }
         }
-    }
+    }*/
 
-    private void reloadWeapon(Player p) {
+    /*private void reloadWeapon(Player p) {
         PowerupCard[] payment;
         WeaponCard weaponToReload;
         boolean correct = false;
@@ -517,18 +517,18 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         } else {
             p.reload(weaponToReload);
         }
-    }
+    }*/
 
-    private void pickup(Player player) {
+    /*private void pickup(Player player) {
         boolean respawn = player.getPosition().isRespawnPoint();   //checks if it is respawn point
         if (respawn) {
             pickweapon(player);   //This function checks if the user wants to play with ammos or not
         } else {
             player.grabAmmoCard();
         }
-    }
+    }*/
 
-    private int getMode1() {
+    /*private int getMode1() {
         int mode1 = -1;
         char c;
         Scanner keyboard = new Scanner(System.in);
@@ -560,23 +560,11 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             mode[j] = mode2[j];
         }
         return mode;
-    }
+    }*/
 
-    public void spreadinfo(int specificuser){
-        for(int i=0;i<players.length;i++) {
-            if(i!=specificuser) {
-                specialturn[i] = true;
-            }
-            for(int j=0; j<players.length; j++){
-                System.out.println(specialturn[j]);
-            }
-            do {
-                //waits until the user i got his information
-            } while (specialturn[i] == true);
-        }
-    }
 
-    private Player[] playerstoattack(Player p) {
+
+    /*private Player[] playerstoattack(Player p) {
         Player[] toattack = new Player[5];
         Scanner keyboard = new Scanner(System.in);
         char c;
@@ -599,7 +587,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             playertoreturn[j] = toattack[j];
         }
         return playertoreturn;
-    }
+    }*/
 
     /**
      * Used to ask the movements to the player, used to get the positions before the action move and the action grab
@@ -608,7 +596,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
      * @param p
      * @param maxp
      */
-    private void moveplayer(Player p, int maxp, boolean after) {
+    /*private void moveplayer(Player p, int maxp, boolean after) {
         Position[] positions = getplayermovement();
         if (positions.length <= maxp) {
             if (after) {
@@ -617,14 +605,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 p.move(positions);
             }
         }
-    }
+    }*/
 
     /**
      * Used for the action of shooting, used after the request of movement of attacker ecc
      *
      * @param p
      */
-    private void shoot(Player p) {
+    /*private void shoot(Player p) {
         boolean attacked=false;
         this.attacker=p;
         WeaponCard weapon = playerSelectWeapons(p);
@@ -663,9 +651,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             }
         }
         this.attacker=null;
-    }
+    }*/
 
-    public void useTagbackGrenade(int specificuser){
+    /*public void useTagbackGrenade(int specificuser){
         Player p=getPlayerByNumber(specificuser);
         System.out.println("Select one tagback grenade");
         PowerupCard[] pwr;
@@ -674,9 +662,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }while(pwr.length!=1 || !pwr[0].getName().equals("tagback grenade"));
         char c=chooseammo(p);
         p.usePowerup(pwr[0],attacker,null,c);
-    }
+    }*/
 
-    public void reload(int playernumber) {
+    /*public void reload(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         char c;
         Scanner keyboard = new Scanner(System.in);
@@ -687,9 +675,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 reloadWeapon(p);
             }
         } while (c != 'n');
-    }
+    }*/
 
-    public void moveandgrab(int playernumber) {
+    /*public void moveandgrab(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 1;
         if (p.getLife() <= 8) {
@@ -697,58 +685,58 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for one action
      *
      * @param playernumber
      */
-    public void moveandgrabfinal1(int playernumber) {
+    /*public void moveandgrabfinal1(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 3;
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      *
      * @param playernumber
      */
-    public void moveandgrabfinal2(int playernumber) {
+    /*public void moveandgrabfinal2(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 2;
         moveplayer(p, max, true);
         pickup(p);
-    }
+    }*/
 
     /**
      * Used when the player just wants to move, without picking up
      *
      * @param playernumber
      */
-    public void move(int playernumber) {
+    /*public void move(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 3;
         if (p.getLife() <= 8) {
             max = 3;
         }
         moveplayer(p, max, false);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      *
      * @param playernumber
      */
-    public void movefinal2(int playernumber) {
+    /*public void movefinal2(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         int max = 4;
         moveplayer(p, max, false);
-    }
+    }*/
 
-    public void attack(int playernumber) {
+    /*public void attack(int playernumber) {
         Scanner keyboard = new Scanner(System.in);
         char c;
         Player p = getPlayerByNumber(playernumber);
@@ -760,14 +748,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             }
         }
         shoot(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for two actions
      *
      * @param playernumber
      */
-    public void attackfinal2(int playernumber) {
+    /*public void attackfinal2(int playernumber) {
         Scanner keyboard = new Scanner(System.in);
         char c;
         Player p = getPlayerByNumber(playernumber);
@@ -778,14 +766,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
         reload(playernumber);
         shoot(p);
-    }
+    }*/
 
     /**
      * Used in the final frenesy when the player has the option for one action
      *
      * @param playernumber
      */
-    public void attackfinal1(int playernumber) {
+    /*public void attackfinal1(int playernumber) {
         Scanner keyboard = new Scanner(System.in);
         char c;
         Player p = getPlayerByNumber(playernumber);
@@ -796,9 +784,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
         reload(playernumber);
         shoot(p);
-    }
+    }*/
 
-    public void usePowerup(int playernumber){
+    /*public void usePowerup(int playernumber){
         Player p=getPlayerByNumber(playernumber);
         Player[] m;
         PowerupCard[] pwd;
@@ -828,9 +816,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }else{
             System.out.println("You can't use this powerup now");
         }
-    }
+    }*/
 
-    public void respawn(int playernumber) {
+    /*public void respawn(int playernumber) {
         Player p = getPlayerByNumber(playernumber);
         p.drawPowerup();
         if (p.isFirstRound()) {  //If it is the first turn the player needs to pickup two card, only one it is a normal respawn
@@ -847,6 +835,177 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             position = getplayermovement();
         } while (position.length != 1);
         p.respawn(pwr[0], position[0]);
+    }*/
+
+
+
+
+
+
+
+
+
+    /**
+     * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
+     */
+    /*public void setBoard() {
+        char c;
+        int x;
+        Scanner keyboard = new Scanner(System.in);
+        do {
+            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
+            c = keyboard.next().charAt(0);
+            if (c >= '1' && c <= '4') {
+                x = Character.getNumericValue(c);
+                board = new Board(x);
+                System.out.println("\nBoard created\n");
+            }
+        } while (c < '1' || c > '4');
+        System.out.println("now in spread info");
+        players[0].setRound(true);
+        players[0].setAction(2);
+        board.setRound(0);
+    }*/
+
+
+
+
+
+
+    public void endall(){
+        //todo:???
+    }
+
+    //todo:after this final server
+
+    public void reload(int specificuser, WeaponCard weapontoreaload){
+        Player p=getPlayerByNumber(specificuser);
+        p.reload(weapontoreaload);
+    }
+
+    public void reload(int specificuser, WeaponCard weapontoreaload, PowerupCard[] payment){
+        Player p=getPlayerByNumber(specificuser);
+        p.reload(weapontoreaload,payment);
+    }
+
+    public boolean shoot(int specificuser, WeaponCard weapon,Player[] toattack,int mode1, int[]mode2,Position[] pos,PowerupCard[] payment){
+        boolean done;
+        Player p=getPlayerByNumber(specificuser);
+        this.attacker=p;
+        done=p.shot(weapon,toattack,mode1,mode2,pos,payment);
+        if(done){
+            for(int i=0;i<toattack.length; i++){
+                if(this.hasTagbackGrenade(toattack[i])){
+                    this.defense[toattack[i].getNumber()]=true;
+                    do{
+                        //wait for the player to use or not tagaback grenade
+                    }while(this.defense[toattack[i].getNumber()]==true);
+                }
+            }
+        }
+        this.attacker=null;
+        return done;
+    }
+
+    public void spreadinfo(int specificuser){
+        for(int i=0;i<players.length;i++) {
+            if(i!=specificuser) {
+                specialturn[i] = true;
+            }
+            for(int j=0; j<players.length; j++){
+                System.out.println(specialturn[j]);
+            }
+            do {
+                //waits until the user i got his information
+            } while (specialturn[i] == true);
+        }
+    }
+
+    public boolean grabWeapon(int specificuser, WeaponCard weapon){
+        Player p=getPlayerByNumber(specificuser);
+        boolean done;
+        done=p.grabWeaponCard(weapon);
+        return done;
+    }
+
+    public boolean grabWeapon(int specificuser, WeaponCard weapon, PowerupCard[] payment){
+        Player p=getPlayerByNumber(specificuser);
+        boolean done;
+        done=p.grabWeaponCard(weapon, payment);
+        return done;
+    }
+
+    public void discardWeapon(int specificuser, WeaponCard weapon){
+        Player p=getPlayerByNumber(specificuser);
+        p.discardWeapon(weapon);
+    }
+
+    public void addWeapon(int specificuser, WeaponCard weapon){
+        Player p=getPlayerByNumber(specificuser);
+        p.addWeapon(weapon);
+    }
+
+    public void usePowerup(int specificuser, PowerupCard pwr, Position[] pos,char a){
+        Player p=getPlayerByNumber(specificuser);
+        p.usePowerup(pwr,null,pos,a);
+    }
+
+    public void useTagBackGrenade(int specificuser, PowerupCard pwr,char a){
+        Player p=getPlayerByNumber(specificuser);
+        p.usePowerup(pwr,attacker,null,a);
+    }
+
+    /**
+     * If the user discarded a weapon to pick a new one up the old one is left in player.position with this function
+     * @param weapon
+     */
+    public void weaponToGround(Position p, WeaponCard weapon){
+        p.giveWeapon(weapon);
+    }
+
+    public boolean grabAmmo(int specificuser){
+        boolean done;
+        Player p=getPlayerByNumber(specificuser);
+        done=p.grabAmmoCard();
+        return done;
+    }
+
+    public void setBoard(int x){
+        board=new Board(x);
+        System.out.println("now in spread info");
+        players[0].setRound(true);
+        players[0].setAction(2);
+        board.setRound(0);
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public int getNumber(){
+        return specificuser;
+    }
+
+    public void setPlayers(Player[] p) {
+        this.players = p;
+        this.setPlayersTurn(p.length);
+    }
+
+    private void setPlayersTurn(int t){
+        this.playersturn=new boolean[t];
+        this.specialturn=new boolean[t];
+        this.defense=new boolean[t];
+        this.respawnturn=new boolean[t];
+        for(int i=0; i<t; i++){
+            this.playersturn[i]=false;
+            this.specialturn[i]=false;
+            this.defense[i]=false;
+            this.respawnturn[i]=false;
+        }
     }
 
     public void endturn(int playernumber){
@@ -897,73 +1056,26 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
     }
 
-    public void setPlayers(Player[] p) {
-        this.players = p;
-        this.setPlayersTurn(p.length);
-    }
-
-    private void setPlayersTurn(int t){
-        this.playersturn=new boolean[t];
-        this.specialturn=new boolean[t];
-        this.defense=new boolean[t];
-        this.respawnturn=new boolean[t];
-        for(int i=0; i<t; i++){
-            this.playersturn[i]=false;
-            this.specialturn[i]=false;
-            this.defense[i]=false;
-            this.respawnturn[i]=false;
-        }
-    }
-
     public int getOnetogo(){
         return onetogo;
     }
 
-    /**
-     * Here is red a char instead of an int to create a more stable system (if the user send a letter as an input the program doesnt crash)
-     */
-    public void setBoard() {
-        char c;
-        int x;
-        Scanner keyboard = new Scanner(System.in);
-        do {
-            System.out.println("\nChoose a number between 1 and 4 to select the board\n");
-            c = keyboard.next().charAt(0);
-            if (c >= '1' && c <= '4') {
-                x = Character.getNumericValue(c);
-                board = new Board(x);
-                System.out.println("\nBoard created\n");
-            }
-        } while (c < '1' || c > '4');
-        System.out.println("now in spread info");
-        players[0].setRound(true);
-        players[0].setAction(2);
-        board.setRound(0);
+    public boolean moveplayer(int specificuser,boolean after,Position[] movements){
+        Player p=getPlayerByNumber(specificuser);
+        boolean done=false;
+        if(after){
+            done=p.moveAndGrab(movements);
+        }else{
+            done=p.move(movements);
+        }
+    return done;
     }
 
-    public void setBoard(int x){
-        board=new Board(x);
-        System.out.println("now in spread info");
-        players[0].setRound(true);
-        players[0].setAction(2);
-        board.setRound(0);
-    }
-
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public int getNumber(){
-        return specificuser;
-    }
-
-    public void endall(){
-        //todo:???
+    public boolean respawn(int specificuser, PowerupCard pwr, Position pos){
+        boolean done;
+        Player p=getPlayerByNumber(specificuser);
+        done=p.respawn(pwr,pos);
+        return done;
     }
 }
 
