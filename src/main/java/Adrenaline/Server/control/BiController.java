@@ -561,6 +561,9 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     public void spreadinfo(){
         for(int i=0;i<players.length;i++) {
             specialturn[i] = true;
+            for(int j=0; j<players.length; j++){
+                System.out.println(specialturn[j]);
+            }
             do {
                 //waits until the user i got his information
             } while (specialturn[i] == true);
@@ -926,7 +929,6 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
                 System.out.println("\nBoard created\n");
             }
         } while (c < '1' || c > '4');
-        playersturn[0]=true;
         players[0].setRound(true);
         players[0].setAction(2);
         board.setRound(0);
