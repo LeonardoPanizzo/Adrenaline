@@ -35,15 +35,19 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private Player[] players;
     private int specificuser;   //number of the player that is linked to this thread
     private int onetogo;        //contains the number of the player that is doing his final frenesy
-    private boolean[] playersturn;
-    private boolean[] specialturn;  //used in gettinfo
-    private boolean[] defense;
-    private boolean[] respawnturn;
+    private int turn=0;
+    private int defense=-1;
+    private int donedefense=-1;
+    private int respawn=-1;
+    private int donerespawn=-1;
+    private int specialturn=0;  //how many times are the information changed
     private Player attacker=null;
     private Player finalplayer=null;
     private int [] myplayers = {6, 6, 6, 6, 6};
     private int counter = -1;
     private boolean boardready=false;
+    private boolean finalround=false;
+
 
 
 
@@ -263,33 +267,33 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return this.finalplayer.getNumber();
     }
 
-    public boolean getSpecialturn(int specificuser){
-        return specialturn[specificuser];
+    public int getSpecialturn(){
+        return specialturn;
     }
 
-    public void setSpecialturn(int specificuser){
-        specialturn[specificuser]=false;
-    }
+    //public void setSpecialturn(int specificuser){
+    //    specialturn[specificuser]=false;
+    //}
 
-    public boolean getDefense(int specificuser){
-        return defense[specificuser];
+    public int getDefense(){
+        return defense;
     }
 
     public void setDefense(int specificuser){
-        defense[specificuser]=false;
+        donedefense=specificuser;
     }
 
-    public boolean getRespawnturn(int specificuser){
-        return respawnturn[specificuser];
+    public int getRespawnturn(){
+        return respawn;
     }
 
     public void setRespawnturn(int specificuser){
-        respawnturn[specificuser]=false;
+        donerespawn=specificuser;
     }
 
-    public boolean isMyturn(int specificuser){
+    /*public boolean isMyturn(int specificuser){
         return playersturn[specificuser];
-    }
+    }*/
 
     private Player getPlayerByNumber(int nplayer) {
         Player actualPlayer = null;
@@ -921,10 +925,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         if(done){
             for(int i=0;i<toattack.length; i++){
                 if(this.hasTagbackGrenade(toattack[i])){
-                    this.defense[toattack[i].getNumber()]=true;
+                    this.defense=toattack[i].getNumber();
                     do{
                         //wait for the player to use or not tagaback grenade
-                    }while(this.defense[toattack[i].getNumber()]==true);
+                    }while(donedefense!=toattack[i].getNumber());
                 }
             }
         }
@@ -932,19 +936,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return done;
     }
 
-    public void spreadinfo(int specificuser){
-
-        for(int i=0;i<players.length;i++) {
-            if(i!=specificuser) {
-                specialturn[i] = true;
-            }
-            for(int j=0; j<players.length; j++){
-                System.out.println(specialturn[j]);
-            }
-            do {
-                //waits until the user i got his information
-            } while (specialturn[i] == true);
-        }
+    public void spreadinfo(){
+        this.specialturn=specialturn+1;
     }
 
     public boolean grabWeapon(int specificuser, WeaponCard weapon){
@@ -997,7 +990,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public void setBoard(int x){
-        board=new Board(x);
+        this.board=new Board(x);
+        System.out.println(board.myToString());
         System.out.println("now in spread info");
         players[0].setRound(true);
         players[0].setAction(2);
@@ -1016,28 +1010,36 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return counter;
     }
 
+    public int getTurn(){
+        return turn;
+    }
+
     public void setPlayers(Player[] p) {
         this.players = p;
-        this.setPlayersTurn(p.length);
+        this.setPlayersTurn();
         boardready=true;
     }
 
-    private void setPlayersTurn(int t){
-        this.playersturn=new boolean[t];
-        this.specialturn=new boolean[t];
-        this.defense=new boolean[t];
-        this.respawnturn=new boolean[t];
-        for(int i=0; i<t; i++){
-            this.playersturn[i]=false;
-            this.specialturn[i]=false;
-            this.defense[i]=false;
-            this.respawnturn[i]=false;
+    private void setPlayersTurn(){
+        this.turn=0;
+        players[0].setAction(2);
+    }
+
+    private void startNewTurn(){
+        this.turn=turn+1;
+        if(!finalround) {
+            players[turn % players.length].setAction(2);
+        }else{
+            if(players[turn%players.length].getNumber()>finalplayer.getNumber()){
+                players[turn % players.length].setAction(2);
+            }else{
+                players[turn % players.length].setAction(1);
+            }
         }
     }
 
     public void endturn(int playernumber){
         int[] points;
-        playersturn[playernumber]=false;
         Player p = getPlayerByNumber(playernumber);
         p.endOfRound();
         for(int i=0; i<players.length;i++){
@@ -1050,42 +1052,37 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         }
         for(int i=0; i<players.length; i++){
             if(players[i].getLife()<=0){
-                this.respawnturn[players[i].getNumber()]=true;
+                this.respawn=i;
                 do{
                     //wait for the player to use or not tagaback grenade
-                }while(this.respawnturn[players[i].getNumber()]==true);
+                }while(!(donerespawn==i));
+                this.respawn=-1;
+                this.donerespawn=-1;
             }
         }
         board.setFinalRound();
         if(board.isFinalRound()){
-            this.finalplayer=getPlayerByNumber(playernumber);
-            int next=(playernumber+1)%players.length;
-            this.onetogo=next;
-            if(next==0){
-                players[(playernumber+1)%players.length].setAction(2);
-            }else {
-                players[(playernumber + 1) % players.length].setAction(2);
+            this.finalround=true;
+            if(finalplayer==null){
+                this.finalplayer=p;
             }
-        }else {
-            board.setRound(board.getRound() + 1);
-            int turn=board.getRound()%players.length;
-            playersturn[turn]=true;
-            players[turn].setAction(2);
         }
+        board.setRound(turn+1);
+        startNewTurn();
     }
 
-    public void endfinalturn(int playernumber){
+    /*public void endfinalturn(int playernumber){
         this.onetogo=(this.onetogo+1)%players.length;
         if(onetogo>finalplayer.getNumber()){
             players[onetogo].setAction(2);
         }else{
             players[onetogo].setAction(1);
         }
-    }
+    }*/
 
-    public int getOnetogo(){
+    /*public int getOnetogo(){
         return onetogo;
-    }
+    }*/
 
     public boolean moveplayer(int specificuser,boolean after,Position[] movements){
         Player p=getPlayerByNumber(specificuser);
