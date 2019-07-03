@@ -1,6 +1,8 @@
 package Adrenaline.Server.model;
 
-public class WeaponCard {
+import java.io.Serializable;
+
+public class WeaponCard implements Serializable {
     protected String name;
     protected char[] costs;
     protected char[] costEffects;

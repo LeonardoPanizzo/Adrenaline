@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Choose a square you can see, but not your
  * square. Call it "the vortex". Choose a target on the vortex
@@ -14,7 +16,7 @@ package Adrenaline.Server.model;
  * see. They all end up on the vortex.
  */
 
-public class WCVortexcannon extends WeaponCard{
+public class WCVortexcannon extends WeaponCard implements Serializable {
 
     public  WCVortexcannon(){
         super("Vortex Cannon", new char[]{'r','b'}, new char[]{'r'},true);

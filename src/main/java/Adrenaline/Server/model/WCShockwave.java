@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Choose up to 3 targets on
  * different squares, each exactly 1 move away.
@@ -8,7 +10,7 @@ package Adrenaline.Server.model;
  * targets that are exactly 1 move away.
  */
 
-public class WCShockwave extends WeaponCard{
+public class WCShockwave extends WeaponCard implements Serializable {
 
     public WCShockwave(){
         super("Shock Wave", new char[]{'y'}, new char[]{'y'},false);

@@ -1,9 +1,10 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Vector;
 
-public class AmmoDeck {
+public class AmmoDeck implements Serializable {
     private int size;
     private Vector<AmmoCard> ammoDeck;
 

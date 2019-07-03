@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 2 damage to 1 target you can see that is not on your
  * square. Then you may move the target 1 square.
@@ -15,7 +17,7 @@ package Adrenaline.Server.model;
  * square before you move the target – your target will take 3 damage total.</p>
  */
 
-public class WCRocketLauncher extends WeaponCard{
+public class WCRocketLauncher extends WeaponCard implements Serializable {
 
     public WCRocketLauncher() {
         super("Rocket Launcher", new char[]{'r', 'r'}, new char[]{'0', 'b', 'y'},true);

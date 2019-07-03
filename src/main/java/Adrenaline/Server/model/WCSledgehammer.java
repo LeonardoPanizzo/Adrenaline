@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Deal 2 damage to 1 target on
  * your square.
@@ -10,7 +12,7 @@ package Adrenaline.Server.model;
  * doors, but not walls.
  */
 
-public class WCSledgehammer extends WeaponCard{
+public class WCSledgehammer extends WeaponCard implements Serializable {
 
     public WCSledgehammer(){
         super("SledgeHammer", new char[]{'y'}, new char[]{'r'},false);

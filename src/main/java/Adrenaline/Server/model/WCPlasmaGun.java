@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 2 damage to 1 target you can see.
  * with phase glide: Move 1 or 2 squares. This effect can be
@@ -13,7 +15,7 @@ package Adrenaline.Server.model;
  * 1 move after.
  */
 
-public class WCPlasmaGun extends WeaponCard{
+public class WCPlasmaGun extends WeaponCard implements Serializable {
     public WCPlasmaGun(){
         super("PlasmaGun",new char[]{'b','y'},new char[]{'0','0','b'},true);
     }

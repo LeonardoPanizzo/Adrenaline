@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Move a target 0, 1, or 2 squares to a square
  * you can see, and give it 1 damage.
@@ -12,7 +14,7 @@ package Adrenaline.Server.model;
  * direction.
  */
 
-public class WCTractorBeam extends WeaponCard{
+public class WCTractorBeam extends WeaponCard implements Serializable {
 
     public WCTractorBeam(){
         super("Tractor Beam", new char[]{'b'}, new char[]{'r','y'},false);

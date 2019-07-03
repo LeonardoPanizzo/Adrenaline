@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * effect: Deal 3 damage and 1 mark to 1 target you can see.
  * Your target must be at least 2 moves away from you.
@@ -10,7 +12,7 @@ package Adrenaline.Server.model;
  * a target on a different square of that room.
  */
 
-public class WCWhisper extends WeaponCard{
+public class WCWhisper extends WeaponCard implements Serializable {
 
     public WCWhisper() {
         super("Whisper", new char[]{'b', 'b','y'}, new char[]{},false);

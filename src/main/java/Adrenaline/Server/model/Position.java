@@ -1,8 +1,9 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Position {
+public class Position implements Serializable {
 
     private char room;               //room in which the position is part
     private int[] matr;             //coordinates of the position

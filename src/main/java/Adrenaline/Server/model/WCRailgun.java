@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Choose a cardinal direction and 1 target in that direction.
  * Deal 3 damage to it.
@@ -14,7 +16,7 @@ package Adrenaline.Server.model;
  * the 2 targets can be on the same square or on different squares.
  */
 
-public class WCRailgun extends WeaponCard{
+public class WCRailgun extends WeaponCard implements Serializable {
 
     public WCRailgun(){
         super("Railgun", new char[]{'y','y','b'}, new char[]{},false);

@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Choose 1 target on any square
  * exactly 1 move away. Move onto that square
@@ -16,7 +18,7 @@ package Adrenaline.Server.model;
  * 1 person per square.
  */
 
-public class WCPowerGlove extends WeaponCard{
+public class WCPowerGlove extends WeaponCard implements Serializable {
 
     public WCPowerGlove(){
         super("Power Glove", new char[]{'y','b'}, new char[]{'b'},false);

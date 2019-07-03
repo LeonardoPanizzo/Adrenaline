@@ -41,6 +41,7 @@ public class ViewTunnelB {
         super();
         this.name = userName;
         this.serverIF = serverIF;
+        //board=new Board(1);
     }
 
 
@@ -638,6 +639,11 @@ public class ViewTunnelB {
 
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
+        if(board==null){
+            System.out.println("errrrror");
+        }else{
+            System.out.println(board.myToString());
+        }
         Player[] ps= new Player[5];             //support for variable players
         //try {
             System.out.println("aaa1");
@@ -653,6 +659,7 @@ public class ViewTunnelB {
                 }
             }
             players = ps;
+            System.out.println(users[0]);
        // }catch(Exception e){
        //     System.out.println("error");
         //}
@@ -680,10 +687,10 @@ public class ViewTunnelB {
         }
         //updateInfo();
         do{
-            if(number==0){
+            /*if(number==0){
                 System.out.println("here1");
                 this.updateInfo();
-            }
+            }*/
             if(serverIF.getSpecialturn()>info){
                 System.out.println("here2");
                 this.updateInfo();

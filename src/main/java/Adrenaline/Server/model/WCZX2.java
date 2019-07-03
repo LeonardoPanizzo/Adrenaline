@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Deal 1 damage and 2 marks to
  * 1 target you can see.
@@ -8,7 +10,7 @@ package Adrenaline.Server.model;
  * Notes: Remember that the 3 targets can be
  * in 3 different rooms.
  */
-public class WCZX2 extends WeaponCard{
+public class WCZX2 extends WeaponCard implements Serializable {
 
     public WCZX2(){
         super("ZX-2", new char[]{'y','r'}, new char[]{},false);

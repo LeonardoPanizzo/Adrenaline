@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Deal 3 damage to 1 target on
  * your square. If you want, you may then move
@@ -9,7 +11,7 @@ package Adrenaline.Server.model;
  * away.
  */
 
-public class WCShotgun extends WeaponCard{
+public class WCShotgun extends WeaponCard implements Serializable {
 
     public WCShotgun(){
         super("Shotgun", new char[]{'y','y'}, new char[]{},false);

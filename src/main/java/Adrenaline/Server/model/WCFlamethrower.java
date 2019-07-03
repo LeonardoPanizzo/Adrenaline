@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Choose a square 1 move away and possibly a second square
  * 1 more move away in the same direction. On each square, you may
@@ -13,7 +15,7 @@ package Adrenaline.Server.model;
  * blast of flame that can travel 2 squares in a cardinal direction.
  */
 
-public class WCFlamethrower extends WeaponCard{
+public class WCFlamethrower extends WeaponCard implements Serializable {
 
     public WCFlamethrower(){
         super("Flamethrower", new char[]{'r'}, new char[]{'y','y'},false);

@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Deal 1 damage to every other player
  * on your square.
@@ -7,7 +9,7 @@ package Adrenaline.Server.model;
  * on your square.
  */
 
-public class WCElectroscythe extends WeaponCard{
+public class WCElectroscythe extends WeaponCard implements Serializable {
 
     public WCElectroscythe(){
         super("ElectroScythe", new char[]{'b'}, new char[]{'b','r'},false);

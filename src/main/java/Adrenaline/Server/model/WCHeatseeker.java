@@ -1,10 +1,12 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * effect: Choose 1 target you cannot see and deal 3 damage to it.
  * Notes: Yes, this can only hit targets you cannot see
  */
-public class WCHeatseeker extends WeaponCard{
+public class WCHeatseeker extends WeaponCard implements Serializable {
 
     public WCHeatseeker(){
         super("HeatSeeker",new char[]{'r','r','y'}, new char[]{},false);

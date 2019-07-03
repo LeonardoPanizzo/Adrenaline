@@ -1,6 +1,8 @@
 package Adrenaline.Server.model;
 
-public class AmmoCard {
+import java.io.Serializable;
+
+public class AmmoCard implements Serializable {
     private char[] value;
 
     /**

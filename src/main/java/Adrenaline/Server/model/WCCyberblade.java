@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 2 damage to 1 target on your square.
  * with shadowstep: Move 1 square before or after the basic effect.
@@ -10,7 +12,7 @@ package Adrenaline.Server.model;
  * or whack 2 people and then move.
  */
 
-public class WCCyberblade extends WeaponCard{
+public class WCCyberblade extends WeaponCard implements Serializable {
 
     public WCCyberblade(){
         super("Cyberblade", new char[]{'y','r'}, new char[]{'0','0','y'},true);

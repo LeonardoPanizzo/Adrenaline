@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Choose 1 or 2 targets you can see and deal
  * 1 damage to each.
@@ -15,7 +17,7 @@ package Adrenaline.Server.model;
  * still use the the turret tripod to give it 1 additional damage.
  */
 
-public class WCMachineGun extends WeaponCard{
+public class WCMachineGun extends WeaponCard implements Serializable {
 
     public WCMachineGun(){
         super("Machine Gun", new char[]{'b','r'}, new char[]{'0','y','b'},true);

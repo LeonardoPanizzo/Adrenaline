@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Deal 1 damage to 1 target you can see at least
  * 1 move away. Then give 1 mark to that target and everyone
@@ -8,7 +10,7 @@ package Adrenaline.Server.model;
  * see at least 1 move away. Then give 2 marks to that target
  * and everyone else on that square.
  */
-public class WCHellion extends WeaponCard{
+public class WCHellion extends WeaponCard implements Serializable {
 
     public WCHellion() {
         super("Hellion", new char[]{'r','y'}, new char[]{'r'},false);

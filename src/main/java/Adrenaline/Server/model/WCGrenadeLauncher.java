@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 1 damage to 1 target you can see. Then you may move
  * the target 1 square.
@@ -13,7 +15,7 @@ package Adrenaline.Server.model;
  * you will not be moved or damaged.
  */
 
-public class WCGrenadeLauncher extends WeaponCard{
+public class WCGrenadeLauncher extends WeaponCard implements Serializable {
 
     public WCGrenadeLauncher(){
         super("Grenade Launcher", new char[]{'r'}, new char[]{'0','r'},true);

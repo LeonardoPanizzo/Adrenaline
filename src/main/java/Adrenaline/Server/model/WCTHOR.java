@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 2 damage to 1 target you can see.
  * with chain reaction: Deal 1 damage to a second target that
@@ -12,7 +14,7 @@ package Adrenaline.Server.model;
  * must be a different player
  */
 
-public class WCTHOR extends WeaponCard{
+public class WCTHOR extends WeaponCard implements Serializable {
 
     public WCTHOR(){
         super("T.H.O.R",new char[]{'b','r'},new char[]{'0','b','b'},true);

@@ -1,10 +1,12 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic effect: Deal 2 damage and 1 mark to 1 target you can see.
  * with second lock: Deal 1 mark to a different target you can see.
  */
-public class WCLockRifle extends WeaponCard {
+public class WCLockRifle extends WeaponCard implements Serializable {
     public WCLockRifle() {
         super("LockRifle", new char[]{'b', 'b'}, new char[]{'0','r'},true);
     }

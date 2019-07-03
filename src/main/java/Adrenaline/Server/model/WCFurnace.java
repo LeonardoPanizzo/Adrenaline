@@ -1,5 +1,7 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
+
 /**
  * basic mode: Choose a room you can see, but not the room
  * you are in. Deal 1 damage to everyone in that room.
@@ -8,7 +10,7 @@ package Adrenaline.Server.model;
  * square.
  */
 
-public class WCFurnace extends WeaponCard{
+public class WCFurnace extends WeaponCard implements Serializable {
 
     public WCFurnace(){
         super("Furnace", new char[]{'r','b'}, new char[]{},false);
