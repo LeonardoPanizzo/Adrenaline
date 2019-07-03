@@ -24,15 +24,15 @@ public interface RemoteBiCon extends Remote {
 
 
 
-    void spreadinfo(int specificuser)throws RemoteException;
+    void spreadinfo()throws RemoteException;
 
     Board getBoard()throws RemoteException;
 
     Player[] getPlayers()throws RemoteException;
 
-    void endfinalturn(int playernumber)throws RemoteException;
+    //void endfinalturn(int playernumber)throws RemoteException;
 
-    int getOnetogo()throws RemoteException;
+    //int getOnetogo()throws RemoteException;
 
     //void movefinal2(int playernumber)throws RemoteException;
 
@@ -46,17 +46,19 @@ public interface RemoteBiCon extends Remote {
 
     int finalplayernumber()throws RemoteException;
 
-    boolean isMyturn(int specificuser)throws RemoteException;
+    //boolean isMyturn(int specificuser)throws RemoteException;
 
-    boolean getSpecialturn(int specificuser)throws RemoteException;
+    int getTurn()throws  RemoteException;
 
-    boolean getDefense(int specificuser)throws RemoteException;
+    int getSpecialturn()throws RemoteException;
 
-    boolean getRespawnturn(int specificuser)throws RemoteException;
+    int getDefense()throws RemoteException;
+
+    int getRespawnturn()throws RemoteException;
 
     void setDefense(int specifcuser)throws RemoteException;
 
-    void setSpecialturn(int specificuser)throws RemoteException;
+    //void setSpecialturn(int specificuser)throws RemoteException;
 
     void setRespawnturn(int specificuser)throws RemoteException;
 
