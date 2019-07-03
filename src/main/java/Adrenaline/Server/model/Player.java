@@ -3,7 +3,9 @@ package Adrenaline.Server.model;
 //leonardo:commentato perchè quando faccio la build mi dice che questo import non esiste
 //import sun.awt.windows.WEmbeddedFrame;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String name;
     private int number;
     private Position position;

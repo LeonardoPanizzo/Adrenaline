@@ -45,8 +45,15 @@ public class RmiServer {
 
         do {
 
+            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+
             if (remoteBiCon[0].getNumber() == 1) {
-                players[player] = new Player(player, pwrd);
+                System.out.println("QUA DENTRO ----  !!");
+
+                //players[player] = new Player(player, pwrd);
+                players[0] = new Player(0, pwrd);
+
+                players[1] = new Player(1, pwrd);
                 //System.out.println("Binding done");
                 isBol = false;
                 System.out.println("QUA DENTRO!!");
@@ -54,14 +61,19 @@ public class RmiServer {
             }
         }while (isBol);
 
+        remoteBiCon[0].setPlayers(players);
+        System.out.println("SONO QUI-2");
+        System.out.println(remoteBiCon[0].isReady());
 
-        for(int i=0; i<4; i++){
 
-            remoteBiCon[i].setPlayers(players);
+/*
+        for(int i=0; i<2; i++){
+
+            remoteBiCon[0].setPlayers(players);
             System.out.println("SONO QUI-2");
 
         }
-
+*/
 
 
 
@@ -150,9 +162,6 @@ public class RmiServer {
         }while (true);
 
         */
-
-        System.out.println("SONO QUI");
-
 
 
 

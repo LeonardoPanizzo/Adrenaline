@@ -1,6 +1,8 @@
 package Adrenaline.Server.model;
 
-public class PowerupCard {
+import java.io.Serializable;
+
+public class PowerupCard implements Serializable {
     protected char colour;
     protected String name;
 

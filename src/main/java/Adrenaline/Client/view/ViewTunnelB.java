@@ -638,8 +638,9 @@ public class ViewTunnelB {
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
         Player[] ps= new Player[5];             //support for variable players
-        try {
+        //try {
             System.out.println("aaa1");
+            System.out.println("LEN: " + serverIF.getPlayers().length);
             Player[] users = serverIF.getPlayers();   //all the players
             System.out.println("aaa2");
             for (int i = 0; i < users.length; i++) {
@@ -651,9 +652,9 @@ public class ViewTunnelB {
                 }
             }
             players = ps;
-        }catch(Exception e){
-            System.out.println("error");
-        }
+       // }catch(Exception e){
+       //     System.out.println("error");
+        //}
     }
 
     public void movefinal2() {

@@ -32,7 +32,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private Vector<RmiClient> clients;
     String line = "---------------------------------------------\n";
     private static Board board;
-    private static Player[] players;
+    private Player[] players;
     private int specificuser;   //number of the player that is linked to this thread
     private int onetogo;        //contains the number of the player that is doing his final frenesy
     private boolean[] playersturn;
