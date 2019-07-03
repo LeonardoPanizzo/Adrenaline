@@ -643,7 +643,7 @@ public class ViewTunnelB {
             System.out.println("LEN: " + serverIF.getPlayers().length);
             Player[] users = serverIF.getPlayers();   //all the players
             System.out.println("aaa2");
-            for (int i = 0; i < users.length; i++) {
+            for (int i = 0; i < 2; i++) { //users.length
                 System.out.println("bbb"+i);
                 if (users[i].getNumber() != number) {
                     ps[i] = users[i];

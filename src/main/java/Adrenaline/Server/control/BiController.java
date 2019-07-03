@@ -933,7 +933,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public void spreadinfo(int specificuser){
-        /*
+
         for(int i=0;i<players.length;i++) {
             if(i!=specificuser) {
                 specialturn[i] = true;
@@ -944,7 +944,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             do {
                 //waits until the user i got his information
             } while (specialturn[i] == true);
-        }*/
+        }
     }
 
     public boolean grabWeapon(int specificuser, WeaponCard weapon){
