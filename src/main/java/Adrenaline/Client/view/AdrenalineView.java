@@ -111,6 +111,8 @@ public class AdrenalineView extends Application {
 
     private int[][] damagesOnBoard;
 
+    private boolean targetScopeToAttack;
+
     private Button gxx0yy0;
     private Button gxx0yy1;
     private Button gxx0yy2;
@@ -226,6 +228,8 @@ public class AdrenalineView extends Application {
     private Button shotxx2yy2;
     private Button shotxx2yy3;
 
+    private Button targetScope;
+
     private Label damagesByP2;
     private Label damagesByP3;
     private Label damagesByP4;
@@ -269,6 +273,9 @@ public class AdrenalineView extends Application {
                 k++;
             }
         }
+
+        targetScope = new Button("Use Targeting Scope");
+        targetScope.setVisible(false);
 
         axx0yy0 = new Label();
         axx0yy1 = new Label();
@@ -317,18 +324,18 @@ public class AdrenalineView extends Application {
         p4ActualLife = new Label();
         p5ActualLife = new Label();
 
-        shotxx0yy0 = new Button("Shot");
-        shotxx0yy1 = new Button("Shot");
-        shotxx0yy2 = new Button("Shot");
-        shotxx0yy3 = new Button("Shot");
-        shotxx1yy0 = new Button("Shot");
-        shotxx1yy1 = new Button("Shot");
-        shotxx1yy2 = new Button("Shot");
-        shotxx1yy3 = new Button("Shot");
-        shotxx2yy0 = new Button("Shot");
-        shotxx2yy1 = new Button("Shot");
-        shotxx2yy2 = new Button("Shot");
-        shotxx2yy3 = new Button("Shot");
+        shotxx0yy0 = new Button("Shoot");
+        shotxx0yy1 = new Button("Shoot");
+        shotxx0yy2 = new Button("Shoot");
+        shotxx0yy3 = new Button("Shoot");
+        shotxx1yy0 = new Button("Shoot");
+        shotxx1yy1 = new Button("Shoot");
+        shotxx1yy2 = new Button("Shoot");
+        shotxx1yy3 = new Button("Shoot");
+        shotxx2yy0 = new Button("Shoot");
+        shotxx2yy1 = new Button("Shoot");
+        shotxx2yy2 = new Button("Shoot");
+        shotxx2yy3 = new Button("Shoot");
 
         btn2 = new Button();
         btn3 = new Button();
@@ -941,7 +948,7 @@ public class AdrenalineView extends Application {
         btnPower.setContentDisplay(ContentDisplay.RIGHT);
         you.add(btnPower, 7, 0);
 
-        VBox events = new VBox(15);
+        VBox events = new VBox(5);
         Label round = new Label("Player Round:");
         round.setFont(Font.font("", FontWeight.BOLD, 12));
         player.setText(play);
@@ -949,7 +956,7 @@ public class AdrenalineView extends Application {
         actions.setFont(Font.font("", FontWeight.BOLD, 12));
         Label event = actualDeath;
         event.setWrapText(true);
-        events.getChildren().addAll(round, player, actions, event,useGrenade);
+        events.getChildren().addAll(round, player, actions, event,useGrenade, targetScope);
         you.add(events, 8, 0);
 
         VBox movements = new VBox(5);
@@ -964,7 +971,7 @@ public class AdrenalineView extends Application {
         moveAndGrabBtn.setContentDisplay(ContentDisplay.LEFT);
         Image shotI = new Image(AdrenalineView.class.getResource("/shot.png").toExternalForm());
         ImageView shotIV = new ImageView(shotI);
-        Button shotBtn = new Button("Shot", shotIV);
+        Button shotBtn = new Button("Shoot", shotIV);
         shotBtn.setContentDisplay(ContentDisplay.LEFT);
         Image endRound = new Image(AdrenalineView.class.getResource("/endRound.png").toExternalForm());
         ImageView endRoundIV = new ImageView(endRound);
@@ -1157,14 +1164,14 @@ public class AdrenalineView extends Application {
                     playersInGame[i].setFinalRoundDone(true);
                     System.out.println("is final round setting: player "+i+" -> "+playersInGame[i].isFinalRoundDone());
                 }
-                board.setSkulls(0);
+                board.setSkulls(1);
                 board.setSkulls(0);
                 board.setSkulls(0);
                 board.setSkulls(1);
-                board.setSkulls(1);
-                board.setSkulls(2);
-                board.setSkulls(3);
                 board.setSkulls(4);
+                board.setSkulls(3);
+                board.setSkulls(2);
+                board.setSkulls(0);
 
 
                 lastCount=0;
@@ -2728,6 +2735,27 @@ public class AdrenalineView extends Application {
         ImageView redIV1 = new ImageView(redI);
         Button reds = new Button("", redIV1);
         powersuShow.getChildren().addAll(selPlayers1, selPositions1, blues, yellows, reds, dones1);
+
+
+
+
+        HBox targetingShow = new HBox(20);   //root node
+        targetingShow.setAlignment(Pos.CENTER);
+        Scene targetShow = new Scene(targetingShow, 650, 200);
+        Stage target = new Stage();
+        target.setTitle("Use Target Scope");
+        target.setScene(targetShow);
+        Button dones1t = new Button("Done!");
+        ImageView blueIV1t = new ImageView(blueI);
+        Button bluest = new Button("", blueIV1t);
+        ImageView yellowIV1t = new ImageView(yellowI);
+        Button yellowst = new Button("", yellowIV1t);
+        ImageView redIV1t = new ImageView(redI);
+        Button redst = new Button("", redIV1t);
+        targetingShow.getChildren().addAll(bluest, yellowst, redst);
+
+
+
 
         HBox playersShow1 = new HBox(10);   //root node
         playersShow1.setAlignment(Pos.CENTER);
@@ -8469,7 +8497,7 @@ public class AdrenalineView extends Application {
         shotShow.setAlignment(Pos.CENTER);
         Scene shShow = new Scene(shotShow, 650, 200);
         Stage sh = new Stage();
-        sh.setTitle("Select Shot mode");
+        sh.setTitle("Select Shoot mode");
         sh.setScene(shShow);
         Button selPlayers = new Button("Select Players");
         Button selPositions = new Button("Select Positions");
@@ -8537,6 +8565,13 @@ public class AdrenalineView extends Application {
         shotBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
+                //todo da eliminare
+                playersInGame[0].setFirstPosition(board.getBoard()[1][2]);
+                playersInGame[0].setLife(11);
+                updatePlayersPositions();
+
+
 
                 if(me.getWeapons()[0] != null && me.getWeapons()[0].isLoaded())
                     weapon1.setDisable(false);
@@ -9427,7 +9462,6 @@ public class AdrenalineView extends Application {
                 }
                 else
                     shotButtons[me.getPosition().getCoordinate()[0]][me.getPosition().getCoordinate()[1]].setVisible(true);
-                //fine del caso in cui servano azioni adrenaliniche o frenesia finale
 
                 shotxx0yy0.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -9713,6 +9747,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -9998,6 +10160,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -10283,6 +10573,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -10594,6 +11012,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -10879,6 +11425,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -11164,6 +11838,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -11475,6 +12277,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -11760,6 +12690,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -12044,6 +13102,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -12355,6 +13541,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -12640,6 +13954,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -12925,6 +14367,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -13236,6 +14806,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -13521,6 +15219,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -13806,6 +15632,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -14117,6 +16071,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -14402,6 +16484,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -14687,6 +16897,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -14998,6 +17336,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -15283,6 +17749,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -15568,6 +18162,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -15879,6 +18601,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -16164,6 +19014,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -16449,6 +19427,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -16760,6 +19866,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -17045,6 +20279,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -17330,6 +20692,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -17641,6 +21131,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -17926,6 +21544,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -18211,6 +21957,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -18522,6 +22396,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -18807,6 +22809,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -19092,6 +23222,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -19402,7 +23660,134 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -19688,6 +24073,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
@@ -19972,6 +24485,134 @@ public class AdrenalineView extends Application {
                                         }
 
                                         me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+
+                                        if(ok){
+                                            boolean hasTargetingScope = false;
+                                            for(int i=0; i<me.getPowerup().length; i++){
+                                                if(me.getPowerup()[i] != null && me.getPowerup()[i].getName().equals("targeting scope")) {
+                                                    hasTargetingScope = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(hasTargetingScope)
+                                                targetScope.setVisible(true);
+
+                                            targetScope.setOnAction(new EventHandler<ActionEvent>() {
+                                                @Override
+                                                public void handle(ActionEvent actionEvent) {
+                                                    target.show();
+                                                    bluest.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'b'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    yellowst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'y'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                    redst.setOnAction(new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent actionEvent) {
+                                                            char[] ammo = new char[]{'r'};
+                                                            targetScopeToAttack = me.updateAmmo(ammo);
+                                                            if(targetScopeToAttack) {
+                                                                playerstoUse[0].receivedDamagesNoMarks(me);
+                                                                power.show();
+                                                                power1.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[0]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power2.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[1]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                                power3.setOnAction(new EventHandler<ActionEvent>() {
+                                                                    @Override
+                                                                    public void handle(ActionEvent actionEvent) {
+                                                                        me.getPowerup()[2]=null;
+                                                                        power.close();
+                                                                    }
+                                                                });
+                                                            }
+                                                            target.close();
+                                                            play.close();
+                                                            targetScope.setVisible(false);
+                                                            updateAmmoValue();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
                                         updatePlayersPositions();
                                         updatePlayersLife();
                                         updateAmmoValue();
