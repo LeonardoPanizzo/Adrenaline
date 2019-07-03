@@ -37,10 +37,32 @@ public class RmiServer {
         //entrano ed eseguono, parte il timer e quando sono in 5 o scatta timer parte secondo loop
 
 
-        remoteBiCon[player] = new BiController(player);
-        players[player] = new Player(player, pwrd);
+        remoteBiCon[player] = new BiController(player); //TODO togliere player da costruttore BiController
+
+        boolean isBol = true;
         Naming.rebind("rmi://0.0.0.0:1099/controller", remoteBiCon[player]);
-        //System.out.println("Binding done");
+
+
+        do {
+
+            if (remoteBiCon[0].getNumber() == 1) {
+                players[player] = new Player(player, pwrd);
+                //System.out.println("Binding done");
+                isBol = false;
+                System.out.println("QUA DENTRO!!");
+
+            }
+        }while (isBol);
+
+
+        for(int i=0; i<4; i++){
+
+            remoteBiCon[i].setPlayers(players);
+            System.out.println("SONO QUI-2");
+
+        }
+
+
 
 
 /*
@@ -132,12 +154,6 @@ public class RmiServer {
         System.out.println("SONO QUI");
 
 
-        for(int i=0; i<1; i++){
-
-            remoteBiCon[i].setPlayers(players);
-            System.out.println("SONO QUI-2");
-
-        }
 
 
 
