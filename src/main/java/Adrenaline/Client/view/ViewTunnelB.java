@@ -277,7 +277,7 @@ public class ViewTunnelB {
             try {
                 serverIF.discardWeapon(number, tempWeapon);
             }catch (Exception e){
-                //todo:stampa errore
+                System.out.println("there is a problem in the connection with the server");
             }
         }
         do {
@@ -309,7 +309,7 @@ public class ViewTunnelB {
                     }
                 }
             }catch(Exception e){
-                //todo
+                System.out.println("there is a problem in the connection with the server");
             }
         } else if (c == 'y') {
             try {
@@ -317,7 +317,6 @@ public class ViewTunnelB {
                 if (serverIF.grabWeapon(number, weapons[weaponposition], payment)) {
                     System.out.println("\n Weapon added\n");
                     if (changeweapon) {
-                        //todo:discard weapon server
                         tempWeapon.reload();
                         serverIF.weaponToGround(p.getPosition(), tempWeapon);
                     }
@@ -328,7 +327,7 @@ public class ViewTunnelB {
                     }
                 }
             }catch (Exception e){
-                //todo
+                System.out.println("there is a problem in the connection with the server");
             }
         }
     }
@@ -451,7 +450,7 @@ public class ViewTunnelB {
                 }
             }
         }catch(Exception e){
-            //todo
+            System.out.println("there is a problem in the connection with the server");
         }
     }
 
@@ -487,7 +486,7 @@ public class ViewTunnelB {
                 serverIF.reload(number, weaponToReload);
             }
         }catch(Exception e){
-            //todo;
+            System.out.println("there is a problem in the connection with the server");
         }
     }
 
@@ -577,7 +576,7 @@ public class ViewTunnelB {
             try {
                 serverIF.usePowerup(number, pwd[0], pos, a);
             }catch(Exception e){
-                //todo
+                System.out.println("there is a problem in the connection with the server");
             }
 
         }else{
@@ -612,7 +611,7 @@ public class ViewTunnelB {
         try {
             serverIF.useTagBackGrenade(number, pwr[0], c);
         }catch(Exception e){
-            //todo
+            System.out.println("there is a problem in the connection with the server");
         }
     }
 
@@ -638,16 +637,20 @@ public class ViewTunnelB {
 
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
-        Player[] ps= new Player[5];    //support for variable players
-        Player[] users=serverIF.getPlayers();   //all the players
-        for(int i=0;i<users.length;i++){
-            if(users[i].getNumber()!=number){
-                ps[i]=users[i];
-            }else{
-                p=users[i];
+        Player[] ps= new Player[5];             //support for variable players
+        try {
+            Player[] users = serverIF.getPlayers();   //all the players
+            for (int i = 0; i < users.length; i++) {
+                if (users[i].getNumber() != number) {
+                    ps[i] = users[i];
+                } else {
+                    p = users[i];
+                }
             }
+            players = ps;
+        }catch(Exception e){
+            System.out.println("error");
         }
-        players=ps;
     }
 
     public void movefinal2() {
@@ -686,7 +689,10 @@ public class ViewTunnelB {
                 switch(c){
                     case '0':
                         System.out.println(board.myToString());
-                        //todo:add the print of the players
+                        System.out.println(p.completeString());
+                        for(int i=0; i<players.length; i++){
+                            System.out.println(players[i].toString());
+                        }
                         break;
                     case '1':
                         this.move();
@@ -742,7 +748,10 @@ public class ViewTunnelB {
                     switch(c) {
                         case '0':
                             System.out.println(board.myToString());
-                            //todo:add the print of the players
+                            System.out.println(p.completeString());
+                            for(int i=0; i<players.length; i++){
+                                System.out.println(players[i].toString());
+                            }
                             break;
                         case '1':
                             movefinal2();
@@ -763,7 +772,11 @@ public class ViewTunnelB {
                     switch(c) {
                         case '0':
                             System.out.println(board.myToString());
-                            //todo:add the print of the players
+                            System.out.println(board.myToString());
+                            System.out.println(p.completeString());
+                            for(int i=0; i<players.length; i++){
+                                System.out.println(players[i].toString());
+                            }
                             break;
                         case '1':
                             moveandgrabfinal1();
