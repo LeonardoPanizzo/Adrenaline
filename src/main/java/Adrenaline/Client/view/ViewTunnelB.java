@@ -665,6 +665,9 @@ public class ViewTunnelB {
         boolean gotInfo=false;
         boolean donerespawn=false;
         this.number=serverIF.getNumber();
+        do{
+
+        }while(!serverIF.isReady());
         if(number==0){
             this.setBoard();
         }
