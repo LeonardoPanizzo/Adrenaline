@@ -43,6 +43,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private Player finalplayer=null;
     private int [] myplayers = {6, 6, 6, 6, 6};
     private int counter = -1;
+    private boolean boardready=false;
 
 
 
@@ -908,6 +909,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         p.reload(weapontoreaload,payment);
     }
 
+    public boolean isReady(){
+        return this.boardready;
+    }
+
     public boolean shoot(int specificuser, WeaponCard weapon,Player[] toattack,int mode1, int[]mode2,Position[] pos,PowerupCard[] payment){
         boolean done;
         Player p=getPlayerByNumber(specificuser);
@@ -1014,6 +1019,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     public void setPlayers(Player[] p) {
         this.players = p;
         this.setPlayersTurn(p.length);
+        boardready=true;
     }
 
     private void setPlayersTurn(int t){
