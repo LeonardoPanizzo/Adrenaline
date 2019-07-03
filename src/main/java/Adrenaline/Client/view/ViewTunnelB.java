@@ -638,7 +638,6 @@ public class ViewTunnelB {
 
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
-        System.out.println(this.board.myToString());
         Player[] ps= new Player[5];             //support for variable players
         //try {
             System.out.println("aaa1");
