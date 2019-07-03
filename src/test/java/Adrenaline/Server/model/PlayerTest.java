@@ -176,6 +176,28 @@ public class PlayerTest {
         assertEquals(4, points[2],"Player 3 points aren't correct");
         assertEquals(9, points[3],"Player 4 points aren't correct");
         assertEquals(0, points[4],"Player 5 points aren't correct");
+
+
+        p = new Player(4, pwd);
+        p.setLife(11);
+        p2 = new Player(0, pwd);
+        p3 = new Player(1, pwd);
+        Player p4 = new Player(2, pwd);
+        Player p5 = new Player(3, pwd);
+        p.receivedDamages(p2);
+        p.receivedDamages(p2);
+        p.receivedDamages(p2);
+        p.receivedDamages(p3);
+        p.receivedDamages(p3);
+        p.receivedDamages(p4);
+        p.receivedDamages(p5);
+        points = p.givePoints();
+
+        assertEquals(9, points[0],"Player 1 points aren't correct");
+        assertEquals(6, points[1],"Player 2 points aren't correct");
+        assertEquals(4, points[2],"Player 3 points aren't correct");
+        assertEquals(2, points[3],"Player 4 points aren't correct");
+        assertEquals(0, points[4],"Player 5 points aren't correct");
     }
 
     @Test
