@@ -642,7 +642,7 @@ public class ViewTunnelB {
         if(board==null){
             System.out.println("errrrror");
         }else{
-            System.out.println(board.myToString());
+            System.out.println(board.myToString());     //todo: qui è dove lancia null pointer exception
         }
         Player[] ps= new Player[5];             //support for variable players
         //try {

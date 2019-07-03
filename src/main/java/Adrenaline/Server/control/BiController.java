@@ -1000,8 +1000,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public Board getBoard() {
-        System.out.println(board.myToString());
-        return board;
+        return this.board;
     }
 
     public Player[] getPlayers() {

@@ -1,8 +1,9 @@
 package Adrenaline.Server.model;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class SupportPosition {
+public class SupportPosition implements Serializable {
     private char room;               //room in which the position is part
     private int[] matr;             //coordinates of the position
     private boolean door;           //if true the position has a door into another room
