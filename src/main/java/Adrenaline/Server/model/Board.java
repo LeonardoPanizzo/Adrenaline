@@ -123,6 +123,11 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Method to convert the board into a string form.
+     *
+     * @return a board in string format
+     */
     public String myToString(){
         String info="board:\n";
         for(int i=0; i<3; i++){

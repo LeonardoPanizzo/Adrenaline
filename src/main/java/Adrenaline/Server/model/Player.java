@@ -61,94 +61,190 @@ public class Player implements Serializable {
         this.finalRoundDone = false;
     }
 
+    /**
+     * Method to get the player's position
+     *
+     * @return actual player's position
+     */
     public Position getPosition(){
         return this.position;
     }
 
+    /**
+     * Method to set the value of player's round
+     *
+     * @param round boolean value to assign to this.round
+     */
     public void setRound(boolean round) {
         this.round = round;
     }
 
-    /*public int getMadeDamage() {
-        return madeDamage;
-    }
-    public int[] getDamagedPlayers() {
-        return damagedPlayers;
-    }
-*/
-
+    /**
+     * Method to know if the player played the final round
+     *
+     * @return value of finalRoundDone
+     */
     public boolean isFinalRoundDone() {
         return finalRoundDone;
     }
 
+    /**
+     * Method to set the value of player's final round
+     * @param finalRoundDone boolean value to assign to this.finalRound
+     */
     public void setFinalRoundDone(boolean finalRoundDone) {
         this.finalRoundDone = finalRoundDone;
     }
 
+    /**
+     * Mehod to know if a player will play the final round before or after the player who started the game.
+     *
+     * @return value of this.isBeforeFirstPlayer
+     */
     public boolean isBeforeFirstPlayer() {
         return beforeFirstPlayer;
     }
 
+    /**
+     * Method to set the value of before first player.
+     * @param beforeFirstPlayer value to assign to this.isBeforeFirstPlayer
+     */
     public void setBeforeFirstPlayer(boolean beforeFirstPlayer) {
         this.beforeFirstPlayer = beforeFirstPlayer;
     }
 
+    /**
+     * Method to set player's name
+     *
+     * @param name string value of this.name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method to get the player's name.
+     *
+     * @return player's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method to set the value of this.firstRound.
+     *
+     * @param firstRound value to assign to this.firstRound
+     */
     public void setFirstRound(boolean firstRound) {
         this.firstRound = firstRound;
     }
 
+    /**
+     * Method to know if it's the player's first round.
+     *
+     * @return value of this.firstRound
+     */
     public boolean isFirstRound() {
         return firstRound;
     }
 
+    /**
+     * Method to set the damages that one other player has made.
+     *
+     * @param player the player who made damages
+     * @param damage how much damages player has made
+     */
     public void setPlayersDamage(int player, int damage) {
         this.playersDamage[player][1] = damage;
     }
 
+    /**
+     * Method to set the player's life.
+     *
+     * @param life value to assign to this.life
+     */
     public void setLife(int life) {
         this.life = life;
     }
 
+    /**
+     * Method to set player's power up cards
+     *
+     * @param powerup Powerup array to give to player
+     */
     public void setPowerup(PowerupCard[] powerup) {
         this.powerup = powerup;
     }
 
+    /**
+     * Method to see player's power up cards.
+     *
+     * @return player's power up cards
+     */
     public PowerupCard[] getPowerup() {
         return powerup;
     }
 
+    /**
+     * Method to see the player's life.
+     *
+     * @return player's life
+     */
     public int getLife(){
         return this.life;
     }
 
+    /**
+     * Method to see the player's number.
+     *
+     * @return player's number
+     */
     public int getNumber(){
         return this.number;
     }
 
+    /**
+     * Method to see all marks given by the player.
+     *
+     * @return all marks given by the player
+     */
     public int[] getMarksGiven() {
         return marksGiven.clone();
     }
 
+    /**
+     * Method to see all marks received by the player.
+     *
+     * @return all marks given by the player
+     */
     public int[] getMarksReceived() {
         return marksReceived.clone();
     }
 
+    /**
+     * Method to see the total number of time that player died.
+     *
+     * @return player's number of deaths
+     */
     public int getNumberOfDeaths() {
         return numberOfDeaths;
     }
 
+    /**
+     * Method to see all player's weapon cards.
+     *
+     * @return player weapon cards
+     */
     public WeaponCard[] getWeapons() {
         return weapons.clone();
     }
 
+    /**
+     * Method to see player's ammo.
+     *
+     * @return player's ammo
+     */
     public int[] getAmmo() {
         return ammo;
     }
@@ -197,18 +293,38 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Method to see player's score.
+     *
+     * @return player's score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Method to know if it's the round of the player.
+     *
+     * @return true if it is
+     */
     public boolean isRound() {
         return round;
     }
 
+    /**
+     * Method to know how many actions the player has.
+     *
+     * @return number of actions to do
+     */
     public int getAction() {
         return action;
     }
 
+    /**
+     * Method to set the amount of player's actions.
+     *
+     * @param action value to assign to this.actions
+     */
     public void setAction(int action) {
         this.action = action;
     }
@@ -256,11 +372,21 @@ public class Player implements Serializable {
         this.score += points;
     }
 
+    /**
+     * Method to set if it's the player's final round.
+     *
+     * @param finalRound value to assign to this.finalRound
+     */
     public void setFinalRound(boolean finalRound) {
         this.finalRound = finalRound;
     }
 
-    private String partialString(){      //usato per evitare codice doppio nei metodi qui stto
+    /**
+     * A support method for toString and completeString.
+     *
+     * @return a string to use in toString and completeString
+     */
+    private String partialString(){
         String info;
         info="player n."+number+"\n life points: "+life+"\n number of deaths: "+numberOfDeaths+"\n received damages: \n";
         for(int i=0; i<5; i++){             //used to show the life damage from each player
@@ -277,7 +403,12 @@ public class Player implements Serializable {
         return info;
     }
 
-    public String toString(){           //used in the CLI to see players information
+    /**
+     * Method to show player's information in the CLI
+     *
+     * @return player's info in string form
+     */
+    public String toString(){
         String info;
         info=this.partialString();
         info=info+"\nunloaded weapons: \n";
@@ -289,7 +420,12 @@ public class Player implements Serializable {
         return info;
     }
 
-    public String completeString(){         //used in the CLI to see one own information
+    /**
+     * Method to see other player's information in CLI.
+     *
+     * @return info in string form
+     */
+    public String completeString(){
         String info;
         info=this.partialString();
         info=info+"\nweapons:\n";
@@ -301,18 +437,38 @@ public class Player implements Serializable {
         return info;
     }
 
+    /**
+     * Method to know if it's the player's final round
+     *
+     * @return
+     */
     public boolean isFinalRound() {
         return finalRound;
     }
 
+    /**
+     * Method setted to true only for the first player in the game.
+     *
+     * @param firstPlayer boolean value to indicate if player is the first in the game
+     */
     public void setFirstPlayer(boolean firstPlayer) {
         this.firstPlayer = firstPlayer;
     }
 
+    /**
+     * Method to know if player is the first player of the game.
+     *
+     * @return boolean value of this.isFirstPlayer
+     */
     public boolean isFirstPlayer() {
         return firstPlayer;
     }
 
+    /**
+     * Method to set the player's position when it was in one other position before.
+     *
+     * @param position new player's position
+     */
     public void setPosition(Position position) {
         this.position.deletePlayer(this);
         this.position = position;
@@ -331,6 +487,12 @@ public class Player implements Serializable {
         this.action = 2;
     }
 
+    /**
+     * Method to confront two players and see if they are the same one or not.
+     *
+     * @param p player who want to know if is the same as this
+     * @return boolean value of the confront
+     */
     public boolean equals(Player p){
         return this.number==p.number;
     }
@@ -466,6 +628,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Method to grab a weapon from a respawn point and pay it only with ammo.
+     *
+     * @param weapon weapon chosen
+     * @return true if player can takes the weapon
+     */
     public boolean grabWeaponCard(WeaponCard weapon){
         boolean done = false;
         if (this.action > 0) {
@@ -498,6 +666,13 @@ public class Player implements Serializable {
         return done;
     }
 
+    /**
+     * Method to grab a weapon from a respawn point and pay it with ammo and power up cards.
+     *
+     * @param weapon weapon chosen
+     * @param payment a Powerup's array used to pay
+     * @return
+     */
     public boolean grabWeaponCard(WeaponCard weapon, PowerupCard[] payment){
         boolean done=false;
         if(this.action>0){
@@ -861,6 +1036,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Method to reload a weapon using power up to pay the taking cost.
+     *
+     * @param weapon weapon to reload
+     * @param payment power up cards chosen
+     */
     public void reload(WeaponCard weapon, PowerupCard[] payment){
         PowerupCard[] pay=payment.clone();
         char[] cost=weapon.getCostReloading();
@@ -1030,7 +1211,12 @@ public class Player implements Serializable {
         }
     }
 
-    public void receivedDamagesNoMarks(Player player) {        //player is the one who makes the damage
+    /**
+     * Method to receive damages without use marks
+     *
+     * @param player player who make the damages
+     */
+    public void receivedDamagesNoMarks(Player player) {
         if (this.life >= 0) {
             int damageCounter = 1;
             if (playersDamage[player.getNumber()][0] == -1) {

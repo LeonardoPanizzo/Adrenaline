@@ -7,8 +7,10 @@ public class AmmoDeck {
     private int size;
     private Vector<AmmoCard> ammoDeck;
 
-    /*
-    p powerup, b blue, r red, y yellow
+    /**
+     * Costructor for AmmoDeck. Initial size is setted to 0. The initial capacity is 36. The deck is composed by 12
+     * kind of cards. Some ones are present in 4 copies, other in 3 and other in 2.
+     * When the deck is created, it is immediately shuffled.
      */
     public AmmoDeck(){
         size=0;
@@ -34,10 +36,19 @@ public class AmmoDeck {
         shuffle();
     }
 
+    /**
+     * Method to put in a random sequence the cards in it.
+     */
+
     public void shuffle(){
         Collections.shuffle(ammoDeck);
     }
 
+    /**
+     * A card is taken from the deck. The the size is incremented. When the size has the same value like initial
+     * capacity, the deck is recomposed and shuffle again.
+     * @return
+     */
     public AmmoCard pickUpAmmo(){
         AmmoCard x=ammoDeck.elementAt(size);
         size++;
