@@ -9746,7 +9746,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -10159,7 +10159,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -10572,7 +10572,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -11011,7 +11011,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -11424,7 +11424,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -11837,7 +11837,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -12276,7 +12276,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -12689,7 +12689,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -13101,7 +13101,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -13540,7 +13540,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -13953,7 +13953,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -14366,7 +14366,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -14805,7 +14805,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -15218,7 +15218,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -15631,7 +15631,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -16070,7 +16070,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -16483,7 +16483,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -16896,7 +16896,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -17335,7 +17335,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -17748,7 +17748,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -18161,7 +18161,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -18600,7 +18600,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -19013,7 +19013,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -19426,7 +19426,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -19865,7 +19865,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -20278,7 +20278,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -20691,7 +20691,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -21130,7 +21130,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -21543,7 +21543,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -21956,7 +21956,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -22395,7 +22395,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[0], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -22808,7 +22808,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -23221,7 +23221,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -24072,7 +24072,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[1], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
@@ -24484,7 +24484,7 @@ public class AdrenalineView extends Application {
                                             powerupsToUse[i] = powerupsToAttack[i];
                                         }
 
-                                        me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
+                                        boolean ok = me.shot(me.getWeapons()[2], playerstoUse, mode1, mode2ToUse, positionsToUse, powerupsToUse);
 
                                         if(ok){
                                             boolean hasTargetingScope = false;
