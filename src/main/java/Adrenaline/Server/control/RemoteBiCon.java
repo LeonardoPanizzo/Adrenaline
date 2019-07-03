@@ -106,6 +106,8 @@ public interface RemoteBiCon extends Remote {
 
     void setBoard(int b) throws RemoteException;
 
+    boolean isReady() throws RemoteException;
+
     boolean moveplayer(int specificuser, boolean after, Position[] movements) throws RemoteException;
 
     /*
