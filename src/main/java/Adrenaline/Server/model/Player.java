@@ -1062,6 +1062,10 @@ public class Player {
                         if(sortedPlayers[j+1] == -1)
                             sortedPlayers[j+1] = tempScan;
                     }
+                    else{
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
+                    }
                 }
             }
         }
@@ -1087,7 +1091,7 @@ public class Player {
         for (int i = 0; i < 5; i++) {
             if (point <= 0)
                 point = 1;
-            if (playersDamage[sortedPlayer[i]][1] != 0) {
+            if (sortedPlayer[i]!= -1 && playersDamage[sortedPlayer[i]][1] != 0) {
                 points[sortedPlayer[i]] = point;
                 if (playersDamage[sortedPlayer[i]][0] == 1)
                     points[sortedPlayer[i]]++;
