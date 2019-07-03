@@ -22,7 +22,7 @@ public class RmiServer {
 
         int player = 0;
         BiController[] remoteBiCon = new BiController[5];
-        Player[] players = new Player[5];
+        Player[] players = new Player[2];
         PowerupDeck pwrd = new PowerupDeck();
 
         //BiController remoteBiCon = new BiController(player);
