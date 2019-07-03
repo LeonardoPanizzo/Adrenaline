@@ -41,6 +41,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private boolean[] respawnturn;
     private Player attacker=null;
     private Player finalplayer=null;
+    private int [] myplayers = {6, 6, 6, 6, 6};
+    private int counter = 0;
+
+
 
     //todo:qui è la parte di gestione del server più chatter
     public BiController(int spec) throws RemoteException {
@@ -109,6 +113,22 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         System.out.println(new Date(System.currentTimeMillis()));
         System.out.println(details[0] + " has joined the chat session");
         System.out.println(details[0] + "'s hostname : " + details[1]);
+
+        counter++;
+        System.out.println(counter);
+
+        /*
+        boolean loop = true;
+        while (loop)
+        for(int i = 0 ; i<=4; i++){
+            if(myplayers[i] == 6){
+                myplayers[i] = i;
+                this.specificuser=myplayers[i];
+                System.out.println(this.specificuser);
+                break;
+            }
+        }*/
+
         //System.out.println(details[0] + "'sRMI service : " + details[2]);
         //registerChatter(details);
     }
@@ -908,6 +928,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public void spreadinfo(int specificuser){
+        /*
         for(int i=0;i<players.length;i++) {
             if(i!=specificuser) {
                 specialturn[i] = true;
@@ -918,7 +939,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
             do {
                 //waits until the user i got his information
             } while (specialturn[i] == true);
-        }
+        }*/
     }
 
     public boolean grabWeapon(int specificuser, WeaponCard weapon){
@@ -983,7 +1004,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public Player[] getPlayers() {
-        return players;
+        return this.players;
     }
 
     public int getNumber(){
