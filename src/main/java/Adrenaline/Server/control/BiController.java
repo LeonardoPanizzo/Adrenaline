@@ -1008,7 +1008,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     }
 
     public int getNumber(){
-        return specificuser;
+        return counter;
     }
 
     public void setPlayers(Player[] p) {
