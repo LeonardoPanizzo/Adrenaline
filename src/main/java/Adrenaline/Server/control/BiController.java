@@ -42,7 +42,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     private Player attacker=null;
     private Player finalplayer=null;
     private int [] myplayers = {6, 6, 6, 6, 6};
-    private int counter = 0;
+    private int counter = -1;
 
 
 
