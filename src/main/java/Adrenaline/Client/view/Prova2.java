@@ -13,6 +13,7 @@ public class Prova2 {
 
     public static void setName() {
         players[0].setName("Miriam");
+        players[1].setName("Andrea");
         players[2].setName("leo");
         players[3].setName("paolo");
         players[4].setName("rani");

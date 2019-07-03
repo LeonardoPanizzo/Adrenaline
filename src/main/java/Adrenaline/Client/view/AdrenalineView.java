@@ -29,6 +29,12 @@ public class AdrenalineView extends Application {
     //    this.yourID = me.getNumber();
     //}
 
+    private Label firstPlay;
+    private Label secondPlay;
+    private Label thirdPlay;
+    private Label fourthPlay;
+    private Label fifthPlay;
+
     private Label actualDeath;
     private Label actualDeath2;
     private Label actualDeath3;
@@ -36,6 +42,7 @@ public class AdrenalineView extends Application {
     private Label actualDeath5;
 
     private int lastCount = 0;
+    private Player[] playersEnd;
 
     private int[] totalScore;
 
@@ -102,7 +109,7 @@ public class AdrenalineView extends Application {
     private Button bxx2yy2;
     private Button bxx2yy3;
 
-    private int[][] playersDamage;
+    private int[][] damagesOnBoard;
 
     private Button gxx0yy0;
     private Button gxx0yy1;
@@ -330,13 +337,13 @@ public class AdrenalineView extends Application {
 
         player = new Label();
 
-        player1 = new Label("You");
+        player1 = new Label("Player 1");
         player2 = new Label("Player 2");
         player3 = new Label("Player 3");
         player4 = new Label("Player 4");
         player5 = new Label("Player 5");
 
-        playArray = new Label[]{player2, player3, player4, player5};
+        playArray = new Label[]{player1, player2, player3, player4, player5};
 
         sxx0yy2 = new Button("Show Weapons");
         sxx1yy0 = new Button("Show Weapons");
@@ -409,7 +416,7 @@ public class AdrenalineView extends Application {
         Label insert = new Label("Insert User Name");
         insert.setFont(Font.font("", FontWeight.BOLD, 12));
         insert.setTextFill(Color.BLACK);
-        username.getChildren().addAll(insert, user);
+        //username.getChildren().addAll(insert, user);
         rootNode.getChildren().add(username);
 
         Button btn = new Button("Play");
@@ -421,22 +428,58 @@ public class AdrenalineView extends Application {
         rootNode = new StackPane();
         Scene secondScene = new Scene(rootNode, 1000, 600);
 
+        //scena finale
+        StackPane lastScreenSee = new StackPane();
+        Scene lastScreen = new Scene(lastScreenSee);
+        Image endBack = new Image(AdrenalineView.class.getResource("/lobbyback.jpg").toExternalForm());
+        ImageView endBackground = new ImageView(endBack);
+        firstPlay= new Label();
+        secondPlay= new Label();
+        thirdPlay= new Label();
+        fourthPlay= new Label();
+        fifthPlay= new Label();
+        firstPlay.setTextFill(Color.YELLOW);
+        firstPlay.setFont(Font.font("", FontWeight.BOLD, 20));
+
+        secondPlay.setTextFill(Color.GRAY);
+        secondPlay.setFont(Font.font("", FontWeight.BOLD, 20));
+
+        thirdPlay.setTextFill(Color.GREEN);
+        thirdPlay.setFont(Font.font("", FontWeight.BOLD, 20));
+
+        fourthPlay.setTextFill(Color.VIOLET);
+        fourthPlay.setFont(Font.font("", FontWeight.BOLD, 20));
+
+        fifthPlay.setTextFill(Color.LIGHTBLUE);
+        fifthPlay.setFont(Font.font("", FontWeight.BOLD, 20));
+
+        Label endGame = new Label("GAME END");
+        endGame.setTextFill(Color.FIREBRICK);
+        endGame.setFont(Font.font("", FontWeight.BOLD, 30));
+
+        VBox end = new VBox(15);
+        end.setAlignment(Pos.CENTER);
+        end.getChildren().addAll(endGame, firstPlay, secondPlay, thirdPlay, fourthPlay, fifthPlay);
+        lastScreenSee.getChildren().add(endBackground);
+        lastScreenSee.getChildren().add(end);
+
+
         user.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
-                playerName = user.getText();
+                //playerName = user.getText();
                 me.setName(playerName);
                 primaryStage.setScene(secondScene);
-                player1.setText(playerName);
+                //player1.setText(playerName);
             }
         });
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                playerName = user.getText();
+                //playerName = user.getText();
                 primaryStage.setScene(secondScene);
-                player1.setText(playerName);
+                //player1.setText(playerName);
             }
         });
 
@@ -453,7 +496,7 @@ public class AdrenalineView extends Application {
         player4.setTextFill(Color.VIOLET);
         player4.setFont(Font.font("", FontWeight.BOLD, 20));
 
-        player5.setTextFill(Color.BLUE);
+        player5.setTextFill(Color.LIGHTBLUE);
         player5.setFont(Font.font("", FontWeight.BOLD, 20));
         lobby.setAlignment(Pos.CENTER);
         lobby.getChildren().addAll(player1, player2, player3, player4, player5);
@@ -468,22 +511,21 @@ public class AdrenalineView extends Application {
         rootNode.getChildren().add(lobbybackground);
         rootNode.getChildren().addAll(lobby, waiting);
 
-
-
         rootNode = new StackPane();
         Scene boardScene = new Scene(rootNode, 1000, 600);
 
-        //si va avanti temporaneamente con click del mouse
         secondScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
                 count += me.getClickCount();
-                int k=0;
+                int k=1;
                 for(int i =0; i<playersInGame.length; i++){
                     if(playersInGame[i] != null && yourID != playersInGame[i].getNumber()) {
                         playArray[k].setText(playersInGame[i].getName());
                         k++;
                     }
+                    else
+                        playArray[0].setText(playersInGame[i].getName());
                 }
                 if (count == 1)
                     wait.setText("Al players are ready. Click to Play");
@@ -1109,6 +1151,24 @@ public class AdrenalineView extends Application {
                     }
                 }
                 //set final screen
+                //todo da eliminare
+                for(int i = 0; i<playersInGame.length; i++){
+                    playersInGame[i].setFinalRound(true);
+                    playersInGame[i].setFinalRoundDone(true);
+                    System.out.println("is final round setting: player "+i+" -> "+playersInGame[i].isFinalRoundDone());
+                }
+                board.setSkulls(0);
+                board.setSkulls(0);
+                board.setSkulls(0);
+                board.setSkulls(1);
+                board.setSkulls(1);
+                board.setSkulls(2);
+                board.setSkulls(3);
+                board.setSkulls(4);
+
+
+                lastCount=0;
+                finalRoundCounter=0;
                 for(int i=0; i<playersInGame.length; i++){
                     if(playersInGame[i]!=null) {
                         lastCount++;
@@ -1116,14 +1176,45 @@ public class AdrenalineView extends Application {
                             finalRoundCounter++;
                     }
                 }
+
                 if(lastCount==finalRoundCounter){
-                    //todo calcolare i punteggi finali.
                     int[] points = givePoints();
                     for(int i = 0; i<playersInGame.length; i++){
                         playersInGame[i].setScore(points[i]);
                     }
+
+                    playersEnd = new Player[playersInGame.length];
+                    int playIndex;
+                    int countIndex = 1;
                     //todo ordinare per punteggio maggiore
-                    //lanciare schermata finale
+                    for (int i =0; i<playersInGame.length; i++){
+                        playIndex = 0;
+                        for(int j=0; j<playersInGame.length; j++){
+                            if(playersInGame[i].getScore()<playersInGame[j].getScore())
+                                playIndex++;
+                        }
+                        if(playersEnd[playIndex]!=null) {
+                            playersEnd[playIndex+countIndex] = playersInGame[i];
+                            countIndex++;
+                            System.out.println("Players: "+playersEnd[playIndex+countIndex-1].getName()+" in position "+(playIndex+countIndex-1));
+                        }
+                        else {
+                            playersEnd[playIndex] = playersInGame[i];
+                            System.out.println("Players: "+playersEnd[playIndex].getName()+" in position "+playIndex);
+                        }
+                    }
+                    //end screen
+                    if(playersEnd[0] != null)
+                        firstPlay.setText("1° -> "+playersEnd[0].getName()+" with "+playersEnd[0].getScore()+" points");
+                    if(playersEnd[1] != null)
+                        secondPlay.setText("2° -> "+playersEnd[1].getName()+" with "+playersEnd[1].getScore()+" points");
+                    if(playersEnd[2] != null)
+                        thirdPlay.setText("3° -> "+playersEnd[2].getName()+" with "+playersEnd[2].getScore()+" points");
+                    if(playersEnd[3] != null)
+                        fourthPlay.setText("4° -> "+playersEnd[3].getName()+" with "+playersEnd[3].getScore()+" points");
+                    if(playersEnd[4] != null)
+                        fifthPlay.setText("5° -> "+playersEnd[4].getName()+" with "+playersEnd[4].getScore()+" points");
+                    primaryStage.setScene(lastScreen);
                 }
 
             }
@@ -20638,10 +20729,8 @@ public class AdrenalineView extends Application {
         for (int i = 0; i < 5; i++) {
             if (point <= 0)
                 point = 1;
-            if (playersDamage[sortedPlayer[i]][1] != 0) {
+            if (sortedPlayer[i] != -1 && damagesOnBoard[sortedPlayer[i]][1] != 0) {
                 points[sortedPlayer[i]] = point;
-                if (playersDamage[sortedPlayer[i]][0] == 1)
-                    points[sortedPlayer[i]]++;
             }
             point -= 2;
         }
@@ -20650,7 +20739,9 @@ public class AdrenalineView extends Application {
 
     public int[] sortingPlayers(){
         int[] sortedPlayers = new int[] {-1, -1, -1, -1, -1};
-        int[][] damagesOnBoard = new int[][]{{-1,0},{-1,0},{-1,0},{-1,0},{-1,0}};
+        damagesOnBoard = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
+        for(int i = 0; i<damagesOnBoard.length; i++)
+            System.out.println("Valoriii: "+damagesOnBoard[i][0]);
         for(int i = 0; i<board.getSkulls().size(); i++){
             if(board.getSkulls().get(i)==0)
                 damagesOnBoard[0][1]++;
@@ -20663,32 +20754,34 @@ public class AdrenalineView extends Application {
             else if(board.getSkulls().get(i)==4)
                 damagesOnBoard[4][1]++;
         }
-        damagesOnBoard[0][0] = board.getSkulls().get(0);
-        for(int i = 1; i<board.getSkulls().size(); i++){
-            for(int j=0; j<i; j++){
-                if(damagesOnBoard[j][0]==board.getSkulls().get(i))
-                    break;
-                else
-                    damagesOnBoard[i][0]=board.getSkulls().get(i);
+        int b = 1;
+        for(int i = 0; i<board.getSkulls().size(); i++){
+            if(damagesOnBoard[board.getSkulls().get(i)][0] == -1) {
+                damagesOnBoard[board.getSkulls().get(i)][0] = b;
+                b++;
             }
         }
 
-        playersDamage = damagesOnBoard;
+        for(int i =0; i<5; i++)
+            System.out.println("Order: "+damagesOnBoard[i][0]);
+        for(int i =0; i<5; i++)
+            System.out.println("Damage: "+damagesOnBoard[i][1]);
+
         sortedPlayers[0] = 0;
         int memScan;
         for(int i=1; i<5; i++){
             int tempScan = i;
             for(int j=0; j<i; j++) {
                 if (sortedPlayers[j] != -1){
-                    if (playersDamage[tempScan][1] > playersDamage[sortedPlayers[j]][1]){
+                    if (damagesOnBoard[tempScan][1] > damagesOnBoard[sortedPlayers[j]][1]){
                         memScan = sortedPlayers[j];
                         sortedPlayers[j] = tempScan;
                         tempScan = memScan;
                         if(sortedPlayers[j+1] == -1)
                             sortedPlayers[j+1] = tempScan;
                     }
-                    else if (playersDamage[tempScan][1] == playersDamage[sortedPlayers[j]][1]){
-                        if (playersDamage[sortedPlayers[j]][0] > playersDamage[i][0]){
+                    else if (damagesOnBoard[tempScan][1] == damagesOnBoard[sortedPlayers[j]][1]){
+                        if (damagesOnBoard[sortedPlayers[j]][0] > damagesOnBoard[i][0]){
                             memScan = sortedPlayers[j];
                             sortedPlayers[j] = tempScan;
                             tempScan = memScan;
@@ -20697,9 +20790,15 @@ public class AdrenalineView extends Application {
                         if(sortedPlayers[j+1] == -1)
                             sortedPlayers[j+1] = tempScan;
                     }
+                    else{
+                        if(sortedPlayers[j+1] == -1)
+                            sortedPlayers[j+1] = tempScan;
+                    }
                 }
             }
         }
+        for(int i = 0; i< sortedPlayers.length; i++)
+            System.out.println(sortedPlayers[i]);
         return sortedPlayers;
     }
 }
