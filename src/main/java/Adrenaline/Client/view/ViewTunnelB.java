@@ -639,8 +639,11 @@ public class ViewTunnelB {
         this.board=serverIF.getBoard();
         Player[] ps= new Player[5];             //support for variable players
         try {
+            System.out.println("aaa1");
             Player[] users = serverIF.getPlayers();   //all the players
+            System.out.println("aaa2");
             for (int i = 0; i < users.length; i++) {
+                System.out.println("bbb"+i);
                 if (users[i].getNumber() != number) {
                     ps[i] = users[i];
                 } else {
