@@ -1028,6 +1028,21 @@ public class Player {
         }
     }
 
+    public void receivedDamagesNoMarks(Player player) {        //player is the one who makes the damage
+        if (this.life >= 0) {
+            int damageCounter = 1;
+            if (playersDamage[player.getNumber()][0] == -1) {
+                for (int i = 0; i < 5; i++) {
+                    if (playersDamage[i][0] != -1)
+                        damageCounter++;
+                }
+                playersDamage[player.getNumber()][0] = damageCounter;
+            }
+            playersDamage[player.getNumber()][1]++;
+            this.life--;
+        }
+    }
+
     /**
      * The players who made damage are sorted from the one with higher damage to the one with the less one.
      * When two or more player has the same damage, the first one who made damage is the one that will received

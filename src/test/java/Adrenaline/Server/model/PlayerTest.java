@@ -99,14 +99,14 @@ public class PlayerTest {
         player.setLife(11);
         int [] marksReceived = new int[]{0, 0, 0, 2, 0};
         player.setMarksReceived(player3, 2);
-        player.receivedDamages(player3);
+        player.receivedDamagesNoMarks(player3);
         life = player.getLife();
         playersDamage = player.getPlayersDamage();
 
-        assertEquals(8, life, "Player's Life isn't correct");
+        assertEquals(10, life, "Player's Life isn't correct");
         assertEquals(1, playersDamage[3][0], "Order of player 4 isn't correct");
-        assertEquals(3, playersDamage[3][1], "Total player 4 damage isn't correct");
-        assertEquals(0, player.getMarksReceived()[3], "Marks are not updated");
+        assertEquals(1, playersDamage[3][1], "Total player 4 damage isn't correct");
+        assertEquals(2, player.getMarksReceived()[3], "Marks are not updated");
 
         player.receivedDamages(player1);
         player.receivedDamages(player3);
