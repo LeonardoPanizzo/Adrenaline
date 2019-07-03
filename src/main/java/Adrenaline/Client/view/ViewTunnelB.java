@@ -27,6 +27,7 @@ public class ViewTunnelB {
     private Player p;           //the player of the user
     private Player[] players;   //all the others players
     private int number;         //number of the user, indicates his turn and which player he is
+    private int info=0;         //if the value on the server is higher that this update info
 
 
     /**
@@ -637,6 +638,7 @@ public class ViewTunnelB {
 
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
+        System.out.println(this.board.myToString());
         Player[] ps= new Player[5];             //support for variable players
         //try {
             System.out.println("aaa1");
@@ -666,39 +668,52 @@ public class ViewTunnelB {
         boolean gotInfo=false;
         boolean donerespawn=false;
         this.number=serverIF.getNumber();
+        System.out.println("my number is "+number);
         do{
-
+            System.out.println("waiting "+number);
         }while(!serverIF.isReady());
         if(number==0){
+            System.out.println("setting board"+number);
             this.setBoard();
+            System.out.println("spreding info1"+number);
+            serverIF.spreadinfo();
+            System.out.println("spreding info2"+number);
         }
-        serverIF.spreadinfo(number);
+        //updateInfo();
         do{
             if(number==0){
+                System.out.println("here1");
                 this.updateInfo();
             }
-            if(serverIF.getSpecialturn(number)){
+            if(serverIF.getSpecialturn()>info){
+                System.out.println("here2");
                 this.updateInfo();
+                info=serverIF.getSpecialturn();
             }
             if(this.board!=null && this.players!=null){
+                System.out.println("here3");
                 gotInfo=true;
-                serverIF.setSpecialturn(number);
+                //serverIF.setSpecialturn(number);
             }
+            System.out.println("here4");
         }while(!gotInfo);
+        System.out.println("here5");
         gotInfo=false;
         Scanner keyboard= new Scanner(System.in);
         char c;
         //todo chiedere GUI o CLI
         do{
-            if(serverIF.isMyturn(number) && !serverIF.getSpecialturn(number)){  //tipical turn
+            System.out.println("here6");
+            if(serverIF.getTurn()%2==number && serverIF.getSpecialturn()==info){  //tipical turn
+                System.out.println("here7");
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
                 c=keyboard.next().charAt(0);
                 switch(c){
                     case '0':
-                        System.out.println(board.myToString());
-                        System.out.println(p.completeString());
+                        System.out.println(this.board.myToString());
+                        System.out.println(this.p.completeString());
                         for(int i=0; i<players.length; i++){
-                            System.out.println(players[i].toString());
+                            System.out.println(this.players[i].toString());
                         }
                         break;
                     case '1':
@@ -724,10 +739,11 @@ public class ViewTunnelB {
                     }
                     serverIF.endturn(number);
                 }
-                serverIF.spreadinfo(number);  //after each action all the players get the information
+                serverIF.spreadinfo();  //after each action all the players get the information
                 this.updateInfo();
             }
-            if(serverIF.getDefense(number)){    //when this player can use tagback grenade
+            if(serverIF.getDefense()==number){    //when this player can use tagback grenade
+                System.out.println("here8");
                 System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
                 c=keyboard.next().charAt(0);
                 if(c=='y'){
@@ -735,11 +751,13 @@ public class ViewTunnelB {
                 }
                 serverIF.setDefense(number);
             }
-            if(serverIF.getSpecialturn(number)){    //it's time to get info
+            if(serverIF.getSpecialturn()>info){    //it's time to get info
+                System.out.println("here9");
                 this.updateInfo();
-                serverIF.setSpecialturn(number);
+                info=serverIF.getSpecialturn();
             }
-            if(serverIF.getRespawnturn(number)){
+            if(serverIF.getRespawnturn()==number){
+                System.out.println("here10");
                 do {
                     donerespawn=respawn();
                 }while(!donerespawn);
@@ -748,7 +766,7 @@ public class ViewTunnelB {
             }
         }while(!board.isFinalRound());
         do{
-            if(serverIF.getOnetogo()==number){
+            if(serverIF.getTurn()%2==number){
                 if(number>serverIF.finalplayernumber()){
                     System.out.println("\nWhat final actions you want to make?\n0.print info\n1.move\n2.move and grab\n3.move, reload and shoot\n4.use powerup\n");
                     c=keyboard.next().charAt(0);
@@ -800,15 +818,15 @@ public class ViewTunnelB {
                     if (number == serverIF.finalplayernumber()) {
                         //serverIF.endall();
                     }else{
-                        serverIF.endfinalturn(number);
+                        serverIF.endturn(number);
                     }
                 }
             }
-            if(serverIF.getSpecialturn(number)){    //it's time to get info
+            if(serverIF.getSpecialturn()>info){    //it's time to get info
                 this.updateInfo();
-                serverIF.setSpecialturn(number);
+                info=serverIF.getSpecialturn();
             }
-            if(serverIF.getDefense(number)){    //when this player can use tagback grenade
+            if(serverIF.getDefense()==number){    //when this player can use tagback grenade
                 System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
                 c=keyboard.next().charAt(0);
                 if(c=='y'){
@@ -816,7 +834,7 @@ public class ViewTunnelB {
                 }
                 serverIF.setDefense(number);
             }
-            if(serverIF.getRespawnturn(number)){
+            if(serverIF.getRespawnturn()==number){
                 do {
                     donerespawn=respawn();
                 }while(!donerespawn);
