@@ -121,6 +121,14 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
         counter++;
         System.out.println(counter);
+        if(counter>=1){
+            Player[] ps=new Player[2];
+            PowerupDeck pwr=new PowerupDeck();
+            for(int i=0; i<counter; i++){
+                ps[i]=new Player(i,pwr);
+            }
+            setPlayers(ps);
+        }
 
         /*
         boolean loop = true;
@@ -1017,8 +1025,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         return this.board;
     }
 
-    public Player[] getPlayers() {
-        return this.players;
+    public Player getPlayers(int i) {
+        return this.players[i];
     }
 
     public int getNumber(){
