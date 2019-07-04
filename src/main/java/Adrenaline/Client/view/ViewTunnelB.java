@@ -717,6 +717,8 @@ public class ViewTunnelB implements Serializable{
                 switch(c){
                     case '0':
                         System.out.println(this.board);//.myToString()); //così printa oggetto
+                        String x = serverIF.myToBoard();
+                        System.out.println(x);
                         System.out.println(this.p.completeString());
                         System.out.println("---> " + players.length);
                         for(int i=0; i<players.length; i++){ //                        for(int i=0; i<players.length; i++){

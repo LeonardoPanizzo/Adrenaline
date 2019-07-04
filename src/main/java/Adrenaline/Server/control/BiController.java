@@ -999,6 +999,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         specialturn=specialturn+1;
     }
 
+    public String myToBoard(){return board.myToString();}
+
     public Board getBoard() {
         return this.board;
     }

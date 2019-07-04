@@ -22,6 +22,7 @@ public interface RemoteBiCon extends Remote {
 
     //void setBoard()throws RemoteException;
 
+    String myToBoard() throws RemoteException;
 
 
     void spreadinfo()throws RemoteException;
