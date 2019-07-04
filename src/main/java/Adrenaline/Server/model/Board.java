@@ -152,6 +152,17 @@ public class Board implements Serializable {
         return this.skulls;
     }
 
+    public void setSkullVector(Vector<Integer>s){
+        this.skulls=s;
+    }
+
+    public void setBoard(Position[][] b){
+        this.board=b;
+    }
+
+    public void setVariation(int x){
+        this.variation=x;
+    }
 
     /**
      * substitutes -1 with the player's id who did the last kill
