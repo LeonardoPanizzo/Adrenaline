@@ -541,7 +541,6 @@ public class ViewTunnelB implements Serializable{
                 moveplayer( 1, true);
             }
         }
-        //todo: shoot restituisce boolean per dire se l'attacco è andato a segno, se non lo è il giocatore torna nella posizione di partenza
         shoot();
     }
 
@@ -673,24 +672,16 @@ public class ViewTunnelB implements Serializable{
         this.board.setBoard(a);
         this.board.setSkullVector(bb);
         if(board==null){
-            System.out.println("errrrror");
+            System.out.println("Board not ready");
         }else{
-            System.out.println(board);//myToString());     //todo: qui è dove lancia null pointer exception
+            System.out.println(board.myToString());
         }
         Player[] ps= new Player[5];             //support for variable players
-        //try {
-        System.out.println("aaa1");
         Player[] users = new Player[3];//serverIF.getPlayers();   //all the players
         for(int i=0; i<3; i++){
-            System.out.println("index: " + i);
             users[i]=serverIF.getPlayers(i);
-            System.out.println("USERS: " + users[i]);
-            System.out.println("GET: " + serverIF.getPlayers(1));
-
         }
-        System.out.println("aaa2");
         for (int i = 0; i < 3; i++) { //users.length
-            System.out.println("bbb"+i);
             if (users[i].getNumber() != number) {
                 ps[i] = users[i];
             } else {
@@ -699,10 +690,6 @@ public class ViewTunnelB implements Serializable{
             }
         }
         players = ps;
-        System.out.println(users[0]);
-       // }catch(Exception e){
-       //     System.out.println("error");
-        //}
     }
 
     public void movefinal2() {
@@ -716,21 +703,13 @@ public class ViewTunnelB implements Serializable{
         this.number = serverIF.getNumber();
         System.out.println("my number is " + number);
         do {
-            System.out.println("waiting " + number);
+
         } while (!serverIF.isReady());
         if (number == 0) {
-            System.out.println("setting board" + number);
             this.setBoard();
-            System.out.println("spreding info1" + number);
             serverIF.spreadinfo();
-            System.out.println("spreding info2" + number);
         }
-        //updateInfo();
         do {
-            /*if(number==0){
-                System.out.println("here1");
-                this.updateInfo();
-            }*/
             if (serverIF.getSpecialturn() > info) {
                 System.out.println("here2");
                 this.updateInfo();
@@ -739,7 +718,6 @@ public class ViewTunnelB implements Serializable{
             if (this.board != null && this.players != null) {
                 System.out.println("here3");
                 gotInfo = true;
-                //serverIF.setSpecialturn(number);
             }
             System.out.println("here4");
         } while (!gotInfo);
@@ -748,7 +726,7 @@ public class ViewTunnelB implements Serializable{
         Scanner keyboard = new Scanner(System.in);
         char c;
         do {
-            System.out.println("Do you want to sue gui?");
+            System.out.println("Do you want to use GUI?");
             c = keyboard.next().charAt(0);
         } while (c != 'y' && c != 'n');
         if (c == 'n') {
@@ -757,24 +735,17 @@ public class ViewTunnelB implements Serializable{
                 done = this.respawn();
             } while (!done);
             do {
-                System.out.println("here6");
                 System.out.println(board.myToString());
                 if (serverIF.getTurn() % 2 == number && serverIF.getSpecialturn() == info) {  //tipical turn
-                    System.out.println("here7");
                     if (p.getAction() > 0) {
                         System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
                         c = keyboard.next().charAt(0);
                         switch (c) {
                             case '0':
-                                System.out.println(this.board);//.myToString()); //così printa oggetto
-                                String x = serverIF.myToBoard();
-                                System.out.println(x);
+                                System.out.println(this.board.myToString());
                                 System.out.println(this.p.completeString());
-                                System.out.println("---> " + players.length);
-                                for (int i = 0; i < players.length; i++) { //                        for(int i=0; i<players.length; i++){
-                                    //System.out.println(this.players[i].toString());
-                                    System.out.println(this.players[i]);//.toString());
-                                    //System.out.println(this.players[1].toString());
+                                for (int i = 0; i < players.length; i++) {
+                                    System.out.println(this.players[i].toString());
                                 }
                                 break;
                             case '1':
@@ -805,7 +776,6 @@ public class ViewTunnelB implements Serializable{
                     this.updateInfo();
                 }
                 if (serverIF.getDefense() == number) {    //when this player can use tagback grenade
-                    System.out.println("here8");
                     System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
                     c = keyboard.next().charAt(0);
                     if (c == 'y') {
@@ -814,12 +784,10 @@ public class ViewTunnelB implements Serializable{
                     serverIF.setDefense(number);
                 }
                 if (serverIF.getSpecialturn() > info) {    //it's time to get info
-                    System.out.println("here9");
                     this.updateInfo();
                     info = serverIF.getSpecialturn();
                 }
                 if (serverIF.getRespawnturn() == number) {
-                    System.out.println("here10");
                     do {
                         donerespawn = respawn();
                     } while (!donerespawn);
@@ -858,7 +826,6 @@ public class ViewTunnelB implements Serializable{
                         c = keyboard.next().charAt(0);
                         switch (c) {
                             case '0':
-                                System.out.println(board.myToString());
                                 System.out.println(board.myToString());
                                 System.out.println(p.completeString());
                                 for (int i = 0; i < players.length; i++) {
