@@ -111,18 +111,36 @@ public class ViewTunnelB implements Serializable{
         return positions;
     }
 
+    private PowerupCard getPlayersinglepowerup(){
+        PowerupCard[] owned = p.getPowerup();
+        Scanner keyboard = new Scanner(System.in);
+        char c;
+        int i=9;
+        for (int j = 0; j < 3; j++) {
+            System.out.println(j + ". " + owned[j].getName() +" "+owned[j].getColour()+ "\n");
+        }
+        do {
+            System.out.println("Select the powerup you want to use, n to stop\n");
+            c = keyboard.next().charAt(0);
+            if (c >= '0' && c <= '2') {
+                i=Character.getNumericValue(c);
+            }
+        } while (i==9);
+        return owned[i];
+    }
+
     /**
      * return the powerups the player wants to use in a payment
      *
      * @return
      */
     private PowerupCard[] getplayerpowerup() {
-        PowerupCard[] selected = new PowerupCard[3];
+        PowerupCard[] selected;
         PowerupCard[] owned = p.getPowerup();
         boolean correctinput = true;      //used to checks if the user insert the same powerup twice
         Scanner keyboard = new Scanner(System.in);
         for (int j = 0; j < 3; j++) {
-            System.out.println(j + ". " + owned[j].getName() + "\n");
+            System.out.println(j + ". " + owned[j].getName() + " "+owned[j].getColour()+"\n");
         }
         int i = 0;
         char c;
@@ -143,6 +161,7 @@ public class ViewTunnelB implements Serializable{
                 correctinput = choosen[j] != choosen[j + 1];
             }
         }
+        selected=new PowerupCard[i];
         for (int j = 0; j < i && correctinput; j++) {
             selected[j] = owned[choosen[j]];
         }
@@ -342,18 +361,16 @@ public class ViewTunnelB implements Serializable{
         if (p.isFirstRound()) {  //If it is the first turn the player needs to pickup two card, only one it is a normal respawn
             p.drawPowerup();
         }
-        PowerupCard[] pwr;
+        PowerupCard pwr;
         Position[] position;
-        do {
-            System.out.println("You need to select one power up that you want to use\n");
-            pwr = getplayerpowerup();
-        } while (pwr.length != 1);
+        System.out.println("You need to select one power up that you want to use\n");
+        pwr = getPlayersinglepowerup();
         do {
             System.out.println("You need to select one position\n");
             position = getplayermovement();
         } while (position.length != 1);
         try {
-            done=serverIF.respawn(number, pwr[0], position[0]);
+            done=serverIF.respawn(number, pwr, position[0]);
         }catch(Exception e){
             System.out.println("there is a problem in the connection with the server");
         }
@@ -722,11 +739,14 @@ public class ViewTunnelB implements Serializable{
         Scanner keyboard= new Scanner(System.in);
         char c;
         //todo chiedere GUI o CLI
-        this.respawn();
+        boolean done=false;
+        do {
+            done=this.respawn();
+        }while(!done);
         do{
             System.out.println("here6");
             System.out.println(board.myToString());
-            if(serverIF.getTurn()%2==number && serverIF.getSpecialturn()==info){  //tipical turn
+            if(serverIF.getTurn()%2==number && serverIF.getSpecialturn()==info && p.getAction()>0){  //tipical turn
                 System.out.println("here7");
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
                 c=keyboard.next().charAt(0);
