@@ -18,6 +18,20 @@ public class Position implements Serializable {
     private Vector<Player> players;
 
     //because positions are fixed they will be red from a file each time, the file will call the constructor
+
+    /**
+     * Costructor for position. This object is created by reading a JSon file. A position is composed by coordinates,
+     * the room's color, doors. It also could be a respawn point (and so it can access to the weapon deck) or no; in
+     * this second case, a position has an Ammo card on itself.
+     *
+     * @param i the x coordinate
+     * @param j the y coordinate
+     * @param room color to know in which room we are
+     * @param door boolean value to know if there are doors in the position
+     * @param respawnPoint to know if we can grab ammunition or weapons
+     * @param deckAmmo deck with all weapon cards
+     * @param deckWeapon deck with all ammo cards
+     */
     public Position(int i, int j, char room, boolean door, boolean respawnPoint, AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
         matr[0]=i;
@@ -41,6 +55,7 @@ public class Position implements Serializable {
         }
     }
 
+    //todo: leo. non sapendo a cosa serve lascio la javadoc di questo metodo a te
     public Position(SupportPosition p1,AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
         matr[0]=p1.geti();
@@ -64,43 +79,91 @@ public class Position implements Serializable {
         }
     }
 
+    /**
+     * Method to have access to weapon deck
+     *
+     * @return the weapon deck
+     */
     public WeaponDeck getWeaponDeck() {
         return weaponDeck;
     }
 
+    /**
+     * Method to have access to ammo deck
+     *
+     * @return the ammo deck
+     */
     public AmmoDeck getAmmoDeck() {
         return ammoDeck;
     }
 
-    //todo this metod should be removed (only test use)
+    /**
+     * Method used in test to test the possibility to take an ammo card.
+     *
+     * @param ammo ammo to give to position
+     */
     public void setAmmo(AmmoCard ammo) {
         this.ammo = ammo;
     }
 
+    /**
+     * Method to see the ammo card present in position
+     *
+     * @return the ammo card
+     */
     public AmmoCard getAmmo() {
         return ammo;
     }
 
+    /**
+     * Method to see in which room the position is.
+     *
+     * @return color of the room
+     */
     public char getRoom(){
         return room;
     }
 
+    /**
+     * Method to see if one or more doors are present in position.
+     *
+     * @return true if one door at least is present
+     */
     public boolean isDoor(){
         return door;
     }
 
+    /**
+     * Method to see the position's coordinates.
+     *
+     * @return an array with position's coordinate
+     */
     public int[] getCoordinate() {
         return matr;
     }
 
+    /**
+     * Method to remove a player that was in this position, but now he moves away.
+     *
+     * @param x player to remove
+     */
     public void deletePlayer(Player x){
         players.remove(x);
     }
 
+    /**
+     * Method to add a player that has moved on this position.
+     *
+     * @param x player to add to position
+     */
     public void setPlayer(Player x){
         players.add(x);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRespawnPoint() {
         return respawnPoint;
     }
@@ -209,10 +272,6 @@ public class Position implements Serializable {
         }
         return done;
     }
-
-    //return AmmoTile to the player and replace the returned one with a new one
-    // todo AmmoTile must be analized to see if the player get a power up or just munitions, will this be done in the action class?
-    //yes, ammo and powerup are seen in the Player's methot Action() [Andrea]
 
     public AmmoCard pickUpAmmo(){
         AmmoCard a=ammo;

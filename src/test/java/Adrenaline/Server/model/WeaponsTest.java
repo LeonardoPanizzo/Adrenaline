@@ -25,7 +25,7 @@ public class WeaponsTest {
         p1.setFirstPosition(pos);
         char[] ammoSel = new char[] {'r'};
         Player[] players = {p1};
-        p0.grabWeaponCard(weapon,ammoSel);
+        p0.grabWeaponCard(weapon);
         int[]mode2 = new int[] {0};
 
         //mode2 = {0}
@@ -167,7 +167,7 @@ public class WeaponsTest {
         Player[] players = {};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon,ammoSel);
+        p0.grabWeaponCard(weapon);
         Position[] movePosition = new Position[]{b.getBoard()[0][2]};
         p1.move(movePosition);
         p2.move(movePosition);
@@ -220,7 +220,7 @@ public class WeaponsTest {
         Player[] players = {p1, p2};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
 
         //mode1 = 0 with two squares
         p0.shot(weapon, players, 0, null, squares, null);
@@ -319,7 +319,7 @@ public class WeaponsTest {
         Player[] players = {};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel, payment);
+        p0.grabWeaponCard(weapon, payment);
 
         //mode1 = 0
         p0.shot(weapon, players, 0, null, roomSquares, null);
@@ -374,7 +374,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
 
         //mode2 = {0}, no movement for p1
@@ -471,7 +471,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel, payment);
+        p0.grabWeaponCard(weapon, payment);
 
         p0.shot(weapon, players, -1, null, null, null);
 
@@ -504,7 +504,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon,ammoSel);
+        p0.grabWeaponCard(weapon);
 
         //mode1 = 0
         p0.shot(weapon, players, 0, null, null, payment);
@@ -556,7 +556,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
 
         //mode2 = {0}
@@ -605,7 +605,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
 
         //mode2 = {0}, with only one target
@@ -771,7 +771,7 @@ public class WeaponsTest {
         Position[] move = new Position[]{};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
 
         //mode2 = {0}
@@ -942,7 +942,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
 
         //mode1 = 0
         p0.shot(weapon, players, 0, null, null, null);
@@ -1052,7 +1052,7 @@ public class WeaponsTest {
         Player[] players = {p2};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         p0.setPosition(b.getBoard()[1][1]);
 
         //mode1 = 0
@@ -1175,7 +1175,7 @@ public class WeaponsTest {
         Position[] move = new Position[]{b.getBoard()[1][2], b.getBoard()[0][1]};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, ammoSel);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{1, 0};
 
         //mode2 = {1, 0}, p0 one movement, p1 is moved
@@ -1466,7 +1466,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
         Position[] move = new Position[]{};
         p0.setPosition(b.getBoard()[1][2]);
 
@@ -1549,7 +1549,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
         Position[] move = new Position[]{b.getBoard()[0][1]};
 
         //mode1 = 0, p1 isn't moved
@@ -1600,7 +1600,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
 
         //mode1 = 0
         p0.shot(weapon, players, 0, null, null, null);
@@ -1670,7 +1670,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'b')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
 
         //mode2 = {0}
@@ -1726,7 +1726,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
         int mode1 = 0;
         Position[] movements = new Position[]{b.getBoard()[2][1], b.getBoard()[2][2]};
 
@@ -1839,7 +1839,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'r')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo);
+        p0.grabWeaponCard(weapon);
         int[] mode2 = new int[]{0};
         Position[] movements = new Position[]{b.getBoard()[1][2]};
 
@@ -1945,7 +1945,7 @@ public class WeaponsTest {
         Player[] players = {p1};
         PowerupCard[] payment = new PowerupCard[]{new PowerupCard("Power", 'y')};
         p0.setPowerup(payment);
-        p0.grabWeaponCard(weapon, selAmmo, payment);
+        p0.grabWeaponCard(weapon, payment);
         p0.setPosition(b.getBoard()[1][2]);
 
         //p1 is in the same room in a correct position
