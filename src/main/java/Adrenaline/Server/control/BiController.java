@@ -937,8 +937,10 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         for(int i=0; i<3; i++){
             if(x==i) {
                 players[i].setRound(true);
+                System.out.println("Player "+i+" is round -> "+players[i].isRound());
             }else{
                 players[i].setRound(false);
+                System.out.println("Player "+i+" is round -> "+players[i].isRound());
             }
         }
     }

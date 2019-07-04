@@ -245,6 +245,8 @@ public class AdrenalineView extends Application {
         this.boardNumber = board.getVariation();
 
         this.serverIF = Prova2.serverIF;
+
+        this.me = playersInGame[me.getNumber()];
     }
 
     /**
@@ -1068,6 +1070,8 @@ public class AdrenalineView extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
 
+                me=playersInGame[me.getNumber()];
+
                 try{
                     System.out.println("Dentro try");
                     board.setBoard(serverIF.getPositions());
@@ -1114,6 +1118,9 @@ public class AdrenalineView extends Application {
                 updateAmmoCardValue();
                 updateWeaponValue();
                 System.out.println("Reloading screen");
+                System.out.println("My round: "+me.isRound());
+                System.out.println("I'am the player "+me.getNumber());
+                System.out.println("My round: "+playersInGame[1].isRound());
                 if(me.isRound()){
                     if(me.getLife()>0) {
                         moveBtn.setDisable(false);
@@ -8450,6 +8457,7 @@ public class AdrenalineView extends Application {
 
                     }
                 }
+                playersInGame[me.getNumber()]=me;
 
                 try {
                     me.setRound(false);
