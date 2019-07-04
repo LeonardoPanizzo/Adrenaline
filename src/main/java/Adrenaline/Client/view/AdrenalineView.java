@@ -21,14 +21,6 @@ import javafx.scene.image.*;
 
 public class AdrenalineView extends Application {
 
-    //public AdrenalineView(Board board, Player me, Player[] players){
-    //    this.me = me;
-    //    this.playersInGame = players;
-    //    this.board = board;
-    //    this.boardNumber = board.getVariation();
-    //    this.yourID = me.getNumber();
-    //}
-
     private Label firstPlay;
     private Label secondPlay;
     private Label thirdPlay;
@@ -270,10 +262,6 @@ public class AdrenalineView extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-        ///todo da eliminare
-        me.setRound(true);
-
 
         int[] damagesBy = new int[4];
         int k = 0;
@@ -1109,6 +1097,7 @@ public class AdrenalineView extends Application {
                         moveBtn.setDisable(false);
                         moveAndGrabBtn.setDisable(false);
                         shotBtn.setDisable(false);
+                        endRoundBtn.setDisable(false);
                     }
                     else{
                         respawnBtn.setDisable(false);
@@ -24758,6 +24747,14 @@ public class AdrenalineView extends Application {
                 });
             }
         });
+
+        if(!me.isRound()){
+            moveBtn.setDisable(true);
+            moveAndGrabBtn.setDisable(true);
+            shot.setDisable(true);
+            endRoundBtn.setDisable(true);
+            respawnBtn.setDisable(true);
+        }
     }
 
     /**
