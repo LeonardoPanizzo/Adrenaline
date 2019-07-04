@@ -8,9 +8,8 @@ public class Countdown {
     static Timer timer;
     boolean  off;
 
-    public Countdown() {
+    public Countdown(int seconds) {
 
-        int seconds = 10;
         int delay = 1000;
         int period = 1000;
         timer = new Timer();
