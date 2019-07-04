@@ -237,8 +237,6 @@ public class AdrenalineView extends Application {
         this.me = Prova2.me;
         playersInGame = Prova2.players;
 
-        System.out.println(playersInGame[0]);
-
         this.yourID = me.getNumber();
 
         this.board = Prova2.board;
@@ -1139,6 +1137,8 @@ public class AdrenalineView extends Application {
                         else
                             me.setAction(1);
                     }
+                    else
+                        me.setAction(2);
                 }
 
                 //control to use grenade Power Up
@@ -8437,12 +8437,26 @@ public class AdrenalineView extends Application {
 
                 //replace weaponCards
                 for(int i=0; i<3; i++){
-                    if (board.getBoard()[0][2].showWeapons()[i] == null)
-                        board.getBoard()[0][2].getWeaponDeck().pickUpWeapon();
-                    if (board.getBoard()[1][0].showWeapons()[i] == null)
-                        board.getBoard()[1][0].getWeaponDeck().pickUpWeapon();
-                    if (board.getBoard()[2][3].showWeapons()[i] == null)
-                        board.getBoard()[2][3].getWeaponDeck().pickUpWeapon();
+
+                    System.out.println("Si controlla le armi. i: "+i);
+
+                    if (board.getBoard()[0][2].showWeapons()[i] == null) {
+                        WeaponCard temp = board.getBoard()[0][2].getWeaponDeck().pickUpWeapon();
+                        board.getBoard()[0][2].giveWeapon(temp);
+                        System.out.println(board.getBoard()[0][2].showWeapons()[i].getName());
+                    }
+
+                    if (board.getBoard()[1][0].showWeapons()[i] == null) {
+                        WeaponCard temp = board.getBoard()[1][0].getWeaponDeck().pickUpWeapon();
+                        board.getBoard()[1][0].giveWeapon(temp);
+                        System.out.println(board.getBoard()[1][0].showWeapons()[i].getName());
+                    }
+
+                    if (board.getBoard()[2][3].showWeapons()[i] == null) {
+                        WeaponCard temp = board.getBoard()[2][3].getWeaponDeck().pickUpWeapon();
+                        board.getBoard()[2][3].giveWeapon(temp);
+                        System.out.println(board.getBoard()[2][3].showWeapons()[i].getName());
+                    }
                 }
 
                 //replace ammoCards
@@ -8450,13 +8464,26 @@ public class AdrenalineView extends Application {
                     for(int j =0; j<4; j++){
                         if (board.getBoard()[i][j]!= null && (board.getBoard()[i][j]!=board.getBoard()[0][2] &&board.getBoard()[i][j]!= board.getBoard()[1][0]&&board.getBoard()[i][j]!= board.getBoard()[2][3])){
                             for(int w=0; w<3; w++){
-                                if(board.getBoard()[i][j].getAmmo()==null)
-                                    board.getBoard()[i][j].getAmmoDeck().pickUpAmmo();
+                                if(board.getBoard()[i][j].getAmmo()==null) {
+                                    AmmoCard temp = board.getBoard()[i][j].getAmmoDeck().pickUpAmmo();
+                                    board.getBoard()[i][j].setAmmo(temp);
+                                }
                             }
                         }
 
                     }
                 }
+
+                updatePlayString();
+                updateAmmoCardValue();
+                updateWeaponValue();
+                System.out.println(play);
+                moveBtn.setDisable(true);
+                moveAndGrabBtn.setDisable(true);
+                shotBtn.setDisable(true);
+                endRoundBtn.setDisable(true);
+                reloadScreen.setDisable(false);
+
                 playersInGame[me.getNumber()]=me;
 
                 try {
@@ -8600,13 +8627,6 @@ public class AdrenalineView extends Application {
         shotBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
-                //todo da eliminare
-                playersInGame[0].setFirstPosition(board.getBoard()[1][2]);
-                playersInGame[0].setLife(11);
-                updatePlayersPositions();
-
-
 
                 if(me.getWeapons()[0] != null && me.getWeapons()[0].isLoaded())
                     weapon1.setDisable(false);
