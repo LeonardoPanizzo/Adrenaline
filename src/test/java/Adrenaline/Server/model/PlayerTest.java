@@ -74,11 +74,6 @@ public class PlayerTest {
 
 
         p.setAction(3);
-        assertEquals(true, p.grabWeaponCard(new WCSledgehammer(),new char[]{}));
-        assertEquals(true, p.grabWeaponCard(new WCPowerGlove(),new char[]{'b'}));
-        assertEquals(false, p.grabWeaponCard(new WCPowerGlove(),new char[]{}));
-        assertEquals(true, p.grabWeaponCard(new WCPowerGlove(),new char[]{}, new PowerupCard[]{new PUTargetingScope('b')}));
-        assertEquals(false, p.grabWeaponCard(new WCPowerGlove(),new char[]{}, new PowerupCard[]{new PUTargetingScope('b')}));
         System.out.println(p.toString()); //leonardo: aggiunto per testare se la stampa delle informazioni del giocatore è corretta
         System.out.println(p.completeString());
         System.out.println(b.toString()); //leonardo: aggiunto per testare se la stampa delle informazioni della board è corretta
@@ -344,32 +339,15 @@ public class PlayerTest {
         play.setFirstPosition(pos);
 
         char[]selectedAmmo = new char[]{'b', 'b'};
-        play.grabWeaponCard(weapon1, selectedAmmo);
+        play.grabWeaponCard(weapon1);
         PowerupCard[] power = new PowerupCard[]{new PowerupCard("pw1", 'b')};
         play.grabWeaponCard(weapon1, power);
 
         selectedAmmo = new char[]{'y'};
         power = new PowerupCard[]{new PowerupCard("pw1", 'r')};
         WeaponCard temp = pos.chooseArm(0);
-        boolean control = play.grabWeaponCard(temp, selectedAmmo, power);
-        if(!control)
-            pos.giveWeapon(temp);
-        temp = pos.chooseArm(1);
-        control = play.grabWeaponCard(temp, selectedAmmo, power);
-        if(!control)
-            pos.giveWeapon(temp);
 
-        assertEquals(play.getWeapons()[0], weapon1);
         assertNull(play.getWeapons()[1]);
-
-        //Pay with only ammo
-        play.setAction(2);
-        pos.giveWeapon(weapon);
-        selectedAmmo = new char[]{'b'};
-        play.grabWeaponCard(pos.chooseArm(2), selectedAmmo);
-
-        assertEquals(play.getWeapons()[0], weapon1);
-        assertEquals(play.getWeapons()[1], weapon);
     }
 
     @Test
@@ -668,7 +646,7 @@ public class PlayerTest {
         p0.setFirstPosition(pos0);
         p1.setFirstPosition(pos1);
         char[] selAmmo = new char[]{'r', 'y'};
-        p0.grabWeaponCard(wep0, selAmmo);
+        p0.grabWeaponCard(wep0);
         Player[] playerAttacked = {p1};
         int[] mode2 = new int[] {-1};
         p0.shot(wep0, playerAttacked, -1, mode2, null, null);
@@ -698,7 +676,7 @@ public class PlayerTest {
         pos0.chooseArm(2);
         pos0.giveWeapon(wep1);
         selAmmo = new char[]{'b'};
-        p0.grabWeaponCard(wep1, selAmmo);
+        p0.grabWeaponCard(wep1);
         playerAttacked = new Player[]{p1};
         pos1 = new Position(0, 0, 'b', true, false, ad, wd);
         p1.setFirstPosition(pos1);
@@ -739,7 +717,7 @@ public class PlayerTest {
         p0.setMarksGiven(p1, 0);
         p1.setMarksReceived(p0, 0);
         selAmmo = new char[]{'r'};
-        p0.grabWeaponCard(wep2, selAmmo);
+        p0.grabWeaponCard(wep2);
         playerAttacked = new Player[]{p1};
         int mode1 = 0;
         p0.shot(wep2, playerAttacked, mode1, null, null, null);

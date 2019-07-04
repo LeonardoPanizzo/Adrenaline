@@ -42,10 +42,13 @@ public class RmiServer {
         boolean isBol = true;
         Naming.rebind("rmi://0.0.0.0:1099/controller", remoteBiCon[player]);
 
+        //System.out.println(timer);
+
+
 
         do {
 
-            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
             if (remoteBiCon[0].getNumber() == 1) {
                 System.out.println("QUA DENTRO ----  !!");
@@ -57,6 +60,10 @@ public class RmiServer {
                 //System.out.println("Binding done");
                 isBol = false;
                 System.out.println("QUA DENTRO!!");
+
+                System.out.println("STARTING TIMER");
+                Countdown timer = new Countdown(10);
+
 
             }
         }while (isBol);
