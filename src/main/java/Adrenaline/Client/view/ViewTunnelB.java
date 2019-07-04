@@ -14,6 +14,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class ViewTunnelB implements Serializable{
 
@@ -28,6 +29,7 @@ public class ViewTunnelB implements Serializable{
     private Player[] players;   //all the others players
     private int number;         //number of the user, indicates his turn and which player he is
     private int info=0;         //if the value on the server is higher that this update info
+    private Position[][] ppp;
 
 
     /**
@@ -639,6 +641,12 @@ public class ViewTunnelB implements Serializable{
 
     public void updateInfo() throws RemoteException{
         this.board=serverIF.getBoard();
+        Position[][] a=serverIF.getPositions();
+        int var=serverIF.getVariation();
+        Vector<Integer> bb=serverIF.getSkull();
+        this.board.setVariation(var);
+        this.board.setBoard(a);
+        this.board.setSkullVector(bb);
         if(board==null){
             System.out.println("errrrror");
         }else{
@@ -710,6 +718,7 @@ public class ViewTunnelB implements Serializable{
         //todo chiedere GUI o CLI
         do{
             System.out.println("here6");
+            System.out.println(board.myToString());
             if(serverIF.getTurn()%2==number && serverIF.getSpecialturn()==info){  //tipical turn
                 System.out.println("here7");
                 System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
