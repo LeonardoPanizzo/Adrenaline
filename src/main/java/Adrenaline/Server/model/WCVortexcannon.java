@@ -22,8 +22,8 @@ public class WCVortexcannon extends WeaponCard implements Serializable {
         super("Vortex Cannon", new char[]{'r','b'}, new char[]{'r'},true);
     }
 
-    /*
-    movements[0] is the position of the vortex
+    /**
+     * movements[0] is the position of the vortex
      */
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){

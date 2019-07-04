@@ -11,10 +11,10 @@ public class WCLockRifle extends WeaponCard implements Serializable {
         super("LockRifle", new char[]{'b', 'b'}, new char[]{'0','r'},true);
     }
 
-    @Override
-    /*
-    if checks that there are 1 or 2 hit players (the second one is hit by an optional effect) and that the first target is visible
+    /**
+     * if checks that there are 1 or 2 hit players (the second one is hit by an optional effect) and that the first target is visible
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if (this.isLoaded() && attackedPlayers.length >= 1 && attackedPlayers.length <= 2 && attacker.canSee(attackedPlayers[0])) {

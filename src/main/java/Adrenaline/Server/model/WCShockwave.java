@@ -16,8 +16,8 @@ public class WCShockwave extends WeaponCard implements Serializable {
         super("Shock Wave", new char[]{'y'}, new char[]{'y'},false);
     }
 
-    /*
-    in mode1==0 it works with attacked players, if mode1==1 works with movements
+    /**
+     * in mode1==0 it works with attacked players, if mode1==1 works with movements
      */
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {

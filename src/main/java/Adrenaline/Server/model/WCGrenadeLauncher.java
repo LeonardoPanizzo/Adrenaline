@@ -21,10 +21,10 @@ public class WCGrenadeLauncher extends WeaponCard implements Serializable {
         super("Grenade Launcher", new char[]{'r'}, new char[]{'0','r'},true);
     }
 
-    @Override
-    /*
-    movements[0] the position where attacked.players[0] will be moved, movements[1] where the grenade hits
+    /**
+     * movements[0] the position where attacked.players[0] will be moved, movements[1] where the grenade hits
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
         if(isLoaded() && attackedPlayers.length==1 && attacker.canSee(attackedPlayers[0])){

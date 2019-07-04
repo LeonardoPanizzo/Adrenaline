@@ -24,10 +24,10 @@ public class WCPowerGlove extends WeaponCard implements Serializable {
         super("Power Glove", new char[]{'y','b'}, new char[]{'b'},false);
     }
 
-    @Override
-    /*
-    the position are checked on the attacked players, not in movements
+    /**
+     * the position are checked on the attacked players, not in movements
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1 && attacker.getPosition().reachable(attackedPlayers[0].getPosition())){

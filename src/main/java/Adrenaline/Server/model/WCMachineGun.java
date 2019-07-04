@@ -23,10 +23,10 @@ public class WCMachineGun extends WeaponCard implements Serializable {
         super("Machine Gun", new char[]{'b','r'}, new char[]{'0','y','b'},true);
     }
 
-    @Override
-    /*
-    mode2[1] select attackedplayers[0], mode2[2] select attackedplayers[2] if attackedplayers.length==3 otherwise select attackedplayers[1]
+    /**
+     * mode2[1] select attackedplayers[0], mode2[2] select attackedplayers[2] if attackedplayers.length==3 otherwise select attackedplayers[1]
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1 && attackedPlayers.length<=3 && mode2.length>=1){

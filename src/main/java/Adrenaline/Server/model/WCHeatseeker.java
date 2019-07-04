@@ -12,10 +12,10 @@ public class WCHeatseeker extends WeaponCard implements Serializable {
         super("HeatSeeker",new char[]{'r','r','y'}, new char[]{},false);
 
     }
-    @Override
-    /*
-    if checks that there is only one target,that the weapon is loaded and that the target isn't visible from the attacker
+    /**
+     * if checks that there is only one target,that the weapon is loaded and that the target isn't visible from the attacker
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment){
         boolean done=false;
         if(this.isLoaded() && attackedPlayers.length==1 && !(attacker.canSee(attackedPlayers[0]))){

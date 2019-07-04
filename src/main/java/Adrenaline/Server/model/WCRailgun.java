@@ -22,11 +22,11 @@ public class WCRailgun extends WeaponCard implements Serializable {
         super("Railgun", new char[]{'y','y','b'}, new char[]{},false);
     }
 
-    @Override
-    /*
-    to get the position in which the attacker shoot is checked the position of the attacked
-    onedirectionx and onedirectiony is used to check of the attacker and the attacked are in the same "cardinal line"
+    /**
+     + to get the position in which the attacker shoot is checked the position of the attacked
+     + onedirectionx and onedirectiony is used to check of the attacker and the attacked are in the same "cardinal line"
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1 && attackedPlayers.length<=2){

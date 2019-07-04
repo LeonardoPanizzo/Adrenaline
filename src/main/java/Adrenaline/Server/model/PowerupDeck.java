@@ -8,6 +8,10 @@ public class PowerupDeck implements Serializable {
     private int size;
     private Vector<PowerupCard> PUDeck;
 
+    /**
+     * Constructor for PowerupDeck. All powerup are created and then the deck is shuffled. There are three copies for
+     * each powerup: one for each color.
+     */
     public PowerupDeck(){
         size=0;
         PUDeck=new Vector<PowerupCard>(24);
@@ -31,10 +35,18 @@ public class PowerupDeck implements Serializable {
         shuffle();
     }
 
+    /**
+     * Method to shuffle the deck
+     */
     public void shuffle(){
         Collections.shuffle(PUDeck);
     }
 
+    /**
+     * Method to draw a power up card from the deck. When the size is reached, the deck is re-shuffled again.
+     *
+     * @return the power up that was drown
+     */
     public PowerupCard pickUpPowerup(){
         PowerupCard x=PUDeck.elementAt(size);
         size++;

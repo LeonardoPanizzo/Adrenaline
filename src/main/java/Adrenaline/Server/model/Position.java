@@ -8,7 +8,7 @@ public class Position implements Serializable {
     private char room;               //room in which the position is part
     private int[] matr;             //coordinates of the position
     private boolean door;           //if true the position has a door into another room
-    private boolean respawnPoint;     //tells if the position is respawn point and if there will be power up or weapons [cambiato da reset a respawn per leggibilità. Andrea]
+    private boolean respawnPoint;     //tells if the position is respawn point and if there will be power up or weapons
     private Vector<Position> linked;       //positions that are reachable through the door
     private int ndoor;              //number of rooms that are reachable through the door
     private AmmoCard ammo;          //munitions found in the position
@@ -161,13 +161,19 @@ public class Position implements Serializable {
     }
 
     /**
+     *Method to know if the position is a respawn point or not.
      *
-     * @return
+     * @return true if position is a respawn point
      */
     public boolean isRespawnPoint() {
         return respawnPoint;
     }
 
+    /**
+     * Method to convert munition on the ammo card in position to string format.
+     *
+     * @return the string that shows the ammo card value
+     */
     public String toString(){             //prints only the munitions and the weapons found on this room, the colour isn't needed because the CLI user has his board
         String info;
         if(this.respawnPoint){
@@ -181,10 +187,13 @@ public class Position implements Serializable {
         return info;
     }
 
-    /*@requires x!=null;
-             @receives the position that will be linked to this.position,
-             @the link is possible only if this and x are doors
-             @*/
+    /**
+     * requires x!=null;
+     * receives the position that will be linked to this.position,
+     * the link is possible only if this and x are doors.
+     *
+     * @param x position with a link to this
+     */
     public void setLinks(Position x){
         if(this.door==true && x.isDoor()){      //a positions to have link to another position must be door
             linked.add(x);
@@ -193,8 +202,9 @@ public class Position implements Serializable {
     }
 
     /**
-     * return an array containing the players in the position this
-     * @return
+     * Method to take players standing on this position.
+     *
+     * @return array containing the players in the position this
      */
     public Player[] getPlayers(){
         int tot=players.size();
@@ -206,9 +216,13 @@ public class Position implements Serializable {
     }
 
     /*@requires x!=null;
-     @receives the positions that will be linked to this.position, the link is possible only if this and all the
-     @positions in x are doors
      @*/
+    /**
+     * Receives the positions that will be linked to this.position, the link is possible only if this and all the
+     * positions in x are doors
+     *
+     * @param x
+     */
     public void setLinks(Position[] x){
         if (this.door == true){
             for (int i = 0; i < x.length; i++) {
@@ -219,30 +233,48 @@ public class Position implements Serializable {
             }
         }
     }
+    //todo: due set links con la stessa firma. qualse tenere? (questo non è usato)
 
-    /*@
-    @shows the weapons to allow the player the choice between them
-    @*/
+    /**
+     * Hows the weapons to allow the player the choice between them.
+     *
+     * @return weapons in this (if it is a respawn point return will not to be null)
+     */
     public WeaponCard[] showWeapons(){
         return weapons;
     }
 
+    /**
+     * Method to know if two positions are the same one.
+     *
+     * @param x position to confront to this
+     * @return true if positions are the same
+     */
     public boolean equals(Position x){
         return(this.matr[0]==x.matr[0] &&this.matr[1]==x.matr[1]);
     }
 
 
     //todo should the two methods down here be synchronized?
-    /*@
-    @called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
-    @weapon in the array
-    @*/
+    /**
+     * called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
+     * weapon in the array.
+     *
+     * @param i index of weapon was chosen
+     * @return the weapon chosen
+     */
     public WeaponCard chooseArm(int i){
         WeaponCard x=weapons[i];
         weapons[i]=null;
         return x;
     }
 
+    /**
+     * Method to pik up a weapon if position has one or more.
+     *
+     * @param weapon weapon chosen
+     * @return a boolean to show if everything go right
+     */
     public boolean pickUpWeapon(WeaponCard weapon){
         boolean done=false;
         String name=weapon.getName();
@@ -252,15 +284,16 @@ public class Position implements Serializable {
                 done=weapons[x].getName().equals(name);
         }
         if(done){
-            weapons[x-1]=null; //x viene incrementato alla fine del ciclo, quindi il valore giusto, è l'ultimo per cui il ciclo viene eseguito
+            weapons[x-1]=null;
         }
         return done;
     }
 
     /**
      * return true if there was an empty space for the given weapon
-     * @param x
-     * @return
+     *
+     * @param x weapon chosen
+     * @return a boolean to show if everything go right
      */
     public boolean giveWeapon(WeaponCard x){
         boolean done=false;
@@ -281,8 +314,13 @@ public class Position implements Serializable {
 
 
     /*@requires x!=null;
-     @is the position x visible from position this?
      @*/
+    /**
+     * is the position x visible from position this?
+     *
+     * @param x position to know if is visible from this
+     * @return true if x is visible
+     */
     public boolean visible(Position x){
         boolean vis=false;
         if(this.room==x.room)
@@ -294,8 +332,13 @@ public class Position implements Serializable {
     }
 
     /*@requires x!=null;
-    @is x reachable from this in one step?
     @*/
+    /**
+     * is x reachable from this in one step?
+     *
+     * @param x position to know if is reachable from this
+     * @return true if it is
+     */
     public boolean reachable(Position x){
         boolean reac=false;
         if((this.matr[0]==x.matr[0]&&((this.matr[1]==x.matr[1]+1)||(this.matr[1]==x.matr[1]-1)))||
@@ -306,6 +349,13 @@ public class Position implements Serializable {
         return reac;
     }
 
+    /**
+     * Method to know if an array of positions are reachable in order from the one with 0 index to the one at the end
+     * of the array.
+     *
+     * @param x positions' array
+     * @return true if the last position is reachable starting from this and going through the ones in the array
+     */
     public boolean reachable(Position[] x){
         boolean reac=this.reachable(x[0]);
         for(int i=1; i<x.length && reac; i++){

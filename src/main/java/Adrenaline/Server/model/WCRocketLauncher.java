@@ -23,10 +23,10 @@ public class WCRocketLauncher extends WeaponCard implements Serializable {
         super("Rocket Launcher", new char[]{'r', 'r'}, new char[]{'0', 'b', 'y'},true);
     }
 
-    @Override
-    /*
-    movements[0] is about the movement of attackedpalyer[0], movements[1/2] are about the movements of the attacker
+    /**
+     * movements[0] is about the movement of attackedpalyer[0], movements[1/2] are about the movements of the attacker
      */
+    @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
         boolean done = false;
         if(isLoaded() && attackedPlayers.length>=1){

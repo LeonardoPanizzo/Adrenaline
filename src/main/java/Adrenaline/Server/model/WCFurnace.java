@@ -16,8 +16,8 @@ public class WCFurnace extends WeaponCard implements Serializable {
         super("Furnace", new char[]{'r','b'}, new char[]{},false);
     }
 
-    /*
-    movements contains the hit positions
+    /**
+     * movements contains the hit positions
      */
     @Override
     public boolean attack(Player attacker, int mode1, int[] mode2, Player[] attackedPlayers, Position[] movements, PowerupCard[] payment) {
