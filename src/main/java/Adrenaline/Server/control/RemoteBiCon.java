@@ -5,6 +5,7 @@ import Adrenaline.Server.model.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.RemoteRef;
+import java.util.Vector;
 
 public interface RemoteBiCon extends Remote {
 
@@ -15,6 +16,12 @@ public interface RemoteBiCon extends Remote {
     void registerListener(String[] details)throws RemoteException;
 
     void leaveChat(String userName)throws RemoteException;
+
+    Position[][] getPositions() throws  RemoteException;
+
+    Vector<Integer> getSkull() throws  RemoteException;
+
+    int getVariation() throws RemoteException;
 
     void sendPM(int[] privateGroup, String privateMessage)throws RemoteException;
 
