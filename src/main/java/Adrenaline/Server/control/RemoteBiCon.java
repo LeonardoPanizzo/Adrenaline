@@ -36,7 +36,7 @@ public interface RemoteBiCon extends Remote {
 
     Board getBoard()throws RemoteException;
 
-    Player[] getPlayers()throws RemoteException;
+    Player getPlayers(int i)throws RemoteException;
 
     //void endfinalturn(int playernumber)throws RemoteException;
 
