@@ -1141,7 +1141,7 @@ public class AdrenalineView extends Application {
                 }
 
                 //respawn
-                if(me.getLife() <1){
+                if(me.getLife() <1 && !me.isFirstRound()){
                     board.setSkulls(whoDamage.getNumber());
                     if(me.getLife()==-1){
                         me.setMarksGiven(whoDamage, 1);
@@ -24751,9 +24751,10 @@ public class AdrenalineView extends Application {
         if(!me.isRound()){
             moveBtn.setDisable(true);
             moveAndGrabBtn.setDisable(true);
-            shot.setDisable(true);
+            shotBtn.setDisable(true);
             endRoundBtn.setDisable(true);
             respawnBtn.setDisable(true);
+            reloadScreen.setDisable(false);
         }
     }
 
