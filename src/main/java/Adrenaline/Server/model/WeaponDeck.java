@@ -8,6 +8,9 @@ public class WeaponDeck implements Serializable {
     private int size;
     private Vector<WeaponCard> weaponDeck;
 
+    /**
+     * WeaponDeck constructor. All card are created (one copy of each card) and then they are shuffled.
+     */
     public WeaponDeck(){
         size=0;
         weaponDeck=new Vector<WeaponCard>(21);
@@ -35,16 +38,23 @@ public class WeaponDeck implements Serializable {
         shuffle();
     }
 
+    /**
+     * Method to shuffle the Weapon Deck
+     */
     public void shuffle(){
         Collections.shuffle(weaponDeck);
     }
 
+    /**
+     * When a weapon card is drown, the size is increased. When all weapons are finished, no others can be drown.
+     *
+     * @return
+     */
     public WeaponCard pickUpWeapon(){
         WeaponCard x=weaponDeck.elementAt(size);
         size++;
-        if(size>=21) {       //se size raggiunge la dimensione del vettore lo azzero, sposto il punatore al posto di spostare gli elementi dentro vector, bisognerà controllare il metodo capacity
-            size = 0;
-            shuffle();
+        if(size>=21) {
+            x=null;
         }
         return x;
     }
