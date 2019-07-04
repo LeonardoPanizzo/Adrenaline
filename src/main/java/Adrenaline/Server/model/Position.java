@@ -55,7 +55,14 @@ public class Position implements Serializable {
         }
     }
 
-    //todo: leo. non sapendo a cosa serve lascio la javadoc di questo metodo a te
+    /**
+     * This is used as a second constructor of the class Position, in this constructor there is the object
+     * SupportPosition that is the position red from gson file and the decks that are created in the board
+     *
+     * @param p1
+     * @param deckAmmo
+     * @param deckWeapon
+     */
     public Position(SupportPosition p1,AmmoDeck deckAmmo, WeaponDeck deckWeapon){
         matr=new int[2];
         matr[0]=p1.geti();
@@ -233,7 +240,6 @@ public class Position implements Serializable {
             }
         }
     }
-    //todo: due set links con la stessa firma. qualse tenere? (questo non è usato)
 
     /**
      * Hows the weapons to allow the player the choice between them.
@@ -254,8 +260,6 @@ public class Position implements Serializable {
         return(this.matr[0]==x.matr[0] &&this.matr[1]==x.matr[1]);
     }
 
-
-    //todo should the two methods down here be synchronized?
     /**
      * called after showWeapons, after having seen the weapons the player comunicate his choice sending the position of
      * weapon in the array.
@@ -306,6 +310,10 @@ public class Position implements Serializable {
         return done;
     }
 
+    /**
+     * It returns the ammo card in the position and set the value at null
+     * @return
+     */
     public AmmoCard pickUpAmmo(){
         AmmoCard a=ammo;
         ammo=null;
