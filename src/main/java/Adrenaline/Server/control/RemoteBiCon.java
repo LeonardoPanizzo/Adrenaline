@@ -9,6 +9,14 @@ import java.util.Vector;
 
 public interface RemoteBiCon extends Remote {
 
+    void setTurnA(int x) throws RemoteException;
+
+    void setSkull(Vector<Integer> a) throws RemoteException;
+
+    void setPositions(Position[][] pos) throws RemoteException;
+
+    void setPlayersA(Player[] pp) throws RemoteException;
+
     void updateChat(String userName, String chatMessage)throws RemoteException;
 
     void passIDentity(RemoteRef ref)throws RemoteException;

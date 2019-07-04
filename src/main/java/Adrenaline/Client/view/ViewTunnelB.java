@@ -269,11 +269,17 @@ public class ViewTunnelB implements Serializable{
     private boolean hasNoSpaceweapon() {     //if true the player doesnt have the space to pickup a weapon
         WeaponCard[] weapons = p.getWeapons();
         int i = 0;
-        boolean emptyspace = false;
-        for (; i < weapons.length & !emptyspace; i++) {
-            emptyspace = weapons[i] == null;
+        int k=0;
+        for (; i < weapons.length; i++) {
+            if(weapons[i]!=null){
+                k++;
+            }
         }
-        return emptyspace;
+        if(k==3){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private void pickweapon(){
@@ -417,7 +423,9 @@ public class ViewTunnelB implements Serializable{
         Scanner keyboard = new Scanner(System.in);
         char c;
         for (int i = 0; i < weapons.length; i++) {
-            System.out.println(i + ". " + weapons[i].getName() + "\n");
+            if(weapons[i]!=null) {
+                System.out.println(i + ". " + weapons[i].getName() + "\n");
+            }
         }
         do {
             System.out.println("Select the weapon you want to use\n");
@@ -672,8 +680,8 @@ public class ViewTunnelB implements Serializable{
         Player[] ps= new Player[5];             //support for variable players
         //try {
         System.out.println("aaa1");
-        Player[] users = new Player[2];//serverIF.getPlayers();   //all the players
-        for(int i=0; i<2; i++){
+        Player[] users = new Player[3];//serverIF.getPlayers();   //all the players
+        for(int i=0; i<3; i++){
             System.out.println("index: " + i);
             users[i]=serverIF.getPlayers(i);
             System.out.println("USERS: " + users[i]);
@@ -681,12 +689,13 @@ public class ViewTunnelB implements Serializable{
 
         }
         System.out.println("aaa2");
-        for (int i = 0; i < 2; i++) { //users.length
+        for (int i = 0; i < 3; i++) { //users.length
             System.out.println("bbb"+i);
             if (users[i].getNumber() != number) {
                 ps[i] = users[i];
             } else {
                 p = users[i];
+                ps[i]=users[i];
             }
         }
         players = ps;
@@ -701,195 +710,210 @@ public class ViewTunnelB implements Serializable{
         moveplayer(max, false);
     }
 
-    public void mmain() throws RemoteException{
-        boolean gotInfo=false;
-        boolean donerespawn=false;
-        this.number=serverIF.getNumber();
-        System.out.println("my number is "+number);
-        do{
-            System.out.println("waiting "+number);
-        }while(!serverIF.isReady());
-        if(number==0){
-            System.out.println("setting board"+number);
+    public void mmain() throws RemoteException {
+        boolean gotInfo = false;
+        boolean donerespawn = false;
+        this.number = serverIF.getNumber();
+        System.out.println("my number is " + number);
+        do {
+            System.out.println("waiting " + number);
+        } while (!serverIF.isReady());
+        if (number == 0) {
+            System.out.println("setting board" + number);
             this.setBoard();
-            System.out.println("spreding info1"+number);
+            System.out.println("spreding info1" + number);
             serverIF.spreadinfo();
-            System.out.println("spreding info2"+number);
+            System.out.println("spreding info2" + number);
         }
         //updateInfo();
-        do{
+        do {
             /*if(number==0){
                 System.out.println("here1");
                 this.updateInfo();
             }*/
-            if(serverIF.getSpecialturn()>info){
+            if (serverIF.getSpecialturn() > info) {
                 System.out.println("here2");
                 this.updateInfo();
-                info=serverIF.getSpecialturn();
+                info = serverIF.getSpecialturn();
             }
-            if(this.board!=null && this.players!=null){
+            if (this.board != null && this.players != null) {
                 System.out.println("here3");
-                gotInfo=true;
+                gotInfo = true;
                 //serverIF.setSpecialturn(number);
             }
             System.out.println("here4");
-        }while(!gotInfo);
+        } while (!gotInfo);
         System.out.println("here5");
-        gotInfo=false;
-        Scanner keyboard= new Scanner(System.in);
+        gotInfo = false;
+        Scanner keyboard = new Scanner(System.in);
         char c;
-        //todo chiedere GUI o CLI
-        boolean done=false;
         do {
-            done=this.respawn();
-        }while(!done);
-        do{
-            System.out.println("here6");
-            System.out.println(board.myToString());
-            if(serverIF.getTurn()%2==number && serverIF.getSpecialturn()==info && p.getAction()>0){  //tipical turn
-                System.out.println("here7");
-                System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
-                c=keyboard.next().charAt(0);
-                switch(c){
-                    case '0':
-                        System.out.println(this.board);//.myToString()); //così printa oggetto
-                        String x = serverIF.myToBoard();
-                        System.out.println(x);
-                        System.out.println(this.p.completeString());
-                        System.out.println("---> " + players.length);
-                        for(int i=0; i<players.length; i++){ //                        for(int i=0; i<players.length; i++){
-                            //System.out.println(this.players[i].toString());
-                            System.out.println(this.players[i]);//.toString());
-                            //System.out.println(this.players[1].toString());
-
+            System.out.println("Do you want to sue gui?");
+            c = keyboard.next().charAt(0);
+        } while (c != 'y' && c != 'n');
+        if (c == 'n') {
+            boolean done = false;
+            do {
+                done = this.respawn();
+            } while (!done);
+            do {
+                System.out.println("here6");
+                System.out.println(board.myToString());
+                if (serverIF.getTurn() % 2 == number && serverIF.getSpecialturn() == info) {  //tipical turn
+                    System.out.println("here7");
+                    if (p.getAction() > 0) {
+                        System.out.println("\nWhat action you want to make?\n0.print info\n1.move\n2.move and grab\n3.shoot\n4.use powerup\n");
+                        c = keyboard.next().charAt(0);
+                        switch (c) {
+                            case '0':
+                                System.out.println(this.board);//.myToString()); //così printa oggetto
+                                String x = serverIF.myToBoard();
+                                System.out.println(x);
+                                System.out.println(this.p.completeString());
+                                System.out.println("---> " + players.length);
+                                for (int i = 0; i < players.length; i++) { //                        for(int i=0; i<players.length; i++){
+                                    //System.out.println(this.players[i].toString());
+                                    System.out.println(this.players[i]);//.toString());
+                                    //System.out.println(this.players[1].toString());
+                                }
+                                break;
+                            case '1':
+                                this.move();
+                                break;
+                            case '2':
+                                moveandgrab();
+                                break;
+                            case '3':
+                                attack();
+                                break;
+                            case '4':
+                                usePowerup();
+                                break;
+                            default:
+                                System.out.println("\nInsert a number between 0 and 4\n");
                         }
-                        break;
-                    case '1':
-                        this.move();
-                        break;
-                    case '2':
-                        moveandgrab();
-                        break;
-                    case '3':
-                        attack();
-                        break;
-                    case '4':
-                        usePowerup();
-                        break;
-                    default:
-                        System.out.println("\nInsert a number between 0 and 4\n");
-                }
-                if(p.getAction()==0){
-                    System.out.println("\nDo you want to reload any weapon?y to yes, any other button as no\n");
-                    c=keyboard.next().charAt(0);
-                    if(c=='y'){
-                        reload();
                     }
-                    serverIF.endturn(number);
-                }
-                serverIF.spreadinfo();  //after each action all the players get the information
-                this.updateInfo();
-            }
-            if(serverIF.getDefense()==number){    //when this player can use tagback grenade
-                System.out.println("here8");
-                System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
-                c=keyboard.next().charAt(0);
-                if(c=='y'){
-                    useTagbackGrenade();
-                }
-                serverIF.setDefense(number);
-            }
-            if(serverIF.getSpecialturn()>info){    //it's time to get info
-                System.out.println("here9");
-                this.updateInfo();
-                info=serverIF.getSpecialturn();
-            }
-            if(serverIF.getRespawnturn()==number){
-                System.out.println("here10");
-                do {
-                    donerespawn=respawn();
-                }while(!donerespawn);
-                donerespawn=false;
-                serverIF.setRespawnturn(number);
-            }
-        }while(!board.isFinalRound());
-        do{
-            if(serverIF.getTurn()%2==number){
-                if(number>serverIF.finalplayernumber()){
-                    System.out.println("\nWhat final actions you want to make?\n0.print info\n1.move\n2.move and grab\n3.move, reload and shoot\n4.use powerup\n");
-                    c=keyboard.next().charAt(0);
-                    switch(c) {
-                        case '0':
-                            System.out.println(board.myToString());
-                            System.out.println(p.completeString());
-                            for(int i=0; i<players.length; i++){
-                                System.out.println(players[i].toString());
-                            }
-                            break;
-                        case '1':
-                            movefinal2();
-                            break;
-                        case '2':
-                            moveandgrabfinal2();
-                            break;
-                        case '3':
-                            attackfinal2();
-                            break;
-                        case '4':
-                            usePowerup();
-                            break;
-                    }
-                }else{
-                    System.out.println("\nWhat final action you want to make?\n0.print info\n1.move and grab\n2.move, reload and shoot\n3.use powerup\n");
-                    c=keyboard.next().charAt(0);
-                    switch(c) {
-                        case '0':
-                            System.out.println(board.myToString());
-                            System.out.println(board.myToString());
-                            System.out.println(p.completeString());
-                            for(int i=0; i<players.length; i++){
-                                System.out.println(players[i].toString());
-                            }
-                            break;
-                        case '1':
-                            moveandgrabfinal1();
-                            break;
-                        case '2':
-                            attackfinal1();
-                            break;
-                        case '3':
-                            usePowerup();
-                            break;
-                    }
-                }
-                if(p.getAction()==0){
-                    if (number == serverIF.finalplayernumber()) {
-                        //serverIF.endall();
-                    }else{
+                    if (p.getAction() == 0) {
+                        System.out.println("\nDo you want to reload any weapon?y to yes, any other button as no\n");
+                        c = keyboard.next().charAt(0);
+                        if (c == 'y') {
+                            reload();
+                        }
                         serverIF.endturn(number);
                     }
+                    serverIF.spreadinfo();  //after each action all the players get the information
+                    this.updateInfo();
                 }
-            }
-            if(serverIF.getSpecialturn()>info){    //it's time to get info
-                this.updateInfo();
-                info=serverIF.getSpecialturn();
-            }
-            if(serverIF.getDefense()==number){    //when this player can use tagback grenade
-                System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
-                c=keyboard.next().charAt(0);
-                if(c=='y'){
-                    useTagbackGrenade();
+                if (serverIF.getDefense() == number) {    //when this player can use tagback grenade
+                    System.out.println("here8");
+                    System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
+                    c = keyboard.next().charAt(0);
+                    if (c == 'y') {
+                        useTagbackGrenade();
+                    }
+                    serverIF.setDefense(number);
                 }
-                serverIF.setDefense(number);
-            }
-            if(serverIF.getRespawnturn()==number){
-                do {
-                    donerespawn=respawn();
-                }while(!donerespawn);
-                donerespawn=false;
-                serverIF.setRespawnturn(number);
-            }
-        }while(true);
+                if (serverIF.getSpecialturn() > info) {    //it's time to get info
+                    System.out.println("here9");
+                    this.updateInfo();
+                    info = serverIF.getSpecialturn();
+                }
+                if (serverIF.getRespawnturn() == number) {
+                    System.out.println("here10");
+                    do {
+                        donerespawn = respawn();
+                    } while (!donerespawn);
+                    donerespawn = false;
+                    serverIF.setRespawnturn(number);
+                }
+            } while (!board.isFinalRound());
+            do {
+                if (serverIF.getTurn() % 2 == number) {
+                    if (number > serverIF.finalplayernumber()) {
+                        System.out.println("\nWhat final actions you want to make?\n0.print info\n1.move\n2.move and grab\n3.move, reload and shoot\n4.use powerup\n");
+                        c = keyboard.next().charAt(0);
+                        switch (c) {
+                            case '0':
+                                System.out.println(board.myToString());
+                                System.out.println(p.completeString());
+                                for (int i = 0; i < players.length; i++) {
+                                    System.out.println(players[i].toString());
+                                }
+                                break;
+                            case '1':
+                                movefinal2();
+                                break;
+                            case '2':
+                                moveandgrabfinal2();
+                                break;
+                            case '3':
+                                attackfinal2();
+                                break;
+                            case '4':
+                                usePowerup();
+                                break;
+                        }
+                    } else {
+                        System.out.println("\nWhat final action you want to make?\n0.print info\n1.move and grab\n2.move, reload and shoot\n3.use powerup\n");
+                        c = keyboard.next().charAt(0);
+                        switch (c) {
+                            case '0':
+                                System.out.println(board.myToString());
+                                System.out.println(board.myToString());
+                                System.out.println(p.completeString());
+                                for (int i = 0; i < players.length; i++) {
+                                    System.out.println(players[i].toString());
+                                }
+                                break;
+                            case '1':
+                                moveandgrabfinal1();
+                                break;
+                            case '2':
+                                attackfinal1();
+                                break;
+                            case '3':
+                                usePowerup();
+                                break;
+                        }
+                    }
+                    if (p.getAction() == 0) {
+                        if (number == serverIF.finalplayernumber()) {
+                            //serverIF.endall();
+                        } else {
+                            serverIF.endturn(number);
+                        }
+                    }
+                }
+                if (serverIF.getSpecialturn() > info) {    //it's time to get info
+                    this.updateInfo();
+                    info = serverIF.getSpecialturn();
+                }
+                if (serverIF.getDefense() == number) {    //when this player can use tagback grenade
+                    System.out.println("Do you want to use tagback grenade?y to yes, any other button as no\n");
+                    c = keyboard.next().charAt(0);
+                    if (c == 'y') {
+                        useTagbackGrenade();
+                    }
+                    serverIF.setDefense(number);
+                }
+                if (serverIF.getRespawnturn() == number) {
+                    do {
+                        donerespawn = respawn();
+                    } while (!donerespawn);
+                    donerespawn = false;
+                    serverIF.setRespawnturn(number);
+                }
+            } while (true);
+        } else {
+            Prova2.setBoard(board);
+            System.out.println("PLAYER 0: "+players[0]);
+            System.out.println("PLAYER 1: "+players[1]);
+            System.out.println("PLAYER 2: "+players[2]);
+            Prova2.setPlayers(players);
+            Prova2.setMe(p);
+            Prova2.setServerIF(serverIF);
+            AdrenalineView.main(null);
+        }
     }
 }
 

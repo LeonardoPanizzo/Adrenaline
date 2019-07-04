@@ -1,5 +1,31 @@
 # ing-sw-2019-22
 
+# **Parti Implementate**
+
+**Interfaccia Utente**
+-
+Comandi di gioco gestiti tramite linea di comando.
+//aggiungere se riusciamo ad inserire la GUI//
+
+**Connettività**
+-
+La connessione al server avviene tramite RMI.
+
+**Regole di Gioco**
+-
+Sono state implementate le regole di gioco compete, ovvero considerando sia la versione completa degli effetti delle
+armi, sia implementando la frenesia finale.
+
+**Funzioni avanzate**
+-
+//Da scrivere se ci siamo riusciti//
+
+**Come Lanciare Server e Client**
+- 
+//descrizione di come effettuare il lancio//
+
+
+
 **Note utili:**
 -
 - Valori delle munizioni in AmmoCard: b -> munizioni blu; y -> munizioni gialle; r -> munizioni rosse.

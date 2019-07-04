@@ -1,5 +1,6 @@
 package Adrenaline.Client.view;
 
+import Adrenaline.Server.control.RemoteBiCon;
 import Adrenaline.Server.model.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -230,18 +231,20 @@ public class AdrenalineView extends Application {
     private Button useGrenade;
     private int grenadeCount = 0;
 
+    private RemoteBiCon serverIF;
+
     public AdrenalineView(){
         this.me = Prova2.me;
         playersInGame = Prova2.players;
-        Player p2 = Prova2.players[0];
-        Player p3 = Prova2.players[2];
-        Player p4 = Prova2.players[3];
-        Player p5 = Prova2.players[4];
-        Prova2.setName();
+
+        System.out.println(playersInGame[0]);
+
         this.yourID = me.getNumber();
 
         this.board = Prova2.board;
         this.boardNumber = board.getVariation();
+
+        this.serverIF = Prova2.serverIF;
     }
 
     /**
@@ -523,15 +526,15 @@ public class AdrenalineView extends Application {
             @Override
             public void handle(MouseEvent me) {
                 count += me.getClickCount();
-                int k=1;
-                for(int i =0; i<playersInGame.length; i++){
-                    if(playersInGame[i] != null && yourID != playersInGame[i].getNumber()) {
-                        playArray[k].setText(playersInGame[i].getName());
-                        k++;
-                    }
-                    else
-                        playArray[0].setText(playersInGame[i].getName());
-                }
+                //int k=1;
+                //for(int i =0; i<playersInGame.length; i++){
+                //    if(playersInGame[i] != null && yourID != playersInGame[i].getNumber()) {
+                //        playArray[k].setText(playersInGame[i].getName());
+                //        k++;
+                //    }
+                //    else
+                //        playArray[0].setText(playersInGame[i].getName());
+                //}
                 if (count == 1)
                     wait.setText("Al players are ready. Click to Play");
                 else if (count > 1)
@@ -1064,6 +1067,25 @@ public class AdrenalineView extends Application {
         reloadScreen.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
+                try{
+                    System.out.println("Dentro try");
+                    board.setBoard(serverIF.getPositions());
+                    System.out.println("setBoard ok");
+                    board.setSkullVector(serverIF.getSkull());
+                    System.out.println("setskull ok");
+                    for(int i =0; i<3; i++){
+                        System.out.println("i: "+i);
+                        System.out.println("player round: "+playersInGame[i].isRound());
+                        playersInGame[i] = serverIF.getPlayers(i);
+                        if(i==0)
+                            System.out.println("Player position: "+playersInGame[0].getPosition().getCoordinate()[0]);
+                    }
+                }catch (Exception e){
+                    e=null;
+                    System.out.println("Dentro catch");
+                }
+
                 Player[] allPlayer = new Player[4];
                 int y=0;
                 for(int i=0; i<playersInGame.length; i++){
@@ -1098,8 +1120,10 @@ public class AdrenalineView extends Application {
                         moveAndGrabBtn.setDisable(false);
                         shotBtn.setDisable(false);
                         endRoundBtn.setDisable(false);
+                        System.out.println("Non Attiva respawn");
                     }
                     else{
+                        System.out.println("Attiva respawn");
                         respawnBtn.setDisable(false);
                     }
                     if(me.isFinalRound()){
@@ -1157,20 +1181,6 @@ public class AdrenalineView extends Application {
                     }
                 }
                 //set final screen
-                //todo da eliminare
-                for(int i = 0; i<playersInGame.length; i++){
-                    playersInGame[i].setFinalRound(true);
-                    playersInGame[i].setFinalRoundDone(true);
-                    System.out.println("is final round setting: player "+i+" -> "+playersInGame[i].isFinalRoundDone());
-                }
-                board.setSkulls(1);
-                board.setSkulls(0);
-                board.setSkulls(0);
-                board.setSkulls(1);
-                board.setSkulls(4);
-                board.setSkulls(3);
-                board.setSkulls(2);
-                board.setSkulls(0);
 
 
                 lastCount=0;
@@ -1222,6 +1232,8 @@ public class AdrenalineView extends Application {
                         fifthPlay.setText("5° -> "+playersEnd[4].getName()+" with "+playersEnd[4].getScore()+" points");
                     primaryStage.setScene(lastScreen);
                 }
+
+                updatePlayersPositions();
 
             }
         });
@@ -8398,7 +8410,11 @@ public class AdrenalineView extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 me.setRound(false);
-                playersInGame[yourID+1].setRound(true);
+
+                playersInGame[(yourID+1)%3].setRound(true);
+
+                System.out.println("Round di 1: "+playersInGame[1].isRound());
+
                 for(int i=0; i<5; i++){
                     if(playersInGame[i] != null && playersInGame[i].isRound())
                         courentPlayer = playersInGame[i].getNumber();
@@ -8433,6 +8449,18 @@ public class AdrenalineView extends Application {
                         }
 
                     }
+                }
+
+                try {
+                    me.setRound(false);
+                    serverIF.setTurnA((yourID+1)%3);
+                    System.out.println(playersInGame[0]);
+                    serverIF.setPlayersA(playersInGame);
+                    System.out.print("Player to send: "+playersInGame[0].isRound());
+                    serverIF.setSkull(board.getSkulls());
+                    serverIF.setPositions(board.getBoard());
+                }catch (Exception e){
+                    e = null;
                 }
 
             }
@@ -24900,7 +24928,8 @@ public class AdrenalineView extends Application {
 
         actualDeath.setText("Number of death: "+String.valueOf(me.getNumberOfDeaths()));
         actualDeath2.setText("Number of death: "+String.valueOf(allPlayer[0].getNumberOfDeaths()));
-        actualDeath3.setText("Number of death: "+String.valueOf(allPlayer[1].getNumberOfDeaths()));
+        if (allPlayer[1] != null)
+            actualDeath3.setText("Number of death: "+String.valueOf(allPlayer[1].getNumberOfDeaths()));
         if (allPlayer[2] != null)
             actualDeath4.setText("Number of death: "+String.valueOf(allPlayer[2].getNumberOfDeaths()));
         if (allPlayer[3] != null)

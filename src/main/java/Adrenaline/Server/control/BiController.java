@@ -121,8 +121,8 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
         counter++;
         System.out.println(counter);
-        if(counter>=1){
-            Player[] ps=new Player[2];
+        if(counter>=2){
+            Player[] ps=new Player[3];
             PowerupDeck pwr=new PowerupDeck();
             for(int i=0; i<=counter; i++){
                 ps[i]=new Player(i,pwr);
@@ -923,6 +923,38 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
 
     public boolean isReady(){
         return this.boardready;
+    }
+
+    public void setPositions(Position[][] pos){
+        board.setBoard(pos);
+    }
+
+    public void setSkull(Vector<Integer> a){
+        board.setSkullVector(a);
+    }
+
+    public void setTurnA(int x){
+        for(int i=0; i<3; i++){
+            if(x==i) {
+                players[i].setRound(true);
+            }else{
+                players[i].setRound(false);
+            }
+        }
+    }
+
+    public void setPlayersA(Player [] pp){
+        this.players=pp;
+        System.out.println("--------------------------------------------\n");
+
+        System.out.println(players[0]);
+        System.out.println("--------------------------------------------\n");
+
+        System.out.println(players[1]);
+
+        System.out.println("--------------------------------------------\n");
+
+        System.out.println(players[2]);
     }
 
     public boolean shoot(int specificuser, WeaponCard weapon,Player[] toattack,int mode1, int[]mode2,Position[] pos,PowerupCard[] payment){
