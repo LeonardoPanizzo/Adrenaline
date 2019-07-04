@@ -252,12 +252,22 @@ public class AdrenalineView extends Application {
         this.boardNumber = board.getVariation();
     }
 
+    /**
+     * Method to launch the GUI
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
     String playerName = new String();
 
+    /**
+     * Methos to star the GUI.
+     *
+     * @param primaryStage stage that is showed
+     */
     @Override
     public void start(Stage primaryStage) {
 
@@ -24750,6 +24760,12 @@ public class AdrenalineView extends Application {
         });
     }
 
+    /**
+     * Method to create the images for all power up cards
+     *
+     * @param powerup power up to assign its picture
+     * @return the picture to assign to the power up card
+     */
     //A method to create ImageView for powerup
     public ImageView showPowerUp(PowerupCard powerup) {
 
@@ -24833,6 +24849,9 @@ public class AdrenalineView extends Application {
         return null;
     }
 
+    /**
+     * Mehod to update the label where is showed the courent player
+     */
     public void updatePlayString(){
         if (courentPlayer == yourID) {
             play = new String("It's your Turn");
@@ -24841,6 +24860,9 @@ public class AdrenalineView extends Application {
         player.setText(play);
     }
 
+    /**
+     * Method to update the value of players' life that is showed in the GUI.
+     */
     public void updatePlayersLife(){
         Player[] allPlayer = new Player[4];
         int y=0;
@@ -24860,6 +24882,9 @@ public class AdrenalineView extends Application {
             p5ActualLife.setText(String.valueOf(allPlayer[3].getLife()));
     }
 
+    /**
+     * Method to update the value of players' number of death that is showed in the GUI.
+     */
     public void updateNumberOfDeath(){
         Player[] allPlayer = new Player[4];
         int y=0;
@@ -24884,6 +24909,9 @@ public class AdrenalineView extends Application {
             actualDeath5.setText("Number of death: "+String.valueOf(allPlayer[3].getNumberOfDeaths()));
     }
 
+    /**
+     * Method to update the value of player's ammo that is showed in the GUI.
+     */
     public void updateAmmoValue(){
         blueAmmo = me.getAmmo('b');
         yellowAmmo = me.getAmmo('y');
@@ -24894,11 +24922,17 @@ public class AdrenalineView extends Application {
         rAmmo.setText(String.valueOf(redAmmo));
     }
 
+    /**
+     * Method to update the value of player's life that is showed in the GUI.
+     */
     public void updateLifeValue(){
         lifeValue = me.getLife();
         actualLife.setText(String.valueOf(lifeValue));
     }
 
+    /**
+     * Method to update the value of player's power up cards that are showed in the GUI.
+     */
     public void updatePowerUpValue(){
         power1.setGraphic(showPowerUp(me.getPowerup()[0]));
         power1.setContentDisplay(ContentDisplay.TOP);
@@ -24925,6 +24959,9 @@ public class AdrenalineView extends Application {
             power3.setDisable(false);
     }
 
+    /**
+     * Method to update the value of player's weapon cards that are showed in the GUI.
+     */
     public void updateWeaponValue(){
         weapon1.setGraphic(showWeapons(me.getWeapons()[0]));
         weapon1.setContentDisplay(ContentDisplay.TOP);
@@ -24963,6 +25000,10 @@ public class AdrenalineView extends Application {
             weapon3.setDisable(true);
     }
 
+    /**
+     * Method to update the value of respawn points' weapon cards that are showed in the GUI.
+     * @param pos
+     */
     public void showWeaponRes(Position pos){
         weaponRes1.setGraphic(showWeapons(pos.showWeapons()[0]));
         weaponRes1.setContentDisplay(ContentDisplay.TOP);
@@ -24989,6 +25030,9 @@ public class AdrenalineView extends Application {
             weaponRes3.setDisable(false);
     }
 
+    /**
+     * Method to update the value of board's ammo cards that are showed in the GUI.
+     */
     public void updateAmmoCardValue(){
         if(boardNumber == 4) {
             axx0yy0.setGraphic(showAmmoCards(board.getBoard()[0][0].getAmmo()));
@@ -25040,6 +25084,9 @@ public class AdrenalineView extends Application {
         }
     }
 
+    /**
+     * Method to update the value of players' positions that are showed in the GUI.
+     */
     public void updatePlayersPositions(){
         Player[] allPlayer = new Player[4];
         int y=0;
@@ -25132,6 +25179,9 @@ public class AdrenalineView extends Application {
 
     }
 
+    /**
+     * Method to update the value of player's marks that are showed in the GUI.
+     */
     public void updateMarks(){
 
         int[] damagesBy = new int[4];
@@ -25154,7 +25204,12 @@ public class AdrenalineView extends Application {
         damagesByP5.setText("X "+String.valueOf(damagesValue5));
     }
 
-    //a method to create ImageView for weapons
+    /**
+     * Method to create ImageView for each weapon cards that show their graphic representation
+     *
+     * @param weap weapon to show on GUI
+     * @return the weapon's picture
+     */
     public ImageView showWeapons(WeaponCard weap) {
 
         if(weap != null) {
@@ -25274,7 +25329,12 @@ public class AdrenalineView extends Application {
         return null;
     }
 
-    //a method to create ImageView for ammo cards
+    /**
+     * Method to create ImageView for each ammo cards that show their graphic representation
+     *
+     * @param ammo ammo card to show on GUI
+     * @return the ammo card's picture
+     */
     public ImageView showAmmoCards(AmmoCard ammo) {
 
         if(ammo != null) {
@@ -25362,6 +25422,11 @@ public class AdrenalineView extends Application {
         return null;
     }
 
+    /**
+     * Method to give the points that are addigned on the base of board's skull array.
+     *
+     * @return aray points[] where the element points[x] is the number of points to assign to player x
+     */
     public int[] givePoints(){
         int[] points = new int[]{0, 0, 0, 0, 0};
         final int MAX = 8;                              //MAX shows max points assigned to the first player in sortedPlayer[]
@@ -25378,6 +25443,12 @@ public class AdrenalineView extends Application {
         return points;
     }
 
+    /**
+     * Method (in support of givePoints method) use to order the players from the one who will receive the maximum
+     * amount of points to the one the one who will receive the minimal amount of points.
+     *
+     * @return an array with the players sorted
+     */
     public int[] sortingPlayers(){
         int[] sortedPlayers = new int[] {-1, -1, -1, -1, -1};
         damagesOnBoard = new int [][]{{-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}};
