@@ -722,6 +722,7 @@ public class ViewTunnelB implements Serializable{
         Scanner keyboard= new Scanner(System.in);
         char c;
         //todo chiedere GUI o CLI
+        this.respawn();
         do{
             System.out.println("here6");
             System.out.println(board.myToString());
