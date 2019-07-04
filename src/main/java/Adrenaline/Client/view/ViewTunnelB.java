@@ -15,7 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ViewTunnelB {
+public class ViewTunnelB implements Serializable{
 
     private String hostName = "localhost";
     //private String serviceName = "GroupChatService";
@@ -642,7 +642,7 @@ public class ViewTunnelB {
         if(board==null){
             System.out.println("errrrror");
         }else{
-            System.out.println(board.myToString());     //todo: qui è dove lancia null pointer exception
+            System.out.println(board);//myToString());     //todo: qui è dove lancia null pointer exception
         }
         Player[] ps= new Player[5];             //support for variable players
         //try {
@@ -716,10 +716,14 @@ public class ViewTunnelB {
                 c=keyboard.next().charAt(0);
                 switch(c){
                     case '0':
-                        System.out.println(this.board.myToString());
+                        System.out.println(this.board);//.myToString()); //così printa oggetto
                         System.out.println(this.p.completeString());
-                        for(int i=0; i<players.length; i++){
-                            System.out.println(this.players[i].toString());
+                        System.out.println("---> " + players.length);
+                        for(int i=0; i<players.length; i++){ //                        for(int i=0; i<players.length; i++){
+                            //System.out.println(this.players[i].toString());
+                            System.out.println(this.players[i]);//.toString());
+                            //System.out.println(this.players[1].toString());
+
                         }
                         break;
                     case '1':
