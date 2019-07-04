@@ -387,9 +387,12 @@ public class Player implements Serializable {
      * @return a string to use in toString and completeString
      */
     private String partialString(){
-        int[] matr=position.getCoordinate();
-        String info;
-        info="player n."+number+"\nx:"+matr[0]+"y:"+matr[1]+"\n life points: "+life+"\n number of deaths: "+numberOfDeaths+"\n received damages: \n";
+        String info="player n."+number;
+        if(position!=null) {
+            int[] matr = position.getCoordinate();
+            info=info+"\nx:"+matr[0]+"y:"+matr[1];
+        }
+        info=info+"\n life points: "+life+"\n number of deaths: "+numberOfDeaths+"\n received damages: \n";
         for(int i=0; i<5; i++){             //used to show the life damage from each player
             if(playersDamage[i][0]!=-1){
                 info=info+"   by player "+playersDamage[i][0]+": "+playersDamage[i][1]+"\n";
