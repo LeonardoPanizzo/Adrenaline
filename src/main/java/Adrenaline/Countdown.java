@@ -19,8 +19,8 @@ public class Countdown {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
-                System.out.println(setInterval());
-
+                int mytime = setInterval();
+                System.out.println(mytime);
             }
         }, delay, period);
     }

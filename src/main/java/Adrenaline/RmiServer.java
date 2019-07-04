@@ -65,10 +65,15 @@ public class RmiServer {
             e.printStackTrace();
         }
 
+        Countdown tim = new Countdown(seconds);
+
+        if (tim.equals("25")) {
+            System.out.println("BBBB");
+        }
 
         do {
 
-            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
             if (remoteBiCon[0].getNumber() == 1) {
                 System.out.println("QUA DENTRO ----  !!");
@@ -83,6 +88,10 @@ public class RmiServer {
 
                 System.out.println("STARTING TIMER");
                 Countdown timer = new Countdown(seconds);
+
+                if (timer.equals("25")){
+                    System.out.println("BBBB");
+                }
 
 
             }
