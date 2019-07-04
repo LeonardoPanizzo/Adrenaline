@@ -61,6 +61,8 @@ public class FinalClient {
         Naming.rebind("//0.0.0.0:1099/view", viewTunnelB);
 
 */
+
+
         String[] details = {name, "controller"};
 
         viewTunnelB.registerWithServer(details);

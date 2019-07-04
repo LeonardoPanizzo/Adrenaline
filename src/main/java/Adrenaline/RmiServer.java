@@ -8,12 +8,19 @@ import Adrenaline.Server.control.RemoteBiCon;
 import Adrenaline.Server.model.Player;
 import Adrenaline.Server.model.PowerupCard;
 import Adrenaline.Server.model.PowerupDeck;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
+import java.util.ArrayList;
 
 
 public class RmiServer {
@@ -45,10 +52,23 @@ public class RmiServer {
         //System.out.println(timer);
 
 
+        int seconds = 0;
+        //int support;
+        Gson gson = new Gson();
+        String path = "src/main/resources/settings.json";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            MyTime support = gson.fromJson(reader, MyTime.class);
+            seconds = support.getValue();
+
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
 
         do {
 
-            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
             if (remoteBiCon[0].getNumber() == 1) {
                 System.out.println("QUA DENTRO ----  !!");
@@ -62,7 +82,7 @@ public class RmiServer {
                 System.out.println("QUA DENTRO!!");
 
                 System.out.println("STARTING TIMER");
-                Countdown timer = new Countdown(10);
+                Countdown timer = new Countdown(seconds);
 
 
             }
