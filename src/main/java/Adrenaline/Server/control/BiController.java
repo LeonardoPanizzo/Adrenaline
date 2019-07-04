@@ -124,7 +124,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         if(counter>=1){
             Player[] ps=new Player[2];
             PowerupDeck pwr=new PowerupDeck();
-            for(int i=0; i<counter; i++){
+            for(int i=0; i<=counter; i++){
                 ps[i]=new Player(i,pwr);
             }
             setPlayers(ps);

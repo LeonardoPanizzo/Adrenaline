@@ -657,7 +657,11 @@ public class ViewTunnelB implements Serializable{
         System.out.println("aaa1");
         Player[] users = new Player[2];//serverIF.getPlayers();   //all the players
         for(int i=0; i<2; i++){
+            System.out.println("index: " + i);
             users[i]=serverIF.getPlayers(i);
+            System.out.println("USERS: " + users[i]);
+            System.out.println("GET: " + serverIF.getPlayers(1));
+
         }
         System.out.println("aaa2");
         for (int i = 0; i < 2; i++) { //users.length
