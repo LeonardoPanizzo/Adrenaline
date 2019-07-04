@@ -940,6 +940,18 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
         this.specialturn=specialturn+1;
     }
 
+    public Position[][] getPositions(){
+        return board.getBoard();
+    }
+
+    public Vector<Integer> getSkull(){
+        return board.getSkulls();
+    }
+
+    public int getVariation(){
+        return board.getVariation();
+    }
+
     public boolean grabWeapon(int specificuser, WeaponCard weapon){
         Player p=getPlayerByNumber(specificuser);
         boolean done;
