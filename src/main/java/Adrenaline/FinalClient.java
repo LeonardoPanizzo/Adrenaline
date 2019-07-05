@@ -170,7 +170,7 @@ public class FinalClient {
 
         //FinalClient client = new FinalClient();
 
-        //System.out.print("[System] Choose between socket and rmi: ");
+        System.out.println("Choose between socket and rmi: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
 
