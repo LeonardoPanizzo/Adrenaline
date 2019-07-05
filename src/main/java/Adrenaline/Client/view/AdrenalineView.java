@@ -344,6 +344,7 @@ public class AdrenalineView extends Application {
         btn5 = new Button();
 
         player = new Label();
+        player.setVisible(false);
 
         player1 = new Label("Player 1");
         player2 = new Label("Player 2");
@@ -951,6 +952,7 @@ public class AdrenalineView extends Application {
 
         VBox events = new VBox(5);
         Label round = new Label("Player Round:");
+        round.setVisible(false);
         round.setFont(Font.font("", FontWeight.BOLD, 12));
         player.setText(play);
         Label actions = new Label("Times you're dead:");
@@ -991,11 +993,11 @@ public class AdrenalineView extends Application {
         view.setBottom(you);
         BorderPane.setAlignment(you, Pos.BOTTOM_CENTER);
 
-        Button redResBtn = new Button("Respawn there");
+        Button redResBtn = new Button("Respawn here");
         xx1yy0.getChildren().add(redResBtn);
-        Button yellowResBtn = new Button("Respawn there");
+        Button yellowResBtn = new Button("Respawn here");
         xx2yy3.getChildren().add(yellowResBtn);
-        Button blueResBtn = new Button("Respawn there");
+        Button blueResBtn = new Button("Respawn here");
         xx0yy2.getChildren().add(blueResBtn);
         redResBtn.setVisible(false);
         yellowResBtn.setVisible(false);
@@ -1071,21 +1073,13 @@ public class AdrenalineView extends Application {
                 me=playersInGame[me.getNumber()];
 
                 try{
-                    System.out.println("Dentro try");
                     board.setBoard(serverIF.getPositions());
-                    System.out.println("setBoard ok");
                     board.setSkullVector(serverIF.getSkull());
-                    System.out.println("setskull ok");
                     for(int i =0; i<3; i++){
-                        System.out.println("i: "+i);
-                        System.out.println("player round: "+playersInGame[i].isRound());
                         playersInGame[i] = serverIF.getPlayers(i);
-                        if(i==0)
-                            System.out.println("Player position: "+playersInGame[0].getPosition().getCoordinate()[0]);
                     }
                 }catch (Exception e){
                     e=null;
-                    System.out.println("Dentro catch");
                 }
 
                 Player[] allPlayer = new Player[4];
@@ -1115,21 +1109,28 @@ public class AdrenalineView extends Application {
                 updateMarks();
                 updateAmmoCardValue();
                 updateWeaponValue();
-                System.out.println("Reloading screen");
-                System.out.println("My round: "+me.isRound());
-                System.out.println("I'am the player "+me.getNumber());
-                System.out.println("My round: "+playersInGame[1].isRound());
+
+
+                if(board.isFinalRound()){
+                    me.setFinalRound(true);
+                    if(me.getNumber() > board.getSkulls().get(7)){
+                        me.setBeforeFirstPlayer(true);
+                    }
+                    else
+                        me.setBeforeFirstPlayer(false);
+                }
+
                 if(me.isRound()){
                     if(me.getLife()>0) {
                         moveBtn.setDisable(false);
                         moveAndGrabBtn.setDisable(false);
                         shotBtn.setDisable(false);
                         endRoundBtn.setDisable(false);
-                        System.out.println("Non Attiva respawn");
+                        reloadButton.setDisable(true);
                     }
                     else{
-                        System.out.println("Attiva respawn");
                         respawnBtn.setDisable(false);
+                        reloadButton.setDisable(true);
                     }
                     if(me.isFinalRound()){
                         if(me.isBeforeFirstPlayer())
@@ -8416,6 +8417,12 @@ public class AdrenalineView extends Application {
         endRoundBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
+                reloadButton.setDisable(false);
+
+                if(me.isFinalRound())
+                    me.setFinalRoundDone(true);
+
                 me.setRound(false);
 
                 playersInGame[(yourID+1)%3].setRound(true);

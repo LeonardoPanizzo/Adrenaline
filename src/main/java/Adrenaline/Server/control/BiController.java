@@ -116,7 +116,7 @@ public class BiController extends UnicastRemoteObject implements RemoteBiCon {//
     @Override
     public void registerListener(String[] details) throws RemoteException {
         System.out.println(new Date(System.currentTimeMillis()));
-        System.out.println(details[0] + " has joined the chat session");
+        System.out.println(details[0] + " has joined the game");
         System.out.println(details[0] + "'s hostname : " + details[1]);
 
         counter++;
