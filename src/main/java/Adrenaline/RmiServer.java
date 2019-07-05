@@ -106,7 +106,7 @@ public class RmiServer {
 
         do {
 
-            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
             if (remoteBiCon[0].getNumber() >= 1) {
                 System.out.println("STARTING TIMER");
@@ -117,6 +117,7 @@ public class RmiServer {
 
                 players[1] = new Player(1, pwrd);
                 System.out.println("Binding done");
+
                 while (isBol) {
                     if (remoteBiCon[0].getNumber() >= 2 | isTime) {
                         isBol = false;
