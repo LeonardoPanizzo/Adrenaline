@@ -77,13 +77,15 @@ public class RmiServer {
 
         do {
 
-            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
             if (remoteBiCon[0].getNumber() >= 2) {
                 System.out.println("QUA DENTRO ----  !!");
 
                 //GUARDA QUI
                 if (remoteBiCon[0].getNumber() == 2) {
+                    System.out.println("STARTING TIMER ----  !!");
+
                     isTime = new Timing().run(seconds);
                 }
 
@@ -94,6 +96,8 @@ public class RmiServer {
 
                 // GUARDA QUI
                 if (remoteBiCon[0].getNumber() == 4 | isTime) {
+                    System.out.println("INSIDE ----  !!");
+
                     isBol = false;
                 }
 
