@@ -11,14 +11,16 @@ import Adrenaline.Server.model.PowerupDeck;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class RmiServer {
@@ -63,97 +65,33 @@ public class RmiServer {
             e.printStackTrace();
         }
 
-        /*
-        // Create a stream to hold the output
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-// IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-// Tell Java to use your special stream
-        System.setOut(ps);
-// Print some output: goes to your special stream
-        //System.out.println("Foofoofoo!");
         Countdown tim = new Countdown(seconds);
-        System.out.println(tim);
-
-// Put things back
-        System.out.flush();
-        System.setOut(old);
-// Show what happened
-        System.out.println("Here: " + baos.toString());
-        */
-
-
-        //---------
-
-        /*
-        Countdown tim = new Countdown(seconds);
-
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
-        System.out.println("mkkm" + baos.toString());
-
-
-        System.out.println("dadad" + baos.toString());
 
         if (tim.equals("25")) {
             System.out.println("BBBB");
         }
-        */
-
-
 
         do {
 
-            System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
+            //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
-            if (remoteBiCon[0].getNumber() >= 1) {
-                System.out.println("STARTING TIMER");
-                boolean isTime = new Timing().run(seconds);
+            if (remoteBiCon[0].getNumber() == 1) {
+                System.out.println("QUA DENTRO ----  !!");
 
                 //players[player] = new Player(player, pwrd);
                 players[0] = new Player(0, pwrd);
 
                 players[1] = new Player(1, pwrd);
-                System.out.println("Binding done");
-                while (isBol) {
-                    if (remoteBiCon[0].getNumber() >= 2 | isTime) {
-                        isBol = false;
-                    }
-                }
+                //System.out.println("Binding done");
+                isBol = false;
+                System.out.println("QUA DENTRO!!");
 
-                //System.out.println("STARTING TIMER");
-                /*
-                String str = new Date(System.currentTimeMillis()).toString();
-
-                String[] parts = str.split(" ");
-                String[] timex = parts[3].split(":");
-
-                String h = timex[0];
-                String min = timex[1];
-                String sec = timex[2];
-
-
-                int myh = Integer.parseInt(h);
-                int mymin = Integer.parseInt(min);
-                int mysec = Integer.parseInt(sec);
-                */
-
-                /*
-                long timestamp = java.time.Instant.now().getEpochSecond();
-
-                System.out.println(timestamp);
-                System.out.println(timestamp + seconds);
-                */
-
-
-                /*
+                System.out.println("STARTING TIMER");
                 Countdown timer = new Countdown(seconds);
 
                 if (timer.equals("25")){
                     System.out.println("BBBB");
-                }*/
+                }
 
 
             }
