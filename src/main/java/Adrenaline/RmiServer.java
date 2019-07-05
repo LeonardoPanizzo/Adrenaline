@@ -65,11 +65,14 @@ public class RmiServer {
             e.printStackTrace();
         }
 
+        /*
         Countdown tim = new Countdown(seconds);
 
         if (tim.equals("25")) {
             System.out.println("BBBB");
-        }
+        }*/
+        boolean isTime = new Timing().run(seconds);
+
 
         do {
 
@@ -82,16 +85,19 @@ public class RmiServer {
                 players[0] = new Player(0, pwrd);
 
                 players[1] = new Player(1, pwrd);
+                /*
+                while (isBol) {
+                    if (remoteBiCon[0].getNumber() >= 2 | isTime) {
+                        isBol = false;
+                    }
+                }*/
                 //System.out.println("Binding done");
                 isBol = false;
                 System.out.println("QUA DENTRO!!");
 
                 System.out.println("STARTING TIMER");
-                Countdown timer = new Countdown(seconds);
 
-                if (timer.equals("25")){
-                    System.out.println("BBBB");
-                }
+
 
 
             }
