@@ -23,4 +23,8 @@ Abbiamo progettato la funzionalità avanzata Partite Multiple.*
 
 UTILIZZO FILE JAR
 
-I file JAR funzionano
+I file JAR funzionano tramite avvio da linea di comando: java -jar <path del JAR>. Non necessita parametri. Avviare
+prima il server. I file jar funzionano dall'interno di intellij.
+
+
+*Funzioni sviluppate, ma che non siamo riusciti ad inserire con successo all'interno del progetto eseguibile.

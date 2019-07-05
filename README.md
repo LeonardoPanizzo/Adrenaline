@@ -4,12 +4,13 @@
 
 **Interfaccia Utente**
 -
-Comandi di gioco gestiti tramite linea di comando.
-//aggiungere se riusciamo ad inserire la GUI//
+Il progetto eseguibile finale si basa su GUI, implementata tramite javaFX.
+Abbiamo sviluppato anche la CLI*.
 
 **Connettività**
 -
-La connessione al server avviene tramite RMI.
+La coneesione al server avviene tramite RMI.
+Inoltre abbiamo sviluppato anche la possibilità di connettersi tramite socket*.
 
 **Regole di Gioco**
 -
@@ -18,11 +19,14 @@ armi, sia implementando la frenesia finale.
 
 **Funzioni avanzate**
 -
-//Da scrivere se ci siamo riusciti//
+Abbiamo progettato la funzionalità avanzata Partite Multiple.*
 
-**Come Lanciare Server e Client**
+**Utilizzo file JAR**
 - 
-//descrizione di come effettuare il lancio//
+I file JAR funzionano tramite avvio da linea di comando: java -jar <path del JAR>. Non necessita parametri. Avviare
+prima il server. I file jar funzionano dall'interno di intellij.
+
+*Funzioni sviluppate, ma che non siamo riusciti ad inserire con successo all'interno del progetto eseguibile.
 
 
 
