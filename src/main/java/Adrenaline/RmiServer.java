@@ -31,6 +31,7 @@ public class RmiServer {
         BiController[] remoteBiCon = new BiController[5];
         Player[] players = new Player[2];
         PowerupDeck pwrd = new PowerupDeck();
+        boolean isTime = false;
 
         //BiController remoteBiCon = new BiController(player);
 
@@ -44,7 +45,7 @@ public class RmiServer {
         //entrano ed eseguono, parte il timer e quando sono in 5 o scatta timer parte secondo loop
 
 
-        remoteBiCon[player] = new BiController(player); //TODO togliere player da costruttore BiController
+        remoteBiCon[player] = new BiController(player);
 
         boolean isBol = true;
         Naming.rebind("rmi://0.0.0.0:1099/controller", remoteBiCon[player]);
@@ -71,20 +72,35 @@ public class RmiServer {
         if (tim.equals("25")) {
             System.out.println("BBBB");
         }*/
-        boolean isTime = new Timing().run(seconds);
+        //boolean isTime = new Timing().run(seconds);
 
 
         do {
 
             //System.out.println("GET NUMBER: " + remoteBiCon[0].getNumber());
 
-            if (remoteBiCon[0].getNumber() == 1) {
+            if (remoteBiCon[0].getNumber() >= 2) {
                 System.out.println("QUA DENTRO ----  !!");
+
+                //GUARDA QUI
+                if (remoteBiCon[0].getNumber() == 2) {
+
+                    isTime = new Timing().run(seconds);
+                }
 
                 //players[player] = new Player(player, pwrd);
                 players[0] = new Player(0, pwrd);
 
                 players[1] = new Player(1, pwrd);
+
+                /* GUARDA QUI
+                if (remoteBiCon[0].getNumber() >= 2 | isTime) {
+                    isBol = false;
+                }*/
+
+
+
+
                 /*
                 while (isBol) {
                     if (remoteBiCon[0].getNumber() >= 2 | isTime) {
@@ -92,15 +108,14 @@ public class RmiServer {
                     }
                 }*/
                 //System.out.println("Binding done");
-                isBol = false;
+                //isBol = false;
                 System.out.println("QUA DENTRO!!");
 
                 System.out.println("STARTING TIMER");
 
-
-
-
             }
+
+
         }while (isBol);
 
         remoteBiCon[0].setPlayers(players);
