@@ -84,7 +84,6 @@ public class RmiServer {
 
                 //GUARDA QUI
                 if (remoteBiCon[0].getNumber() == 2) {
-
                     isTime = new Timing().run(seconds);
                 }
 
@@ -93,10 +92,10 @@ public class RmiServer {
 
                 players[1] = new Player(1, pwrd);
 
-                /* GUARDA QUI
-                if (remoteBiCon[0].getNumber() >= 2 | isTime) {
+                // GUARDA QUI
+                if (remoteBiCon[0].getNumber() == 4 | isTime) {
                     isBol = false;
-                }*/
+                }
 
 
 
